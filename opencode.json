@@ -1,0 +1,13 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "stitch": {
+      "type": "remote",
+      "url": "https://stitch.googleapis.com/mcp",
+      "enabled": true,
+      "headers": {
+        "X-Goog-Api-Key": "AQ.Ab8RN6Ik9HYG_H26umM46qhILNSwyuhZP1aJIqJRw_ZE9WXdeQ"
+      }
+    }
+  }
+}

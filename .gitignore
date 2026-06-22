@@ -1,0 +1,15 @@
+# OS files
+Thumbs.db
+.DS_Store
+
+# Large AI-generated exports
+repomix-output.md
+repomix-output.xml
+
+# Generated/decorative image
+flashcard eps.png
+
+# IDE
+.vscode/
+.idea/
+*.swp

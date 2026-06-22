@@ -1,0 +1,18 @@
+{
+  "name": "EPS-TOPIK Smart Learning Engine",
+  "short_name": "EPS-TOPIK Engine",
+  "description": "Platform Belajar Bahasa Korea Industri",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0c1424",
+  "theme_color": "#1e2a4a",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://fonts.gstatic.com/s/e/notoemoji/latest/1f1f0_1f1f7/512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

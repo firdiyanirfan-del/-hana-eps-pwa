@@ -1,0 +1,2604 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <link rel="icon" href="https://fonts.gstatic.com/s/e/notoemoji/latest/1f1f0_1f1f7/512.png" type="image/png">
+  <meta name="theme-color" content="#1e2a4a">
+  <meta name="description" content="Aplikasi Simulasi & Belajar EPS-TOPIK Terbaik. Latih bahasa Korea Anda sekarang!">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="EPS-TOPIK Engine">
+<link rel="apple-touch-icon" href="https://fonts.gstatic.com/s/e/notoemoji/latest/1f1f0_1f1f7/512.png">
+<link rel="manifest" href="manifest.json">
+  <title>EPS-TOPIK • Minimalis</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#c4c0ff",
+            "primary-container": "#8781ff",
+            "on-primary-container": "#1b0091",
+            "background": "#06060E",
+            "surface": "#151C2C",
+            "on-surface": "#FFFFFF",
+            "on-surface-variant": "#94A3B8",
+            "outline-variant": "#2E3A59",
+            "secondary": "#89ceff",
+            "tertiary": "#ffb785",
+            "fever-orange": "#FF4500",
+            "warning": "#FDBA74",
+          },
+          borderRadius: {
+            DEFAULT: "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "2xl": "3rem",
+            "3xl": "3rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "safe-area-top": "env(safe-area-inset-top)",
+            "container-padding": "20px",
+            "gap-sm": "12px",
+            "safe-area-bottom": "env(safe-area-inset-bottom)",
+            "unit": "4px",
+            "gutter-md": "16px"
+          },
+          fontFamily: {
+            "body-sm": ["Be Vietnam Pro", "sans-serif"],
+            "display-hero": ["Plus Jakarta Sans", "sans-serif"],
+            "label-caps": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-lg-mobile": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "heading-md": ["Plus Jakarta Sans", "sans-serif"],
+            "caption": ["Be Vietnam Pro", "sans-serif"],
+            "body-main": ["Be Vietnam Pro", "sans-serif"],
+            "plus-jakarta": ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css"
+    rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="ubt-theme.css">
+  <link rel="preload" as="image" href="assets/background 3d new.png">
+  <link rel="preload" as="image" href="assets/background 3d malam.png">
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+    .dark .glass-card {
+      background: rgba(28, 27, 26, 0.8);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+    .odap-bedah-btn:hover { background-color: rgba(108, 99, 255, 0.25) !important; }
+
+    
+    .floating-mascot {
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0px) rotate(-2deg); }
+      50% { transform: translateY(-10px) rotate(2deg); }
+      100% { transform: translateY(0px) rotate(-2deg); }
+    }
+
+    .animate-fade-in { animation: fadeIn 0.4s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-scale-in { animation: scaleIn 0.2s ease-out; }
+    @keyframes scaleIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    .premium-blur {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    
+    .squishy:active {
+      transform: scale(0.97);
+      transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .card-shadow {
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08);
+    }
+    .dark .card-shadow {
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-gradient-light {
+      background: linear-gradient(180deg, #6C63FF 0%, #F8FAFC 100%);
+    }
+    .hero-gradient-dark {
+      background: linear-gradient(180deg, #1b0091 0%, #06060E 100%);
+    }
+    
+    .neon-glow-primary {
+      filter: drop-shadow(0 0 8px rgba(108, 99, 255, 0.6));
+    }
+    .dark .neon-glow-primary {
+      filter: drop-shadow(0 0 8px rgba(196, 192, 255, 0.6));
+    }
+    .neon-glow-secondary {
+      filter: drop-shadow(0 0 8px rgba(249, 168, 212, 0.6));
+    }
+    .dark .neon-glow-secondary {
+      filter: drop-shadow(0 0 8px rgba(137, 206, 255, 0.6));
+    }
+
+    /* Flashcard 3D & Premium Styles */
+    .flashcard-container {
+        perspective: 1000px;
+    }
+    .flashcard-inner {
+        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-style: preserve-3d;
+    }
+    .flashcard-inner.is-flipped {
+        transform: rotateY(180deg);
+    }
+    .flashcard-front, .flashcard-back {
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+    }
+    .flashcard-back {
+        transform: rotateY(180deg);
+    }
+    @keyframes floating {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+    .floating-element {
+        animation: floating 3s ease-in-out infinite;
+    }
+    .glass-effect {
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+    .squishy-active:active {
+        transform: scale(0.95);
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .neon-purple {
+        color: #BF40FF;
+        text-shadow: 0 0 10px rgba(191, 64, 255, 0.3);
+    }
+
+    /* ========== Stitch Conversation Styles ========== */
+    .conv-gradient-bg {
+      background: linear-gradient(135deg, var(--hana-canvas) 0%, #eef2ff 50%, #fdf2f8 100%);
+    }
+    .dark .conv-gradient-bg {
+      background: linear-gradient(135deg, var(--hana-canvas) 0%, #1C1B1A 50%, #201F1E 100%);
+    }
+    .conv-immersive-overlay {
+      background: radial-gradient(circle at 20% 20%, rgba(108, 99, 255, 0.08) 0%, transparent 40%),
+                  radial-gradient(circle at 80% 80%, rgba(249, 168, 212, 0.08) 0%, transparent 40%);
+      pointer-events: none;
+    }
+    .speech-bubble {
+      position: relative;
+    }
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      left: 30px;
+      bottom: -10px;
+      width: 20px;
+      height: 20px;
+      background: inherit;
+      transform: rotate(45deg);
+      border-right: 1.5px solid var(--hana-primary);
+      border-bottom: 1.5px solid var(--hana-primary);
+      border-radius: 0 0 4px 0;
+    }
+    .speech-bubble-user {
+      position: relative;
+    }
+    .speech-bubble-user::after {
+      content: '';
+      position: absolute;
+      right: 30px;
+      bottom: -10px;
+      width: 20px;
+      height: 20px;
+      background: inherit;
+      transform: rotate(45deg);
+      border-radius: 0 0 0 4px;
+    }
+    .vibrant-glow {
+      box-shadow: 0 0 24px rgba(108, 99, 255, 0.25);
+    }
+    .word-chip {
+      transition: all 0.2s ease;
+    }
+    .word-chip:active {
+      transform: scale(0.95);
+    }
+    @keyframes convFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+    .animate-float {
+      animation: convFloat 3s ease-in-out infinite;
+    }
+    .stagger-1 { animation-delay: 0.1s; }
+    .stagger-2 { animation-delay: 0.15s; }
+    .stagger-3 { animation-delay: 0.2s; }
+    .stagger-4 { animation-delay: 0.25s; }
+    .stagger-5 { animation-delay: 0.3s; }
+    .stagger-6 { animation-delay: 0.35s; }
+    .stagger-7 { animation-delay: 0.4s; }
+    .stagger-8 { animation-delay: 0.45s; }
+    .conv-footer-glass {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(255,255,255,0.6);
+      box-shadow: 0 -10px 40px rgba(108, 99, 255, 0.05);
+    }
+    .dark .conv-footer-glass {
+      background: rgba(28,27,26,0.7);
+      border-top-color: rgba(255,255,255,0.05);
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
+    }
+
+    /* ========== Chapter Graduation Info (Stitch) ========== */
+    .grad-info-bg {
+      background: linear-gradient(180deg, var(--hana-canvas) 0%, var(--hana-surface) 100%);
+    }
+    .grad-ambient-glow {
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      background: radial-gradient(circle, rgba(108, 99, 255, 0.12) 0%, transparent 70%);
+      filter: blur(40px);
+      z-index: 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .glass-card-refined {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 12px 32px -4px rgba(77, 65, 223, 0.04);
+    }
+    .dark .glass-card-refined {
+      background: rgba(28, 27, 26, 0.8);
+      border-color: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.3);
+    }
+    .premium-gradient-btn {
+      background: linear-gradient(93deg, var(--hana-primary) 0%, #8A48FF 100%);
+      box-shadow: 0 8px 24px -6px rgba(108, 99, 255, 0.4);
+    }
+    .dark .premium-gradient-btn {
+      box-shadow: 0 8px 24px -6px rgba(108, 99, 255, 0.2);
+    }
+    .master-shine {
+      background: linear-gradient(135deg, #FFD700 0%, #F59E0B 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 800;
+    }
+
+    /* Glass Panel for Scenario Selection */
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(108, 99, 255, 0.2);
+      box-shadow: 0 20px 40px -10px rgba(108, 99, 255, 0.15);
+    }
+    .dark .glass-panel {
+      background: rgba(28, 27, 26, 0.88);
+      border-color: rgba(139, 132, 255, 0.15);
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.4);
+    }
+    .item-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(108, 99, 255, 0.1);
+    }
+    .item-card:active {
+      transform: scale(0.97);
+    }
+    .xp-badge-gradient {
+      background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+    }
+    .dark .xp-badge-gradient {
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.1);
+    }
+    .hana-mascot-container {
+      filter: drop-shadow(0 10px 15px rgba(108, 99, 255, 0.2));
+    }
+    /* Progress bar gradient */
+    .conv-progress-fill {
+      background: linear-gradient(90deg, var(--hana-primary), #8B84FF);
+    }
+  </style>
+ </head>
+
+<body class="min-h-screen p-0 md:p-6 overflow-x-hidden flex flex-col items-center">
+
+<div id="toastEl" class="fixed top-6 left-1/2 -translate-x-1/2 z-[99999] px-4 py-3 rounded-[20px] text-xs font-black uppercase tracking-wider text-white transition-all duration-300 opacity-0 pointer-events-none shadow-[0_12px_32px_rgba(108,99,255,0.35)] flex items-center gap-2 border border-white/10" style="background:linear-gradient(135deg, #6C63FF 0%, #8B84FF 100%); min-width:180px; justify-content:center; transform: translateX(-50%) translateY(-15px);">
+  <span id="toastIcon">✨</span>
+  <span id="toastMsg">Notifikasi</span>
+</div>
+
+<audio id="bgm-audio" loop preload="auto">
+  <source src="assets/bgm.mp3" type="audio/mpeg">
+</audio>
+
+  <div id="app" class="w-full max-w-2xl mx-auto relative flex flex-col justify-start">
+
+  <div id="dashboard-screen" class="screen-enter flex flex-col h-[100dvh] md:h-[800px] w-full overflow-hidden relative transition-colors duration-300 bg-gradient-to-b from-[#6C63FF] to-[#F8FAFC] dark:from-[#1b0091] dark:to-[#06060E] text-slate-800 dark:text-white antialiased overflow-x-hidden">
+  
+  <!-- Top Nav / Profile -->
+  <nav class="flex-none sticky top-0 z-[60] w-full px-5 pt-[calc(1.2rem+env(safe-area-inset-top))] pb-3 flex justify-between items-center premium-blur bg-white/20 dark:bg-[#06060E]/30 shadow-sm">
+    <div class="flex items-center gap-3 cursor-pointer" onclick="app.openProfile()">
+      <div class="relative group">
+        <div class="absolute -inset-0.5 bg-[#6C63FF] dark:bg-[#c4c0ff] rounded-full opacity-40 group-hover:opacity-60 transition duration-300"></div>
+        <img id="nav-avatar-img" alt="User" class="relative w-10 h-10 rounded-full border-2 border-white dark:border-[#151C2C] shadow-sm object-cover" src="assets/hana_thinking.png"/>
+        <div class="absolute -bottom-0.5 -right-0.5 bg-[#6C63FF] dark:bg-[#c4c0ff] text-white dark:text-[#1b0091] text-[9px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white dark:border-[#151C2C]">12</div>
+      </div>
+      <div>
+        <p class="font-label-caps text-[9px] text-slate-500 dark:text-[#94A3B8] font-semibold tracking-wider leading-none mb-1">WELCOME BACK</p>
+        <h1 class="font-plus-jakarta font-bold text-lg text-slate-800 dark:text-white leading-none"><span id="ui-user-name">Pelajar</span></h1>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="flex flex-col items-end">
+        <div class="flex items-center gap-1.5 bg-white dark:bg-[#151C2C] px-2.5 py-1 rounded-full shadow-sm border border-slate-200 dark:border-[#2E3A59]">
+          <span class="text-xs">🔥</span>
+          <span class="text-xs font-bold text-slate-800 dark:text-white"><span id="ui-user-xp">0 XP</span></span>
+        </div>
+        <div class="flex items-center gap-1 mt-1" onclick="app.promptExamDate()" style="cursor:pointer">
+          <span class="material-symbols-outlined text-[12px] text-white dark:text-[#c4c0ff]">event</span>
+          <span id="exam-countdown-text" class="text-[9px] font-bold text-white dark:text-[#c4c0ff] uppercase tracking-tight">D-45 EXAM</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-grow overflow-y-auto pb-32 relative z-10 hide-scrollbar">
+    <!-- Immersive Hero Area -->
+    <div class="relative w-full min-h-[360px]">
+      <div class="absolute top-10 -right-10 w-64 h-64 bg-[#6C63FF]/10 dark:bg-[#c4c0ff]/10 rounded-full blur-3xl"></div>
+      <div class="absolute -bottom-10 -left-10 w-72 h-72 bg-[#6C63FF]/5 dark:bg-[#c4c0ff]/5 rounded-full blur-3xl"></div>
+      <div class="relative z-10 px-5 pt-6 flex flex-col items-center text-center">
+        <div class="floating-mascot mb-4">
+          <img alt="Hana Mascot Studying" class="w-44 h-44 drop-shadow-xl object-contain" src="assets/hana_studying.png" />
+        </div>
+        <div class="space-y-2">
+          <div class="flex items-center justify-center gap-2 flex-wrap">
+            <span id="hero-chapter-badge" class="inline-block bg-white/20 dark:bg-white/10 backdrop-blur-md border border-white/30 dark:border-white/20 px-3 py-1 rounded-full text-[10px] font-bold text-white tracking-[0.15em] uppercase">CHAPTER 04 • STANDARD</span>
+            <span id="quizModeBadge" onclick="app.toggleQuizMode()" class="px-3 py-1 bg-white/20 dark:bg-white/10 backdrop-blur-md border border-white/30 dark:border-white/20 rounded-full text-[10px] font-bold text-white tracking-wide uppercase shadow-sm transition-all duration-200 active:scale-95 flex items-center gap-1 cursor-pointer select-none">⏱️ Mode Ujian</span>
+          </div>
+          <h2 id="hero-chapter-title" class="text-white font-headline-lg-mobile leading-tight px-4 font-bold">Lanjutkan Belajar Bab Standard</h2>
+          <p class="text-white/80 text-sm font-medium">Progress Hari Ini: <span id="hero-progress-value" class="text-white font-bold">65% Selesai</span></p>
+        </div>
+        <button onclick="app.showChapterScreen()" class="mt-6 squishy flex items-center gap-2 bg-[#6C63FF] dark:bg-white text-white dark:text-[#1b0091] px-8 py-3.5 rounded-2xl font-extrabold shadow-xl shadow-[#6C63FF]/20 dark:shadow-white/10 hover:shadow-[#6C63FF]/30 dark:hover:shadow-white/20 transition-all">
+          LANJUT BELAJAR
+          <span class="material-symbols-outlined text-xl">bolt</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="px-5 mt-4 relative z-20 space-y-6">
+      <!-- Statistics Card -->
+      <section class="bg-white dark:bg-[#151C2C] rounded-3xl p-5 card-shadow border border-slate-200 dark:border-[#2E3A59]">
+        <div class="flex items-center justify-between gap-6">
+          <div class="relative w-24 h-24 shrink-0">
+            <svg class="w-full h-full transform -rotate-90" viewBox="-4 -4 104 104">
+              <circle class="text-slate-100 dark:text-[#06060E]" cx="48" cy="48" fill="transparent" r="42" stroke="currentColor" stroke-width="8"></circle>
+              <circle id="svg-ring-reading" class="neon-glow-primary" cx="48" cy="48" fill="transparent" r="42" stroke="#6C63FF" stroke-dasharray="263.9" stroke-dashoffset="66" stroke-linecap="round" stroke-width="8"></circle>
+            </svg>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="relative w-16 h-16">
+                <svg class="w-full h-full transform -rotate-90" viewBox="-4 -4 72 72">
+                  <circle class="text-slate-100 dark:text-[#06060E]" cx="32" cy="32" fill="transparent" r="26" stroke="currentColor" stroke-width="6"></circle>
+                  <circle id="svg-ring-listening" class="neon-glow-secondary" cx="32" cy="32" fill="transparent" r="26" stroke="#F9A8D4" stroke-dasharray="163.4" stroke-dashoffset="65" stroke-linecap="round" stroke-width="6"></circle>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="flex-1 space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-200/30 dark:border-[#2E3A59]/30 pb-2">
+              <div class="flex items-center gap-2">
+                <div class="w-2.5 h-2.5 rounded-full bg-[#6C63FF] dark:bg-[#c4c0ff] shadow-[0_0_8px_rgba(108,99,255,0.6)]"></div>
+                <span class="text-sm text-slate-500 dark:text-[#94A3B8] font-medium">Reading</span>
+              </div>
+              <span id="live-reading-text" class="font-bold text-slate-800 dark:text-white text-sm">75%</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="w-2.5 h-2.5 rounded-full bg-[#F9A8D4] dark:bg-[#89ceff] shadow-[0_0_8px_rgba(249,168,212,0.6)]"></div>
+                <span class="text-sm text-slate-500 dark:text-[#94A3B8] font-medium">Listening</span>
+              </div>
+              <span id="live-listening-text" class="font-bold text-slate-800 dark:text-white text-sm">60%</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Menu (Bento Grid) -->
+      <section class="grid grid-cols-2 gap-4">
+        <div onclick="document.getElementById('quiz-path-modal').classList.remove('hidden')" class="col-span-1 squishy p-5 rounded-3xl bg-white dark:bg-[#151C2C] border border-slate-200 dark:border-[#2E3A59] flex flex-col items-center text-center gap-3 card-shadow">
+          <div class="w-11 h-11 bg-[#6C63FF]/10 dark:bg-[#c4c0ff]/10 rounded-xl flex items-center justify-center text-[#6C63FF] dark:text-[#c4c0ff]">
+            <span class="material-symbols-outlined">school</span>
+          </div>
+          <div>
+            <p class="font-bold text-sm text-slate-800 dark:text-white">Latihan Soal</p>
+            <p class="text-[9px] text-[#6C63FF] dark:text-[#c4c0ff] font-bold tracking-wider uppercase opacity-80">CURRICULUM</p>
+          </div>
+        </div>
+        <div onclick="window.showSandboxBuilder()" class="col-span-1 squishy p-5 rounded-3xl bg-white dark:bg-[#151C2C] border border-slate-200 dark:border-[#2E3A59] flex flex-col items-center text-center gap-3 card-shadow">
+          <div class="w-11 h-11 bg-slate-500/10 dark:bg-[#94A3B8]/10 rounded-xl flex items-center justify-center text-slate-500 dark:text-[#94A3B8]">
+            <span class="material-symbols-outlined">construction</span>
+          </div>
+          <div>
+            <p class="font-bold text-sm text-slate-800 dark:text-white">Kustom Soal</p>
+            <p class="text-[9px] text-slate-500 dark:text-[#94A3B8] font-bold tracking-wider uppercase opacity-80">SANDBOX</p>
+          </div>
+        </div>
+        <div onclick="app.openFlashcard()" class="col-span-1 squishy p-5 rounded-3xl bg-white dark:bg-[#151C2C] border border-slate-200 dark:border-[#2E3A59] flex flex-col items-center text-center gap-3 card-shadow">
+          <div class="w-11 h-11 bg-emerald-500/10 rounded-xl flex items-center justify-center text-emerald-500 dark:text-emerald-400">
+            <span class="material-symbols-outlined">auto_stories</span>
+          </div>
+          <div>
+            <p class="font-bold text-sm text-slate-800 dark:text-white">Kosakata</p>
+            <p class="text-[9px] text-emerald-500 dark:text-emerald-400 font-bold tracking-wider uppercase opacity-80">MEMORY</p>
+          </div>
+        </div>
+        <div onclick="app.showBookmarkHub()" class="col-span-1 squishy p-5 rounded-3xl bg-white dark:bg-[#151C2C] border border-slate-200 dark:border-[#2E3A59] flex flex-col items-center text-center gap-3 card-shadow">
+          <div class="w-11 h-11 bg-orange-500/10 rounded-xl flex items-center justify-center text-orange-500 dark:text-orange-400">
+            <span class="material-symbols-outlined">bookmarks</span>
+          </div>
+          <div>
+            <p class="font-bold text-sm text-slate-800 dark:text-white">Bookmark</p>
+            <p class="text-[9px] text-orange-500 dark:text-orange-400 font-bold tracking-wider uppercase opacity-80">VAULT</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Latihan Percakapan -->
+      <section onclick="app.conversationEngine.openScenarioPicker()" class="group bg-white dark:bg-[#151C2C] p-4 rounded-2xl border border-slate-200 dark:border-[#2E3A59] card-shadow flex items-center gap-4 cursor-pointer">
+        <div class="w-10 h-10 bg-emerald-500/10 dark:bg-emerald-500/20 rounded-xl flex items-center justify-center text-emerald-500 shrink-0">
+          <span class="material-symbols-outlined text-xl">forum</span>
+        </div>
+        <div class="flex-1">
+          <div class="flex justify-between items-center">
+            <h4 class="font-bold text-sm text-slate-800 dark:text-white">Latihan Percakapan</h4>
+            <span class="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">+20 XP</span>
+          </div>
+          <p class="text-[11px] text-slate-500 dark:text-[#94A3B8] mt-0.5">Susun kalimat dialog Korea EPS-TOPIK dari kata acak!</p>
+        </div>
+        <span class="material-symbols-outlined text-slate-300 dark:text-slate-600 group-hover:translate-x-1 transition-transform">chevron_right</span>
+      </section>
+
+      <!-- Simulation CTA -->
+      <section onclick="app.startSimulasi()" class="relative bg-gradient-to-br from-[#6C63FF] dark:from-[#8781ff] to-[#4F46E5] dark:to-[#1b0091] p-7 rounded-3xl overflow-hidden group cursor-pointer">
+        <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
+          <span class="material-symbols-outlined text-[140px] leading-none rotate-12 text-white">sports_score</span>
+        </div>
+        <div class="relative z-10 space-y-5">
+          <div class="space-y-1.5">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+              <span class="text-[10px] font-bold text-white/90 tracking-widest uppercase">EXAM MODE</span>
+            </div>
+            <h3 class="text-xl font-bold text-white leading-tight">SIMULASI UJIAN CBT</h3>
+            <p class="text-white/80 text-xs leading-relaxed max-w-[80%]">Simulasi ujian TOPIK dengan waktu real-time dan penilaian instan untuk persiapan maksimal.</p>
+          </div>
+          <div class="squishy w-full bg-white py-3.5 rounded-2xl text-[#1b0091] dark:text-[#1b0091] text-sm font-bold flex items-center justify-center gap-2 shadow-lg shadow-black/20">
+            Mulai Simulasi Sekarang
+            <span class="material-symbols-outlined text-lg">arrow_forward</span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Floating Bottom Navigation -->
+  <nav class="fixed bottom-6 left-6 right-6 z-[100] h-16 bg-white/90 dark:bg-[#151C2C]/90 premium-blur shadow-2xl shadow-black/50 rounded-2xl flex justify-around items-center px-2 border border-slate-200 dark:border-[#2E3A59]" style="max-width:calc(100%-3rem)">
+    <button onclick="app.showDashboard()" class="flex flex-col items-center text-[#6C63FF] dark:text-[#c4c0ff] px-3 py-2 group">
+      <span class="material-symbols-outlined text-2xl" style="font-variation-settings:'FILL' 1">home</span>
+      <span class="text-[10px] font-bold mt-0.5 text-slate-600 dark:text-white">Home</span>
+    </button>
+    <button onclick="uiSwitcher.switch('ai-chat')" class="flex flex-col items-center text-slate-500 dark:text-[#94A3B8] px-3 py-2 hover:text-[#6C63FF] dark:hover:text-[#c4c0ff] transition-colors">
+      <span class="material-symbols-outlined text-2xl">smart_toy</span>
+      <span class="text-[10px] font-bold mt-0.5">AI Tutor</span>
+    </button>
+    <button onclick="uiSwitcher.switch('game-hub')" class="flex flex-col items-center text-slate-500 dark:text-[#94A3B8] px-3 py-2 hover:text-[#6C63FF] dark:hover:text-[#c4c0ff] transition-colors">
+      <span class="material-symbols-outlined text-2xl">stadia_controller</span>
+      <span class="text-[10px] font-bold mt-0.5">Games</span>
+    </button>
+    <button onclick="uiSwitcher.switch('review'); refreshOdapNote();" class="flex flex-col items-center text-slate-500 dark:text-[#94A3B8] px-3 py-2 hover:text-[#6C63FF] dark:hover:text-[#c4c0ff] transition-colors">
+      <span class="material-symbols-outlined text-2xl">style</span>
+      <span class="text-[10px] font-bold mt-0.5">Review</span>
+    </button>
+    <button onclick="app.openSettings()" class="flex flex-col items-center text-slate-500 dark:text-[#94A3B8] px-3 py-2 hover:text-[#6C63FF] dark:hover:text-[#c4c0ff] transition-colors">
+      <span class="material-symbols-outlined text-2xl">settings</span>
+      <span class="text-[10px] font-bold mt-0.5">Settings</span>
+    </button>
+  </nav>
+</div>
+        <div id="quiz-screen" class="glass-panel !rounded-none md:!rounded-3xl !border-0 md:!border-[1.5px] h-[100dvh] md:h-[800px] hidden flex-col w-full mx-auto relative overflow-hidden bg-[var(--bg)]">
+  
+  <!-- 🧊 STITCH HEADER: GLASS NAVBAR -->
+  <header class="flex-none backdrop-blur-xl bg-white/70 dark:bg-slate-900/70 h-16 px-4 flex items-center justify-between border-b border-slate-200/50 dark:border-slate-800/50 z-20 relative">
+    <div class="flex items-center gap-3">
+      <button onclick="window.showConfirmExit(() => app.showDashboard(), 'kuis')" class="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:scale-95 transition-transform active:scale-90">
+        <span class="material-symbols-outlined text-lg">close</span>
+      </button>
+      <div class="h-2 w-32 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+        <div id="q-progress" class="h-full bg-[#6C63FF] rounded-full transition-all duration-500 shadow-[0_0_12px_rgba(108,99,255,0.4)]" style="width: 0%;"></div>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <button id="btn-ubt-toggle" onclick="app.toggleUBTMode()" class="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:scale-95 transition-transform active:scale-90 text-[11px] font-bold">💻</button>
+      <button id="btn-bookmark" onclick="app.toggleBookmark()" class="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:scale-95 transition-transform active:scale-90">
+        <span class="material-symbols-outlined text-lg">bookmark</span>
+      </button>
+      <div id="quiz-timer-container" class="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 dark:bg-slate-800 rounded-full">
+        <span class="material-symbols-outlined text-[#6C63FF] dark:text-[#c4c0ff] text-sm">timer</span>
+        <span id="q-timer" class="font-bold text-[#6C63FF] dark:text-[#c4c0ff] text-sm">00:00</span>
+      </div>
+      <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500">
+        <span id="q-counter">1/15</span>
+      </span>
+    </div>
+  </header>
+
+  <!-- 🧊 STITCH MAIN: COMPACT CONTENT AREA -->
+  <main class="flex-1 overflow-y-auto custom-scrollbar max-w-md mx-auto pt-6 pb-48 px-6 w-full relative z-10">
+    
+    <div id="timer-box" class="hidden"></div>
+    <div id="q-badge" class="hidden">LEVEL</div>
+
+    <!-- Dynamic content container (audio player, image, etc) -->
+    <div id="quiz-dynamic-content" class="w-full mb-5">
+      <div id="q-audio-box" class="hidden w-full p-4 bg-white dark:bg-[#1C1B1A] border border-slate-200/60 dark:border-slate-800/60 rounded-[20px] flex-col shadow-sm mb-4">
+        <div class="flex items-center justify-between mb-3 w-full">
+          <p class="text-xs font-black text-indigo-500 dark:text-indigo-400 flex items-center gap-1.5">
+            <i data-lucide="headphones" class="w-4 h-4"></i> Soal Mendengarkan
+          </p>
+          <div id="audio-plays-left" class="text-[10px] font-black text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/80 px-2.5 py-1 rounded-md uppercase tracking-widest">Sisa Putar: 2</div>
+        </div>
+        <div class="flex items-center gap-3 w-full">
+          <button id="btn-play-audio" onclick="app.playAudio()" class="w-11 h-11 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl flex items-center justify-center shadow-md active:scale-95 transition-all shrink-0">
+            <i data-lucide="play" class="w-5 h-5 fill-current"></i>
+          </button>
+          <div class="flex-1 h-9 rounded-xl overflow-hidden relative bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/50">
+            <div id="audio-progress-bar" class="h-full w-0 bg-gradient-to-r from-indigo-400 to-purple-500 transition-all duration-[3000ms] ease-linear"></div>
+            <div class="absolute inset-0 flex items-center px-3">
+              <span id="audio-status-text" class="text-[10px] text-slate-500 font-bold uppercase tracking-widest transition-colors duration-300">Siap Diputar</span>
+            </div>
+          </div>
+          <button onclick="app.toggleAudioSpeed()" id="btn-audio-speed" class="px-3 h-9 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800/50 rounded-xl text-xs font-black shadow-sm active:scale-95 transition-all shrink-0">1.0x</button>
+        </div>
+      </div>
+
+      <div id="q-image-container" class="hidden w-full max-w-[220px] aspect-[4/3] bg-slate-50 dark:bg-[#0c1424] rounded-2xl border border-slate-100 dark:border-slate-800/40 overflow-hidden flex items-center justify-center p-2 mb-2 shadow-inner mx-auto">
+        <img id="q-image" src="" alt="Soal EPS-TOPIK" class="max-h-full max-w-full object-contain rounded-xl">
+      </div>
+    </div>
+
+    <!-- Stitch Question Card -->
+    <div class="w-full bg-white dark:bg-[#151C2C] rounded-2xl p-5 mb-5 shadow-sm border border-slate-200/50 dark:border-slate-800/60">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-[10px] font-bold text-[#6C63FF] dark:text-[#c4c0ff] uppercase tracking-widest">Pertanyaan</span>
+      </div>
+      <div class="relative">
+          <h2 id="q-text" class="text-base font-bold text-slate-800 dark:text-white leading-relaxed">Memuat...</h2>
+      </div>
+    </div>
+
+    <!-- Options container -->
+    <div id="q-options" class="grid gap-3"></div>
+
+    <!-- AI Explanation box -->
+    <div id="quiz-ai-explanation-box" class="hidden mt-4 p-4 rounded-2xl bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-800/50 text-sm text-slate-700 dark:text-slate-300 leading-relaxed"></div>
+
+    <!-- Feedback -->
+    <div id="q-feedback" class="hidden p-4 rounded-2xl text-sm font-bold mt-4 shadow-sm border select-none"></div>
+  </main>
+
+  <!-- 🧊 STITCH FOOTER: FLOATING BOTTOM BAR -->
+  <footer class="fixed bottom-0 left-0 w-full z-50 bg-white/80 dark:bg-[#051424]/80 backdrop-blur-xl pt-4 pb-6 px-6 border-t border-slate-200 dark:border-slate-800">
+    <div class="max-w-md mx-auto flex flex-col gap-3">
+      <p id="hana-quiz-bubble" class="text-xs text-[#6C63FF] dark:text-[#c4c0ff] font-medium text-center italic"></p>
+      <button id="btn-next" onclick="app.handleNextButton()" class="w-full bg-[#6C63FF] dark:bg-[#c4c0ff] text-white dark:text-[#1b0091] py-4 rounded-full font-bold flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md shadow-[#6C63FF]/20 hidden">
+        <span>Lanjut</span>
+        <span class="material-symbols-outlined">arrow_forward</span>
+      </button>
+    </div>
+  </footer>
+</div>
+
+
+<!-- ============================================== -->
+<!-- VIEW: REVIEW (O-DAP NOTE)                      -->
+<!-- ============================================== -->
+<!-- ============================================== -->
+<!-- VIEW: REVIEW (O-DAP NOTE DOM ADAPTIF MALAM)    -->
+<!-- ============================================== -->
+<div id="view-review" class="hidden absolute inset-0 z-0 flex-col items-center bg-[#f8fafc] dark:bg-[#0b0f19] overflow-hidden">
+  
+  <!-- Stitch Fixed Glass Header -->
+  <header class="fixed top-0 left-0 right-0 z-50 h-20 flex items-center justify-between px-5 backdrop-blur-xl bg-white/80 dark:bg-[#151C2C]/80 border-b border-white/60 dark:border-[#2E3A59]/30 shadow-sm" style="padding-top:env(safe-area-inset-top)">
+    <div class="flex items-center gap-3">
+      <button onclick="uiSwitcher.switch(localStorage.getItem('eps_ui_mode') || 'minimalist')" class="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-[#1C1B1A] shadow-sm border border-[#E4E2DE] dark:border-[#2E3A59] text-slate-700 dark:text-white active:scale-90 transition-transform">
+        <span class="material-symbols-outlined text-[22px]">close</span>
+      </button>
+      <div>
+        <h1 class="text-[17px] font-bold text-slate-800 dark:text-white leading-tight">오답 노트</h1>
+        <p class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Buku Catatan Kesalahan</p>
+      </div>
+    </div>
+    <div class="relative">
+      <div class="absolute -inset-1 bg-[#6C63FF]/20 rounded-full blur-sm"></div>
+      <div class="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white dark:border-[#2E3A59] shadow-sm">
+        <img id="odap-avatar-img" class="w-full h-full object-cover" src="assets/hana_thinking.png" alt="User">
+      </div>
+    </div>
+  </header>
+
+  <div class="w-full max-w-md h-full flex flex-col relative overflow-y-auto pt-20 pb-[calc(6rem+env(safe-area-inset-bottom))] custom-scrollbar">
+
+    <!-- Stats Panel (Stitch) -->
+    <div class="px-5 mt-6 grid grid-cols-2 gap-4 mb-6">
+      <div class="glass-card p-5 text-center shadow-[0_8px_30px_rgba(0,0,0,0.04)] relative overflow-hidden group" style="border-radius:2rem">
+        <div class="absolute inset-0 bg-rose-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        <p id="odap-stat-wrong" class="text-[42px] font-black text-rose-500 leading-none">0</p>
+        <p class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mt-1.5 tracking-wider">Belum Ditebus</p>
+      </div>
+      <div class="glass-card p-5 text-center shadow-[0_8px_30px_rgba(0,0,0,0.04)] relative overflow-hidden group" style="border-radius:2rem">
+        <div class="absolute inset-0 bg-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        <p id="odap-stat-mastered" class="text-[42px] font-black text-indigo-400 leading-none">0</p>
+        <p class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase mt-1.5 tracking-wider">Total Sesi</p>
+      </div>
+    </div>
+
+    <div class="px-5 mb-8">
+      <button id="odap-start-btn" onclick="startOdapReview()" class="w-full py-5 flex items-center justify-center gap-3 text-white font-black text-sm uppercase tracking-widest shadow-[0_8px_24px_rgba(108,99,255,0.3)] active:scale-95 transition-transform" style="background:#6C63FF;border-radius:2rem">
+        <span class="material-symbols-outlined text-[22px]">swords</span> <span id="odap-btn-label">Mulai Kuis Penebusan</span>
+      </button>
+    </div>
+
+    <div class="px-5 flex flex-col gap-3">
+      <div class="flex justify-between items-end mb-2">
+        <h3 class="text-sm font-black text-slate-700 dark:text-slate-300">Riwayat Kesalahan Terbaru</h3>
+        <button id="odap-filter-btn" onclick="cycleOdapFilter()" class="flex items-center gap-1 text-[#6C63FF] text-[13px] font-bold active:scale-95 transition-transform" style="color:#6C63FF">
+          Filter <span class="material-symbols-outlined text-[18px]" id="odap-filter-icon">filter_list</span>
+        </button>
+        <span id="odap-filter-label" class="text-[10px] font-bold text-indigo-500 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/30 px-2 py-0.5 rounded-full hidden"></span>
+      </div>
+      
+      <div id="odap-list-container" class="flex flex-col gap-3 pb-6"></div>
+    </div>
+  </div>
+</div>
+
+<div id="view-semantic-game" class="hidden absolute inset-0 z-40 hana-match-board flex flex-col items-center justify-between p-4 md:p-6 select-none text-white overflow-hidden">
+  
+  <div class="w-full flex justify-between items-center bg-[#151C2C]/60 backdrop-blur-md border border-slate-800 p-4 rounded-2xl shadow-lg flex-none z-20 relative">
+    <div>
+      <h3 class="font-black text-white text-sm tracking-wide">CELESTIAL SCALES</h3>
+      <p class="text-[10px] text-indigo-300 font-bold uppercase tracking-widest mt-0.5">Tarik Kata Menuju Gambar</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <span id="semantic-progress-text" class="text-xs font-black bg-blue-950/60 border border-blue-500/30 text-blue-300 px-3 py-1.5 rounded-full shadow-inner">Round: 1/10</span>
+      <button onclick="window.showConfirmExit(() => semanticGame.exitGame())" class="w-8 h-8 flex items-center justify-center bg-slate-800 text-slate-400 rounded-full font-bold hover:bg-rose-950/50 hover:text-rose-400 transition-colors active:scale-95 border border-slate-700">✕</button>
+    </div>
+  </div>
+
+  <div id="zone-top" class="game-zone w-full h-[30%] bg-[#111622]/80 backdrop-blur-sm rounded-[32px] border-2 border-dashed border-slate-700 flex items-center justify-center p-4 relative overflow-hidden shadow-sm transition-all duration-300 z-20 mt-4">
+    <div class="absolute top-3 left-5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Zona Target Atas</div>
+    <img id="img-top" src="" class="max-h-[85%] max-w-full object-contain pointer-events-none transition-transform duration-300 z-10 relative">
+    <div class="absolute inset-0 bg-gradient-to-b from-indigo-500/15 to-transparent opacity-0 transition-opacity duration-300" id="glow-top"></div>
+  </div>
+
+  <div class="h-[25%] flex items-center justify-center w-full relative z-30 pointer-events-none">
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-50 z-0" id="hana-parallax-container">
+       <div class="absolute w-32 h-32 bg-purple-500/20 rounded-full blur-[30px]"></div>
+       <img id="match-hana-mascot" src="assets/hana_thinking.png" class="h-28 object-contain transition-transform duration-[50ms] ease-linear">
+    </div>
+    
+    <div class="absolute inset-y-0 w-[2px] bg-gradient-to-b from-transparent via-indigo-500/30 to-transparent z-10"></div>
+    
+    <div id="word-card" class="w-full max-w-[240px] h-16 md:h-20 hana-slingshot-card font-black text-2xl md:text-3xl flex items-center justify-center pointer-events-auto cursor-grab active:cursor-grabbing touch-none relative z-20">
+      <span id="semantic-word-text" class="drop-shadow-sm">...</span>
+    </div>
+  </div>
+
+  <div id="zone-bottom" class="game-zone w-full h-[30%] bg-[#111622]/80 backdrop-blur-sm rounded-[32px] border-2 border-dashed border-slate-700 flex items-center justify-center p-4 relative overflow-hidden shadow-sm transition-all duration-300 z-20 mb-2">
+    <div class="absolute bottom-3 left-5 text-[10px] font-black text-slate-500 uppercase tracking-widest">Zona Target Bawah</div>
+    <img id="img-bottom" src="" class="max-h-[85%] max-w-full object-contain pointer-events-none transition-transform duration-300 z-10 relative">
+    <div class="absolute inset-0 bg-gradient-to-t from-indigo-500/15 to-transparent opacity-0 transition-opacity duration-300" id="glow-bottom"></div>
+  </div>
+
+</div>
+
+<div id="view-word-connect" class="hidden absolute inset-0 z-40 hana-cosmic-board flex flex-col items-center justify-between p-4 md:p-6 select-none text-white">
+  
+  <div class="w-full flex justify-between items-center bg-[#151C2C]/60 backdrop-blur-md border border-slate-800 p-4 rounded-2xl shadow-lg flex-none relative z-10">
+    <div>
+      <h3 class="font-black text-white text-sm tracking-wide">WORD CONNECT</h3>
+      <p class="text-[10px] text-indigo-300 font-bold uppercase tracking-widest mt-0.5">Susun Suku Kata Sesuai Gambar</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <span id="connect-progress-text" class="text-xs font-black bg-purple-950/60 border border-purple-500/30 text-purple-300 px-3 py-1.5 rounded-full shadow-inner">Round: 1/10</span>
+      <button onclick="window.showConfirmExit(() => wordConnectGame.exitGame())" class="w-8 h-8 flex items-center justify-center bg-slate-800 text-slate-400 rounded-full font-bold hover:bg-rose-950/50 hover:text-rose-400 transition-colors active:scale-95 border border-slate-700">✕</button>
+    </div>
+  </div>
+
+  <div class="w-full h-[40%] flex items-center justify-center gap-4 relative px-2">
+    <div class="w-1/3 h-full flex items-center justify-center relative">
+      <div class="absolute w-24 h-24 bg-purple-500/10 rounded-full blur-xl animate-pulse"></div>
+      <img id="connect-hana-mascot" src="assets/hana_thinking.png" class="max-h-[85%] object-contain transform transition-all duration-300 hana-idle" alt="Hana Game Guide">
+    </div>
+    
+    <div class="flex-1 h-full bg-[#151C2C]/40 border border-slate-800/80 rounded-3xl flex items-center justify-center p-4 shadow-xl relative overflow-hidden">
+      <img id="connect-target-img" src="" class="max-h-full max-w-full object-contain pointer-events-none transform transition-transform duration-500 group-hover:scale-102">
+    </div>
+  </div>
+
+  <div class="w-full max-w-sm flex flex-col items-center gap-3.5 flex-none relative z-10">
+    <div id="connect-answer-slots" class="flex gap-2.5 justify-center min-h-[52px] w-full flex-wrap">
+    </div>
+    <button onclick="wordConnectGame.clearSelection()" class="text-[10px] font-black text-purple-300 bg-purple-950/80 border border-purple-500/20 px-4 py-2 rounded-full uppercase tracking-wider active:scale-95 transition-all shadow-md hover:bg-purple-900/50">✕ Reset Susunan</button>
+  </div>
+
+  <div class="w-full max-w-sm bg-[#111622]/90 border border-slate-800/60 rounded-[28px] p-5 flex flex-wrap gap-3 justify-center items-center shadow-2xl flex-none min-h-[140px] mb-2 relative z-10">
+    <div id="connect-letters-grid" class="flex flex-wrap gap-3 justify-center w-full">
+    </div>
+  </div>
+
+</div>
+
+<div id="view-match-madness" class="hidden absolute inset-0 z-40 bg-[var(--bg)] flex flex-col items-center justify-between p-4 md:p-6 select-none text-[var(--text-primary)]">
+  <div class="w-full flex justify-between items-center bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-2xl flex-none">
+    <div>
+      <h3 class="font-black text-cyan-400 text-sm tracking-wide">MATCH MADNESS</h3>
+      <p class="text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-widest mt-0.5">Hubungkan Kata & Gambar Tercepat</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <span id="madness-timer-text" class="text-xs font-black bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400 px-3 py-1.5 rounded-full shadow-inner">⏱ 30s</span>
+      <span id="madness-score-text" class="text-xs font-black bg-emerald-100 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 px-3 py-1.5 rounded-full shadow-inner">XP: +0</span>
+      <button onclick="window.showConfirmExit(() => matchMadnessGame.exitGame())" class="w-8 h-8 flex items-center justify-center bg-[var(--bg-main)] text-slate-500 dark:text-slate-400 rounded-full font-bold hover:bg-rose-100 dark:hover:bg-rose-950/40 hover:text-rose-500 transition-colors active:scale-95">✕</button>
+    </div>
+  </div>
+
+  <div class="w-full flex-grow flex gap-4 items-center justify-center py-6 max-w-md">
+    <div id="madness-words-col" class="flex-1 flex flex-col gap-3 h-full justify-center">
+      </div>
+    
+    <div id="madness-images-col" class="flex-1 flex flex-col gap-3 h-full justify-center">
+      </div>
+  </div>
+
+</div>
+
+<div id="view-listen-strike" class="hidden absolute inset-0 z-40 bg-[var(--bg)] flex flex-col items-center justify-between p-4 md:p-6 select-none text-[var(--text-primary)]">
+  <div class="w-full flex justify-between items-center bg-[var(--card-bg)] border border-[var(--card-border)] p-4 rounded-2xl flex-none">
+    <div>
+      <h3 class="font-black text-amber-400 text-sm tracking-wide">LISTEN & STRIKE</h3>
+      <p class="text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-widest mt-0.5">Dengarkan Suara & Pilih Gambar</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <span id="listen-score-text" class="text-xs font-black bg-amber-100 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 px-3 py-1.5 rounded-full shadow-inner">XP: +0</span>
+      <button onclick="window.showConfirmExit(() => listenStrikeGame.exitGame())" class="w-8 h-8 flex items-center justify-center bg-[var(--bg-main)] text-slate-500 dark:text-slate-400 rounded-full font-bold hover:bg-rose-100 dark:hover:bg-rose-950/40 hover:text-rose-500 transition-colors active:scale-95">✕</button>
+    </div>
+  </div>
+
+  <div class="w-full flex-grow flex flex-col items-center justify-center gap-6 max-w-md">
+    <button onclick="listenStrikeGame.speakCurrentWord()" class="w-24 h-24 bg-amber-500 hover:bg-amber-400 active:scale-95 border-b-8 border-b-amber-700 active:border-b-2 text-white rounded-3xl flex items-center justify-center shadow-lg shadow-amber-950/50 transition-all group">
+      <i data-lucide="volume-2" class="w-12 h-12 animate-pulse group-hover:scale-110 transition-transform"></i>
+    </button>
+    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Ketuk untuk Mendengar Ulang</p>
+
+    <div id="listen-choices-grid" class="w-full grid grid-cols-2 gap-4 mt-4">
+    </div>
+  </div>
+
+</div>
+
+    <div id="dictation-screen" class="screen-enter glass-panel rounded-3xl p-6 md:p-8 hidden">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-xl font-extrabold">🎤 Dictation</h2>
+        <button onclick="app.showDashboard()"
+          class="px-4 py-2 bg-[var(--btn-bg)] rounded-xl font-bold text-sm">✕</button>
+      </div>
+      <div class="text-center mb-6">
+        <div id="dic-progress" class="text-sm font-bold">Soal 1/10</div>
+        <button id="dic-play-btn" onclick="app.playDictationAudio()"
+          class="mt-4 w-20 h-20 bg-cyan-500 text-white rounded-full mx-auto shadow-xl active:scale-90 transition-all flex items-center justify-center text-3xl">🔊</button>
+        <p class="text-xs mt-2">Putar ulang: <span id="dic-plays-left">2</span>x</p>
+      </div>
+      <input type="text" id="dic-input"
+        class="w-full p-4 text-center text-2xl font-bold border-2 border-cyan-300 rounded-2xl bg-white dark:bg-gray-800 outline-none mb-3"
+        placeholder="Ketik atau pakai keyboard...">
+      <div id="hangul-keyboard" class="mb-4">
+        <p class="text-xs text-center mb-2 font-bold">⌨️ Keyboard Hangul Virtual</p>
+        <div id="hkb-rows" class="space-y-1.5"></div>
+        <div class="flex gap-2 mt-1.5">
+          <button class="hangul-key special flex-1" onclick="hkbBackspace()">⌫ Hapus</button>
+          <button class="hangul-key special flex-1" onclick="hkbClear()">🗑 Bersih</button>
+        </div>
+      </div>
+      <div id="dic-feedback" class="hidden p-4 rounded-xl text-center font-bold mt-2 mb-2"></div>
+      <div class="flex justify-between mt-4">
+        <button onclick="app.skipDictation()" class="px-5 py-3 bg-[var(--btn-bg)] rounded-xl font-bold">Lewati</button>
+        <button id="dic-submit-btn" onclick="app.checkDictation()"
+          class="btn-game px-8 py-3 bg-cyan-500 text-white rounded-xl shadow-lg">Periksa</button>
+        <button id="dic-next-btn" onclick="app.nextDictation()"
+          class="btn-game px-8 py-3 bg-cyan-500 text-white rounded-xl shadow-lg hidden">Lanjut ▶</button>
+      </div>
+    </div>
+
+    <div id="story-screen" class="screen-enter glass-panel rounded-3xl p-6 md:p-8 hidden">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-extrabold">📖 Story Mode</h2>
+        <button onclick="app.showDashboard()"
+          class="px-4 py-2 bg-[var(--btn-bg)] rounded-xl font-bold text-sm">✕</button>
+      </div>
+      <div id="story-chapter-indicator" class="text-xs font-bold mb-4">Babak 1/6</div>
+      <div id="story-narration"
+        class="p-6 bg-amber-50 dark:bg-amber-900/30 border-2 border-amber-200 rounded-2xl text-lg leading-relaxed mb-6 italic">
+      </div>
+      <div id="story-question-area">
+        <h3 id="story-question-text" class="font-bold mb-4"></h3>
+        <div id="story-options" class="grid gap-3 mb-6"></div>
+        <div id="story-feedback" class="hidden p-4 rounded-xl text-sm font-bold mb-4"></div>
+        <div class="flex justify-between items-center">
+          <button onclick="app.restartStory()" class="px-5 py-3 bg-[var(--btn-bg)] rounded-xl font-bold text-sm">🔄
+            Ulangi dari Awal</button>
+          <button id="story-next-btn" onclick="app.nextStoryQuestion()"
+            class="btn-game px-8 py-3 bg-[var(--accent-gold)] text-white rounded-xl shadow-lg hidden">Lanjut ➔</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="flashcard-screen" class="screen-enter glass-panel rounded-3xl p-6 md:p-8 hidden flex-col overflow-y-auto">
+      <!-- Stitch Header -->
+      <div class="flex items-center justify-between mb-6 flex-none">
+        <div>
+          <h2 class="text-xl font-extrabold text-slate-800 dark:text-white">Kartu Hafalan</h2>
+          <p class="text-[11px] font-bold text-slate-400 dark:text-slate-500 mt-0.5">Kosakata EPS-TOPIK</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="window.flashcardEngine.openChapterPicker()" class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-[11px] font-bold border border-indigo-200 dark:border-indigo-800/50 active:scale-95 transition-all hover:bg-indigo-200 dark:hover:bg-indigo-800/40">
+            <span class="material-symbols-outlined text-sm">book_2</span>
+            <span id="flashcard-chapter-label">Semua Bab</span>
+            <span class="material-symbols-outlined text-sm">expand_more</span>
+          </button>
+          <button onclick="app.showDashboard()" class="w-9 h-9 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-full hover:bg-rose-100 dark:hover:bg-rose-950/40 hover:text-rose-500 transition-colors active:scale-90">
+            <span class="material-symbols-outlined text-lg">close</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Progress Section -->
+      <div class="w-full mb-6 flex-none">
+        <div class="flex justify-between items-end mb-2">
+          <span class="font-bold text-sm text-slate-800 dark:text-white"><span id="flashcard-progress-text">1</span> <span class="text-slate-400 dark:text-slate-500 font-medium text-xs">/ 50 kata</span></span>
+          <span class="text-[10px] font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-wider" id="flashcard-percent-text">2% SELESAI</span>
+        </div>
+        <div class="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+          <div id="flashcard-progress-bar" class="h-full bg-indigo-500 dark:bg-indigo-400 w-[2%] transition-all duration-700 ease-out rounded-full shadow-[0_0_8px_rgba(99,102,241,0.4)]"></div>
+        </div>
+      </div>
+
+      <!-- Mascot Guidance -->
+      <div class="flex items-center gap-4 mb-6 w-full bg-slate-50 dark:bg-[#151C2C]/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-800/60 glass-effect flex-none">
+        <div class="relative w-14 h-14 flex-shrink-0 bg-indigo-500/10 rounded-full flex items-center justify-center border border-indigo-500/20">
+          <img alt="HANA" class="w-10 h-10 object-contain" src="assets/hana_thinking.png">
+        </div>
+        <div class="flex-1">
+          <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed italic font-medium" id="flashcard-mascot-text">"Kata ini sering ditemui di tanda-tanda jalan di Korea. Yuk, lihat contohnya!"</p>
+        </div>
+      </div>
+
+      <!-- Flashcard 3D Component -->
+      <div class="flashcard-container w-full aspect-[4/5] relative cursor-pointer flex-none" onclick="window.flashcardEngine.flip()">
+        <div class="flashcard-inner w-full h-full relative" id="flashcard-inner">
+          <!-- Front Side -->
+          <div class="flashcard-front absolute inset-0 w-full h-full bg-white dark:bg-[#151C2C] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.08)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] border border-slate-200 dark:border-slate-800/60 flex flex-col items-center justify-center p-8 overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-indigo-500/5 via-transparent to-transparent opacity-50"></div>
+            <div class="floating-element flex flex-col items-center text-center z-10">
+              <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 mb-6 tracking-[0.2em] uppercase">KATA KOREA</span>
+              <h2 id="flashcard-word" class="text-5xl md:text-6xl font-black text-indigo-600 dark:text-indigo-400 tracking-tight mb-2 neon-purple">병원</h2>
+              <p id="flashcard-romanization" class="text-slate-400 dark:text-slate-500 font-medium text-sm">[byeong-won]</p>
+            </div>
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-slate-300 dark:text-slate-600 flex items-center gap-2">
+              <span class="material-symbols-outlined text-sm">touch_app</span>
+              <span class="text-[10px] font-bold">Ketuk untuk lihat arti</span>
+            </div>
+          </div>
+          <!-- Back Side -->
+          <div class="flashcard-back absolute inset-0 w-full h-full bg-white dark:bg-[#151C2C] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.08)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] border border-slate-200 dark:border-slate-800/60 flex flex-col p-8 overflow-hidden">
+            <div class="flex justify-between items-start mb-8">
+              <div>
+                <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 tracking-[0.1em] uppercase">Arti</span>
+                <h3 id="flashcard-meaning" class="text-2xl font-black text-indigo-600 dark:text-indigo-400 mt-1">Hospital</h3>
+              </div>
+              <button onclick="event.stopPropagation();app.speakFlashcardWord()" class="w-10 h-10 flex items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-500 dark:text-indigo-400 hover:bg-indigo-200 dark:hover:bg-indigo-800/40 transition-colors active:scale-90">
+                <span class="material-symbols-outlined">volume_up</span>
+              </button>
+            </div>
+            <div class="space-y-4 flex-1">
+              <!-- Example Box -->
+              <div class="bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-800/50 p-4 rounded-2xl">
+                <span class="text-[10px] font-bold text-indigo-500 dark:text-indigo-400 mb-2 block">CONTOH KALIMAT</span>
+                <p id="flashcard-example-kr" class="text-base font-bold text-slate-800 dark:text-white mb-1">어제 병원에 갔어요.</p>
+                <p id="flashcard-example-id" class="text-xs text-slate-500 dark:text-slate-400 italic">"I went to the hospital yesterday."</p>
+              </div>
+              <!-- Same-Chapter Word Chips (dinamis dari JS) -->
+              <div id="flashcard-related-grid" class="grid grid-cols-2 gap-3"></div>
+              <!-- Tombol Tanya Hana AI -->
+              <button onclick="app.bukaAiSheet()" class="w-full py-2.5 bg-gradient-to-r from-[#6C63FF] to-[#8B84FF] text-white font-bold text-xs rounded-xl shadow-md active:scale-95 transition-all flex items-center justify-center gap-2 hover:shadow-lg">
+                <span class="material-symbols-outlined text-sm">psychology</span>
+                Tanya Hana AI
+              </button>
+            </div>
+            <div class="mt-auto pt-4 flex justify-center gap-4">
+              <button class="flex-1 py-3 px-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors font-semibold flex items-center justify-center gap-2 text-sm" onclick="event.stopPropagation(); document.getElementById('flashcard-inner').classList.remove('is-flipped')">
+                <span class="material-symbols-outlined text-sm">refresh</span>
+                Ulang
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="w-full mt-6 flex items-center justify-between gap-4 flex-none">
+        <button id="flashcard-prev-btn" onclick="app.prevFlashcard()" class="squishy-active flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 font-semibold hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all text-sm active:scale-95">
+          <span class="material-symbols-outlined text-lg">chevron_left</span>
+          Sebelumnya
+        </button>
+        <button id="flashcard-next-btn" onclick="app.nextFlashcard()" class="squishy-active flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl bg-indigo-600 dark:bg-indigo-500 text-white font-bold shadow-[0_4px_0_0_#4338ca] dark:shadow-[0_4px_0_0_#6366f1] active:translate-y-[2px] active:shadow-[0_2px_0_0_#4338ca] dark:active:shadow-[0_2px_0_0_#6366f1] transition-all text-sm">
+          Selanjutnya
+          <span class="material-symbols-outlined text-lg">chevron_right</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="result-screen" class="screen-enter glass-panel rounded-3xl p-6 md:p-8 hidden flex-col">
+      <div class="text-center mb-6 pt-4">
+        <div id="res-icon" class="text-6xl mb-4">🏆</div>
+        <h2 class="text-2xl font-black">Analisis Hasil</h2>
+        <div class="mt-4 flex items-baseline justify-center"><span id="res-score"
+            class="text-7xl font-black text-[var(--accent-navy)]">0</span><span
+            class="font-bold text-xl ml-1">/100</span></div>
+        <div id="res-xp-earned" class="mt-2 text-sm font-bold text-emerald-500">+0 XP</div>
+      </div>
+      <div class="grid grid-cols-2 gap-3 mb-6">
+        <div class="bg-[var(--card-bg)] border p-4 rounded-2xl text-center">
+          <div class="text-xs">Benar / Salah</div>
+          <div class="font-bold"><span id="res-correct" class="text-emerald-500">0</span> / <span id="res-wrong"
+              class="text-red-500">0</span></div>
+        </div>
+        <div class="bg-[var(--card-bg)] border p-4 rounded-2xl text-center">
+          <div class="text-xs">Akurasi</div>
+          <div class="font-bold">R: <span id="res-acc-read">0%</span> | L: <span id="res-acc-list">0%</span></div>
+        </div>
+      </div>
+      <div id="res-analysis" class="p-4 bg-indigo-50 dark:bg-indigo-900/30 rounded-2xl text-sm mb-6"></div>
+      <div id="review-container" class="space-y-2 max-h-[350px] overflow-y-auto mb-8 pr-2"></div>
+      <!-- Tombol Aksi Layar Hasil Kuis -->
+      <div class="flex flex-col gap-3 mt-2">
+        <button id="btn-next-stage" onclick="app.nextStageOrMisi()" class="w-full py-4 bg-gradient-to-r from-emerald-500 to-green-600 text-white rounded-2xl font-black text-sm uppercase tracking-widest hidden active:scale-95 transition-transform shadow-lg">
+          Lanjut ke Tahap Berikutnya ➔
+        </button>
+        
+        <div class="grid grid-cols-2 gap-3">
+          <button onclick="app.retryQuiz()" class="py-3.5 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800/50 rounded-2xl font-black text-xs uppercase tracking-widest active:scale-95 transition-all">
+            🔄 Coba Lagi
+          </button>
+          <button onclick="app.showDashboard()" class="py-3.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-2xl font-black text-xs uppercase tracking-widest active:scale-95 transition-all">
+            🏠 Beranda
+          </button>
+        </div>
+      </div>
+        </div> <div id="modal-chapter-selector" class="modal-overlay hidden z-[60]">
+    <div class="modal-box bg-white dark:bg-[#151C2C] border border-slate-100 dark:border-slate-800 text-slate-800 dark:text-white w-11/12 max-w-md p-0 overflow-hidden flex flex-col max-h-[85vh]">
+      
+      <div class="flex items-center gap-3 p-5 border-b border-slate-100 dark:border-slate-800 flex-none">
+        <button onclick="closeModal('modal-chapter-selector')" class="w-8 h-8 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-full text-sm font-semibold hover:scale-110 transition-transform shrink-0"><i data-lucide="arrow-left" class="w-4 h-4"></i></button>
+        <div class="flex-1 min-w-0">
+          <h3 class="font-bold text-lg text-slate-800 dark:text-white truncate">Latihan Per Bab</h3>
+          <p class="text-xs text-slate-500 dark:text-[#94A3B8] mt-0.5">Materi Bab 6 - 60</p>
+        </div>
+        <span id="chapter-level-badge" class="text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full bg-[#6C63FF]/10 dark:bg-[#c4c0ff]/10 text-[#6C63FF] dark:text-[#c4c0ff] border border-[#6C63FF]/20 dark:border-[#c4c0ff]/20 shrink-0">TOPIK I</span>
+      </div>
+
+      <div class="px-5 pt-4 flex-none">
+        <div class="flex items-center gap-3 bg-slate-100 dark:bg-[#1E293B] rounded-full px-4 py-2.5">
+          <div class="w-7 h-7 rounded-full bg-gradient-to-br from-[#6C63FF] to-[#F9A8D4] dark:to-[#89ceff] flex items-center justify-center text-white text-[10px] font-black shrink-0">H</div>
+          <input id="chapter-search-input" type="text" placeholder="Cari bab..." class="flex-1 bg-transparent text-sm text-slate-800 dark:text-white outline-none placeholder:text-slate-400 dark:placeholder:text-slate-500" oninput="app.filterChapterGrid()">
+        </div>
+      </div>
+
+      <div class="px-5 pt-4 flex-none">
+        <div class="bg-[#F8FAFC] dark:bg-[#06060E] rounded-2xl p-4 border border-slate-100 dark:border-slate-800">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-xs font-bold text-slate-500 dark:text-[#94A3B8] uppercase tracking-wider">Progres Belajar</span>
+            <span id="chapter-progress-text" class="text-sm font-black text-[#6C63FF] dark:text-[#c4c0ff]">0/55 Bab Selesai</span>
+          </div>
+          <div class="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+            <div id="chapter-global-bar" class="h-full rounded-full bg-gradient-to-r from-[#6C63FF] to-[#F9A8D4] dark:to-[#89ceff] transition-all duration-700" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between px-5 pt-5 pb-2 flex-none">
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-black text-slate-500 dark:text-[#94A3B8] uppercase tracking-widest">DAFTAR MATERI</span>
+          <button onclick="const m=document.getElementById('chapter-info-modal');m.style.display='flex';m.classList.remove('hidden');m.scrollTop=0;document.body.style.overflow='hidden'" class="p-2 bg-white dark:bg-[#151C2C] border border-slate-200 dark:border-[#2E3A59] rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95 flex items-center justify-center shadow-sm" title="Panduan Kelulusan Bab">
+            <span class="material-symbols-outlined text-slate-500 dark:text-[#94A3B8] text-[20px]">info</span>
+          </button>
+        </div>
+        <span id="chapter-count-badge" class="text-[10px] font-bold text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">0/55</span>
+      </div>
+
+      <div id="chapter-grid-container" class="flex-1 overflow-y-auto custom-scrollbar px-5 pb-5">
+      </div>
+
+    </div>
+  </div>
+  </div>
+
+  <div id="modal-bookmark-hub" class="modal-overlay hidden z-[60]" onclick="closeModal('modal-bookmark-hub')">
+    <div class="modal-box bg-[var(--card-bg)] border border-[var(--card-border)] text-[var(--text-primary)] w-11/12 max-w-md p-0 overflow-hidden flex flex-col max-h-[85vh]" onclick="event.stopPropagation()">
+      
+      <div class="p-5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center flex-none">
+        <div>
+          <h3 class="font-black text-lg text-[var(--text-main)]">HANA Bookmark Vault</h3>
+          <p class="text-xs text-[var(--text-muted)] mt-0.5 uppercase tracking-widest font-bold">Gudang Koleksi Soal Sulit</p>
+        </div>
+        <button onclick="closeModal('modal-bookmark-hub')" class="w-8 h-8 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-full text-sm font-semibold hover:scale-110 transition-transform"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+
+      <div class="p-4 bg-slate-50 dark:bg-slate-900/40 border-b border-slate-100 dark:border-slate-800/60 flex flex-col gap-3 flex-none">
+        <div class="flex items-center justify-between text-xs font-bold px-1">
+          <span class="text-[var(--text-muted)]">Total Tersimpan:</span>
+          <span id="bookmark-vault-count" class="px-2.5 py-1 bg-indigo-500 text-white rounded-md font-black shadow-sm">0 Soal</span>
+        </div>
+        <button onclick="closeModal('modal-bookmark-hub'); app.startBookmarkQuiz();" class="w-full bg-gradient-to-r from-[#6C63FF] to-[#5A52E6] text-white font-black text-xs uppercase tracking-widest py-3.5 rounded-xl shadow-md hover:shadow-lg active:scale-95 transition-all flex justify-center items-center gap-1.5">
+          ⚡ Uji Semua Sekaligus (Mode Acak)
+        </button>
+      </div>
+
+      <div id="bookmark-list-container" class="overflow-y-auto custom-scrollbar p-4 flex flex-col gap-3 flex-grow min-h-[200px]">
+        </div>
+
+      <div class="p-4 border-t border-slate-100 dark:border-slate-800/60 text-center flex-none">
+        <p class="text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-wider">Kelola dan pelajari kembali soal-soal penentu kelulusanmu</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-mission" class="modal-overlay hidden z-[70]">
+    <div class="modal-box bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[28px] p-6 w-full max-w-sm shadow-2xl flex flex-col text-slate-800 dark:text-white">
+      <div class="text-center mb-5">
+        <h3 id="mission-chapter-title" class="font-black text-lg text-slate-900 dark:text-white">Pilih Misi Latihan</h3>
+        <p class="text-xs text-slate-400 font-bold mt-1 uppercase tracking-wider">Selesaikan misi untuk menaklukkan bab ini!</p>
+      </div>
+      
+      <div class="flex flex-col gap-2.5">
+        <button onclick="closeModal('modal-mission'); app.openTextbook();" class="flex items-center gap-4 p-3.5 bg-gradient-to-r from-rose-50 to-pink-50 dark:from-rose-950/20 dark:to-pink-950/10 border-2 border-dashed border-[#D86A7A]/40 rounded-xl text-left active:scale-[0.98] transition-all shadow-sm group">
+          <div class="bg-rose-100 dark:bg-rose-950/50 rounded-lg p-2.5 text-[#D86A7A]"><i data-lucide="book-open" class="w-4 h-4"></i></div>
+          <div class="flex-1">
+            <p class="font-black text-sm text-slate-850 dark:text-slate-100 group-hover:text-[#D86A7A] transition-colors">Baca Textbook</p>
+          </div>
+          <div id="status-textbook-icon" class="text-slate-300"><i data-lucide="chevron-right" class="w-4 h-4"></i></div>
+        </button>
+        <div class="w-full h-[1px] bg-slate-100 dark:bg-slate-800 my-1"></div>
+        <button onclick="app.startChapterQuiz(1)" class="flex items-center gap-4 p-3.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-150 dark:border-slate-700/60 border-l-4 border-l-green-500 rounded-xl text-left active:scale-[0.98] transition-all shadow-sm">
+          <div class="bg-green-100 dark:bg-green-950/40 rounded-lg p-2 text-green-600 dark:text-green-400"><i data-lucide="sprout" class="w-4 h-4"></i></div>
+          <div>
+            <p class="font-bold text-sm text-slate-850 dark:text-slate-200">Misi 1: Pemanasan</p>
+            <p class="text-[11px] text-slate-400 font-medium">Beginner Mode</p>
+          </div>
+        </button>
+        
+        <button onclick="app.startChapterQuiz(2)" class="flex items-center gap-4 p-3.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-150 dark:border-slate-700/60 border-l-4 border-l-blue-500 rounded-xl text-left active:scale-[0.98] transition-all shadow-sm">
+          <div class="bg-blue-100 dark:bg-blue-950/40 rounded-lg p-2 text-blue-600 dark:text-blue-400"><i data-lucide="waves" class="w-4 h-4"></i></div>
+          <div>
+            <p class="font-bold text-sm text-slate-850 dark:text-slate-200">Misi 2: Pemahaman</p>
+            <p class="text-[11px] text-slate-400 font-medium">Normal Mode</p>
+          </div>
+        </button>
+        
+        <button onclick="app.startChapterQuiz(3)" class="flex items-center gap-4 p-3.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-150 dark:border-slate-700/60 border-l-4 border-l-amber-500 rounded-xl text-left active:scale-[0.98] transition-all shadow-sm">
+          <div class="bg-amber-100 dark:bg-amber-950/40 rounded-lg p-2 text-amber-600 dark:text-amber-400"><i data-lucide="flame" class="w-4 h-4"></i></div>
+          <div>
+            <p class="font-bold text-sm text-slate-850 dark:text-slate-200">Misi 3: Tantangan</p>
+            <p class="text-[11px] text-slate-400 font-medium">Pro Mode</p>
+          </div>
+        </button>
+        
+        <button onclick="app.startChapterQuiz(4)" class="flex items-center gap-4 p-4 rounded-[14px] text-left active:scale-[0.98] transition-all shadow-md group relative overflow-hidden" style="background:linear-gradient(135deg,rgba(244,63,94,0.05),rgba(245,158,11,0.05)); border:1px solid rgba(244,63,94,0.3);">
+          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-r from-rose-500/10 to-transparent"></div>
+          <div class="bg-gradient-to-br from-rose-500 to-amber-500 rounded-xl p-2 text-white shadow-sm z-10 shrink-0"><i data-lucide="crown" class="w-5 h-5"></i></div>
+          <div class="z-10 flex-1">
+            <p class="font-black text-sm bg-gradient-to-r from-rose-500 to-amber-500 bg-clip-text text-transparent tracking-wide">Ujian Bab (Boss Stage)</p>
+            <p class="text-[10px] text-slate-500 font-bold mt-0.5">20 Soal Acak Sesungguhnya</p>
+          </div>
+          <span class="text-rose-400 font-black text-xs z-10 opacity-50 group-hover:opacity-100 transition-opacity">➔</span>
+        </button>
+        
+        <button onclick="closeModal('modal-mission')" class="w-full py-3 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-xl font-black text-xs uppercase tracking-widest mt-2 active:scale-[0.98] transition-all">Batal</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="welcome-toast" class="hidden"></div>
+
+  <div id="modal-help" class="modal-overlay hidden z-[99999]" onclick="closeModal('modal-help')">
+    <div class="modal-box bg-[var(--card-bg)] border border-[var(--card-border)] text-[var(--text-primary)] w-11/12 max-w-md p-0 overflow-hidden flex flex-col max-h-[82vh]" onclick="event.stopPropagation()">
+      
+      <div class="p-5 border-b border-slate-150/40 dark:border-slate-800/60 flex justify-between items-center flex-none">
+        <div>
+          <h3 class="font-black text-base text-[var(--text-main)]">Panduan Fitur HANA</h3>
+          <p class="text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-widest mt-0.5">Sistem Integrasi Ekosistem Belajar</p>
+        </div>
+        <button onclick="closeModal('modal-help')" class="w-8 h-8 flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-full text-sm font-semibold hover:scale-110 transition-transform"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+
+      <div class="overflow-y-auto custom-scrollbar p-5 flex flex-col gap-6 flex-grow">
+        
+        <div>
+          <p class="text-[10px] font-black uppercase tracking-wider text-indigo-500 dark:text-indigo-400 mb-3 flex items-center gap-1.5 select-none"><i data-lucide="shield-check" class="w-4 h-4"></i> Evaluasi &amp; Simulasi Ujian</p>
+          <div class="flex flex-col gap-3">
+            
+            <div class="p-3.5 bg-slate-50/60 dark:bg-slate-900/30 border border-slate-150/50 dark:border-slate-800/50 rounded-xl flex gap-3.5 shadow-sm">
+              <div class="bg-indigo-100 dark:bg-indigo-950/40 text-indigo-500 rounded-xl p-2.5 h-max shrink-0"><i data-lucide="graduation-cap" class="w-4 h-4"></i></div>
+              <div>
+                <h4 class="text-xs font-black text-[var(--text-main)]">Simulasi Resmi UBT</h4>
+                <p class="text-[11px] text-[var(--text-muted)] font-semibold mt-0.5 leading-relaxed">Ujian standardisasi 20 soal campuran (Reading &amp; Listening) berdurasi 30 menit. Batas kelulusan minimum industri adalah 60%.</p>
+              </div>
+            </div>
+
+            <div class="p-3.5 bg-slate-50/60 dark:bg-slate-900/30 border border-slate-150/50 dark:border-slate-800/50 rounded-xl flex gap-3.5 shadow-sm">
+              <div class="bg-amber-100 dark:bg-amber-950/40 text-amber-500 rounded-xl p-2.5 h-max shrink-0"><i data-lucide="target" class="w-4 h-4"></i></div>
+              <div>
+                <h4 class="text-xs font-black text-[var(--text-main)]">Tantangan Harian</h4>
+                <p class="text-[11px] text-[var(--text-muted)] font-semibold mt-0.5 leading-relaxed">Latihan 15 soal acak berkala untuk menajamkan insting menjawab cepat sekaligus mempertahankan rentetan kalender streak Anda.</p>
+              </div>
+            </div>
+
+            <div class="p-3.5 bg-slate-50/60 dark:bg-slate-900/30 border border-slate-150/50 dark:border-slate-800/50 rounded-xl flex gap-3.5 shadow-sm">
+              <div class="bg-emerald-100 dark:bg-emerald-950/40 text-emerald-500 rounded-xl p-2.5 h-max shrink-0"><i data-lucide="activity" class="w-4 h-4"></i></div>
+              <div>
+                <h4 class="text-xs font-black text-[var(--text-main)]">Misi Level Stage</h4>
+                <p class="text-[11px] text-[var(--text-muted)] font-semibold mt-0.5 leading-relaxed">Kurikulum kompetensi berjenjang (Pemula, Normal, Pro). Diwajibkan menyentuh akurasi 80% untuk membuka gerbang uji selanjutnya.</p>
+              </div>
+            </div>
+
+            <div class="p-3.5 bg-slate-50/60 dark:bg-slate-900/30 border border-slate-150/50 dark:border-slate-800/50 rounded-xl flex gap-3.5 shadow-sm">
+              <div class="bg-rose-100 dark:bg-rose-950/40 text-rose-500 rounded-xl p-2.5 h-max shrink-0"><i data-lucide="refresh-cw" class="w-4 h-4"></i></div>
+              <div>
+                <h4 class="text-xs font-black text-[var(--text-main)]">Smart Review (O-Dap)</h4>
+                <p class="text-[11px] text-[var(--text-muted)] font-semibold mt-0.5 leading-relaxed">Gudang isolasi otomatis yang mengunci riwayat jawaban salah Anda agar bisa ditinjau ulang atau dibedah intensif oleh AI Tutor.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div>
+          <p class="text-[10px] font-black uppercase tracking-wider text-purple-500 dark:text-purple-400 mb-3 flex items-center gap-1.5 select-none"><i data-lucide="brain" class="w-4 h-4"></i> Penguat Memori &amp; Kosakata</p>
+          <div class="flex flex-col gap-3">
+
+            <div class="p-3.5 bg-slate-50/60 dark:bg-slate-900/30 border border-slate-150/50 dark:border-slate-800/50 rounded-xl flex gap-3.5 shadow-sm">
+              <div class="bg-purple-100 dark:bg-purple-950/40 text-purple-500 rounded-xl p-2.5 h-max shrink-0"><i data-lucide="layers" class="w-4 h-4"></i></div>
+              <div>
+                <h4 class="text-xs font-black text-[var(--text-main)]">Flashcard Interaktif</h4>
+                <p class="text-[11px] text-[var(--text-muted)] font-semibold mt-0.5 leading-relaxed">Metode akselerasi hafalan kosa kata esensial menggunakan kartu bolak-balik 3D dengan kendali gestur swiping taktil.</p>
+              </div>
+            </div>
+
+            <div class="p-3.5 bg-slate-50/60 dark:bg-slate-900/30 border border-slate-150/50 dark:border-slate-800/50 rounded-xl flex gap-3.5 shadow-sm">
+              <div class="bg-cyan-100 dark:bg-cyan-950/40 text-cyan-500 rounded-xl p-2.5 h-max shrink-0"><i data-lucide="mic" class="w-4 h-4"></i></div>
+              <div>
+                <h4 class="text-xs font-black text-[var(--text-main)]">Dikte Audio (Dictation)</h4>
+                <p class="text-[11px] text-[var(--text-muted)] font-semibold mt-0.5 leading-relaxed">Uji kepekaan pendengaran mendengarkan artikulasi native speaker lalu menyusun karakter Hangul via keyboard virtual.</p>
+              </div>
+            </div>
+
+            <div class="p-3.5 bg-slate-50/60 dark:bg-slate-900/30 border border-slate-150/50 dark:border-slate-800/50 rounded-xl flex gap-3.5 shadow-sm">
+              <div class="bg-blue-100 dark:bg-blue-950/40 text-blue-500 rounded-xl p-2.5 h-max shrink-0"><i data-lucide="image" class="w-4 h-4"></i></div>
+              <div>
+                <h4 class="text-xs font-black text-[var(--text-main)]">Kuis Tebak Gambar</h4>
+                <p class="text-[11px] text-[var(--text-muted)] font-semibold mt-0.5 leading-relaxed">Menghubungkan memori kata dengan visualisasi riil perkakas industri, regulasi, dan rambu keselamatan K3 Korea.</p>
+              </div>
+            </div>
+
+            <div class="p-3.5 bg-slate-50/60 dark:bg-slate-900/30 border border-slate-150/50 dark:border-slate-800/50 rounded-xl flex gap-3.5 shadow-sm">
+              <div class="bg-orange-100 dark:bg-orange-950/40 text-orange-500 rounded-xl p-2.5 h-max shrink-0"><i data-lucide="book-open" class="w-4 h-4"></i></div>
+              <div>
+                <h4 class="text-xs font-black text-[var(--text-main)]">Story Mode (Dunia Kerja)</h4>
+                <p class="text-[11px] text-[var(--text-muted)] font-semibold mt-0.5 leading-relaxed">Simulasi percakapan interaktif berlatar manufaktur Korea untuk melatih kemampuan adaptasi dan komunikasi lapangan kerja.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="p-4 border-t border-slate-150/40 dark:border-slate-800/60 flex flex-col gap-2 flex-none">
+        <button onclick="closeModal('modal-help'); window.HanaTour.start();" class="w-full bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/30 dark:hover:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 font-black text-xs uppercase tracking-widest py-3 rounded-xl transition-all border border-indigo-200/60 dark:border-indigo-800/50 text-center active:scale-95">
+          🔄 Ulangi Tur Panduan Aplikasi
+        </button>
+        <button onclick="closeModal('modal-help')" class="w-full bg-[#6C63FF] hover:bg-[#5A52E6] text-white font-black text-xs uppercase tracking-widest py-4 rounded-xl shadow-md active:scale-95 transition-all text-center">
+          Saya Mengerti
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-reset" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div class="text-center mb-4">
+        <div class="text-5xl mb-3">⚠️</div>
+        <h3 class="font-extrabold text-xl mb-2">Hapus Semua Progres?</h3>
+        <p class="text-sm">Semua XP, streak, dan riwayat soal salah akan dihapus permanen.</p>
+      </div>
+      <div class="grid grid-cols-2 gap-3 mt-6"><button onclick="closeModal('modal-reset')"
+          class="py-3 bg-[var(--btn-bg)] rounded-xl font-bold">Batal</button><button onclick="doReset()"
+          class="py-3 bg-red-500 text-white rounded-xl font-bold">Ya, Hapus</button></div>
+    </div>
+  </div>
+  <div id="modal-exit-quiz" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div class="text-center mb-4">
+        <div class="text-5xl mb-3">🚪</div>
+        <h3 class="font-extrabold text-xl mb-2">Keluar dari Quiz?</h3>
+        <p class="text-sm">Progres quiz ini tidak akan disimpan.</p>
+      </div>
+      <div class="grid grid-cols-2 gap-3 mt-6"><button onclick="closeModal('modal-exit-quiz')"
+          class="py-3 bg-[var(--btn-bg)] rounded-xl font-bold">Lanjutkan</button><button onclick="doExitQuiz()"
+          class="py-3 bg-red-500 text-white rounded-xl font-bold">Keluar</button></div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/hangul-js" type="text/javascript"></script>
+
+  <script src="data.js"></script>
+  <script src="vocab-bank.js"></script>
+  <script src="utils.js"></script>
+  <script src="ai-chat.js"></script>
+  <script src="mini-games.js"></script>
+
+  <script src="dictation.js"></script>
+  <script src="app.js"></script>
+  <script src="story-mode.js"></script>
+  <script src="quiz-engine.js"></script>
+  <script src="analytics.js"></script>
+  <div id="quiz-path-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm hidden animate-fade-in">
+    <div class="relative w-full max-w-md overflow-hidden rounded-3xl bg-white dark:bg-[#151C2C] border border-slate-200 dark:border-[#2E3A59] p-6 shadow-2xl transition-all">
+      
+      <div class="flex items-center justify-between mb-5">
+        <div>
+          <h3 id="modal-path-title" class="text-xl font-extrabold text-slate-800 dark:text-white font-['Plus_Jakarta_Sans']">Pilih Mode Latihan</h3>
+          <p id="modal-path-desc" class="text-xs text-slate-500 dark:text-[#94A3B8]">Tentukan metode asah kemampuan EPS-TOPIK Anda</p>
+        </div>
+        <button onclick="closeQuizPathModal()" class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 dark:bg-[#2E3A59] text-slate-500 dark:text-white hover:scale-95 transition-transform">
+          <span class="material-symbols-outlined text-sm">close</span>
+        </button>
+      </div>
+
+      <div id="main-path-options" class="space-y-4">
+        <div onclick="toggleModalPanel('stages')" class="squishy group flex items-center p-4 rounded-2xl border-2 border-transparent bg-slate-50 dark:bg-[#06060E]/50 hover:border-[#6C63FF] dark:hover:border-[#c4c0ff] cursor-pointer transition-all duration-200">
+          <div class="w-12 h-12 flex items-center justify-center rounded-xl bg-indigo-100 dark:bg-[#1b0091] text-[#6C63FF] dark:text-[#c4c0ff] mr-4 group-hover:scale-110 transition-transform">
+            <span class="material-symbols-outlined text-2xl">trophy</span>
+          </div>
+          <div class="flex-1">
+            <h4 class="text-sm font-bold text-slate-800 dark:text-white">Jalur Kompetensi (Stage Mode)</h4>
+            <p class="text-[11px] text-slate-500 dark:text-[#94A3B8] mt-0.5">3 Level tantangan (Beginner, Normal, Pro) sesuai kapasitas aseli Anda.</p>
+          </div>
+          <span class="material-symbols-outlined text-slate-400 group-hover:translate-x-1 transition-transform">chevron_right</span>
+        </div>
+
+        <div onclick="app.showChapterScreen(); closeQuizPathModal();" class="squishy group flex items-center p-4 rounded-2xl border-2 border-transparent bg-slate-50 dark:bg-[#06060E]/50 hover:border-[#F9A8D4] dark:hover:border-[#89ceff] cursor-pointer transition-all duration-200">
+          <div class="w-12 h-12 flex items-center justify-center rounded-xl bg-pink-100 dark:bg-[#89ceff]/20 text-[#F9A8D4] dark:text-[#89ceff] mr-4 group-hover:scale-110 transition-transform">
+            <span class="material-symbols-outlined text-2xl">menu_book</span>
+          </div>
+          <div class="flex-1">
+            <h4 class="text-sm font-bold text-slate-800 dark:text-white">Jalur Kurikulum (Bab 6 - 60)</h4>
+            <p class="text-[11px] text-slate-500 dark:text-[#94A3B8] mt-0.5">Kuis terfokus per bab berdasarkan Buku Panduan Standar HRD Korea.</p>
+          </div>
+          <span class="material-symbols-outlined text-slate-400 group-hover:translate-x-1 transition-transform">chevron_right</span>
+        </div>
+      </div>
+
+      <div id="stage-levels-options" class="space-y-4 hidden animate-fade-in">
+        <button onclick="toggleModalPanel('main')" class="flex items-center text-xs text-[#6C63FF] dark:text-[#c4c0ff] mb-2 font-semibold hover:underline">
+          <span class="material-symbols-outlined text-sm mr-1">arrow_back</span> Kembali ke menu utama
+        </button>
+        
+        <div class="max-h-[320px] overflow-y-auto space-y-3 pr-1">
+          <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#06060E]/30 border border-slate-100 dark:border-slate-800">
+            <div class="text-xs font-extrabold text-indigo-500 mb-2 tracking-wide uppercase">초급 • Level Beginner</div>
+            <div class="grid grid-cols-3 gap-2">
+              <button onclick="closeQuizPathModal(); app.startStage('beginner',1)" class="py-2 text-xs font-bold rounded-lg bg-white dark:bg-[#2E3A59] border dark:border-transparent text-slate-700 dark:text-white hover:bg-indigo-500 hover:text-white dark:hover:bg-[#6C63FF] transition-all">Stage 1</button>
+              <button onclick="closeQuizPathModal(); app.startStage('beginner',2)" class="py-2 text-xs font-bold rounded-lg bg-white dark:bg-[#2E3A59] border dark:border-transparent text-slate-700 dark:text-white hover:bg-indigo-500 hover:text-white dark:hover:bg-[#6C63FF] transition-all">Stage 2</button>
+              <button onclick="closeQuizPathModal(); app.startStage('beginner',3)" class="py-2 text-xs font-bold rounded-lg bg-white dark:bg-[#2E3A59] border dark:border-transparent text-slate-700 dark:text-white hover:bg-indigo-500 hover:text-white dark:hover:bg-[#6C63FF] transition-all">Stage 3</button>
+            </div>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#06060E]/30 border border-slate-100 dark:border-slate-800">
+            <div class="text-xs font-extrabold text-teal-500 mb-2 tracking-wide uppercase">중급 • Level Normal</div>
+            <div class="grid grid-cols-3 gap-2">
+              <button onclick="closeQuizPathModal(); app.startStage('normal',1)" class="py-2 text-xs font-bold rounded-lg bg-white dark:bg-[#2E3A59] border dark:border-transparent text-slate-700 dark:text-white hover:bg-teal-500 hover:text-white dark:hover:bg-teal-600 transition-all">Stage 1</button>
+              <button onclick="closeQuizPathModal(); app.startStage('normal',2)" class="py-2 text-xs font-bold rounded-lg bg-white dark:bg-[#2E3A59] border dark:border-transparent text-slate-700 dark:text-white hover:bg-teal-500 hover:text-white dark:hover:bg-teal-600 transition-all">Stage 2</button>
+              <button onclick="closeQuizPathModal(); app.startStage('normal',3)" class="py-2 text-xs font-bold rounded-lg bg-white dark:bg-[#2E3A59] border dark:border-transparent text-slate-700 dark:text-white hover:bg-teal-500 hover:text-white dark:hover:bg-teal-600 transition-all">Stage 3</button>
+            </div>
+          </div>
+
+          <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#06060E]/30 border border-slate-100 dark:border-slate-800">
+            <div class="text-xs font-extrabold text-rose-500 mb-2 tracking-wide uppercase">고급 • Level Pro</div>
+            <div class="grid grid-cols-3 gap-2">
+              <button onclick="closeQuizPathModal(); app.startStage('pro',1)" class="py-2 text-xs font-bold rounded-lg bg-white dark:bg-[#2E3A59] border dark:border-transparent text-slate-700 dark:text-white hover:bg-rose-500 hover:text-white dark:hover:bg-rose-600 transition-all">Stage 1</button>
+              <button onclick="closeQuizPathModal(); app.startStage('pro',2)" class="py-2 text-xs font-bold rounded-lg bg-white dark:bg-[#2E3A59] border dark:border-transparent text-slate-700 dark:text-white hover:bg-rose-500 hover:text-white dark:hover:bg-rose-600 transition-all">Stage 2</button>
+              <button onclick="closeQuizPathModal(); app.startStage('pro',3)" class="py-2 text-xs font-bold rounded-lg bg-white dark:bg-[#2E3A59] border dark:border-transparent text-slate-700 dark:text-white hover:bg-rose-500 hover:text-white dark:hover:bg-rose-600 transition-all">Stage 3</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FULL-SCREEN PROFILE (Stitch) -->
+  <div id="profile-screen" class="hidden flex-col fixed inset-0 z-[9997] overflow-y-auto bg-[var(--bg)]">
+    <div class="sticky top-0 z-10 sticky-header flex items-center px-4 py-3 h-14">
+      <button onclick="app.closeProfile()" class="w-9 h-9 flex items-center justify-center rounded-full active:scale-90 transition-transform">
+        <span class="material-symbols-outlined text-[22px] text-[var(--text-secondary)]">chevron_left</span>
+      </button>
+      <h3 class="ml-2 font-extrabold text-sm text-[var(--text-primary)]">Profil Saya</h3>
+    </div>
+
+    <div class="px-4 pt-6 pb-28 space-y-5">
+
+      <!-- Hero -->
+      <div class="flex flex-col items-center text-center">
+        <div class="relative mb-4">
+          <div class="w-24 h-24 rounded-full p-0.5 bg-gradient-to-tr from-[var(--hana-primary)] to-[var(--hana-primary)]/60 shadow-lg">
+            <img id="profile-avatar-img" src="assets/hana_thinking.png" alt="" class="w-full h-full rounded-full object-cover bg-[var(--hana-surface)]">
+          </div>
+          <input type="file" id="avatar-upload" accept="image/*" class="hidden" onchange="app.handleAvatarUpload(this.files[0])">
+          <button onclick="document.getElementById('avatar-upload').click()" class="absolute bottom-0 right-0 bg-[var(--hana-primary)] text-white p-1.5 rounded-full border-2 border-[var(--card-bg)] shadow-sm active:scale-90 transition-transform">
+            <span class="material-symbols-outlined text-[16px]">edit</span>
+          </button>
+        </div>
+        <div class="flex items-center justify-center gap-2 mb-1">
+          <h2 id="profile-user-name" class="font-extrabold text-xl text-[var(--text-primary)]">Pelajar</h2>
+          <button onclick="document.getElementById('modal-edit-username').classList.remove('hidden'); document.getElementById('username-input').value = (app.data?.userName || '')" class="text-[var(--text-secondary)] hover:text-[var(--hana-primary)] transition-colors">
+            <span class="material-symbols-outlined text-[18px]">edit</span>
+          </button>
+        </div>
+        <div class="flex items-center gap-2 bg-[var(--hana-primary)]/10 text-[var(--hana-primary)] px-3 py-0.5 rounded-full mb-6">
+          <span class="material-symbols-outlined text-[14px]" style="font-variation-settings:'FILL' 1">stars</span>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider">Premium Member</span>
+        </div>
+        <div class="grid grid-cols-2 gap-4 w-full max-w-sm">
+          <div class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center">
+            <span class="text-[10px] text-[var(--text-secondary)] font-extrabold uppercase tracking-wider mb-1">Total XP</span>
+            <span id="profile-user-xp" class="font-extrabold text-xl text-[var(--hana-primary)]">0 XP</span>
+          </div>
+          <button id="profile-exam-btn" onclick="app.closeProfile(); app.promptExamDate()" class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center text-left active:scale-[0.98] transition-transform">
+            <span class="text-[10px] text-[var(--text-secondary)] font-extrabold uppercase tracking-wider mb-1">Jadwal Ujian</span>
+            <div class="flex items-center gap-1">
+              <span id="profile-exam-text" class="font-extrabold text-base text-[var(--text-primary)]">Atur Tanggal</span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Misi Harian -->
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between px-1">
+          <h4 class="text-xs font-extrabold text-[var(--text-primary)]">Misi Hari Ini</h4>
+          <button onclick="app.openAllMissionsSheet()" class="text-[10px] font-bold text-[var(--hana-primary)]">Lihat Semua</button>
+        </div>
+        <div onclick="app.startDailyWordMission()" class="glass-card p-2.5 rounded-xl flex items-center gap-2.5 cursor-pointer active:scale-[0.98] transition-transform">
+          <div id="mission-1-icon" class="w-8 h-8 bg-[var(--hana-primary)]/10 rounded-lg flex items-center justify-center text-[var(--hana-primary)] shrink-0">
+            <span class="material-symbols-outlined text-base">translate</span>
+          </div>
+          <div class="flex-1 min-w-0 flex items-center justify-between gap-2">
+            <span class="text-[11px] font-bold text-[var(--text-primary)]">Belajar 10 kosakata</span>
+            <div class="flex items-center gap-1.5">
+              <span class="text-[9px] font-bold text-emerald-500">+20 XP</span>
+              <span id="mission-1-text" class="text-[9px] font-bold text-[var(--text-secondary)]">0/10</span>
+            </div>
+          </div>
+        </div>
+        <div onclick="app.startDailyQuizMission()" class="glass-card p-2.5 rounded-xl flex items-center gap-2.5 cursor-pointer active:scale-[0.98] transition-transform opacity-70">
+          <div id="mission-2-icon" class="w-8 h-8 bg-slate-500/10 rounded-lg flex items-center justify-center text-slate-500 shrink-0">
+            <span class="material-symbols-outlined text-base">quiz</span>
+          </div>
+          <div class="flex-1 min-w-0 flex items-center justify-between gap-2">
+            <span class="text-[11px] font-bold text-[var(--text-primary)]">Kerjakan 1 latihan</span>
+            <div class="flex items-center gap-1.5">
+              <span class="text-[9px] font-bold text-slate-500">+15 XP</span>
+              <span id="mission-2-text" class="text-[9px] font-bold text-[var(--text-secondary)]">0/1</span>
+            </div>
+          </div>
+        </div>
+        <div onclick="app.startDailyGameMission()" class="bg-gradient-to-r from-orange-600 to-amber-600 p-2.5 rounded-xl flex items-center justify-between cursor-pointer active:scale-[0.98] transition-transform">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+              <span class="material-symbols-outlined text-base text-white">casino</span>
+            </div>
+            <span class="text-[11px] font-bold text-white">Adrenaline Roulette</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="text-[9px] font-bold text-white/90">+10 XP</span>
+            <span id="mission-3-text" class="text-[9px] font-bold text-white/80">0/5</span>
+            <div class="bg-white/20 text-white text-[9px] font-bold px-2.5 py-1 rounded-lg">MAINKAN</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Riwayat Belajar -->
+      <div class="glass-card rounded-2xl p-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-[var(--hana-primary)]/10 flex items-center justify-center">
+            <span class="material-symbols-outlined text-[var(--hana-primary)] text-[20px]">target</span>
+          </div>
+          <div>
+            <p class="text-sm font-bold text-[var(--text-primary)]">Riwayat Belajar</p>
+            <p id="profile-sessions-count" class="text-xs text-[var(--text-secondary)] font-medium">0 Sesi Selesai</p>
+          </div>
+        </div>
+        <button onclick="app.toggleHistoryDetail()" class="bg-[var(--card-bg)] border border-[var(--card-border)] text-[var(--hana-primary)] text-[10px] font-extrabold uppercase tracking-wider px-4 py-2 rounded-xl active:scale-95 transition-all">Lihat Detail</button>
+      </div>
+
+      <!-- Riwayat Detail (expandable) -->
+      <div id="profile-history-detail" class="hidden space-y-2"></div>
+
+      <!-- Kecakapan -->
+      <div class="space-y-3">
+        <div class="glass-card p-4 rounded-2xl">
+          <div class="flex justify-between items-center mb-2">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[var(--hana-primary)] text-[18px]">auto_stories</span>
+              <span class="text-sm font-bold text-[var(--text-primary)]">Reading</span>
+            </div>
+            <span id="profile-text-read" class="text-xs font-extrabold text-[var(--hana-primary)]">0%</span>
+          </div>
+          <div class="h-2 w-full skill-bar-bg rounded-full overflow-hidden">
+            <div id="profile-bar-read" class="h-full bg-[var(--hana-primary)] rounded-full transition-all duration-500" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="glass-card p-4 rounded-2xl">
+          <div class="flex justify-between items-center mb-2">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[var(--hana-primary)] text-[18px]">headphones</span>
+              <span class="text-sm font-bold text-[var(--text-primary)]">Listening</span>
+            </div>
+            <span id="profile-text-list" class="text-xs font-extrabold text-[var(--hana-primary)]">0%</span>
+          </div>
+          <div class="h-2 w-full skill-bar-bg rounded-full overflow-hidden">
+            <div id="profile-bar-list" class="h-full bg-[var(--hana-primary)] rounded-full transition-all duration-500" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aktivitas Mingguan -->
+      <div>
+        <div class="flex items-center justify-between mb-3">
+          <h4 class="font-extrabold text-sm text-[var(--text-primary)]">Aktivitas Mingguan</h4>
+          <span class="text-[10px] text-[var(--text-secondary)] font-medium">7 hari terakhir</span>
+        </div>
+        <div class="glass-card p-4 rounded-2xl">
+          <div class="flex justify-between items-center gap-1 w-full" id="streak-calendar"></div>
+        </div>
+      </div>
+
+      <!-- Pencapaian -->
+      <div>
+        <h4 class="font-extrabold text-sm text-[var(--text-primary)] mb-3">Pencapaian</h4>
+        <div id="badge-container" class="grid grid-cols-3 gap-3"></div>
+      </div>
+
+      <!-- Logout / Login -->
+      <div class="pt-4 flex flex-col items-center gap-4">
+        <button id="profile-logout-btn" class="flex items-center gap-2 text-[var(--hana-danger)] font-bold text-base hover:bg-[var(--hana-danger)]/10 px-6 py-2 rounded-full transition-colors active:scale-95">
+          <span class="material-symbols-outlined">logout</span>
+          Logout
+        </button>
+        <p class="text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-widest text-center">HANA v1.0.4</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="settings-overlay" onclick="app.closeSettings()"></div>
+  <div id="settings-screen" class="flex flex-col">
+    <!-- Sticky Header (Stitch) -->
+    <div class="sticky top-0 z-50 flex items-center px-4 py-3 h-16 bg-[var(--panel-bg)] backdrop-blur-xl border-b border-[var(--card-border)]">
+      <button onclick="app.closeSettings()" class="w-9 h-9 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--card-border)] rounded-full active:scale-90 transition-transform shadow-sm">
+        <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)]">arrow_back</span>
+      </button>
+      <div class="ml-3 flex-1">
+        <h3 class="font-extrabold text-sm text-[var(--text-primary)] leading-tight">Pengaturan</h3>
+        <p class="text-[10px] text-[var(--text-secondary)] font-medium">Personalisasi tampilan &amp; preferensi</p>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="flex-grow overflow-y-auto px-4 pt-4 pb-28 space-y-4 custom-scrollbar">
+
+      <!-- 1. PROFILE CARD (Stitch Glass) -->
+      <div class="bg-[var(--card-bg)] rounded-[24px] border border-[var(--card-border)] p-5 shadow-sm">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="relative shrink-0">
+            <div class="w-16 h-16 rounded-full p-0.5 bg-gradient-to-tr from-[var(--hana-primary)] to-[var(--hana-primary)]/60">
+              <img src="assets/hana_thinking.png" alt="Profile" class="w-full h-full rounded-full object-cover bg-[var(--hana-surface)]">
+            </div>
+            <div class="absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full bg-[var(--hana-primary)] text-white flex items-center justify-center shadow-lg border-2 border-[var(--card-bg)]">
+              <span class="material-symbols-outlined text-[12px]" style="font-variation-settings:'FILL' 1">verified</span>
+            </div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-1.5">
+              <h2 id="settings-profile-name" class="font-extrabold text-base text-[var(--text-primary)] truncate">Pelajar</h2>
+              <button onclick="document.getElementById('modal-edit-username').classList.remove('hidden'); document.getElementById('username-input').value = app.data.userName || ''" class="text-[var(--text-secondary)] hover:text-[var(--hana-primary)] transition-colors shrink-0">
+                <span class="material-symbols-outlined text-[16px]">edit</span>
+              </button>
+            </div>
+            <p class="text-[11px] text-[var(--text-secondary)] font-semibold mt-0.5">Premium Member</p>
+          </div>
+          <button onclick="app.openProfile(); app.closeSettings()" class="w-8 h-8 rounded-full bg-[var(--hana-primary)]/10 text-[var(--hana-primary)] flex items-center justify-center hover:bg-[var(--hana-primary)]/20 transition-colors shrink-0">
+            <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+          </button>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="bg-[var(--hana-primary)]/5 rounded-2xl p-3 border border-[var(--hana-primary)]/10">
+            <span class="text-[9px] text-[var(--text-secondary)] uppercase font-bold tracking-wider">Total XP</span>
+            <p id="settings-profile-xp" class="text-lg font-extrabold text-[var(--hana-primary)] leading-tight mt-0.5">0 XP</p>
+          </div>
+          <button id="settings-exam-btn" onclick="app.closeSettings(); app.promptExamDate()" class="rounded-2xl p-3 border border-[var(--card-border)] text-left hover:bg-[var(--hana-primary)]/5 hover:border-[var(--hana-primary)]/20 transition-all active:scale-[0.98]">
+            <span class="text-[9px] text-[var(--text-secondary)] uppercase font-bold tracking-wider">Ujian EPS-TOPIK</span>
+            <p id="settings-exam-text" class="text-sm font-extrabold text-[var(--text-primary)] leading-tight mt-0.5 flex items-center gap-1">
+              <span class="material-symbols-outlined text-[14px] text-[var(--text-secondary)]">calendar_today</span>
+              <span>Atur Tanggal</span>
+            </p>
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. TAMPILAN TEKS (Simplified) -->
+      <div class="bg-[var(--card-bg)] rounded-[24px] border border-[var(--card-border)] p-5 shadow-sm">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)]">text_fields</span>
+          <p class="text-[9px] text-[var(--text-secondary)] uppercase font-black tracking-widest">Tampilan Teks</p>
+        </div>
+
+        <p class="font-bold text-xs text-[var(--text-primary)] mb-2">Jenis Huruf</p>
+        <div class="grid grid-cols-3 gap-2 mb-4" id="font-family-picker">
+          <button id="font-btn-pretendard" onclick="app.previewFont('pretendard', this)" class="py-2.5 bg-slate-100 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700/60 rounded-xl text-xs font-bold active:scale-95 transition-all text-[var(--text-primary)] hover:border-[var(--hana-primary)]">Pretendard</button>
+          <button id="font-btn-notosans" onclick="app.previewFont('notosans', this)" class="py-2.5 bg-slate-100 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700/60 rounded-xl text-xs font-bold active:scale-95 transition-all text-[var(--text-primary)] hover:border-[var(--hana-primary)]">Noto Sans</button>
+          <button id="font-btn-gmarket" onclick="app.previewFont('gmarket', this)" class="py-2.5 bg-slate-100 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700/60 rounded-xl text-xs font-bold active:scale-95 transition-all text-[var(--text-primary)] hover:border-[var(--hana-primary)]">Gmarket</button>
+        </div>
+
+        <div class="flex items-center justify-between mb-2">
+          <p class="font-bold text-xs text-[var(--text-primary)]">Ukuran Huruf</p>
+          <span id="font-size-label" class="text-xs font-extrabold text-[var(--hana-primary)]">16px</span>
+        </div>
+        <input type="range" min="14" max="26" value="16" id="font-size-slider" oninput="app.previewFontSize(this.value)" class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-[var(--hana-primary)] mb-4">
+
+        <div id="settings-preview-box" class="hidden">HIDDEN FONT TRACKER</div>
+
+        <button onclick="app.applyFontSettings()" class="w-full h-11 bg-[var(--hana-primary)] text-white text-xs font-bold rounded-xl shadow-md active:scale-95 transition-all">
+          ✓ Terapkan &amp; Simpan
+        </button>
+      </div>
+
+      <!-- 3. PREFERENSI (Stitch Glass) -->
+      <div class="bg-[var(--card-bg)] rounded-[24px] border border-[var(--card-border)] overflow-hidden shadow-sm">
+        <div class="px-5 pt-4 pb-1">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)]">tune</span>
+            <p class="text-[9px] text-[var(--text-secondary)] uppercase font-black tracking-widest">Preferensi</p>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between px-5 py-3.5">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-[var(--hana-primary)]/10 text-[var(--hana-primary)] flex items-center justify-center">
+              <span class="material-symbols-outlined text-[18px]">dark_mode</span>
+            </div>
+            <div>
+              <h4 class="font-bold text-xs text-[var(--text-primary)]">Mode Gelap</h4>
+              <p class="text-[10px] text-[var(--text-secondary)] font-medium">Ubah tema tampilan</p>
+            </div>
+          </div>
+          <button id="darkModeToggle" class="w-9 h-5 rounded-full bg-slate-200 dark:bg-slate-700 relative transition-colors duration-300 shrink-0 outline-none">
+            <span id="darkModeThumb" class="absolute top-[2px] left-[2px] w-4 h-4 rounded-full bg-white dark:bg-amber-400 shadow transition-transform duration-300"></span>
+          </button>
+        </div>
+
+        <div class="h-[1px] bg-[var(--card-border)] mx-5"></div>
+
+        <div class="flex items-center justify-between px-5 py-3.5">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-[var(--hana-primary)]/10 text-[var(--hana-primary)] flex items-center justify-center">
+              <span class="material-symbols-outlined text-[18px]">music_note</span>
+            </div>
+            <div>
+              <h4 class="font-bold text-xs text-[var(--text-primary)]">Musik Latar</h4>
+              <p class="text-[10px] text-[var(--text-secondary)] font-medium">Suara ambien aplikasi</p>
+            </div>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer select-none">
+            <input type="checkbox" id="bgmToggle" class="sr-only peer">
+            <div class="w-9 h-5 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[var(--hana-primary)]"></div>
+          </label>
+        </div>
+      </div>
+
+      <!-- 4. INFO & BANTUAN (Stitch Glass) -->
+      <div class="bg-[var(--card-bg)] rounded-[24px] border border-[var(--card-border)] overflow-hidden shadow-sm">
+        <div class="px-5 pt-4 pb-1">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)]">info</span>
+            <p class="text-[9px] text-[var(--text-secondary)] uppercase font-black tracking-widest">Info &amp; Bantuan</p>
+          </div>
+        </div>
+
+        <div onclick="app.closeSettings(); document.getElementById('modal-help').classList.remove('hidden');" class="flex items-center justify-between px-5 py-3.5 cursor-pointer hover:bg-[var(--hana-primary)]/5 transition-colors group">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 flex items-center justify-center">
+              <span class="material-symbols-outlined text-[18px]">help</span>
+            </div>
+            <h4 class="font-bold text-xs text-[var(--text-primary)]">Pusat Bantuan</h4>
+          </div>
+          <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)] group-hover:translate-x-0.5 transition-transform">chevron_right</span>
+        </div>
+
+        <div class="h-[1px] bg-[var(--card-border)] mx-5"></div>
+
+        <button id="btn-saran" class="w-full flex items-center justify-between px-5 py-3.5 cursor-pointer hover:bg-[var(--hana-primary)]/5 text-left transition-colors group">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-amber-50 dark:bg-amber-950/30 text-amber-500 flex items-center justify-center">
+              <span class="material-symbols-outlined text-[18px]">lightbulb</span>
+            </div>
+            <h4 class="font-bold text-xs text-[var(--text-primary)]">Saran &amp; Masukan</h4>
+          </div>
+          <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)] group-hover:translate-x-0.5 transition-transform">chevron_right</span>
+        </button>
+
+        <div class="h-[1px] bg-[var(--card-border)] mx-5"></div>
+
+        <button id="btn-bug" class="w-full flex items-center justify-between px-5 py-3.5 cursor-pointer hover:bg-[var(--hana-primary)]/5 text-left rounded-b-[24px] transition-colors group">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-red-50 dark:bg-red-950/30 text-red-500 flex items-center justify-center">
+              <span class="material-symbols-outlined text-[18px]">bug_report</span>
+            </div>
+            <h4 class="font-bold text-xs text-[var(--text-primary)]">Laporkan Bug</h4>
+          </div>
+          <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)] group-hover:translate-x-0.5 transition-transform">chevron_right</span>
+        </button>
+      </div>
+
+      <!-- 5. DANGER ZONE (Stitch) -->
+      <div class="pt-4 pb-2 border-t border-[var(--hana-danger)]/20">
+        <div class="flex items-center gap-2 px-1 mb-3">
+          <span class="material-symbols-outlined text-[14px] text-[var(--hana-danger)]">warning</span>
+          <p class="text-[9px] text-[var(--hana-danger)] uppercase font-black tracking-wider">Zona Berbahaya</p>
+        </div>
+        <button onclick="app.closeSettings(); confirmReset();" class="w-full flex items-center gap-4 p-4 bg-[var(--card-bg)] border-2 border-[var(--hana-danger)]/20 rounded-[24px] active:scale-[0.98] transition-all group hover:border-[var(--hana-danger)]/40">
+          <div class="w-11 h-11 rounded-xl bg-[var(--hana-danger)]/10 text-[var(--hana-danger)] flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
+            <span class="material-symbols-outlined text-[22px]">delete_forever</span>
+          </div>
+          <div class="text-left flex-1">
+            <h4 class="font-bold text-xs text-[var(--hana-danger)]">Hapus Semua Progres</h4>
+            <p class="text-[10px] text-[var(--hana-danger)]/60 font-medium mt-0.5">Reset data latihan permanen</p>
+          </div>
+          <span class="material-symbols-outlined text-[18px] text-[var(--hana-danger)]/40 group-hover:translate-x-0.5 transition-transform">chevron_right</span>
+        </button>
+      </div>
+
+      <!-- 6. FOOTER -->
+      <div class="text-center py-3 select-none">
+        <p class="text-[9px] text-[var(--text-muted)] font-bold uppercase tracking-widest">HANA v1.0.4</p>
+        <p class="text-[10px] text-[var(--text-muted)] font-medium mt-1">Dibuat dengan ❤️ untuk Pembelajar</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MODAL: DATE PICKER - Beautiful Rolling Selector
+  ============================================================ -->
+  <div id="modal-date-picker" class="modal-overlay hidden z-[70]">
+    <div class="modal-box bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white w-11/12 max-w-sm p-0 overflow-hidden shadow-2xl">
+      <!-- Header with gradient -->
+      <div class="relative p-5 bg-gradient-to-br from-[#6C63FF] to-[#5C54E8] text-white overflow-hidden">
+        <div class="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+        <div class="absolute -bottom-5 -left-5 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
+        <div class="relative z-10">
+          <div class="flex items-center gap-3 mb-1">
+            <div class="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center text-xl">🎯</div>
+            <div>
+              <h3 class="font-black text-lg leading-none">Atur Tanggal Ujian</h3>
+              <p class="text-[10px] text-white/80 mt-0.5 font-medium">EPS-TOPIK Countdown</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-5">
+        <!-- Date Input with custom styling -->
+        <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">📅 Tanggal Ujian Anda</label>
+        <input type="date" id="exam-date-input"
+          class="w-full px-4 py-4 bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-600 rounded-2xl text-base font-bold text-slate-900 dark:text-white outline-none focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 transition-all cursor-pointer appearance-none date-input-styled">
+
+        <!-- Live Countdown Preview -->
+        <div id="date-picker-preview" class="mt-4 p-4 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-2xl border border-indigo-100 dark:border-indigo-800/50 hidden">
+          <div class="text-center">
+            <p id="countdown-days-display" class="text-4xl font-black text-indigo-600 dark:text-indigo-400">0</p>
+            <p class="text-xs text-indigo-500 dark:text-indigo-400 font-bold uppercase tracking-wider mt-1">Hari Menuju Ujian</p>
+            <p id="countdown-date-display" class="text-[10px] text-slate-500 dark:text-slate-400 mt-2 font-medium"></p>
+          </div>
+        </div>
+
+        <!-- Quick preset buttons -->
+        <div class="mt-4">
+          <p class="text-[10px] text-slate-400 dark:text-slate-500 uppercase font-bold tracking-wider mb-2">Atur Cepat</p>
+          <div class="flex gap-2">
+            <button onclick="app.setQuickDate(30)" class="flex-1 py-2 px-3 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-[11px] font-bold text-slate-600 dark:text-slate-300 active:scale-95 transition-all">+30 Hari</button>
+            <button onclick="app.setQuickDate(60)" class="flex-1 py-2 px-3 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-[11px] font-bold text-slate-600 dark:text-slate-300 active:scale-95 transition-all">+60 Hari</button>
+            <button onclick="app.setQuickDate(90)" class="flex-1 py-2 px-3 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-[11px] font-bold text-slate-600 dark:text-slate-300 active:scale-95 transition-all">+90 Hari</button>
+          </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="grid grid-cols-2 gap-3 mt-6">
+          <button onclick="app.clearExamDate()" class="py-3 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-xl font-bold text-sm active:scale-95 transition-all hover:bg-slate-200 dark:hover:bg-slate-700">🗑️ Hapus</button>
+          <button onclick="app.saveExamDate()" class="py-3 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-xl font-bold text-sm active:scale-95 transition-all shadow-lg hover:shadow-xl">💾 Simpan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* Custom date input styling */
+    .date-input-styled::-webkit-calendar-picker-indicator {
+      opacity: 0.5;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+      background: #e2e8f0;
+      transition: all 0.2s;
+    }
+    .date-input-styled::-webkit-calendar-picker-indicator:hover {
+      background: #cbd5e1;
+      opacity: 1;
+    }
+    .dark .date-input-styled::-webkit-calendar-picker-indicator {
+      background: #334155;
+    }
+    .dark .date-input-styled::-webkit-calendar-picker-indicator:hover {
+      background: #475569;
+    }
+  </style>
+
+  <!-- ============================================================
+       MODAL: EDIT USERNAME
+  ============================================================ -->
+  <div id="modal-edit-username" class="modal-overlay hidden z-[10000]">
+    <div class="modal-box bg-[var(--card-bg)] border border-[var(--card-border)] text-[var(--text-primary)] w-11/12 max-w-sm p-0 overflow-hidden">
+      <div class="p-5 border-b border-[var(--card-border)]">
+        <h3 class="font-black text-lg">✏️ Edit Nama Pengguna</h3>
+        <p class="text-xs text-[var(--text-secondary)] mt-1">Nama ini akan ditampilkan di seluruh aplikasi</p>
+      </div>
+      <div class="p-5">
+        <div class="relative">
+          <label id="username-floating-label" class="absolute left-4 top-3.5 text-xs font-bold text-slate-400 transition-all pointer-events-none" style="transition: top 0.2s, font-size 0.2s;">Nama pengguna Anda...</label>
+          <input type="text" id="username-input" maxlength="24"
+            class="w-full px-4 pt-5 pb-3 bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-600 rounded-2xl text-base font-bold text-[var(--text-primary)] outline-none focus:border-indigo-400 transition-colors"
+            oninput="app.onUsernameInput(this)"
+            onfocus="document.getElementById('username-floating-label').style.top='-10px'; document.getElementById('username-floating-label').style.fontSize='10px'; document.getElementById('username-floating-label').classList.add('text-indigo-500'); document.getElementById('username-floating-label').classList.remove('text-slate-400');"
+            onblur="if(!this.value){document.getElementById('username-floating-label').style.top='14px'; document.getElementById('username-floating-label').style.fontSize='12px'; document.getElementById('username-floating-label').classList.remove('text-indigo-500'); document.getElementById('username-floating-label').classList.add('text-slate-400');}">
+          <div class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400" id="username-char-count">0/24</div>
+        </div>
+        <div class="grid grid-cols-2 gap-3 mt-5">
+          <button onclick="document.getElementById('modal-edit-username').classList.add('hidden')" class="py-3 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold text-sm active:scale-95">Batal</button>
+          <button onclick="app.saveUsername()" class="py-3 bg-gradient-to-r from-indigo-500 to-teal-500 text-white rounded-xl font-bold text-sm active:scale-95 shadow-md">Simpan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SCREEN: INTERNAL FEEDBACK FORM
+  ============================================================ -->
+  <div id="screen-feedback" class="fixed inset-0 z-[10000] hidden flex-col bg-[var(--bg)] overflow-hidden">
+    <!-- Sticky Header -->
+    <div class="sticky top-0 z-50 flex items-center p-4 bg-[var(--panel-bg)] backdrop-blur-xl border-b border-[var(--card-border)]">
+      <button id="btn-back-feedback" class="w-10 h-10 flex items-center justify-center bg-slate-200 dark:bg-slate-700 rounded-full text-lg hover:scale-110 transition-transform shadow-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-800 dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      <h3 id="feedback-title" class="font-black text-xl ml-4 flex-1 text-slate-900 dark:text-white">Kirim Masukan</h3>
+    </div>
+    <!-- Body -->
+    <div class="flex-grow overflow-y-auto p-5 space-y-4 custom-scrollbar">
+      <textarea id="feedback-message" rows="8" class="w-full p-4 bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-600 rounded-2xl text-sm font-medium text-slate-900 dark:text-white placeholder-slate-400 focus:border-indigo-400 focus:bg-white dark:focus:bg-slate-900 outline-none transition-all resize-none" placeholder="Tulis pesan Anda di sini..."></textarea>
+      <button id="btn-submit-feedback" class="w-full py-3.5 bg-gradient-to-r from-indigo-500 to-teal-500 text-white font-black rounded-xl shadow-md active:scale-95 transition-all text-sm flex items-center justify-center gap-2">
+        <span id="submit-feedback-text">Kirim Sekarang</span>
+      </button>
+    </div>
+  </div>
+
+<div id="view-game-hub" class="hidden fixed inset-0 z-30 bg-[#F8FAFC] dark:bg-[#06060E] flex flex-col overflow-y-auto">
+  <div class="sticky top-0 z-20 bg-white/90 dark:bg-[#151C2C]/90 premium-blur border-b border-slate-200 dark:border-[#2E3A59] px-5 pt-[calc(1rem+env(safe-area-inset-top))] pb-3">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <button onclick="uiSwitcher.switch('minimalist')" class="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-[#2E3A59] text-slate-500 dark:text-white hover:scale-95 transition-transform">
+          <span class="material-symbols-outlined text-lg">arrow_back</span>
+        </button>
+        <div>
+          <h1 class="text-lg font-extrabold text-slate-800 dark:text-white font-['Plus_Jakarta_Sans']">Game Hub</h1>
+          <p class="text-[11px] text-slate-500 dark:text-[#94A3B8]">Asah kosakata lewat 4 mini-game seru</p>
+        </div>
+      </div>
+      <span class="material-symbols-outlined text-2xl text-[#6C63FF] dark:text-[#c4c0ff]">stadia_controller</span>
+    </div>
+  </div>
+
+  <div class="flex-1 p-5 space-y-4 pb-24">
+    <div class="grid grid-cols-2 gap-3">
+      <button onclick="document.getElementById('view-game-hub').classList.add('hidden'); semanticGame.init();" class="squishy group flex flex-col items-center p-5 rounded-2xl bg-white dark:bg-[#151C2C] border border-slate-200 dark:border-[#2E3A59] shadow-sm hover:shadow-md hover:border-blue-400 dark:hover:border-blue-500 transition-all text-center">
+        <div class="w-12 h-12 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-950/40 text-blue-500 mb-3 group-hover:scale-110 transition-transform">
+          <span class="material-symbols-outlined text-2xl">zap</span>
+        </div>
+        <h4 class="text-xs font-bold text-slate-800 dark:text-white">Match Game</h4>
+        <p class="text-[10px] text-slate-500 dark:text-[#94A3B8] mt-1">Geser kata sesuai arti gambar</p>
+      </button>
+
+      <button onclick="document.getElementById('view-game-hub').classList.add('hidden'); wordConnectGame.init();" class="squishy group flex flex-col items-center p-5 rounded-2xl bg-white dark:bg-[#151C2C] border border-slate-200 dark:border-[#2E3A59] shadow-sm hover:shadow-md hover:border-purple-400 dark:hover:border-purple-500 transition-all text-center">
+        <div class="w-12 h-12 flex items-center justify-center rounded-full bg-purple-100 dark:bg-purple-950/40 text-purple-500 mb-3 group-hover:scale-110 transition-transform">
+          <span class="material-symbols-outlined text-2xl">layers</span>
+        </div>
+        <h4 class="text-xs font-bold text-slate-800 dark:text-white">Word Connect</h4>
+        <p class="text-[10px] text-slate-500 dark:text-[#94A3B8] mt-1">Susun suku kata Hangul acak</p>
+      </button>
+
+      <button onclick="document.getElementById('view-game-hub').classList.add('hidden'); matchMadnessGame.init();" class="squishy group flex flex-col items-center p-5 rounded-2xl bg-white dark:bg-[#151C2C] border border-slate-200 dark:border-[#2E3A59] shadow-sm hover:shadow-md hover:border-cyan-400 dark:hover:border-cyan-500 transition-all text-center">
+        <div class="w-12 h-12 flex items-center justify-center rounded-full bg-cyan-100 dark:bg-cyan-950/40 text-cyan-500 mb-3 group-hover:scale-110 transition-transform">
+          <span class="material-symbols-outlined text-2xl">gamepad</span>
+        </div>
+        <h4 class="text-xs font-bold text-slate-800 dark:text-white">Match Madness</h4>
+        <p class="text-[10px] text-slate-500 dark:text-[#94A3B8] mt-1">Time attack! Pasangkan secepat mungkin</p>
+      </button>
+
+      <button onclick="document.getElementById('view-game-hub').classList.add('hidden'); listenStrikeGame.init();" class="squishy group flex flex-col items-center p-5 rounded-2xl bg-white dark:bg-[#151C2C] border border-slate-200 dark:border-[#2E3A59] shadow-sm hover:shadow-md hover:border-amber-400 dark:hover:border-amber-500 transition-all text-center">
+        <div class="w-12 h-12 flex items-center justify-center rounded-full bg-amber-100 dark:bg-amber-950/40 text-amber-500 mb-3 group-hover:scale-110 transition-transform">
+          <span class="material-symbols-outlined text-2xl">volume_up</span>
+        </div>
+        <h4 class="text-xs font-bold text-slate-800 dark:text-white">Listen & Strike</h4>
+        <p class="text-[10px] text-slate-500 dark:text-[#94A3B8] mt-1">Duolingo Mode! Tebak dari suara korea</p>
+      </button>
+    </div>
+
+    <div onclick="app.startDailyGameMission()" class="squishy group flex items-center gap-4 p-5 rounded-2xl bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-950/20 dark:to-amber-950/10 border-2 border-dashed border-orange-300 dark:border-amber-700/60 shadow-sm hover:shadow-lg cursor-pointer transition-all">
+      <div class="w-14 h-14 flex items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600 text-white shadow-lg group-hover:scale-110 transition-transform">
+        <span class="material-symbols-outlined text-3xl">casino</span>
+      </div>
+      <div class="flex-1">
+        <h4 class="text-sm font-extrabold text-slate-800 dark:text-white">Adrenaline Roulette</h4>
+        <p class="text-[11px] text-slate-500 dark:text-[#94A3B8] mt-0.5">Mainkan game acak dengan jackpot tersembunyi! Siap dengan adrenalin Anda?</p>
+      </div>
+      <span class="material-symbols-outlined text-orange-500 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- MODAL: SELECT MINI GAME (FIXED PLACEHOLDER)               -->
+<!-- ========================================================= -->
+<div id="modal-game-selector" class="modal-overlay hidden z-[100]" onclick="closeModal('modal-game-selector')">
+  <div class="modal-box bg-[var(--card-bg)] border border-[var(--card-border)] text-[var(--text-primary)] w-11/12 max-w-sm p-6 screen-enter" onclick="event.stopPropagation()">
+    <div class="text-center mb-5">
+      <div class="w-12 h-12 bg-blue-100 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center mx-auto mb-2 shadow-inner animate-pulse">
+        <i data-lucide="gamepad-2" class="w-6 h-6"></i>
+      </div>
+      <h3 class="font-black text-lg text-[var(--text-primary)]">Pilih Mini Game</h3>
+      <p class="text-xs text-[var(--text-muted)] font-bold mt-0.5 uppercase tracking-wider">Asah Kosakata EPS-TOPIK</p>
+    </div>
+
+    <div class="flex flex-col gap-3">
+      <button onclick="closeModal('modal-game-selector'); semanticGame.init();" class="flex items-center gap-4 p-4 bg-[var(--card-bg)] border-2 border-[var(--card-border)] border-b-4 rounded-2xl text-left active:translate-y-0.5 active:border-b-2 transition-all hover:bg-slate-100 dark:hover:bg-slate-800/40 group text-[var(--text-primary)]">
+        <div class="bg-blue-100 dark:bg-blue-950/40 text-blue-500 rounded-xl p-3 group-hover:bg-blue-500 group-hover:text-white transition-colors"><i data-lucide="zap" class="w-5 h-5 fill-current"></i></div>
+        <div>
+          <p class="font-black text-[var(--text-primary)] text-sm">1. Match Game</p>
+          <p class="text-[11px] font-bold text-[var(--text-muted)] mt-0.5">Geser kata sesuai arti gambar</p>
+        </div>
+      </button>
+
+      <button onclick="closeModal('modal-game-selector'); wordConnectGame.init();" class="flex items-center gap-4 p-4 bg-[var(--card-bg)] border-2 border-[var(--card-border)] border-b-4 rounded-2xl text-left active:translate-y-0.5 active:border-b-2 transition-all hover:bg-slate-100 dark:hover:bg-slate-800/40 group text-[var(--text-primary)]">
+        <div class="bg-purple-100 dark:bg-purple-950/40 text-purple-500 rounded-xl p-3 group-hover:bg-purple-500 group-hover:text-white transition-colors"><i data-lucide="layers" class="w-5 h-5"></i></div>
+        <div>
+          <p class="font-black text-[var(--text-primary)] text-sm">2. Word Connect</p>
+          <p class="text-[11px] font-bold text-[var(--text-muted)] mt-0.5">Susun suku kata Hangul acak</p>
+        </div>
+      </button>
+
+      <button onclick="closeModal('modal-game-selector'); matchMadnessGame.init();" class="flex items-center gap-4 p-4 bg-[var(--card-bg)] border-2 border-[var(--card-border)] border-b-4 rounded-2xl text-left active:translate-y-0.5 active:border-b-2 transition-all hover:bg-slate-100 dark:hover:bg-slate-800/40 group text-[var(--text-primary)]">
+        <div class="bg-cyan-100 dark:bg-cyan-950/40 text-cyan-500 rounded-xl p-3 group-hover:bg-cyan-500 group-hover:text-white transition-colors"><i data-lucide="gamepad" class="w-5 h-5"></i></div>
+        <div>
+          <p class="font-black text-[var(--text-primary)] text-sm">3. Match Madness</p>
+          <p class="text-[11px] font-bold text-[var(--text-muted)] mt-0.5">Time attack! Pasangkan secepat mungkin</p>
+        </div>
+      </button>
+
+      <button onclick="closeModal('modal-game-selector'); listenStrikeGame.init();" class="flex items-center gap-4 p-4 bg-[var(--card-bg)] border-2 border-[var(--card-border)] border-b-4 rounded-2xl text-left active:translate-y-0.5 active:border-b-2 transition-all hover:bg-slate-100 dark:hover:bg-slate-800/40 group text-[var(--text-primary)]">
+        <div class="bg-amber-100 dark:bg-amber-950/40 text-amber-500 rounded-xl p-3 group-hover:bg-amber-500 group-hover:text-white transition-colors"><i data-lucide="volume-2" class="w-5 h-5"></i></div>
+        <div>
+          <p class="font-black text-[var(--text-primary)] text-sm">4. Listen &amp; Strike</p>
+          <p class="text-[11px] font-bold text-[var(--text-muted)] mt-0.5">Duolingo Mode! Tebak gambar dari suara korea</p>
+        </div>
+      </button>
+
+      <button onclick="closeModal('modal-game-selector')" class="w-full py-3 bg-[var(--bg-main)] text-[var(--text-muted)] rounded-xl font-black text-xs uppercase tracking-widest mt-2 active:scale-95 transition-all">Batal</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="modal-mission-quiz" class="hidden fixed inset-0 z-50 backdrop-blur-md bg-slate-900/60 flex items-center justify-center p-4">
+  <div class="bg-[var(--card-bg)] border border-[var(--card-border)] w-full max-w-sm rounded-[24px] shadow-2xl p-6 flex flex-col justify-between min-h-[430px] text-[var(--text-primary)]">
+    <div class="flex justify-between items-center border-b border-[var(--card-border)] pb-3">
+      <div class="flex items-center gap-2">
+        <span class="text-xl">🎯</span>
+        <h3 class="font-black text-sm">Misi Kilat: 1 Tantangan</h3>
+      </div>
+      <button onclick="document.getElementById('modal-mission-quiz').classList.add('hidden')" class="text-xs font-bold text-rose-500 px-2.5 py-1 bg-rose-50 dark:bg-rose-950/30 rounded-full">Batal</button>
+    </div>
+
+    <div class="my-4 text-center p-4 bg-[var(--bg-main)] border border-[var(--card-border)] rounded-2xl shadow-inner">
+      <p class="text-xs font-bold text-[var(--text-muted)] mb-1">Pilihlah arti kata berikut yang benar:</p>
+      <h2 id="micro-quiz-q-text" class="text-2xl font-black text-[#6C63FF]">사과</h2>
+    </div>
+
+    <div id="micro-quiz-choices" class="grid grid-cols-1 gap-2.5 my-2">
+      </div>
+
+    <div id="micro-quiz-feedback" class="text-center font-black text-xs p-3.5 rounded-xl hidden transition-all"></div>
+  </div>
+</div>
+
+<div id="screen-roulette" class="hidden fixed inset-0 z-[9999] flex-col bg-[#0b0b19] text-slate-100 select-none font-sans overflow-hidden">
+  
+  <div class="m-4 p-4 bg-[#12122a]/80 backdrop-blur-xl border border-purple-500/20 rounded-2xl flex justify-between items-center shadow-[0_0_20px_rgba(139,92,246,0.15)] flex-none">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-purple-500/10 text-purple-400 border border-purple-500/30 rounded-xl flex items-center justify-center text-xl shadow-[0_0_12px_rgba(139,92,246,0.2)] animate-pulse">🎰</div>
+      <div>
+        <h3 class="font-black text-sm tracking-wide text-white uppercase">Adrenaline Roulette</h3>
+        <p class="text-[10px] text-purple-400 font-bold uppercase tracking-widest mt-0.5">Linguistic Slot Machine</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <span id="micro-roulette-progress" class="text-[11px] font-black bg-purple-500/20 border border-purple-500/30 text-purple-300 px-3 py-1 rounded-full shadow-inner">Round: 1/5</span>
+      <span id="roulette-mode-badge" class="text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded-md bg-slate-800/80 border border-slate-700 text-slate-300 hidden">MODE</span>
+      <button onclick="document.getElementById('screen-roulette').classList.add('hidden'); if(typeof app !== 'undefined' && app.showDashboard) app.showDashboard();" class="w-8 h-8 flex items-center justify-center bg-slate-800 hover:bg-rose-500/20 hover:text-rose-400 border border-slate-700 rounded-full text-xs font-bold transition-all active:scale-90">✕</button>
+    </div>
+  </div>
+
+  <div class="flex-grow flex flex-col items-center justify-center p-6 relative">
+    <div class="absolute w-64 h-64 bg-purple-600/10 rounded-full blur-[60px] top-1/4 pointer-events-none"></div>
+    <div class="absolute w-48 h-48 bg-pink-600/5 rounded-full blur-[50px] bottom-1/4 pointer-events-none"></div>
+
+    <div class="w-full max-w-sm bg-gradient-to-b from-[#12122a] to-[#0c0c1e] border-2 border-purple-500/30 rounded-[2rem] p-8 text-center shadow-[0_20px_50px_rgba(0,0,0,0.5),_inset_0_1px_1px_rgba(255,255,255,0.1)] relative overflow-hidden min-h-[160px] flex flex-col justify-center items-center group">
+      <div class="absolute left-0 right-0 top-3 h-[1px] bg-gradient-to-r from-transparent via-purple-500/40 to-transparent"></div>
+      <div class="absolute left-0 right-0 bottom-3 h-[1px] bg-gradient-to-r from-transparent via-purple-500/40 to-transparent"></div>
+      
+      <div id="roulette-question-zone" class="w-full flex flex-col justify-center items-center transition-all duration-300">
+        </div>
+    </div>
+    
+    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-4">🎰 Slot machine will lock a question automatically</p>
+  </div>
+
+  <div class="p-6 bg-[#0c0c1e] border-t border-purple-500/10 rounded-t-[2.5rem] flex flex-col gap-3 w-full max-w-md mx-auto flex-none">
+    <div id="roulette-choices-zone" class="grid grid-cols-1 gap-3 w-full">
+      </div>
+    
+    <div id="roulette-feedback-banner" class="hidden p-4 rounded-2xl text-center font-black text-xs border transition-all duration-300"></div>
+  </div>
+</div>
+
+<div id="modal-all-missions" class="hidden fixed inset-0 z-[99998] flex flex-col justify-end" onclick="if(event.target===this)app.closeAllMissionsSheet()">
+  <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+  <div id="all-missions-content" class="relative bg-white dark:bg-[#1C1B1A] rounded-t-3xl p-5 pb-8 max-h-[60vh] overflow-y-auto translate-y-full transition-transform duration-300 ease-out shadow-2xl">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-sm font-extrabold text-slate-800 dark:text-white">Daftar Misi Hari Ini</h3>
+      <button onclick="app.closeAllMissionsSheet()" class="w-7 h-7 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:bg-rose-100 dark:hover:bg-rose-950/40 hover:text-rose-500 transition-colors active:scale-90">
+        <span class="material-symbols-outlined text-sm">close</span>
+      </button>
+    </div>
+
+    <div class="flex flex-col gap-2.5">
+
+      <div class="p-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl flex items-center justify-between gap-3">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-bold text-slate-700 dark:text-slate-200">Misi Kosakata</span>
+            <span class="text-[10px] font-bold text-emerald-500">+20 XP</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex-1 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden"><div id="v-mission-1-bar" class="bg-emerald-500 h-full transition-all" style="width: 0%"></div></div>
+            <span id="v-mission-1-text" class="text-[10px] font-bold text-slate-500 dark:text-slate-400 shrink-0">0/10</span>
+          </div>
+        </div>
+        <button onclick="app.closeAllMissionsSheet(); app.startDailyWordMission();" class="px-3 py-2 bg-[var(--hana-primary)] text-white font-bold text-[10px] rounded-xl active:scale-95 transition-all flex-none">BUKA</button>
+      </div>
+
+      <div class="p-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl flex items-center justify-between gap-3">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-bold text-slate-700 dark:text-slate-200">Tantangan Kilat</span>
+            <span class="text-[10px] font-bold text-amber-500">+15 XP</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex-1 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden"><div id="v-mission-2-bar" class="bg-amber-500 h-full transition-all" style="width: 0%"></div></div>
+            <span id="v-mission-2-text" class="text-[10px] font-bold text-slate-500 dark:text-slate-400 shrink-0">0/1</span>
+          </div>
+        </div>
+        <button onclick="app.closeAllMissionsSheet(); app.startDailyQuizMission();" class="px-3 py-2 bg-[var(--hana-primary)] text-white font-bold text-[10px] rounded-xl active:scale-95 transition-all flex-none">MULAI</button>
+      </div>
+
+      <div class="p-3 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-2xl flex items-center justify-between gap-3">
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-bold text-slate-700 dark:text-slate-200">Adrenaline Roulette</span>
+            <span class="text-[10px] font-bold text-indigo-500">+10 XP</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="flex-1 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden"><div id="v-mission-3-bar" class="bg-indigo-500 h-full transition-all" style="width: 0%"></div></div>
+            <span id="v-mission-3-text" class="text-[10px] font-bold text-slate-500 dark:text-slate-400 shrink-0">0/5</span>
+          </div>
+        </div>
+        <button onclick="app.closeAllMissionsSheet(); app.startDailyGameMission();" class="px-3 py-2 bg-[var(--hana-primary)] text-white font-bold text-[10px] rounded-xl active:scale-95 transition-all flex-none">MAINKAN</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div id="modal-mission-word" class="modal-overlay hidden z-[60]">
+  <div class="modal-box bg-white dark:bg-[#151C2C] border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white w-11/12 max-w-sm p-6 flex flex-col items-center relative rounded-3xl shadow-2xl">
+    
+    <button onclick="closeModal('modal-mission-word')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors">
+      <i data-lucide="x" class="w-5 h-5"></i>
+    </button>
+    
+    <h3 class="font-black text-lg mb-1 mt-2">Misi Kosakata</h3>
+    <p id="fc-counter" class="text-xs font-bold text-[#6C63FF] mb-6">1 / 10</p>
+    
+    <div id="flashcard-modal" class="w-full aspect-[4/3] max-w-[260px] mb-8 cursor-pointer relative" style="perspective: 1000px;" onclick="window.flashcardEngine.flip()">
+      <div class="w-full h-full relative transition-transform duration-500" style="transform-style: preserve-3d;" id="fc-inner">
+        
+        <div class="absolute inset-0 w-full h-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-3xl flex flex-col items-center justify-center shadow-lg" style="backface-visibility: hidden;">
+          <h2 id="fc-kr" class="text-4xl font-black text-slate-800 dark:text-white mb-3">단어</h2>
+          <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-full">Ketuk untuk melihat arti</p>
+        </div>
+        
+        <div class="absolute inset-0 w-full h-full bg-gradient-to-br from-[#6C63FF] to-[#5145E5] border-2 border-[#5145E5] rounded-3xl flex flex-col items-center justify-center shadow-lg text-white" style="backface-visibility: hidden; transform: rotateY(180deg);">
+          <h2 id="fc-id" class="text-2xl font-black mb-3 text-center px-4">Kosakata</h2>
+          <p class="text-[10px] font-bold text-indigo-200 uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full">Arti Bahasa Indonesia</p>
+          <div class="mt-4 w-full flex flex-col items-center gap-2 px-4">
+  <button onclick="window.flashcardEngine.toggleExample('modal', event)" id="btn-ex-modal" class="px-3 py-1.5 bg-white/10 text-indigo-200 border border-white/15 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all flex items-center gap-1.5 active:scale-95">
+    💡 Lihat Konteks Kalimat
+  </button>
+  <div id="box-ex-modal" class="hidden w-full p-3 bg-black/20 border border-dashed border-white/10 rounded-xl text-xs text-indigo-100 italic font-medium leading-relaxed text-center"></div>
+</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="flex justify-center gap-6 w-full max-w-[240px]">
+      <button onclick="window.flashcardEngine.forget()" class="w-14 h-14 rounded-full bg-white dark:bg-[#151c2c] border-2 border-rose-100 dark:border-rose-900/30 text-rose-500 shadow-lg flex items-center justify-center hover:bg-rose-50 hover:scale-110 active:scale-95 transition-all">
+        <i data-lucide="x" class="w-6 h-6 stroke-[3]"></i>
+      </button>
+      <button onclick="window.flashcardEngine.remember()" class="w-14 h-14 rounded-full bg-white dark:bg-[#151c2c] border-2 border-emerald-100 dark:border-emerald-900/30 text-emerald-500 shadow-lg flex items-center justify-center hover:bg-emerald-50 hover:scale-110 active:scale-95 transition-all">
+        <i data-lucide="check" class="w-6 h-6 stroke-[3]"></i>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<div id="modal-confirm-exit" class="fixed inset-0 z-[9999] hidden flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 transition-opacity">
+  <div class="bg-white dark:bg-slate-900 rounded-[24px] p-6 w-full max-w-xs shadow-2xl transform scale-100 flex flex-col items-center text-center border border-slate-200 dark:border-slate-800">
+    <div class="w-14 h-14 rounded-full bg-rose-100 dark:bg-rose-900/30 text-rose-500 flex items-center justify-center mb-4">
+      <i data-lucide="alert-triangle" class="w-7 h-7 stroke-[2.5]"></i>
+    </div>
+    <h3 id="confirm-exit-title" class="text-lg font-black text-slate-800 dark:text-white mb-2">Tinggalkan Game?</h3>
+    <p id="confirm-exit-desc" class="text-sm text-slate-500 dark:text-slate-400 mb-6 font-medium">Jika Anda keluar sekarang, progres game ini akan hilang dan XP batal ditambahkan.</p>
+    
+    <div class="flex w-full gap-3">
+      <button onclick="document.getElementById('modal-confirm-exit').classList.add('hidden')" class="flex-1 py-3.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold rounded-xl active:scale-95 transition-transform">
+        Batal
+      </button>
+      <button id="btn-confirm-exit" class="flex-1 py-3.5 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-xl active:scale-95 transition-transform shadow-md shadow-rose-500/25">
+        Ya, Keluar
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- ========================================================= -->
+<!-- VIEW: IMMERSIVE FULL-SCREEN AI TUTOR CHAT PANEL (FIXED)  -->
+<!-- ========================================================= -->
+<div id="view-ai-chat" class="hidden fixed inset-0 z-[99999] flex-col items-center bg-white dark:bg-background overflow-hidden">
+  <div class="w-full max-w-2xl h-full flex flex-col relative">
+
+    <!-- Stitch Top Navigation Header (light/dark dual) -->
+    <header class="fixed top-0 w-full max-w-2xl z-50 flex justify-between items-center px-container-padding py-unit h-16 backdrop-blur-xl bg-white/80 dark:bg-background/80 border-b border-slate-200 dark:border-outline-variant/20 shadow-lg flex-none">
+      <div class="flex items-center gap-sm">
+        <div class="relative w-10 h-10 rounded-full overflow-hidden border-2 border-[#c4c0ff]/30 bg-[#8781ff] flex items-center justify-center">
+          <img src="assets/hana_thinking.png" alt="Hana AI Mascot" class="w-full h-full object-cover">
+          <div class="absolute bottom-0 right-0 w-3 h-3 bg-[#ffb785] rounded-full border-2 border-white dark:border-[#051424]"></div>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-indigo-600 dark:text-[#c4c0ff]">HANA</h1>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <div id="chat-header-stats" class="flex items-center bg-indigo-50 dark:bg-[#c4c0ff]/10 px-3 py-1.5 rounded-full border border-indigo-200 dark:border-[#c4c0ff]/20">
+          <span id="chat-xp-text" class="text-[11px] font-black text-indigo-600 dark:text-[#c4c0ff] mr-2">0 XP</span>
+          <span class="material-symbols-outlined text-indigo-400 dark:text-[#c4c0ff] text-[18px]">workspace_premium</span>
+        </div>
+        <button onclick="document.getElementById('ai-history-drawer').classList.remove('translate-x-full')" class="w-8 h-8 flex items-center justify-center bg-slate-100 dark:bg-[#1c2b3c] text-slate-400 dark:text-[#918fa1] rounded-full hover:bg-indigo-500 hover:text-white transition-all active:scale-90">
+          <span class="material-symbols-outlined text-[18px]">history</span>
+        </button>
+        <button onclick="document.getElementById('view-ai-chat').classList.add('hidden'); document.getElementById('view-ai-chat').classList.remove('flex');" class="w-8 h-8 flex items-center justify-center bg-slate-100 dark:bg-[#1c2b3c] text-slate-400 dark:text-[#918fa1] rounded-full hover:bg-rose-500 hover:text-white transition-all active:scale-90">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- AI Typing Indicator (Hidden by default) -->
+    <div class="hidden flex items-start gap-2 px-4 pt-2" id="typing-indicator">
+      <div class="bg-slate-100 dark:bg-[#1c2b3c] border border-slate-200 dark:border-[#918fa1]/20 rounded-full px-4 py-2 flex gap-1 items-center">
+        <div class="w-1 h-1 bg-indigo-400 dark:bg-[#c4c0ff] rounded-full" style="animation: typing 1.4s infinite 0s"></div>
+        <div class="w-1 h-1 bg-indigo-400 dark:bg-[#c4c0ff] rounded-full" style="animation: typing 1.4s infinite 0.2s"></div>
+        <div class="w-1 h-1 bg-indigo-400 dark:bg-[#c4c0ff] rounded-full" style="animation: typing 1.4s infinite 0.4s"></div>
+      </div>
+    </div>
+
+    <!-- Chat Conversation Area -->
+    <div class="flex-grow overflow-y-auto custom-scrollbar space-y-6 max-w-2xl mx-auto w-full py-4 pt-16 pb-36 px-4" id="aiContent">
+    </div>
+
+    <!-- Stitch Floating Glass Input Dock (light/dark dual) -->
+    <div class="fixed bottom-0 w-full max-w-2xl px-4 pb-[calc(env(safe-area-inset-bottom)+8px)] pt-4 z-50">
+      <div class="relative">
+        <div class="bg-white/80 dark:bg-[rgba(18,33,49,0.8)] backdrop-blur-xl border border-slate-200 dark:border-[#918fa1]/20 rounded-full flex items-center p-2 pl-6 pr-2 shadow-2xl">
+          <input type="text" id="aiInput"
+            class="flex-grow bg-transparent border-none focus:ring-0 text-sm text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-[#918fa1] outline-none"
+            placeholder="Type in Korean or English...">
+          <div class="flex items-center gap-2">
+            <button class="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 dark:text-[#918fa1] hover:bg-slate-100 dark:hover:bg-[#122131] transition-colors">
+              <span class="material-symbols-outlined text-[20px]">mic</span>
+            </button>
+            <button id="sendAI" class="w-10 h-10 rounded-full bg-indigo-600 dark:bg-[#c4c0ff] text-white dark:text-[#100069] flex items-center justify-center shadow-md active:scale-90 transition-transform duration-150">
+              <span class="material-symbols-outlined text-[20px]" style="font-variation-settings:'FILL' 1">send</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- AI History Sliding Drawer (Stitch Glass) -->
+  <div id="ai-history-drawer" class="fixed inset-y-0 right-0 w-80 max-w-[85vw] bg-[radial-gradient(ellipse_at_top_right,rgba(79,68,226,0.12)_0%,_#122131_60%)] backdrop-blur-2xl border-l border-[#918fa1]/20 z-[100000] transform translate-x-full transition-transform duration-350 ease-out p-5 flex flex-col justify-start shadow-2xl">
+    <div class="flex items-center gap-3 pb-4 border-b border-indigo-500/20 mb-4 bg-gradient-to-r from-indigo-500/10 to-transparent -mx-5 px-5 pt-1">
+      <div class="w-8 h-8 rounded-full bg-[#4f44e2]/30 flex items-center justify-center text-[#c4c0ff] shrink-0">
+        <span class="material-symbols-outlined text-[18px]">smart_toy</span>
+      </div>
+      <div class="flex-1 min-w-0">
+        <h4 class="font-black text-sm text-white flex items-center gap-2">
+          Riwayat Bedah Soal
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        </h4>
+        <p class="text-[10px] text-[#918fa1] font-bold uppercase tracking-wider">Catatan Ujian Anda</p>
+      </div>
+      <button onclick="document.getElementById('ai-history-drawer').classList.add('translate-x-full')" class="w-7 h-7 flex items-center justify-center bg-[#4f44e2]/20 rounded-full text-xs font-bold text-[#c4c0ff] hover:bg-[#4f44e2]/40 transition-all">✕</button>
+    </div>
+    <div id="ai-history-list-stream" class="flex-grow overflow-y-auto space-y-3 custom-scrollbar text-left text-xs">
+    </div>
+  </div>
+
+</div>
+
+<div id="chat-context-menu" class="fixed hidden bg-white dark:bg-[#1C1B1A] border border-slate-200 dark:border-slate-700 p-1.5 rounded-2xl shadow-xl z-[100001] w-40 flex-col text-xs font-bold select-none text-slate-700 dark:text-slate-300">
+  <button id="ctx-copy" data-action="copy" class="w-full text-left px-3 py-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl flex items-center gap-2">📋 Salin Teks</button>
+  <button id="ctx-edit" data-action="edit" class="w-full text-left px-3 py-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl flex items-center gap-2 text-indigo-500">✏️ Edit Pesan</button>
+  <button id="ctx-delete" data-action="delete" class="w-full text-left px-3 py-2 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-xl flex items-center gap-2 text-rose-500 border-t border-slate-100 dark:border-slate-800/60 mt-1 pt-2">🗑️ Hapus Baris</button>
+</div>
+
+<!-- GHOST ANCHORS TO SATISFY OLD AI LIFE-CYCLE BINDINGS -->
+<div id="aiButton" class="hidden"></div>
+<div id="aiChatBox" class="hidden"></div>
+<button id="closeAI" class="hidden"></button>
+
+<div id="hanaTourOverlay" class="hana-elite-tour-mask" onclick="window.HanaTour.end()"></div>
+<div id="hanaTourTooltip" class="hana-elite-tour-tooltip hidden flex flex-col gap-3">
+  <div class="flex items-start gap-3 flex-nowrap text-left">
+    <img id="tourMascot" src="assets/hana_welcome.png" class="w-20 h-20 object-contain shrink-0 select-none pointer-events-none transform transition-all duration-300" />
+    
+    <div class="flex-grow min-w-0">
+      <h4 id="tourTitle" class="font-black text-[10px] uppercase tracking-widest text-[#6C63FF] dark:text-[#8B84FF]">Langkah Panduan</h4>
+      <p id="tourDesc" class="text-xs font-semibold text-slate-700 dark:text-slate-300 mt-1 leading-relaxed">Deskripsi panduan fitur...</p>
+    </div>
+  </div>
+  
+  <div class="flex items-center justify-between mt-1 border-t border-slate-100 dark:border-slate-800/60 pt-2.5 flex-none">
+    <span id="tourProgressText" class="text-[10px] font-bold text-slate-400">1/9</span>
+    <div class="flex gap-2">
+      <button onclick="window.HanaTour.end()" class="px-2.5 py-1 text-[10px] font-bold text-slate-400 hover:text-rose-500 transition-colors">Lewati</button>
+      <button id="tourNextBtn" onclick="window.HanaTour.next()" class="px-3.5 py-1.5 bg-[#6C63FF] text-white text-[10px] font-black rounded-lg uppercase tracking-wider shadow active:scale-95 transition-all flex items-center justify-center">Lanjut ➔</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 🎆 HANA TOUR GRAND FINALE CELEBRATION OVERLAY ═══ -->
+<div id="hanaTourCelebration" class="fixed inset-0 z-[1000005] flex items-center justify-center bg-slate-950/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-500 hidden">
+  <div id="hanaCelebrationCard" class="w-[310px] bg-white/90 dark:bg-slate-900/90 backdrop-blur-md rounded-[32px] border border-white dark:border-slate-800 p-6 text-center shadow-[0_25px_60px_-15px_rgba(0,0,0,0.3)] transform scale-75 opacity-0 transition-all duration-500 relative overflow-hidden">
+    
+    <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-40 h-40 bg-purple-500/10 dark:bg-purple-500/20 rounded-full filter blur-xl pointer-events-none"></div>
+    
+    <div class="flex justify-center mb-4 relative z-10">
+      <img src="assets/hana_sukses.png" alt="Hana Celebration" class="w-44 h-44 object-contain select-none pointer-events-none drop-shadow-md filter saturate-[1.1]" />
+    </div>
+    
+    <div class="relative z-10 px-2">
+      <h3 class="text-lg font-black tracking-tight text-slate-900 dark:text-white">Selamat Datang di HANA! 🚀</h3>
+      <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">Tur panduan aplikasi telah selesai. Mari raih nilai kelulusan EPS-TOPIK tertinggi bersama-sama!</p>
+    </div>
+    
+    <button onclick="window.HanaTour.closeCelebration()" class="w-full mt-5 py-3 bg-gradient-to-r from-[#6C63FF] to-[#8B84FF] text-white text-xs font-black rounded-2xl uppercase tracking-wider shadow-[0_4px_12px_rgba(108,99,255,0.3)] active:scale-95 transition-all relative z-10">
+      Mulai Petualangan ➔
+    </button>
+  </div>
+</div>
+
+<div id="screen-textbook" class="fixed inset-0 z-[99999] hidden flex-col bg-slate-50 dark:bg-[#0b0f19] select-none overflow-hidden transition-colors duration-300">
+  
+  <div id="textbook-floating-header" class="absolute top-0 left-0 right-0 px-5 pt-[calc(1.2rem+env(safe-area-inset-top))] pb-4 bg-white/95 dark:bg-[#1C1B1A]/95 backdrop-blur-md border-b border-slate-200/40 dark:border-slate-800/40 flex justify-between items-center shadow-sm z-50 transition-transform duration-300">
+    <div class="flex items-center gap-3">
+      <button onclick="app.closeTextbook()" class="w-9 h-9 rounded-full bg-slate-100 dark:bg-neutral-800 flex items-center justify-center text-slate-600 dark:text-slate-400 active:scale-90 transition-transform"><i data-lucide="arrow-left" class="w-4 h-4"></i></button>
+      <div>
+        <h2 id="textbook-dynamic-title" class="font-black text-sm text-slate-800 dark:text-white leading-tight">Materi Buku Panduan</h2>
+        <p class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider mt-0.5">Mode Gulir Vertikal Imersif</p>
+      </div>
+    </div>
+    <span class="text-[9px] font-black bg-indigo-100 dark:bg-indigo-950/40 text-[#6C63FF] dark:text-[#8C85FF] px-2.5 py-1 rounded-md tracking-wider uppercase border border-indigo-200/20 shadow-sm">Membaca</span>
+  </div>
+
+  <div id="textbook-scroll-container" class="w-full h-full overflow-y-auto px-4 pt-[calc(4.8rem+env(safe-area-inset-top))] pb-20 custom-scrollbar flex flex-col gap-4 scroll-smooth">
+  </div>
+</div>
+<!-- CHAPTER GRADUATION INFO (STITCH REDESIGN) -->
+<div id="chapter-info-modal" class="hidden fixed inset-0 z-[100] flex-col overflow-y-auto grad-info-bg font-['Plus_Jakarta_Sans']" style="display:none">
+  <!-- Ambient Glow -->
+  <div class="grad-ambient-glow"></div>
+
+  <!-- Header Navigation -->
+  <nav class="sticky top-0 z-50 bg-[var(--panel-bg)]/70 backdrop-blur-md px-4 py-3 flex items-center border-b border-[var(--hana-border)]">
+    <button onclick="document.getElementById('chapter-info-modal').style.display='none';document.getElementById('chapter-info-modal').classList.add('hidden');document.body.style.overflow=''" class="p-2.5 rounded-xl bg-[var(--card-bg)] border border-[var(--card-border)] active:scale-95 transition-transform flex items-center justify-center">
+      <svg fill="none" height="18" stroke="var(--text-secondary)" stroke-width="2.5" viewBox="0 0 24 24" width="18"><path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <h1 class="ml-3 text-[16px] font-bold text-[var(--text-primary)]">Sistem Kelulusan</h1>
+  </nav>
+
+  <main class="px-5 pb-40 relative z-10">
+    <!-- Hero Mascot Section -->
+    <section class="flex flex-col items-center pt-6 pb-8">
+      <div class="relative w-44 h-44 mb-4">
+        <div class="absolute inset-0 bg-[var(--hana-primary)]/5 rounded-full scale-90 blur-2xl"></div>
+        <div class="relative z-10 w-full h-full flex items-center justify-center">
+          <svg viewBox="0 0 100 100" fill="none" class="w-full h-full">
+            <circle cx="50" cy="40" r="28" fill="var(--hana-primary)" opacity="0.15"/>
+            <circle cx="50" cy="88" r="32" fill="var(--hana-primary)" opacity="0.08"/>
+            <path d="M30 35 Q50 15 70 35" stroke="var(--hana-primary)" stroke-width="2.5" fill="none" opacity="0.3"/>
+            <circle cx="42" cy="34" r="4" fill="var(--hana-primary)" opacity="0.4"/>
+            <circle cx="58" cy="34" r="4" fill="var(--hana-primary)" opacity="0.4"/>
+            <path d="M43 46 Q50 55 57 46" stroke="var(--hana-primary)" stroke-width="2" fill="none" opacity="0.25"/>
+          </svg>
+        </div>
+        <!-- Floating Star Badge -->
+        <div class="absolute bottom-4 right-0 z-20 bg-white dark:bg-[var(--card-bg)] p-2 rounded-2xl shadow-lg border border-[var(--hana-border)] animate-bounce">
+          <svg fill="var(--hana-primary)" height="20" viewBox="0 0 256 256" width="20"><path d="M234.29,114.85l-45,38.83L203,211.75a16,16,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16,16,0,0,1,53,211.75l13.75-58.07L21.71,114.85a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a16,16,0,0,1,29,0l23.21,55.36,59.46,5.15a16,16,0,0,1,9.11,28.06Z"/></svg>
+        </div>
+      </div>
+      <div class="text-center">
+        <h2 class="text-[22px] font-extrabold text-[var(--text-primary)] tracking-tight leading-tight">Aturan Main Belajar</h2>
+        <p class="text-[13px] text-[var(--text-secondary)] mt-1.5 max-w-[280px] leading-relaxed">Biar belajarmu makin asik dan terukur, yuk pahami sistem kelulusan di HANA!</p>
+      </div>
+    </section>
+
+    <!-- Content Cards -->
+    <div class="space-y-4">
+      <!-- Unlock Rule Card -->
+      <section class="glass-card-refined rounded-[28px] p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 rounded-2xl bg-[var(--hana-primary)]/10 flex items-center justify-center">
+            <svg fill="none" height="20" stroke="var(--hana-primary)" stroke-width="2" viewBox="0 0 24 24" width="20"><rect height="11" rx="2" ry="2" width="18" x="3" y="11"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          </div>
+          <h3 class="font-bold text-[15px] text-[var(--text-primary)]">Cara Buka Gembok Bab</h3>
+        </div>
+        <div class="bg-[var(--hana-primary)]/[0.03] rounded-2xl p-4 border border-[var(--hana-primary)]/5">
+          <p class="text-[var(--text-primary)] leading-relaxed text-[14px] font-medium">
+            Selesaikan kuis <span class="text-[var(--hana-primary)] font-bold">Level 1 (Beginner)</span> pada bab aktif dengan skor minimal <span class="text-emerald-500 font-bold">80% (Meraih 2 Bintang)</span>. Gembok bab berikutnya akan terbuka otomatis!
+          </p>
+        </div>
+      </section>
+
+      <!-- Stars Conversion Card -->
+      <section class="glass-card-refined rounded-[28px] p-6">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-10 h-10 rounded-2xl bg-[var(--hana-primary)]/10 flex items-center justify-center">
+            <svg fill="none" height="20" stroke="var(--hana-primary)" stroke-width="2" viewBox="0 0 24 24" width="20"><circle cx="12" cy="12" r="10"/><line x1="8" x2="16" y1="12" y2="12"/></svg>
+          </div>
+          <h3 class="font-bold text-[15px] text-[var(--text-primary)]">Konversi Nilai Bintang</h3>
+        </div>
+        <div class="space-y-3">
+          <!-- 1 Star -->
+          <div class="flex items-center justify-between p-3.5 rounded-2xl bg-white dark:bg-[var(--card-bg)] border border-[var(--hana-border)] shadow-sm">
+            <div>
+              <span class="text-[13px] font-bold text-orange-400">1 Bintang</span>
+              <span class="text-[11px] font-semibold text-[var(--text-muted)] ml-2">Akurasi 60% - 79%</span>
+            </div>
+            <span class="text-[12px] font-bold text-[var(--text-secondary)] bg-[var(--hana-canvas)] px-3 py-1 rounded-full">Rookie</span>
+          </div>
+          <!-- 2 Stars -->
+          <div class="flex items-center justify-between p-3.5 rounded-2xl bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800/30 shadow-sm">
+            <div>
+              <span class="text-[13px] font-bold text-emerald-500">2 Bintang</span>
+              <span class="text-[11px] font-semibold text-emerald-600/60 dark:text-emerald-400/60 ml-2">Akurasi 80% - 95%</span>
+            </div>
+            <div class="flex items-center gap-1 bg-white/80 dark:bg-[var(--card-bg)]/80 px-3 py-1 rounded-full border border-emerald-100 dark:border-emerald-800/30">
+              <span class="text-[12px] font-extrabold text-emerald-600 dark:text-emerald-400">LULUS</span>
+              <svg fill="#10B981" height="14" viewBox="0 0 256 256" width="14"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm45.66,85.66-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32Z"/></svg>
+            </div>
+          </div>
+          <!-- 3 Stars -->
+          <div class="flex items-center justify-between p-3.5 rounded-2xl bg-amber-50/50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-800/30 shadow-sm">
+            <div>
+              <span class="text-[13px] font-bold text-amber-500">3 Bintang</span>
+              <span class="text-[11px] font-semibold text-amber-600/60 dark:text-amber-400/60 ml-2">Akurasi 96% - 100%</span>
+            </div>
+            <span class="text-[12px] master-shine tracking-wide">MASTER</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Hana Tip -->
+      <div class="bg-[var(--hana-primary)]/5 rounded-[20px] p-4 border-l-[5px] border-[var(--hana-primary)] flex gap-3">
+        <div class="shrink-0 text-[var(--hana-primary)] mt-0.5">
+          <svg fill="none" height="18" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" width="18"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="16" y2="12"/><line x1="12" x2="12.01" y1="8" y2="8"/></svg>
+        </div>
+        <div>
+          <span class="font-bold text-[var(--hana-primary)] block text-[13px] mb-0.5">Hana Tip:</span>
+          <p class="text-[12px] text-[var(--text-secondary)] leading-relaxed">Menu "Baca Materi" (Textbook resmi) selalu terbuka bebas tanpa mengikuti sistem gembok kuis ini. Belajar dulu, baru tes kemampuannya!</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Action Bar -->
+  <footer class="fixed bottom-0 left-0 right-0 p-5 bg-[var(--panel-bg)]/90 backdrop-blur-xl border-t border-[var(--hana-border)] z-50">
+    <div class="max-w-md mx-auto">
+      <button onclick="document.getElementById('chapter-info-modal').style.display='none';document.getElementById('chapter-info-modal').classList.add('hidden');document.body.style.overflow=''" class="w-full py-4 premium-gradient-btn rounded-2xl text-white font-bold text-sm transition-all active:scale-[0.97]">
+        Saya Mengerti
+      </button>
+    </div>
+  </footer>
+</div>
+
+  <script>
+    document.querySelectorAll('.squishy').forEach(el => {
+      el.addEventListener('mousedown', () => { el.style.transform = 'scale(0.96)'; });
+      el.addEventListener('mouseup', () => { el.style.transform = ''; });
+      el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+    });
+
+    let lastScroll = 0;
+    const bottomNav = document.querySelector('nav.fixed');
+    if (bottomNav) {
+      window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        if (currentScroll > lastScroll && currentScroll > 100) {
+          bottomNav.classList.add('opacity-40', 'translate-y-4');
+        } else {
+          bottomNav.classList.remove('opacity-40', 'translate-y-4');
+        }
+        lastScroll = currentScroll;
+      });
+    }
+
+  </script>
+
+<!-- ============================================================== -->
+<!-- BOTTOM-SHEET AI TUTOR (SETENGAH LAYAR) — Groq + Speech-to-Text -->
+<!-- ============================================================== -->
+<div id="ai-bottom-sheet" class="fixed inset-0 z-[100] hidden transition-opacity duration-300">
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="app.tutupAiSheet()"></div>
+  <!-- Sheet Panel -->
+  <div class="absolute bottom-0 left-0 right-0 max-h-[65vh] bg-[#051424] dark:bg-[#051424] bg-white border-t border-slate-700 dark:border-slate-700 rounded-t-3xl p-5 flex flex-col shadow-2xl transform translate-y-full transition-transform duration-300" id="sheet-content">
+    <!-- Handle Bar -->
+    <div class="w-12 h-1.5 bg-slate-600 rounded-full mx-auto mb-3 cursor-pointer" onclick="app.tutupAiSheet()"></div>
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-3">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center">
+          <span class="material-symbols-outlined text-primary text-[18px] animate-pulse">psychology</span>
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-white font-['Plus_Jakarta_Sans']">Tanya Hana AI</h3>
+          <p class="text-[10px] text-slate-400 font-medium" id="ai-sheet-context-label">Kata: <span id="ai-sheet-badge-word" class="text-indigo-300 font-bold">—</span></p>
+        </div>
+      </div>
+      <button onclick="app.tutupAiSheet()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors active:scale-90">
+        <span class="material-symbols-outlined text-lg">close</span>
+      </button>
+    </div>
+    <!-- Chat Area -->
+    <div id="ai-sheet-chat-container" class="flex-grow overflow-y-auto space-y-3 custom-scrollbar text-sm text-slate-300 pb-3 pr-1"></div>
+    <!-- Input Dock -->
+    <div class="flex items-center gap-2 bg-[#122131] p-1.5 rounded-full border border-slate-700/80 mt-auto">
+      <input type="text" id="ai-sheet-input" placeholder="Tanya Hana tentang kata ini..." class="flex-grow bg-transparent border-none focus:ring-0 text-white text-sm px-4 placeholder:text-slate-500 outline-none" onkeydown="if(event.key==='Enter'){event.preventDefault();app.sendAiSheetMessage()}">
+      <button id="ai-sheet-mic-btn" onclick="app.startAiSheetVoice()" class="w-9 h-9 rounded-full flex items-center justify-center bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors active:scale-90">
+        <span class="material-symbols-outlined text-lg" id="ai-sheet-mic-icon">mic</span>
+      </button>
+      <button onclick="app.sendAiSheetMessage()" class="w-9 h-9 rounded-full bg-indigo-600 text-white flex items-center justify-center shadow-md active:scale-90 transition-transform hover:bg-indigo-500">
+        <span class="material-symbols-outlined text-lg" style="font-variation-settings:'FILL' 1">send</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- SCENARIO PICKER BOTTOM SHEET (Stitch Redesign) -->
+<div id="scenario-picker-sheet" class="hidden fixed inset-0 z-[99998] flex flex-col justify-end" onclick="if(event.target===this)app.conversationEngine.closeScenarioPicker()">
+  <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+  <div id="scenario-picker-content" class="relative glass-panel rounded-t-[24px] sm:rounded-[24px] overflow-hidden flex flex-col max-h-[70vh] translate-y-full transition-transform duration-300 ease-out">
+    <!-- Decorative Mascot -->
+    <div class="absolute -top-10 -right-4 w-28 h-28 hana-mascot-container opacity-20 pointer-events-none">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+        <circle cx="50" cy="40" r="25" fill="var(--hana-primary)" opacity="0.3"/>
+        <circle cx="50" cy="85" r="30" fill="var(--hana-primary)" opacity="0.15"/>
+        <path d="M35 35 Q50 20 65 35" stroke="var(--hana-primary)" stroke-width="2" fill="none" opacity="0.4"/>
+        <circle cx="42" cy="36" r="3" fill="var(--hana-primary)" opacity="0.5"/>
+        <circle cx="58" cy="36" r="3" fill="var(--hana-primary)" opacity="0.5"/>
+      </svg>
+    </div>
+    <!-- Header -->
+    <div class="p-6 pb-3 flex justify-between items-center relative z-10">
+      <div class="space-y-1">
+        <h3 class="text-base font-extrabold text-[var(--text-primary)] tracking-tight">Pilih Skenario Percakapan</h3>
+        <p class="text-[11px] font-medium text-[var(--text-secondary)]">Asah kemampuan komunikasimu hari ini</p>
+      </div>
+      <button onclick="app.conversationEngine.closeScenarioPicker()" class="w-9 h-9 rounded-full bg-[var(--card-bg)] flex items-center justify-center text-[var(--text-muted)] hover:bg-rose-100 dark:hover:bg-rose-950/40 hover:text-rose-500 transition-colors active:scale-90 shrink-0">
+        <span class="material-symbols-outlined text-lg">close</span>
+      </button>
+    </div>
+    <!-- Scenario List -->
+    <div id="scenario-picker-list" class="p-6 pt-2 space-y-3 overflow-y-auto relative z-10"></div>
+  </div>
+</div>
+
+<!-- CHAPTER PICKER BOTTOM SHEET -->
+<div id="chapter-picker-sheet" class="hidden fixed inset-0 z-[99998] flex flex-col justify-end" onclick="if(event.target===this)window.flashcardEngine.closeChapterPicker()">
+  <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+  <div id="chapter-picker-content" class="relative bg-white dark:bg-[#1C1B1A] rounded-t-3xl p-6 max-h-[70vh] overflow-y-auto translate-y-full transition-transform duration-300 ease-out">
+    <div class="flex items-center justify-between mb-5">
+      <h3 class="text-lg font-extrabold text-slate-800 dark:text-white">Pilih Bab</h3>
+      <button onclick="window.flashcardEngine.closeChapterPicker()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-rose-100 dark:hover:bg-rose-950/40 hover:text-rose-500 transition-colors active:scale-90">
+        <span class="material-symbols-outlined text-sm">close</span>
+      </button>
+    </div>
+    <div id="chapter-picker-grid" class="grid grid-cols-4 gap-3"></div>
+  </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- LATIHAN PERCAKAPAN (CONVERSATION PRACTICE) — STITCH REDESIGN -->
+<!-- ============================================================== -->
+<div id="screen-conversation" class="hidden min-h-screen bg-[var(--hana-canvas)] conv-gradient-bg flex flex-col font-['Plus_Jakarta_Sans'] relative">
+  <!-- Immersive Background Overlay -->
+  <div class="absolute inset-0 conv-immersive-overlay"></div>
+
+  <!-- Sticky Header with Continuous Progress Bar -->
+  <header class="sticky top-0 z-50 w-full flex flex-col">
+    <!-- Continuous Progress Bar (Duolingo-style) -->
+    <div class="w-full h-[3px] bg-[var(--hana-border)]/60">
+      <div id="conv-progress-bar" class="h-full conv-progress-fill transition-all duration-500 ease-out" style="width: 0%"></div>
+    </div>
+    <div class="max-w-xl mx-auto w-full px-4 pt-1">
+      <div class="flex items-center justify-between bg-[var(--panel-bg)]/80 backdrop-blur-xl rounded-full px-3 py-1.5 shadow-sm border border-[var(--hana-border)]">
+        <div class="flex items-center gap-2 min-w-0">
+          <button onclick="app.switchScreen('dashboard-screen', { showNav: true })" class="w-8 h-8 rounded-full bg-[var(--card-bg)] border border-[var(--card-border)] flex items-center justify-center text-[var(--text-secondary)] active:scale-90 transition-transform shrink-0">
+            <span class="material-symbols-outlined text-[16px]">chevron_left</span>
+          </button>
+          <div class="min-w-0">
+            <h2 class="text-[10px] font-extrabold text-[var(--hana-primary)] truncate leading-tight tracking-tight">Latihan Percakapan</h2>
+            <p id="conv-subtitle" class="text-[9px] font-medium text-[var(--text-secondary)] truncate leading-tight">Memuat Skenario...</p>
+          </div>
+        </div>
+        <div id="conv-hearts-container" class="flex items-center gap-0.5 bg-[var(--card-bg)] border border-[var(--card-border)] px-2.5 py-1 rounded-full shrink-0"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Chat Arena Box -->
+  <div id="conversation-chat-log" class="flex-1 px-4 pt-6 pb-4 overflow-y-auto space-y-6 max-w-xl mx-auto w-full flex flex-col justify-end custom-scrollbar relative z-10"></div>
+
+  <!-- Input Area (Stitch-style rounded-top section) -->
+  <footer class="sticky bottom-0 z-40 w-full relative z-10">
+    <div class="conv-footer-glass rounded-t-[32px] px-4 pt-5 pb-5 max-w-xl mx-auto w-full space-y-4">
+      <!-- Answer Preview Area -->
+      <div class="relative min-h-[56px] w-full bg-white/50 dark:bg-white/5 rounded-2xl border-2 border-dashed border-[var(--hana-primary)]/20 p-3 flex flex-wrap items-center gap-1.5 pr-10">
+        <div id="conversation-answer-preview" class="flex flex-wrap gap-1.5 text-sm font-medium text-[var(--text-primary)]"></div>
+        <button onclick="app.conversationEngine.resetSelection()" class="absolute right-2 top-2 w-7 h-7 rounded-full flex items-center justify-center text-[var(--text-muted)] hover:bg-[var(--card-bg)] hover:text-[var(--hana-primary)] transition-colors active:scale-90" title="Reset Jawaban">
+          <span class="material-symbols-outlined text-[16px]">undo</span>
+        </button>
+      </div>
+
+      <!-- Word Chips -->
+      <div id="conversation-word-pool" class="flex flex-wrap justify-center gap-2.5 min-h-[80px]"></div>
+
+      <!-- Submit Button -->
+      <button onclick="app.conversationEngine.checkAnswer()" class="w-full h-[48px] text-white font-extrabold text-xs uppercase tracking-widest rounded-2xl active:scale-[0.97] transition-all flex items-center justify-center gap-2.5 shadow-xl" style="background:linear-gradient(135deg,var(--hana-primary),#8B84FF);box-shadow:0 4px 20px rgba(108,99,255,0.35)">
+        <svg class="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        Periksa Jawaban
+      </button>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>

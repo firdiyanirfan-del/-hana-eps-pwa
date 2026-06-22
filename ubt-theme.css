@@ -1,0 +1,72 @@
+/* ==========================================================================
+   💻 OFFICIAL HRD KOREA UBT SIMULATOR OVERRIDE SYSTEM (PREMIUM RETRO)
+   ========================================================================== */
+body.mode-jalur #quiz-screen,
+body.mode-jalur #quiz-screen[style] { 
+  background-color: #050505 !important; 
+  background-image: none !important; 
+}
+body.mode-jalur #quiz-screen [class*="bg-[var(--card-bg)]"] { 
+  background-color: #0a0a0a !important; 
+  border-color: #1e293b !important; 
+}
+body.mode-jalur #quiz-screen [class*="text-[var(--text-main)]"],
+body.mode-jalur #quiz-screen [class*="text-[var(--text-primary)]"] { 
+  color: #e2e8f0 !important; 
+}
+body.mode-jalur #quiz-screen [class*="text-[var(--text-muted)]"] { 
+  color: #94a3b8 !important; 
+}
+body.mode-jalur #q-timer { 
+  color: #06b6d4 !important; 
+  font-family: monospace !important; 
+}
+body.mode-jalur #q-badge { 
+  background-color: transparent !important; 
+  border: 1px solid #06b6d4 !important; 
+  color: #06b6d4 !important; 
+}
+body.mode-jalur #q-progress { 
+  background-color: #06b6d4 !important; 
+  box-shadow: 0 0 10px rgba(6,182,212,0.5) !important; 
+}
+body.mode-jalur #q-text { 
+  border-left: 2px solid #06b6d4 !important; 
+  padding-left: 1rem !important; 
+}
+body.mode-jalur #quiz-options button { 
+  background-color: transparent !important; 
+  border: 1px solid #1e293b !important; 
+  color: #cbd5e1 !important; 
+  border-radius: 8px !important; 
+}
+body.mode-jalur #quiz-options button:hover { 
+  background-color: #0f172a !important; 
+  border-color: #334155 !important; 
+}
+body.mode-jalur #quiz-options button.selected { 
+  border-color: #3b82f6 !important; 
+  background-color: rgba(59, 130, 246, 0.1) !important; 
+  color: #60a5fa !important; 
+}
+body.mode-jalur #quiz-options button.correct { 
+  border-color: #10b981 !important; 
+  background-color: rgba(16, 185, 129, 0.1) !important; 
+  color: #34d399 !important; 
+}
+body.mode-jalur #quiz-options button.wrong { 
+  border-color: #ef4444 !important; 
+  background-color: rgba(239, 68, 68, 0.1) !important; 
+  color: #f87171 !important; 
+}
+body.mode-jalur #q-audio-box,
+body.mode-jalur #q-feedback { 
+  background-color: #0f172a !important; 
+  border-color: #1e293b !important; 
+  color: #cbd5e1 !important; 
+}
+body.mode-jalur #btn-next { 
+  background-color: rgba(6, 182, 212, 0.1) !important; 
+  border: 1px solid rgba(6,182,212,0.4) !important; 
+  color: #06b6d4 !important; 
+}

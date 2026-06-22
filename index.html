@@ -75,6 +75,7 @@
   <link rel="preload" as="image" href="assets/background 3d new.png">
   <link rel="preload" as="image" href="assets/background 3d malam.png">
   <style>
+    html, body { overscroll-behavior: none; }
     .material-symbols-outlined {
       font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
       vertical-align: middle;
@@ -2600,5 +2601,11 @@
   </footer>
 </div>
 
+<script>
+document.addEventListener('touchmove', function(e) {
+  if (e.target.closest('.custom-scrollbar, .overflow-y-auto, .overflow-auto, .overflow-x-auto')) return;
+  e.preventDefault();
+}, { passive: false });
+</script>
 </body>
 </html>

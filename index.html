@@ -2602,6 +2602,10 @@
 </div>
 
 <script>
+document.addEventListener('touchstart', function(e) {
+  var x = e.touches[0].clientX;
+  if (x < 20 || x > window.innerWidth - 20) e.preventDefault();
+}, { passive: false });
 document.addEventListener('touchmove', function(e) {
   if (e.target.closest('.custom-scrollbar, .overflow-y-auto, .overflow-auto, .overflow-x-auto')) return;
   e.preventDefault();

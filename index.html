@@ -413,11 +413,11 @@
             <span id="quizModeBadge" onclick="app.toggleQuizMode()" class="px-3 py-1 bg-white/20 dark:bg-white/10 backdrop-blur-md border border-white/30 dark:border-white/20 rounded-full text-[10px] font-bold text-white tracking-wide uppercase shadow-sm transition-all duration-200 active:scale-95 flex items-center gap-1 cursor-pointer select-none">⏱️ Mode Ujian</span>
           </div>
           <h2 id="hero-chapter-title" class="text-white font-headline-lg-mobile leading-tight px-4 font-bold">Lanjutkan Belajar Bab Standard</h2>
-          <p class="text-white/80 text-sm font-medium">Progress Hari Ini: <span id="hero-progress-value" class="text-white font-bold">65% Selesai</span></p>
+          <p id="hero-subtitle" class="text-white/80 text-sm font-medium"></p>
         </div>
         <button onclick="app.showChapterScreen()" class="mt-6 squishy flex items-center gap-2 bg-[#6C63FF] dark:bg-white text-white dark:text-[#1b0091] px-8 py-3.5 rounded-2xl font-extrabold shadow-xl shadow-[#6C63FF]/20 dark:shadow-white/10 hover:shadow-[#6C63FF]/30 dark:hover:shadow-white/20 transition-all">
-          LANJUT BELAJAR
-          <span class="material-symbols-outlined text-xl">bolt</span>
+          <span id="hero-cta-text">LANJUT BELAJAR</span>
+          <span id="hero-cta-icon" class="material-symbols-outlined text-xl">bolt</span>
         </button>
       </div>
     </div>

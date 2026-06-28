@@ -89,8 +89,10 @@ const app = {
   updateHeroSection() {
     const badge = document.getElementById('hero-chapter-badge');
     const title = document.getElementById('hero-chapter-title');
-    const progress = document.getElementById('hero-progress-value');
-    if (!badge || !title || !progress) return;
+    const subtitle = document.getElementById('hero-subtitle');
+    const ctaText = document.getElementById('hero-cta-text');
+    const ctaIcon = document.getElementById('hero-cta-icon');
+    if (!badge || !title || !subtitle || !ctaText || !ctaIcon) return;
 
     const cp = this.data.chapterProgress || {};
     const total = 55;
@@ -103,10 +105,58 @@ const app = {
     }
     const pct = Math.round((completed / total) * 100);
     const next = completed > 0 ? Math.min(highestUnlocked + 1, 60) : 6;
+    const xp = this.data.xp || 0;
+    const streak = this.data.streak || 0;
+    const examDate = this.data.examDate;
+    const dailyStats = this.data.dailyStats || {};
+    const today = new Date().toISOString().split('T')[0];
+    const daysLeft = examDate ? Math.ceil((new Date(examDate) - new Date()) / (1000 * 60 * 60 * 24)) : Infinity;
 
-    badge.textContent = `CHAPTER ${String(next).padStart(2, '0')} • STANDARD`;
-    title.textContent = `Lanjutkan Belajar Bab ${next}`;
-    progress.textContent = `${pct}% Selesai`;
+    let badgeText, titleText, subText, cta, icon;
+
+    if (xp === 0) {
+      badgeText = 'SELAMAT DATANG';
+      titleText = 'Mulai Perjalanan Belajar';
+      subText = 'Siap taklukkan EPS-TOPIK?';
+      cta = 'MULAI BELAJAR';
+      icon = 'rocket_launch';
+    } else if (completed >= 10) {
+      badgeText = `\u{1F3C6} MASTER`;
+      titleText = `${completed} Bab Ditaklukkan!`;
+      subText = `Kamu sudah menguasai ${pct}% dari seluruh materi`;
+      cta = 'LANJUTKAN';
+      icon = 'emoji_events';
+    } else if (daysLeft <= 30) {
+      badgeText = `\u{1F3AF} D-${daysLeft} UJIAN`;
+      titleText = 'Fokus Latihan Soal Intensif!';
+      subText = `${pct}% progress — Kejar target!`;
+      cta = 'LANJUTKAN';
+      icon = 'target';
+    } else if (streak >= 3) {
+      badgeText = `\u{1F525} STREAK ${streak} HARI`;
+      titleText = 'Hebat! Jangan Putus Streak-mu!';
+      subText = `Hari ke-${streak} — Pertahankan!`;
+      cta = 'LANJUTKAN';
+      icon = 'local_fire_department';
+    } else if (dailyStats.date === today && (dailyStats.quizzes || 0) > 0) {
+      badgeText = '\u{2705} HARI INI';
+      titleText = `Bab ${next} Selesai!`;
+      subText = `Progress ${pct}% — Besok lagi!`;
+      cta = 'LANJUTKAN';
+      icon = 'check_circle';
+    } else {
+      badgeText = '\u{1F3AF} AYO MULAI';
+      titleText = 'Siap Latihan Hari Ini?';
+      subText = `${pct}% progress — Ayo kejar!`;
+      cta = 'LANJUTKAN';
+      icon = 'bolt';
+    }
+
+    badge.textContent = badgeText;
+    title.textContent = titleText;
+    subtitle.textContent = subText;
+    ctaText.textContent = cta;
+    ctaIcon.textContent = icon;
   },
   openTextbook() {
     const ch = this.state.currentChapter || 6;

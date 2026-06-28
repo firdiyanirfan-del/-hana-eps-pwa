@@ -27,10 +27,11 @@ async function ensureDb() {
 router.get('/google', (req, res) => {
   const client = getGoogleClient();
   const state = req.query.state || '';
+  console.log('OAuth /google — redirect_uri:', process.env.GOOGLE_REDIRECT_URI);
   const url = client.generateAuthUrl({
     access_type: 'offline',
     scope: ['profile', 'email'],
-    prompt: 'consent',
+    prompt: 'select_account consent',
     state
   });
   res.redirect(url);
@@ -79,7 +80,9 @@ router.get('/google/callback', async (req, res) => {
     const redirectPath = state ? `/${state}` : '';
     res.redirect(`${process.env.FRONTEND_URL}${redirectPath}?token=${token}`);
   } catch (err) {
-    console.error('OAuth error:', err);
+    console.error('OAuth callback error:', err.message);
+    console.error('  FRONTEND_URL:', process.env.FRONTEND_URL);
+    console.error('  GOOGLE_REDIRECT_URI:', process.env.GOOGLE_REDIRECT_URI);
     const state = req.query.state || '';
     const redirectPath = state ? `/${state}` : '';
     res.redirect(`${process.env.FRONTEND_URL}${redirectPath}?error=oauth_failed`);

@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
       return res.status(500).json({ error: 'AI API key not configured' });
     }
 
-    const model = clientModel === 'llama-3.1-8b-instant' ? 'llama3.1-8b' : (clientModel || 'llama3.1-8b');
+    const model = clientModel || 'gpt-oss-120b';
 
     const response = await fetch('https://api.cerebras.ai/v1/chat/completions', {
       method: 'POST',

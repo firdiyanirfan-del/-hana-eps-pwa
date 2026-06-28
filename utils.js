@@ -263,11 +263,16 @@ const Sound = {
 };
 
 const Levels = [
-  { threshold: 0, name: "Hangul Rookie 🐣" },
-  { threshold: 100, name: "Hangul Explorer 🔍" },
-  { threshold: 300, name: "Korea Survivor ⛺" },
-  { threshold: 600, name: "EPS Scholar 🎓" },
-  { threshold: 1000, name: "TOPIK Master 👑" }
+  { threshold: 0,    name: "EPS Pemula" },
+  { threshold: 100,  name: "Pembaca Hangul" },
+  { threshold: 250,  name: "Kolektor Kosakata" },
+  { threshold: 450,  name: "Penguasa Tata Bahasa" },
+  { threshold: 700,  name: "Petarung Kuis" },
+  { threshold: 1000, name: "Pendengar Aktif" },
+  { threshold: 1400, name: "Siap EPS" },
+  { threshold: 1900, name: "Penantang TOPIK" },
+  { threshold: 2500, name: "Sarjana Bahasa" },
+  { threshold: 3500, name: "Legenda HANA" }
 ];
 
 // =========================================================================

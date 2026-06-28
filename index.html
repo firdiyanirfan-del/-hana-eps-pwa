@@ -372,28 +372,28 @@
   <div id="dashboard-screen" class="screen-enter flex flex-col h-[100dvh] md:h-[800px] w-full overflow-hidden relative transition-colors duration-300 bg-gradient-to-b from-[#6C63FF] to-[#F8FAFC] dark:from-[#1b0091] dark:to-[#06060E] text-slate-800 dark:text-white antialiased overflow-x-hidden">
   
   <!-- Top Nav / Profile -->
-  <nav class="flex-none sticky top-0 z-[60] w-full px-5 pt-[calc(1.2rem+env(safe-area-inset-top))] pb-3 flex justify-between items-center premium-blur bg-white/20 dark:bg-[#06060E]/30 shadow-sm">
-    <div class="flex items-center gap-3 cursor-pointer" onclick="app.openProfile()">
-      <div class="relative group">
-        <div class="absolute -inset-0.5 bg-[#6C63FF] dark:bg-[#c4c0ff] rounded-full opacity-40 group-hover:opacity-60 transition duration-300"></div>
-        <img id="nav-avatar-img" alt="User" class="relative w-10 h-10 rounded-full border-2 border-white dark:border-[#151C2C] shadow-sm object-cover" src="assets/hana_thinking.png"/>
-        <div class="absolute -bottom-0.5 -right-0.5 bg-[#6C63FF] dark:bg-[#c4c0ff] text-white dark:text-[#1b0091] text-[9px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white dark:border-[#151C2C]">12</div>
-      </div>
-      <div>
-        <p class="font-label-caps text-[9px] text-slate-500 dark:text-[#94A3B8] font-semibold tracking-wider leading-none mb-1">WELCOME BACK</p>
-        <h1 class="font-plus-jakarta font-bold text-lg text-slate-800 dark:text-white leading-none"><span id="ui-user-name">Pelajar</span></h1>
-      </div>
-    </div>
-    <div class="flex items-center gap-3">
-      <div class="flex flex-col items-end">
-        <div class="flex items-center gap-1.5 bg-white dark:bg-[#151C2C] px-2.5 py-1 rounded-full shadow-sm border border-slate-200 dark:border-[#2E3A59]">
-          <span class="text-xs">🔥</span>
-          <span class="text-xs font-bold text-slate-800 dark:text-white"><span id="ui-user-xp">0 XP</span></span>
+  <nav id="main-nav" class="flex-none sticky top-0 z-[60] w-full px-5 pt-[calc(1.2rem+env(safe-area-inset-top))] pb-3 nav-glass">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3 cursor-pointer min-w-0" onclick="app.openProfile()">
+        <div class="relative shrink-0">
+          <div class="absolute -inset-0.5 bg-gradient-to-br from-[var(--hana-primary)] to-purple-500 dark:from-[#8B84FF] dark:to-purple-400 rounded-full opacity-50 blur-sm"></div>
+          <img id="nav-avatar-img" alt="User" class="relative w-10 h-10 rounded-full border-2 border-white/80 dark:border-white/20 shadow-sm object-cover" src="assets/hana_thinking.png"/>
         </div>
-        <div class="flex items-center gap-1 mt-1" onclick="app.promptExamDate()" style="cursor:pointer">
-          <span class="material-symbols-outlined text-[12px] text-white dark:text-[#c4c0ff]">event</span>
-          <span id="exam-countdown-text" class="text-[9px] font-bold text-white dark:text-[#c4c0ff] uppercase tracking-tight">D-45 EXAM</span>
+        <div class="flex flex-col min-w-0">
+          <h1 class="font-bold text-[15px] text-white dark:text-white leading-tight truncate"><span id="ui-user-name">Pelajar</span></h1>
+          <span id="nav-user-level" class="text-[10px] font-semibold text-white/65 dark:text-white/65 truncate">EPS Pemula</span>
+          <div class="h-1 rounded-full bg-white/20 dark:bg-white/10 mt-1.5 max-w-[120px] overflow-hidden">
+            <div id="nav-xp-bar" class="h-full rounded-full bg-gradient-to-r from-[var(--hana-primary)] to-[#8B84FF] transition-all duration-500" style="width:0%"></div>
+          </div>
         </div>
+      </div>
+      <div class="flex flex-col items-end gap-0.5 shrink-0">
+        <div class="flex items-center gap-1 bg-white/15 dark:bg-white/10 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20 dark:border-white/10">
+          <span class="text-[10px]">🔥</span>
+          <span id="nav-xp-text" class="text-[11px] font-bold text-white dark:text-white whitespace-nowrap">0 XP</span>
+        </div>
+        <span id="nav-streak-text" class="text-[9px] font-semibold text-white/55 dark:text-white/55 whitespace-nowrap">🔥 Streak 0</span>
+        <span id="exam-countdown-text" class="text-[8px] font-bold text-white/45 dark:text-white/45 uppercase tracking-tight cursor-pointer hover:text-white/70 transition-colors whitespace-nowrap" onclick="app.promptExamDate()">📅 Atur Ujian</span>
       </div>
     </div>
   </nav>

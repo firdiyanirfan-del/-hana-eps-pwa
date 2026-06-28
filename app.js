@@ -446,7 +446,11 @@ const app = {
   renderDashboard() {
     let curLvl = Levels[0], nxt = Levels[1];
     for (let i = 0; i < Levels.length; i++) if (this.data.xp >= Levels[i].threshold) { curLvl = Levels[i]; nxt = Levels[i + 1] || Levels[i]; }
-    
+    const xp = this.data.xp || 0;
+    const xpInLevel = xp - curLvl.threshold;
+    const xpToNext = nxt.threshold - curLvl.threshold;
+    const progressPct = xpToNext > 0 ? Math.min(100, Math.round((xpInLevel / xpToNext) * 100)) : 100;
+
     // Tembak nama user
     const userNameEl = document.getElementById('ui-user-name');
     if (userNameEl) userNameEl.innerText = this.data.userName || 'Pelajar';
@@ -454,11 +458,18 @@ const app = {
     if (profileNameEl) profileNameEl.innerText = this.data.userName || 'Pelajar';
     this._renderAvatar();
     
-    // Tembak nilai XP murni ke halaman depan bawah nama
-    const xpEl = document.getElementById('ui-user-xp');
-    if(xpEl) xpEl.innerText = `🔥 ${this.data.xp} XP`;
+    // Nav: level, XP, streak, progress bar
+    const levelEl = document.getElementById('nav-user-level');
+    if (levelEl) levelEl.innerText = curLvl.name;
+    const xpBar = document.getElementById('nav-xp-bar');
+    if (xpBar) xpBar.style.width = `${progressPct}%`;
+    const navXp = document.getElementById('nav-xp-text');
+    if (navXp) navXp.innerText = `${xp.toLocaleString()} XP`;
+    const streakEl = document.getElementById('nav-streak-text');
+    if (streakEl) streakEl.innerText = `🔥 Streak ${this.data.streak || 0}`;
+
     const profileXpEl = document.getElementById('profile-user-xp');
-    if(profileXpEl) profileXpEl.innerText = `${this.data.xp} XP`;
+    if(profileXpEl) profileXpEl.innerText = `${xp} XP`;
 
     // ENGINE KALENDER UJIAN ATAS BARU: RAMPING & AESTETIC (D-DAY FORMAT)
     const examCountdown = document.getElementById('exam-countdown-text');

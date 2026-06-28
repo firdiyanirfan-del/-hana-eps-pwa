@@ -1300,6 +1300,18 @@ const app = {
         examEl.innerHTML = '<span class="material-symbols-outlined text-[14px] text-[var(--text-secondary)]">calendar_today</span> Atur Tanggal';
       }
     }
+
+    // Tampilkan/sembunyikan section Akun berdasarkan login
+    const accSection = document.getElementById('settings-account-section');
+    const accEmail = document.getElementById('settings-account-email');
+    if (accSection && accEmail) {
+      if (this.data.userEmail) {
+        accSection.classList.remove('hidden');
+        accEmail.textContent = this.data.userEmail;
+      } else {
+        accSection.classList.add('hidden');
+      }
+    }
   },
 
   closeSettings(callback) {

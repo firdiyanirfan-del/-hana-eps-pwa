@@ -1808,7 +1808,62 @@
         </button>
       </div>
 
-      <!-- 5. DANGER ZONE (Stitch) -->
+      <!-- 5. LEGAL -->
+      <div class="bg-[var(--card-bg)] rounded-[24px] border border-[var(--card-border)] overflow-hidden shadow-sm">
+        <div class="px-5 pt-4 pb-1">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)]">gavel</span>
+            <p class="text-[9px] text-[var(--text-secondary)] uppercase font-black tracking-widest">Legal</p>
+          </div>
+        </div>
+        <a href="privacy.html" target="_blank" class="flex items-center justify-between px-5 py-3.5 cursor-pointer hover:bg-[var(--hana-primary)]/5 transition-colors group">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950/30 text-indigo-500 flex items-center justify-center">
+              <span class="material-symbols-outlined text-[18px]">description</span>
+            </div>
+            <h4 class="font-bold text-xs text-[var(--text-primary)]">Kebijakan Privasi</h4>
+          </div>
+          <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)] group-hover:translate-x-0.5 transition-transform">open_in_new</span>
+        </a>
+        <div class="h-[1px] bg-[var(--card-border)] mx-5"></div>
+        <a href="terms.html" target="_blank" class="w-full flex items-center justify-between px-5 py-3.5 cursor-pointer hover:bg-[var(--hana-primary)]/5 rounded-b-[24px] transition-colors group">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950/30 text-indigo-500 flex items-center justify-center">
+              <span class="material-symbols-outlined text-[18px]">contract</span>
+            </div>
+            <h4 class="font-bold text-xs text-[var(--text-primary)]">Syarat &amp; Ketentuan</h4>
+          </div>
+          <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)] group-hover:translate-x-0.5 transition-transform">open_in_new</span>
+        </a>
+      </div>
+
+      <!-- 6. AKUN -->
+      <div id="settings-account-section" class="bg-[var(--card-bg)] rounded-[24px] border border-[var(--card-border)] overflow-hidden shadow-sm hidden">
+        <div class="px-5 pt-4 pb-1">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)]">person</span>
+            <p class="text-[9px] text-[var(--text-secondary)] uppercase font-black tracking-widest">Akun</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 px-5 py-3">
+          <div class="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 flex items-center justify-center">
+            <span class="material-symbols-outlined text-[18px]">mail</span>
+          </div>
+          <span id="settings-account-email" class="font-bold text-xs text-[var(--text-primary)]"></span>
+        </div>
+        <div class="h-[1px] bg-[var(--card-border)] mx-5"></div>
+        <button onclick="app.closeSettings(); app.logout();" class="w-full flex items-center justify-between px-5 py-3.5 cursor-pointer hover:bg-[var(--hana-primary)]/5 rounded-b-[24px] transition-colors group text-left">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-red-50 dark:bg-red-950/30 text-red-500 flex items-center justify-center">
+              <span class="material-symbols-outlined text-[18px]">logout</span>
+            </div>
+            <h4 class="font-bold text-xs text-[var(--text-primary)]">Keluar</h4>
+          </div>
+          <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)] group-hover:translate-x-0.5 transition-transform">chevron_right</span>
+        </button>
+      </div>
+
+      <!-- 7. DANGER ZONE -->
       <div class="pt-4 pb-2 border-t border-[var(--hana-danger)]/20">
         <div class="flex items-center gap-2 px-1 mb-3">
           <span class="material-symbols-outlined text-[14px] text-[var(--hana-danger)]">warning</span>
@@ -1826,8 +1881,42 @@
         </button>
       </div>
 
-      <!-- 6. FOOTER -->
-      <div class="text-center py-3 select-none">
+      <!-- 8. TENTANG -->
+      <div class="bg-[var(--card-bg)] rounded-[24px] border border-[var(--card-border)] overflow-hidden shadow-sm">
+        <div class="px-5 pt-4 pb-1">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)]">info</span>
+            <p class="text-[9px] text-[var(--text-secondary)] uppercase font-black tracking-widest">Tentang</p>
+          </div>
+        </div>
+        <button onclick="if (navigator.share) { navigator.share({ url: 'https://hana-eps-pwa.onrender.com' }); }" class="w-full flex items-center justify-between px-5 py-3.5 cursor-pointer hover:bg-[var(--hana-primary)]/5 transition-colors group text-left">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 text-emerald-500 flex items-center justify-center">
+              <span class="material-symbols-outlined text-[18px]">share</span>
+            </div>
+            <div>
+              <h4 class="font-bold text-xs text-[var(--text-primary)]">Bagikan Aplikasi</h4>
+              <p class="text-[10px] text-[var(--text-muted)] font-medium">Rekomendasikan ke teman</p>
+            </div>
+          </div>
+          <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)] group-hover:translate-x-0.5 transition-transform">chevron_right</span>
+        </button>
+        <div class="h-[1px] bg-[var(--card-border)] mx-5"></div>
+        <button onclick="if (navigator.share) { navigator.share({ title: 'EPS-TOPIK Hana', text: 'Ayo belajar bahasa Korea untuk EPS-TOPIK!', url: 'https://hana-eps-pwa.onrender.com' }); }" class="w-full flex items-center justify-between px-5 py-3.5 cursor-pointer hover:bg-[var(--hana-primary)]/5 rounded-b-[24px] transition-colors group text-left">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-amber-50 dark:bg-amber-950/30 text-amber-500 flex items-center justify-center">
+              <span class="material-symbols-outlined text-[18px]">star</span>
+            </div>
+            <div>
+              <h4 class="font-bold text-xs text-[var(--text-primary)]">Nilai Aplikasi</h4>
+              <p class="text-[10px] text-[var(--text-muted)] font-medium">Berikan rating &amp; ulasan</p>
+            </div>
+          </div>
+          <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)] group-hover:translate-x-0.5 transition-transform">chevron_right</span>
+        </button>
+      </div>
+
+      <div class="text-center py-4 select-none">
         <p class="text-[9px] text-[var(--text-muted)] font-bold uppercase tracking-widest">HANA v1.0.4</p>
         <p class="text-[10px] text-[var(--text-muted)] font-medium mt-1">Dibuat dengan ❤️ untuk Pembelajar</p>
       </div>

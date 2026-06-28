@@ -43,13 +43,13 @@ router.get('/users', adminMiddleware, async (req, res) => {
     if (search) {
       const s = `%${search}%`;
       users = await all(
-        'SELECT u.id, u.email, u.name, u.avatar, u.created_at, p.xp, p.streak FROM users u LEFT JOIN progress p ON u.id = p.user_id WHERE u.name ILIKE $1 OR u.email ILIKE $1 ORDER BY u.created_at DESC LIMIT $2 OFFSET $3',
+        'SELECT u.id, u.email, u.name, u.avatar, u.is_premium, u.created_at, p.xp, p.streak FROM users u LEFT JOIN progress p ON u.id = p.user_id WHERE u.name ILIKE $1 OR u.email ILIKE $1 ORDER BY u.created_at DESC LIMIT $2 OFFSET $3',
         [s, limit, offset]
       );
       total = await get('SELECT COUNT(*)::int as count FROM users WHERE name ILIKE $1 OR email ILIKE $1', [s]);
     } else {
       users = await all(
-        'SELECT u.id, u.email, u.name, u.avatar, u.created_at, p.xp, p.streak FROM users u LEFT JOIN progress p ON u.id = p.user_id ORDER BY u.created_at DESC LIMIT $1 OFFSET $2',
+        'SELECT u.id, u.email, u.name, u.avatar, u.is_premium, u.created_at, p.xp, p.streak FROM users u LEFT JOIN progress p ON u.id = p.user_id ORDER BY u.created_at DESC LIMIT $1 OFFSET $2',
         [limit, offset]
       );
       total = await get('SELECT COUNT(*)::int as count FROM users');
@@ -64,6 +64,20 @@ router.get('/users', adminMiddleware, async (req, res) => {
   } catch (err) {
     console.error('Admin users error:', err);
     res.status(500).json({ error: 'Failed to load users' });
+  }
+});
+
+router.put('/users/:id/premium', adminMiddleware, async (req, res) => {
+  try {
+    await ensureDb();
+    const user = await get('SELECT is_premium FROM users WHERE id = $1', [req.params.id]);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    const newStatus = !user.is_premium;
+    await run('UPDATE users SET is_premium = $1 WHERE id = $2', [newStatus, req.params.id]);
+    res.json({ success: true, is_premium: newStatus });
+  } catch (err) {
+    console.error('Admin toggle premium error:', err);
+    res.status(500).json({ error: 'Failed to toggle premium' });
   }
 });
 

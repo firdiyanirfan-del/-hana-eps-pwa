@@ -1692,7 +1692,7 @@ body:not(.mode-jalur) #dashboard-screen {
    7. Modal Help — Stitch Redesign (mesh-bg, glass-card, premium-gradient)
    ========================================================================== */
 
-#modal-help .mesh-bg {
+#modal-help.mesh-bg {
   background-color: var(--hana-canvas);
   background-image: 
     radial-gradient(at 0% 0%, rgba(92, 84, 232, 0.12) 0px, transparent 50%),
@@ -1701,7 +1701,7 @@ body:not(.mode-jalur) #dashboard-screen {
     radial-gradient(at 0% 100%, rgba(92, 84, 232, 0.06) 0px, transparent 50%);
   background-attachment: fixed;
 }
-.dark #modal-help .mesh-bg {
+.dark #modal-help.mesh-bg {
   background-image: 
     radial-gradient(at 0% 0%, rgba(139, 132, 255, 0.15) 0px, transparent 50%),
     radial-gradient(at 100% 0%, rgba(139, 132, 255, 0.1) 0px, transparent 50%),

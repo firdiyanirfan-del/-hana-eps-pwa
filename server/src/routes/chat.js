@@ -4,21 +4,23 @@ const router = Router();
 
 router.post('/', async (req, res) => {
   try {
-    const { messages, model = 'llama-3.1-8b-instant', temperature = 0.7, max_tokens = 2048 } = req.body;
+    const { messages, model: clientModel, temperature = 0.7, max_tokens = 2048 } = req.body;
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return res.status(400).json({ error: 'Messages array required' });
     }
 
-    const groqKey = process.env.GROQ_KEY;
-    if (!groqKey) {
-      return res.status(500).json({ error: 'Groq API key not configured' });
+    const apiKey = process.env.CEREBRAS_KEY;
+    if (!apiKey) {
+      return res.status(500).json({ error: 'AI API key not configured' });
     }
 
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    const model = clientModel === 'llama-3.1-8b-instant' ? 'llama3.1-8b' : (clientModel || 'llama3.1-8b');
+
+    const response = await fetch('https://api.cerebras.ai/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${groqKey}`,
+        'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -32,7 +34,7 @@ router.post('/', async (req, res) => {
 
     if (!response.ok) {
       const err = await response.text();
-      console.error('Groq API error:', response.status, err);
+      console.error('Cerebras API error:', response.status, err);
       return res.status(response.status).json({ error: 'AI service unavailable' });
     }
 

@@ -60,7 +60,7 @@ process.on('unhandledRejection', (reason) => {
 app.listen(PORT, () => {
   console.log(`🚀 EPS-TOPIK Hana Backend running on http://localhost:${PORT}`);
   console.log(`   Health: http://localhost:${PORT}/api/health`);
-  console.log(`   Groq Proxy: POST http://localhost:${PORT}/api/chat`);
+  console.log(`   AI Chat: POST http://localhost:${PORT}/api/chat`);
   console.log(`   Auth: http://localhost:${PORT}/api/auth/google`);
   console.log(`   Sync: GET/PUT http://localhost:${PORT}/api/sync`);
   console.log(`   Feedback: POST http://localhost:${PORT}/api/feedback`);

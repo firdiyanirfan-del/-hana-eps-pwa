@@ -1630,7 +1630,7 @@ const app = {
     }, 300);
   },
 
-  async groqFetch(messages, timeout = 25000, model = 'llama-3.1-8b-instant') {
+  async groqFetch(messages, timeout = 25000, model = 'llama3.1-8b') {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), timeout);
     try {

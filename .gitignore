@@ -13,3 +13,17 @@ flashcard eps.png
 .vscode/
 .idea/
 *.swp
+
+# API keys (jangan commit!)
+config.js
+.env
+
+# Database
+data.db
+*.sqlite
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log

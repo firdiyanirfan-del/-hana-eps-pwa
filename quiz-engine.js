@@ -630,7 +630,7 @@ Object.assign(app, {
       });
     }
     if (this.state.mode === 'chapter') this.evaluateChapterQuiz(true);
-    this.checkAchievements(); app.loadAndRefreshUI(); Storage.set(this.data);
+    this.checkAchievements(); app.loadAndRefreshUI(); Storage.set(this.data); if (app.syncToServer) app.syncToServer();
   },
 
   retryQuiz() {

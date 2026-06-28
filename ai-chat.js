@@ -1,10 +1,8 @@
 // ============================================================
-// AI CHAT CORE (MENGGUNAKAN GROQ API - SUPER CEPAT & GRATIS)
+// AI CHAT CORE (via backend proxy — GROQ KEY AMAN DI SERVER)
 // ============================================================
-const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
-
-// 👇 API KEY GROQ — GANTI DENGAN .env ATAU BACKEND UNTUK PRODUKSI 👇
-const GROQ_KEY = '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';
+const GROQ_URL = '/api/chat';
+const GROQ_KEY = 'server';
 
 const aiChat = {
   _history: [],

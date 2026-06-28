@@ -345,6 +345,19 @@
 
 <body class="min-h-screen p-0 md:p-6 overflow-x-hidden flex flex-col items-center">
 
+<!-- Loading overlay for Render cold start -->
+<div id="hana-loading-overlay" class="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#0c1424] dark:bg-[#0c1424] transition-opacity duration-500" style="opacity:1">
+  <div class="flex flex-col items-center gap-6">
+    <img src="assets/hana_studying.png" alt="Hana" class="w-24 h-24 animate-hana-bounce" />
+    <div class="flex gap-1.5">
+      <span class="w-2.5 h-2.5 bg-[#6C63FF] rounded-full animate-hana-dot" style="animation-delay:0s"></span>
+      <span class="w-2.5 h-2.5 bg-[#6C63FF] rounded-full animate-hana-dot" style="animation-delay:0.2s"></span>
+      <span class="w-2.5 h-2.5 bg-[#6C63FF] rounded-full animate-hana-dot" style="animation-delay:0.4s"></span>
+    </div>
+    <p id="hana-loading-quote" class="text-white/70 text-sm font-light italic max-w-xs text-center leading-relaxed px-4">Memuat...</p>
+  </div>
+</div>
+
 <div id="toastEl" class="fixed top-6 left-1/2 -translate-x-1/2 z-[99999] px-4 py-3 rounded-[20px] text-xs font-black uppercase tracking-wider text-white transition-all duration-300 opacity-0 pointer-events-none shadow-[0_12px_32px_rgba(108,99,255,0.35)] flex items-center gap-2 border border-white/10" style="background:linear-gradient(135deg, #6C63FF 0%, #8B84FF 100%); min-width:180px; justify-content:center; transform: translateX(-50%) translateY(-15px);">
   <span id="toastIcon">✨</span>
   <span id="toastMsg">Notifikasi</span>
@@ -1293,7 +1306,9 @@
 
   <script src="https://unpkg.com/hangul-js" type="text/javascript"></script>
 
-  <script src="data.js"></script>
+  <script src="data-beginner.js"></script>
+  <script src="data-normal.js"></script>
+  <script src="data-pro.js"></script>
   <script src="vocab-bank.js"></script>
   <script src="utils.js"></script>
   <script src="ai-chat.js"></script>
@@ -1304,6 +1319,13 @@
   <script src="story-mode.js"></script>
   <script src="quiz-engine.js"></script>
   <script src="analytics.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js');
+      });
+    }
+  </script>
   <div id="quiz-path-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm hidden animate-fade-in">
     <div class="relative w-full max-w-md overflow-hidden rounded-3xl bg-white dark:bg-[#151C2C] border border-slate-200 dark:border-[#2E3A59] p-6 shadow-2xl transition-all">
       
@@ -2601,6 +2623,61 @@
   </footer>
 </div>
 
+<script>
+// Loading screen: hide on health check pass, show animation if server cold
+(function() {
+  var overlay = document.getElementById('hana-loading-overlay');
+  if (!overlay) return;
+  var quoteEl = document.getElementById('hana-loading-quote');
+  var quotes = [
+    'Sedikit sabar, hasil maksimal',
+    'Hana sedang menyiapkan soal terbaik',
+    'Belajar Korea itu investasi masa depan',
+    'Setiap detik berharga untuk pengalaman terbaik',
+    'Hampir siap, lanjutkan semangatmu!',
+    'Menyusun materi belajar khusus untukmu'
+  ];
+  var quoteIdx = 0;
+
+  function rotateQuote() {
+    if (quoteEl) {
+      quoteEl.style.opacity = 0;
+      setTimeout(function() {
+        quoteEl.textContent = quotes[quoteIdx % quotes.length];
+        quoteIdx++;
+        quoteEl.style.opacity = 1;
+        quoteEl.style.transition = 'opacity 0.4s';
+      }, 400);
+    }
+  }
+
+  var quoteTimer = setInterval(rotateQuote, 4000);
+  rotateQuote();
+
+  var attempts = 0;
+
+  function checkHealth() {
+    attempts++;
+    fetch('/api/health', { method: 'GET', cache: 'no-store' })
+      .then(function(r) {
+        if (r.ok) {
+          clearInterval(quoteTimer);
+          overlay.style.opacity = 0;
+          setTimeout(function() { overlay.classList.add('hidden'); }, 500);
+        } else if (attempts < 30) {
+          setTimeout(checkHealth, 2000);
+        }
+      })
+      .catch(function() {
+        if (attempts < 30) {
+          setTimeout(checkHealth, 2000);
+        }
+      });
+  }
+
+  if (overlay) checkHealth();
+})();
+</script>
 <script>
 document.addEventListener('touchstart', function(e) {
   var x = e.touches[0].clientX;

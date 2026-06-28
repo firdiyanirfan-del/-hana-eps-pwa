@@ -2763,3 +2763,31 @@ html[class*="dark"] button.btn-option.selected-answer:not(.correct):not(.wrong):
     transform: scale(0.9);
 }
 
+/* Loading screen animations */
+@keyframes hana-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-16px); }
+}
+
+@keyframes hana-dot {
+  0%, 80%, 100% { opacity: 0.3; transform: scale(0.7); }
+  40% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes hana-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-hana-bounce {
+  animation: hana-bounce 1.6s ease-in-out infinite;
+}
+
+.animate-hana-dot {
+  animation: hana-dot 1.4s ease-in-out infinite;
+}
+
+.animate-hana-fade-in {
+  animation: hana-fade-in 0.5s ease-out forwards;
+}
+

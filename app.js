@@ -4,6 +4,88 @@
 const app = {
   data: null,
   // 🟢 KODE BARU DIMASUKKAN DI SINI (SANGAT AMAN)
+
+  // === Backend sync & auth ===
+  _backendUrl: window.location.origin,
+  _token: localStorage.getItem('eps_token'),
+
+  async syncFromServer() {
+    if (!this._token) return;
+    try {
+      const res = await fetch(`${this._backendUrl}/api/sync`, {
+        headers: { 'Authorization': `Bearer ${this._token}` }
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.progress) {
+        this.data.xp = data.progress.xp || 0;
+        this.data.streak = data.progress.streak || 0;
+        this.data.badges = data.progress.badges || {};
+        this.data.quizHistory = data.progress.quizHistory || [];
+        this.data.lifetimeStats = data.progress.lifetimeStats || {};
+        this.data.dailyStats = data.progress.dailyStats || {};
+        this.data.wrongAnswers = (data.wrongAnswers || []).map(w => ({
+          id: w.questionId, level: w.level, type: w.type
+        }));
+        if (data.settings) {
+          if (data.settings.fontFamily) this.data.fontFamily = data.settings.fontFamily;
+          if (data.settings.fontSize) this.data.fontSize = data.settings.fontSize;
+          if (data.settings.examDate) this.data.examDate = data.settings.examDate;
+          this.data.bookmarks = data.settings.bookmarks || [];
+          this.data.streakDates = data.settings.streakDates || [];
+        }
+        Storage.set(this.data);
+      }
+    } catch (e) {
+      console.warn('Sync from server failed:', e);
+    }
+  },
+
+  async syncToServer() {
+    if (!this._token) return;
+    try {
+      await fetch(`${this._backendUrl}/api/sync`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${this._token}` },
+        body: JSON.stringify({
+          progress: {
+            xp: this.data.xp || 0,
+            streak: this.data.streak || 0,
+            lastLogin: this.data.lastLogin || '',
+            badges: this.data.badges || {},
+            quizHistory: this.data.quizHistory || [],
+            dailyStats: this.data.dailyStats || {},
+            lifetimeStats: this.data.lifetimeStats || {}
+          },
+          wrongAnswers: (this.data.wrongAnswers || []).map(w => ({
+            questionId: w.id, level: w.level, type: w.type, count: 1
+          })),
+          settings: {
+            fontFamily: this.data.fontFamily || '',
+            fontSize: this.data.fontSize || 16,
+            examDate: this.data.examDate || '',
+            bookmarks: this.data.bookmarks || [],
+            streakDates: this.data.streakDates || []
+          }
+        })
+      });
+    } catch (e) {
+      console.warn('Sync to server failed:', e);
+    }
+  },
+
+  loginWithGoogle() {
+    window.location.href = `${this._backendUrl}/api/auth/google`;
+  },
+
+  logout() {
+    this._token = null;
+    localStorage.removeItem('eps_token');
+    this.data.userEmail = '';
+    Storage.set(this.data);
+    this.renderDashboard();
+  },
+
   updateHeroSection() {
     const badge = document.getElementById('hero-chapter-badge');
     const title = document.getElementById('hero-chapter-title');
@@ -225,6 +307,22 @@ const app = {
     
     // --- SESSION RECOVERY ENGINE ---
     this.recoverSession();
+
+    // --- AUTH CALLBACK ---
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    if (token) {
+      this._token = token;
+      localStorage.setItem('eps_token', token);
+      window.history.replaceState({}, document.title, window.location.pathname);
+      this.data.userEmail = 'synced';
+      Storage.set(this.data);
+      this.syncFromServer().then(() => {
+        this.renderDashboard();
+      });
+    } else if (this._token) {
+      this.syncFromServer();
+    }
 
     if (!localStorage.getItem('epsWelcomeToastShown')) {
       setTimeout(() => {
@@ -773,15 +871,7 @@ const app = {
     }
   },
   promptAuth() {
-    const email = prompt('Masukkan email Anda untuk sinkronisasi cloud dummy:', this.data.userEmail || '');
-    if (email !== null) {
-      this.data.userEmail = email.trim();
-      Storage.set(this.data);
-      this.renderDashboard();
-      if (email.trim() !== '') {
-        alert('Berhasil terhubung ke cloud (Dummy)!');
-      }
-    }
+    this.loginWithGoogle();
   },
   promptExamDate() {
     // Open the modern date picker modal instead of browser prompt
@@ -1019,13 +1109,15 @@ const app = {
       };
 
       try {
-        const res = await fetch('https://formsubmit.co/ajax/1tumbal21@gmail.com', {
+        const headers = { 'Content-Type': 'application/json' };
+        if (this._token) headers['Authorization'] = `Bearer ${this._token}`;
+        const res = await fetch('/api/feedback', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify(payload)
+          headers,
+          body: JSON.stringify({ type: this.feedbackCategory, message: msg })
         });
         if (res.ok) {
-          alert('Sukses! Laporan Anda telah berhasil terkirim langsung ke database email developer.');
+          alert('Sukses! Laporan Anda telah terkirim.');
           document.getElementById('feedback-message').value = '';
           document.getElementById('screen-feedback').classList.add('hidden');
         } else {
@@ -1200,11 +1292,10 @@ const app = {
 
     const logoutBtn = document.getElementById('profile-logout-btn');
     if (logoutBtn) {
-      if (this.data.userEmail) {
+      if (this._token) {
         logoutBtn.innerHTML = '<span class="material-symbols-outlined">logout</span> Logout';
         logoutBtn.onclick = () => {
-          this.data.userEmail = '';
-          Storage.set(this.data);
+          this.logout();
           this.renderDashboard();
           this.openProfile();
         };
@@ -1538,15 +1629,12 @@ const app = {
   },
 
   async groqFetch(messages, timeout = 25000, model = 'llama-3.1-8b-instant') {
-    if (!GROQ_KEY || GROQ_KEY === '') {
-      throw new Error('API Key Groq belum diatur.');
-    }
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), timeout);
     try {
       const resp = await fetch(GROQ_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_KEY}` },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ model, messages }),
         signal: controller.signal
       });

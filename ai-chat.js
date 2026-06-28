@@ -17,7 +17,7 @@ const aiChat = {
     if (existing) existing.remove();
     const overlay = document.createElement('div');
     overlay.id = 'modal-login-required';
-    overlay.className = 'fixed inset-0 z-[99998] flex items-center justify-center bg-black/60 backdrop-blur-sm px-6';
+    overlay.className = 'fixed inset-0 z-[100000] flex items-center justify-center bg-black/60 backdrop-blur-sm px-6';
     overlay.innerHTML =
       `<div class="bg-white dark:bg-[#1C1B1A] rounded-3xl p-8 max-w-sm w-full shadow-2xl border border-[#E4E2DE] dark:border-[#2E2C2A] animate-float-in">
         <div class="flex flex-col items-center text-center gap-4">
@@ -44,7 +44,7 @@ const aiChat = {
     const percent = Math.round((used / maxTokens) * 100);
     const overlay = document.createElement('div');
     overlay.id = 'modal-limit-reached';
-    overlay.className = 'fixed inset-0 z-[99998] flex items-center justify-center bg-black/60 backdrop-blur-sm px-6';
+    overlay.className = 'fixed inset-0 z-[100000] flex items-center justify-center bg-black/60 backdrop-blur-sm px-6';
     overlay.innerHTML =
       `<div class="bg-white dark:bg-[#1C1B1A] rounded-3xl p-8 max-w-sm w-full shadow-2xl border border-[#E4E2DE] dark:border-[#2E2C2A] animate-float-in">
         <div class="flex flex-col items-center text-center gap-4">

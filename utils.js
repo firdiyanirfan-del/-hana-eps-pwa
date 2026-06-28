@@ -335,6 +335,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // === 🔍 SEARCH FILTER FOR HELP MODAL ===
+  const helpSearch = document.getElementById('help-search-input');
+  if (helpSearch) {
+    helpSearch.addEventListener('input', function() {
+      const q = this.value.toLowerCase().trim();
+      const cards = document.querySelectorAll('#modal-help .help-feature-card');
+      const sections = document.querySelectorAll('#modal-help section');
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.style.display = !q || text.includes(q) ? 'flex' : 'none';
+      });
+      sections.forEach(section => {
+        const visibleCards = section.querySelectorAll('.help-feature-card[style*="display: flex"], .help-feature-card:not([style*="display"])');
+        section.style.display = visibleCards.length > 0 ? 'block' : 'none';
+      });
+    });
+  }
+
 });
 
 // ============================================================

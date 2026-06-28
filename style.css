@@ -1689,6 +1689,80 @@ body:not(.mode-jalur) #dashboard-screen {
 }
 
 /* ==========================================================================
+   7. Modal Help — Stitch Redesign (mesh-bg, glass-card, premium-gradient)
+   ========================================================================== */
+
+#modal-help .mesh-bg {
+  background-color: var(--hana-canvas);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(92, 84, 232, 0.12) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(92, 84, 232, 0.08) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(92, 84, 232, 0.06) 0px, transparent 50%);
+  background-attachment: fixed;
+}
+.dark #modal-help .mesh-bg {
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(139, 132, 255, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(139, 132, 255, 0.1) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(52, 211, 153, 0.08) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(139, 132, 255, 0.08) 0px, transparent 50%);
+}
+
+#modal-help .micro-grid {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.035) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.dark #modal-help .micro-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+}
+
+#modal-help .glass-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 0.5px solid var(--hana-border);
+  border-radius: 1rem;
+}
+.dark #modal-help .glass-card {
+  background: rgba(28, 27, 26, 0.8);
+  border-color: var(--hana-border);
+}
+
+#modal-help .premium-gradient {
+  background: linear-gradient(93deg, var(--hana-primary) 0%, #6f22e4 100%);
+  box-shadow: 0 8px 24px rgba(92, 84, 232, 0.3);
+}
+.dark #modal-help .premium-gradient {
+  box-shadow: 0 8px 24px rgba(139, 132, 255, 0.2);
+}
+
+#modal-help .active-scale:active {
+  transform: scale(0.96);
+  transition: transform 0.1s ease;
+}
+
+#modal-help .custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+#modal-help .custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+#modal-help .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--hana-border);
+  border-radius: 99px;
+}
+
+@keyframes modalHelpSlideUp {
+  from { transform: translateY(24px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+#modal-help .animate-entry {
+  animation: modalHelpSlideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+/* ==========================================================================
    🛡️ HANA DESIGN SYSTEM V1.0 - DARK MODE & ISOLATION SYSTEM ENGINE PATCH
    ========================================================================== */
 

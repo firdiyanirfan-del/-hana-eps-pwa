@@ -34,6 +34,7 @@ const app = {
           this.data.bookmarks = data.settings.bookmarks || [];
           this.data.streakDates = data.settings.streakDates || [];
         }
+        this.data.isPremium = data.isPremium || false;
         Storage.set(this.data);
       }
     } catch (e) {
@@ -1707,13 +1708,25 @@ const app = {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), timeout);
     try {
+      const headers = { 'Content-Type': 'application/json' };
+      if (this._token) headers['Authorization'] = `Bearer ${this._token}`;
       const resp = await fetch(GROQ_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({ model, messages }),
         signal: controller.signal
       });
       clearTimeout(timer);
+      if (resp.status === 401) {
+        throw new Error('LOGIN_REQUIRED');
+      }
+      if (resp.status === 429) {
+        const body = await resp.json().catch(() => ({}));
+        const err = new Error('LIMIT_REACHED');
+        err.limit = body.limit || 10000;
+        err.used = body.used || 10000;
+        throw err;
+      }
       if (!resp.ok) {
         const errData = await resp.json().catch(() => ({}));
         throw new Error(errData?.error?.message || `HTTP ${resp.status}`);

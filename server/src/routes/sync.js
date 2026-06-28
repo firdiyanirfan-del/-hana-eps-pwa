@@ -26,6 +26,11 @@ router.get('/', authMiddleware, async (req, res) => {
       [userId]
     ) || [];
 
+    const userInfo = await get(
+      'SELECT is_premium FROM users WHERE id = $1',
+      [userId]
+    ) || {};
+
     const settings = await get(
       'SELECT font_family, font_size, exam_date, bookmarks, streak_dates FROM settings WHERE user_id = $1',
       [userId]
@@ -54,7 +59,8 @@ router.get('/', authMiddleware, async (req, res) => {
         examDate: settings.exam_date || '',
         bookmarks: JSON.parse(settings.bookmarks || '[]'),
         streakDates: JSON.parse(settings.streak_dates || '[]')
-      }
+      },
+      isPremium: userInfo.is_premium || false
     });
   } catch (err) {
     console.error('Sync GET error:', err);

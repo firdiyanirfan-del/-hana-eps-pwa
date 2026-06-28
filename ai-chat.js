@@ -8,6 +8,62 @@ const aiChat = {
   _history: [],
   _contextTarget: null,
 
+  _isLoggedIn() {
+    return !!(window.app && window.app._token);
+  },
+
+  _showLoginModal() {
+    const existing = document.getElementById('modal-login-required');
+    if (existing) existing.remove();
+    const overlay = document.createElement('div');
+    overlay.id = 'modal-login-required';
+    overlay.className = 'fixed inset-0 z-[99998] flex items-center justify-center bg-black/60 backdrop-blur-sm px-6';
+    overlay.innerHTML =
+      `<div class="bg-white dark:bg-[#1C1B1A] rounded-3xl p-8 max-w-sm w-full shadow-2xl border border-[#E4E2DE] dark:border-[#2E2C2A] animate-float-in">
+        <div class="flex flex-col items-center text-center gap-4">
+          <div class="w-16 h-16 rounded-full bg-[#5C54E8]/10 dark:bg-[#8B84FF]/10 flex items-center justify-center">
+            <span class="material-symbols-outlined text-[32px] text-[#5C54E8] dark:text-[#8B84FF]">lock</span>
+          </div>
+          <h3 class="text-lg font-bold text-[#19181A] dark:text-[#F0EFEC]">Login Diperlukan</h3>
+          <p class="text-sm text-[#65635E] dark:text-[#918fa1]">Masuk dengan Google untuk menggunakan AI Chat Hana.</p>
+          <button onclick="window.app && window.app.loginWithGoogle()" class="w-full py-3 px-6 bg-[#5C54E8] dark:bg-[#8B84FF] text-white rounded-2xl font-bold text-sm hover:opacity-90 active:scale-[0.97] transition-all flex items-center justify-center gap-3">
+            <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#fff" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#fff" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#fff" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#fff" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Lanjutkan dengan Google
+          </button>
+          <button onclick="this.closest('#modal-login-required').remove()" class="text-xs text-[#65635E] dark:text-[#918fa1] hover:underline">Nanti saja</button>
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+  },
+
+  _showLimitModal(used) {
+    const existing = document.getElementById('modal-limit-reached');
+    if (existing) existing.remove();
+    const maxTokens = 10000;
+    const percent = Math.round((used / maxTokens) * 100);
+    const overlay = document.createElement('div');
+    overlay.id = 'modal-limit-reached';
+    overlay.className = 'fixed inset-0 z-[99998] flex items-center justify-center bg-black/60 backdrop-blur-sm px-6';
+    overlay.innerHTML =
+      `<div class="bg-white dark:bg-[#1C1B1A] rounded-3xl p-8 max-w-sm w-full shadow-2xl border border-[#E4E2DE] dark:border-[#2E2C2A] animate-float-in">
+        <div class="flex flex-col items-center text-center gap-4">
+          <div class="w-16 h-16 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
+            <span class="material-symbols-outlined text-[32px] text-amber-600 dark:text-amber-400">hourglass_empty</span>
+          </div>
+          <h3 class="text-lg font-bold text-[#19181A] dark:text-[#F0EFEC]">Batas Harian Tercapai</h3>
+          <p class="text-sm text-[#65635E] dark:text-[#918fa1]">Kamu sudah menggunakan <strong>${used.toLocaleString()}</strong> dari <strong>${maxTokens.toLocaleString()}</strong> token hari ini (${percent}%).</p>
+          <div class="w-full bg-[#E4E2DE] dark:bg-[#2E2C2A] rounded-full h-2 overflow-hidden">
+            <div class="h-full bg-amber-500 rounded-full" style="width:${Math.min(percent,100)}%"></div>
+          </div>
+          <p class="text-xs text-[#65635E] dark:text-[#918fa1]">Batas token akan direset besok. Tingkatkan ke Premium untuk akses tanpa batas!</p>
+          <button onclick="this.closest('#modal-limit-reached').remove()" class="w-full py-3 px-6 bg-[#5C54E8] dark:bg-[#8B84FF] text-white rounded-2xl font-bold text-sm hover:opacity-90 active:scale-[0.97] transition-all">Mengerti</button>
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+  },
+
   init() {
     try {
       const saved = localStorage.getItem('hana_quiz_history');
@@ -50,6 +106,7 @@ const aiChat = {
     });
 
     this.updateHeaderStats();
+    this.updateRemainingTokens();
     this._renderWelcome();
   },
 
@@ -181,10 +238,37 @@ const aiChat = {
   // ============================================================
   // USER CHAT SEND
   // ============================================================
+  updateRemainingTokens() {
+    const el = document.getElementById('chat-tokens-remaining');
+    if (!el) return;
+    const appData = window.app && window.app.data;
+    if (!appData || !window.app._token) {
+      el.textContent = '';
+      return;
+    }
+    if (appData.isPremium) {
+      el.textContent = '';
+      el.parentElement?.classList.add('hidden');
+      return;
+    }
+    el.parentElement?.classList.remove('hidden');
+    const remaining = appData._remainingTokens;
+    if (remaining !== undefined && remaining >= 0) {
+      el.textContent = `${remaining.toLocaleString()} token tersisa`;
+    } else {
+      el.textContent = '';
+    }
+  },
+
   async send() {
     const input = document.getElementById('aiInput');
     const q = input.value.trim();
     if (!q) return;
+
+    if (!this._isLoggedIn()) {
+      this._showLoginModal();
+      return;
+    }
 
     this._renderBubble(q, 'right');
     const typingId = 'ai-typing-' + Date.now();
@@ -202,11 +286,23 @@ const aiChat = {
       if (reply) {
         const formatted = reply.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-indigo-600 dark:text-indigo-400">$1</strong>').replace(/\n/g, '<br>');
         this._renderBubble(formatted, 'left');
+        if (data.remaining_tokens !== undefined && window.app) {
+          window.app.data._remainingTokens = data.remaining_tokens;
+        }
+        this.updateRemainingTokens();
       } else {
         this._renderBubble('Respon kosong diterima dari server AI.', 'left');
       }
     } catch (e) {
       document.getElementById(typingId)?.remove();
+      if (e.message === 'LOGIN_REQUIRED') {
+        this._showLoginModal();
+        return;
+      }
+      if (e.message === 'LIMIT_REACHED') {
+        this._showLimitModal(e.used);
+        return;
+      }
       this._renderBubble('⚠️ ' + e.message, 'left');
     }
   },
@@ -215,6 +311,10 @@ const aiChat = {
   // BEDAH SOAL — INLINE ACCORDION ON RESULT SCREEN
   // ============================================================
   tanyaSoalSalah(soalBase64, kunciBase64, userBase64, el) {
+    if (!this._isLoggedIn()) {
+      this._showLoginModal();
+      return;
+    }
     const soalAsli = decodeURIComponent(atob(soalBase64));
     const kunciAsli = decodeURIComponent(atob(kunciBase64));
     const userAsli = decodeURIComponent(atob(userBase64));
@@ -309,8 +409,10 @@ const aiChat = {
 
     } catch (e) {
       document.getElementById(spinnerId)?.remove();
+      if (e.message === 'LOGIN_REQUIRED') { this._showLoginModal(); return; }
+      if (e.message === 'LIMIT_REACHED') { this._showLimitModal(e.used); return; }
       const errHtml =
-        `<div class="mx-2 my-2 p-3 bg-red-50 dark:bg-red-950/30 rounded-xl text-sm text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/40">⚠️ Gagal terhubung ke jaringan Groq AI.</div>`;
+        `<div class="mx-2 my-2 p-3 bg-red-50 dark:bg-red-950/30 rounded-xl text-sm text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/40">⚠️ Gagal terhubung ke server AI.</div>`;
       if (anchorEl) {
         anchorEl.insertAdjacentHTML('afterend', errHtml);
       } else {
@@ -359,6 +461,10 @@ const aiChat = {
   // SEND OTOMATIS (UNTUK PROMPT TERPROGRAM)
   // ============================================================
   async sendOtomatis(promptLengkap, teksTampilanUser) {
+    if (!this._isLoggedIn()) {
+      this._showLoginModal();
+      return;
+    }
     this._renderBubble('🤖 Bedah Soal: "' + teksTampilanUser.substring(0, 40) + '..."', 'right');
     const typingId = 'ai-typing-' + Date.now();
     this._renderTyping(typingId);
@@ -381,6 +487,8 @@ const aiChat = {
       }
     } catch (e) {
       document.getElementById(typingId)?.remove();
+      if (e.message === 'LOGIN_REQUIRED') { this._showLoginModal(); return; }
+      if (e.message === 'LIMIT_REACHED') { this._showLimitModal(e.used); return; }
       this._renderBubble('⚠️ ' + e.message, 'left');
     }
   }

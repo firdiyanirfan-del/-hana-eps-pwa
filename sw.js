@@ -1,4 +1,4 @@
-const CACHE = 'eps-hana-v1';
+const CACHE = 'eps-hana-v2';
 
 const PRECACHE = [
   './',

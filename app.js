@@ -434,9 +434,11 @@ const app = {
     const readAcc = stats.readTotal > 0 ? Math.round((stats.readCorrect / stats.readTotal) * 100) : 0;
     const listAcc = stats.listTotal > 0 ? Math.round((stats.listCorrect / stats.listTotal) * 100) : 0;
     
-    if (document.getElementById('profile-bar-read')) document.getElementById('profile-bar-read').style.width = readAcc + '%';
+    const readPct = (readAcc / 100) * 360;
+    const listPct = (listAcc / 100) * 360;
+    if (document.getElementById('profile-bar-read')) document.getElementById('profile-bar-read').style.setProperty('--progress', readPct + 'deg');
     if (document.getElementById('profile-text-read')) document.getElementById('profile-text-read').innerText = readAcc + '%';
-    if (document.getElementById('profile-bar-list')) document.getElementById('profile-bar-list').style.width = listAcc + '%';
+    if (document.getElementById('profile-bar-list')) document.getElementById('profile-bar-list').style.setProperty('--progress', listPct + 'deg');
     if (document.getElementById('profile-text-list')) document.getElementById('profile-text-list').innerText = listAcc + '%';
     
     this.renderDailyMissions();

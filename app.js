@@ -293,7 +293,7 @@ const app = {
     this.state.storyQuestionIndex = this.data.storyQuestionIndex || 0;
     
     // --- RESTORE UI SETTINGS ---
-    if (this.data.fontFamily) {
+    if (this.data.fontFamily && !this.data.fontFamily.includes(' ')) {
       document.documentElement.classList.remove('font-pretendard', 'font-notosans', 'font-gmarket');
       document.documentElement.classList.add(this.data.fontFamily);
     }
@@ -1268,7 +1268,7 @@ const app = {
     screen.scrollTop = 0;
 
     const nameEl = document.getElementById('profile-user-name');
-    if (nameEl) nameEl.textContent = this.data.userName || 'Pelajar';
+    if (nameEl) nameEl.textContent = (this.data?.userName) || 'Pelajar';
     const xpEl = document.getElementById('profile-user-xp');
     if (xpEl) xpEl.textContent = (this.data.xp || 0) + ' XP';
     this._renderAvatar();

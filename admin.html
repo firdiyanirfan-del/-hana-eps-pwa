@@ -108,10 +108,13 @@
       window.location.href = '/api/auth/google?state=admin.html';
     }
 
-    function logout() {
+    async function logout() {
+      const ok = await showConfirm('Keluar dari panel admin?');
+      if (!ok) return;
       localStorage.removeItem('eps_token');
       token = null;
       showLogin();
+      showToast('info', 'Berhasil logout');
     }
 
     function showLogin() {
@@ -127,7 +130,7 @@
     // ===================== API CLIENT =====================
     async function api(path, opts) {
       try {
-        const res = await fetch(path, { ...opts, headers: { ...opts?.headers, Authorization: `Bearer ${token}` } });
+        const res = await fetch(path, { ...opts, headers: { ...opts?.headers, Authorization: `Bearer ${token}`, 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' } });
         if (res.status === 401 || res.status === 403) {
           token = null; localStorage.removeItem('eps_token'); showLogin();
           showToast('error', 'Sesi habis. Login kembali.');
@@ -159,7 +162,7 @@
 
     async function loadUsers() {
       const search = document.getElementById('search-input').value;
-      const data = await api(`/api/admin/users?page=${currentPage}&search=${encodeURIComponent(search)}`);
+      const data = await api(`/api/admin/users?page=${currentPage}&search=${encodeURIComponent(search)}&_=${Date.now()}`);
       if (!data) return;
       const tbody = document.getElementById('users-table');
       tbody.innerHTML = data.users.map(u => `<tr class="border-t border-[#2E3A59]/50"><td class="py-2 pr-4">${u.name || '-'}</td><td class="py-2 pr-4 text-slate-400">${u.email}</td><td class="py-2 pr-4">${u.xp || 0}</td><td class="py-2 pr-4">${u.streak || 0}</td><td class="py-2 pr-4"><button onclick="togglePremium(${u.id}, ${u.is_premium})" class="text-xs px-2.5 py-1 rounded-full font-semibold ${u.is_premium ? 'bg-green-600 text-white' : 'bg-slate-600 text-slate-300 hover:bg-green-600 hover:text-white'} transition">${u.is_premium ? 'Premium' : 'Free'}</button></td><td class="py-2 pr-4 text-slate-400 text-xs">${u.created_at ? new Date(u.created_at).toLocaleDateString() : '-'}</td><td class="py-2"><button onclick="deleteUser(${u.id})" class="text-xs text-red-400 hover:text-red-300">Hapus</button></td></tr>`).join('');
@@ -184,6 +187,13 @@
       if (!ok) return;
       const data = await api(`/api/admin/users/${id}/premium`, { method: 'PUT' });
       if (!data) return;
+      const btn = document.querySelector(`button[onclick*="togglePremium(${id},"]`);
+      if (btn) {
+        const newStatus = !current;
+        btn.className = newStatus ? 'text-xs px-2.5 py-1 rounded-full font-semibold bg-green-600 text-white transition' : 'text-xs px-2.5 py-1 rounded-full font-semibold bg-slate-600 text-slate-300 hover:bg-green-600 hover:text-white transition';
+        btn.textContent = newStatus ? 'Premium' : 'Free';
+        btn.setAttribute('onclick', `togglePremium(${id}, ${newStatus})`);
+      }
       showToast('success', `User berhasil dijadikan ${label}`);
       loadUsers();
     }

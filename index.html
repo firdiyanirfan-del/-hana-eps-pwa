@@ -1838,7 +1838,7 @@
       </div>
 
       <!-- 6. AKUN -->
-      <div id="settings-account-section" class="bg-[var(--card-bg)] rounded-[24px] border border-[var(--card-border)] overflow-hidden shadow-sm hidden">
+      <div id="settings-account-section" class="bg-[var(--card-bg)] rounded-[24px] border border-[var(--card-border)] overflow-hidden shadow-sm">
         <div class="px-5 pt-4 pb-1">
           <div class="flex items-center gap-2">
             <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)]">person</span>
@@ -1852,15 +1852,28 @@
           <span id="settings-account-email" class="font-bold text-xs text-[var(--text-primary)]"></span>
         </div>
         <div class="h-[1px] bg-[var(--card-border)] mx-5"></div>
-        <button onclick="app.closeSettings(); app.logout();" class="w-full flex items-center justify-between px-5 py-3.5 cursor-pointer hover:bg-[var(--hana-primary)]/5 rounded-b-[24px] transition-colors group text-left">
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-red-50 dark:bg-red-950/30 text-red-500 flex items-center justify-center">
-              <span class="material-symbols-outlined text-[18px]">logout</span>
+        <div id="settings-logged-in-actions">
+          <button onclick="app.handleSettingsLogout()" class="w-full flex items-center justify-between px-5 py-3.5 cursor-pointer hover:bg-[var(--hana-primary)]/5 rounded-b-[24px] transition-colors group text-left">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-red-50 dark:bg-red-950/30 text-red-500 flex items-center justify-center">
+                <span class="material-symbols-outlined text-[18px]">logout</span>
+              </div>
+              <h4 class="font-bold text-xs text-[var(--text-primary)]">Keluar</h4>
             </div>
-            <h4 class="font-bold text-xs text-[var(--text-primary)]">Keluar</h4>
-          </div>
-          <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)] group-hover:translate-x-0.5 transition-transform">chevron_right</span>
-        </button>
+            <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)] group-hover:translate-x-0.5 transition-transform">chevron_right</span>
+          </button>
+        </div>
+        <div id="settings-logged-out-actions" class="hidden">
+          <button onclick="app.closeSettings(); app.promptAuth();" class="w-full flex items-center justify-between px-5 py-3.5 cursor-pointer hover:bg-[var(--hana-primary)]/5 rounded-b-[24px] transition-colors group text-left">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950/30 text-indigo-500 flex items-center justify-center">
+                <span class="material-symbols-outlined text-[18px]">login</span>
+              </div>
+              <h4 class="font-bold text-xs text-[var(--text-primary)]">Masuk dengan Google</h4>
+            </div>
+            <span class="material-symbols-outlined text-[18px] text-[var(--text-secondary)] group-hover:translate-x-0.5 transition-transform">chevron_right</span>
+          </button>
+        </div>
       </div>
 
       <!-- 7. DANGER ZONE -->

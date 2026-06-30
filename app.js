@@ -15,6 +15,14 @@ const app = {
       const res = await fetch(`${this._backendUrl}/api/sync`, {
         headers: { 'Authorization': `Bearer ${this._token}` }
       });
+      if (res.status === 401) {
+        this._token = null;
+        localStorage.removeItem('eps_token');
+        this.data.userEmail = '';
+        Storage.set(this.data);
+        if (typeof showToast === 'function') showToast('Sesi habis. Silakan login ulang', 'error');
+        return;
+      }
       if (!res.ok) return;
       const data = await res.json();
       if (data.progress) {
@@ -35,6 +43,12 @@ const app = {
           this.data.streakDates = data.settings.streakDates || [];
         }
         this.data.isPremium = data.isPremium || false;
+        if (data.user) {
+          this.data.userEmail = data.user.email || '';
+          if (!this.data.userAvatar && data.user.avatar) this.data.userAvatar = data.user.avatar;
+          if (!this.data.userGoogleName && data.user.name) this.data.userGoogleName = data.user.name;
+          if (!this.data.userName && data.user.name) this.data.userName = data.user.name;
+        }
         Storage.set(this.data);
       }
     } catch (e) {
@@ -83,8 +97,37 @@ const app = {
     this._token = null;
     localStorage.removeItem('eps_token');
     this.data.userEmail = '';
+    this.data.userAvatar = '';
+    this.data.userGoogleName = '';
     Storage.set(this.data);
     this.renderDashboard();
+    setTimeout(() => { if (typeof showToast === 'function') showToast('Berhasil keluar', 'success'); }, 300);
+  },
+
+  async confirmAndLogout() {
+    const overlay = document.createElement('div');
+    overlay.id = 'logout-confirm-overlay';
+    overlay.className = 'fixed inset-0 z-[100000] flex items-center justify-center bg-black/60 backdrop-blur-sm px-6';
+    overlay.innerHTML =
+      `<div class="bg-white dark:bg-[#1C1B1A] rounded-3xl p-7 max-w-sm w-full shadow-2xl border border-[#E4E2DE] dark:border-[#2E2C2A] animate-float-in">
+        <div class="flex flex-col items-center text-center gap-4">
+          <div class="w-14 h-14 rounded-full bg-rose-100 dark:bg-rose-900/30 flex items-center justify-center">
+            <span class="material-symbols-outlined text-[28px] text-rose-500">logout</span>
+          </div>
+          <p class="text-base font-semibold text-[#19181A] dark:text-[#F0EFEC]">Yakin ingin keluar?</p>
+          <p class="text-sm text-[#65635E] dark:text-[#918fa1]">Kemajuan belajar tetap tersimpan di perangkat ini.</p>
+          <div class="flex gap-3 w-full mt-1">
+            <button id="logout-cancel" class="flex-1 py-2.5 px-4 bg-[#E4E2DE] dark:bg-[#2E2C2A] text-[#19181A] dark:text-[#F0EFEC] rounded-xl font-semibold text-sm hover:brightness-90 active:scale-[0.97] transition-all">Batal</button>
+            <button id="logout-confirm" class="flex-1 py-2.5 px-4 bg-rose-500 text-white rounded-xl font-semibold text-sm hover:brightness-110 active:scale-[0.97] transition-all">Ya, Keluar</button>
+          </div>
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
+    return new Promise((resolve) => {
+      document.getElementById('logout-confirm').onclick = () => { overlay.remove(); resolve(true); };
+      document.getElementById('logout-cancel').onclick = () => { overlay.remove(); resolve(false); };
+      overlay.onclick = (e) => { if (e.target === overlay) { overlay.remove(); resolve(false); } };
+    });
   },
 
   updateHeroSection() {
@@ -370,9 +413,12 @@ const app = {
       Storage.set(this.data);
       this.syncFromServer().then(() => {
         this.renderDashboard();
+        this._updateAllUserInfoDisplays();
+        const email = this.data.userEmail || 'Akun Google';
+        setTimeout(() => { if (typeof showToast === 'function') showToast('Berhasil masuk sebagai ' + email, 'success'); }, 500);
       });
     } else if (this._token) {
-      this.syncFromServer();
+      this.syncFromServer().then(() => this._updateAllUserInfoDisplays());
     }
 
     if (!localStorage.getItem('epsWelcomeToastShown')) {
@@ -541,6 +587,8 @@ const app = {
     if(document.getElementById('v-mission-2-bar')) document.getElementById('v-mission-2-bar').style.width = `${(quizCount/1)*100}%`;
     if(document.getElementById('v-mission-3-text')) document.getElementById('v-mission-3-text').innerText = `${currentGameProgress}/5`;
     if(document.getElementById('v-mission-3-bar')) document.getElementById('v-mission-3-bar').style.width = `${mission3Percent}%`;
+
+    this._updateAllUserInfoDisplays();
   },
 
   toggleQuizMode() {
@@ -1302,15 +1350,19 @@ const app = {
       }
     }
 
-    // Tampilkan/sembunyikan section Akun berdasarkan login
-    const accSection = document.getElementById('settings-account-section');
+    // Tampilkan status Akun berdasarkan login
     const accEmail = document.getElementById('settings-account-email');
-    if (accSection && accEmail) {
+    const loggedInActions = document.getElementById('settings-logged-in-actions');
+    const loggedOutActions = document.getElementById('settings-logged-out-actions');
+    if (accEmail) {
       if (this.data.userEmail) {
-        accSection.classList.remove('hidden');
-        accEmail.textContent = this.data.userEmail;
+        accEmail.textContent = 'Masuk sebagai ' + this.data.userEmail;
+        if (loggedInActions) loggedInActions.classList.remove('hidden');
+        if (loggedOutActions) loggedOutActions.classList.add('hidden');
       } else {
-        accSection.classList.add('hidden');
+        accEmail.textContent = 'Belum masuk';
+        if (loggedInActions) loggedInActions.classList.add('hidden');
+        if (loggedOutActions) loggedOutActions.classList.remove('hidden');
       }
     }
   },
@@ -1330,6 +1382,25 @@ const app = {
     }, 350);
   },
 
+  async handleSettingsLogout() {
+    const ok = await this.confirmAndLogout();
+    if (!ok) return;
+    this.closeSettings();
+    this.logout();
+  },
+
+  _updateAllUserInfoDisplays() {
+    const navName = document.getElementById('ui-user-name');
+    if (navName) navName.innerText = this.data.userGoogleName || this.data.userName || 'Pelajar';
+    const profileName = document.getElementById('profile-user-name');
+    if (profileName) profileName.innerText = this.data.userGoogleName || this.data.userName || 'Pelajar';
+    const settingsName = document.getElementById('settings-account-email');
+    if (settingsName) {
+      if (this.data.userEmail) settingsName.textContent = 'Masuk sebagai ' + this.data.userEmail;
+      else settingsName.textContent = 'Belum masuk';
+    }
+  },
+
   // ============================================================
   // PROFILE SCREEN (Full-Screen Stitch)
   // ============================================================
@@ -1342,7 +1413,7 @@ const app = {
     screen.scrollTop = 0;
 
     const nameEl = document.getElementById('profile-user-name');
-    if (nameEl) nameEl.textContent = (this.data?.userName) || 'Pelajar';
+    if (nameEl) nameEl.textContent = this.data?.userGoogleName || this.data?.userName || 'Pelajar';
     const xpEl = document.getElementById('profile-user-xp');
     if (xpEl) xpEl.textContent = (this.data.xp || 0) + ' XP';
     this._renderAvatar();
@@ -1370,7 +1441,9 @@ const app = {
     if (logoutBtn) {
       if (this._token) {
         logoutBtn.innerHTML = '<span class="material-symbols-outlined">logout</span> Logout';
-        logoutBtn.onclick = () => {
+        logoutBtn.onclick = async () => {
+          const ok = await this.confirmAndLogout();
+          if (!ok) return;
           this.logout();
           this.renderDashboard();
           this.openProfile();

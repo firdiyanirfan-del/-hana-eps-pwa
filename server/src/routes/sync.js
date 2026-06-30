@@ -27,7 +27,7 @@ router.get('/', authMiddleware, async (req, res) => {
     ) || [];
 
     const userInfo = await get(
-      'SELECT is_premium FROM users WHERE id = $1',
+      'SELECT is_premium, email, name, avatar FROM users WHERE id = $1',
       [userId]
     ) || {};
 
@@ -60,7 +60,12 @@ router.get('/', authMiddleware, async (req, res) => {
         bookmarks: JSON.parse(settings.bookmarks || '[]'),
         streakDates: JSON.parse(settings.streak_dates || '[]')
       },
-      isPremium: userInfo.is_premium || false
+      isPremium: userInfo.is_premium || false,
+      user: {
+        email: userInfo.email || '',
+        name: userInfo.name || '',
+        avatar: userInfo.avatar || ''
+      }
     });
   } catch (err) {
     console.error('Sync GET error:', err);

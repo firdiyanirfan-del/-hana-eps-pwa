@@ -81,6 +81,10 @@ const app = {
             examDate: this.data.examDate || '',
             bookmarks: this.data.bookmarks || [],
             streakDates: this.data.streakDates || []
+          },
+          profile: {
+            name: this.data.userName || this.data.userGoogleName || '',
+            avatar: this.data.userAvatar || ''
           }
         })
       });
@@ -1082,6 +1086,7 @@ const app = {
 
       document.getElementById('modal-edit-username').classList.add('hidden');
       showInfoModal('✅ Nama Tersimpan', `Hai ${name}! Nama Anda telah diperbarui.`);
+      this.syncToServer();
     }
   },
   onUsernameInput(input) {
@@ -1382,6 +1387,47 @@ const app = {
     }, 350);
   },
 
+  async deleteAccount() {
+    const overlay = document.createElement('div');
+    overlay.id = 'delete-account-overlay';
+    overlay.className = 'fixed inset-0 z-[100000] flex items-center justify-center bg-black/60 backdrop-blur-sm px-6';
+    overlay.innerHTML =
+      `<div class="bg-white dark:bg-[#1C1B1A] rounded-3xl p-7 max-w-sm w-full shadow-2xl border border-[#E4E2DE] dark:border-[#2E2C2A] animate-float-in">
+        <div class="flex flex-col items-center text-center gap-4">
+          <div class="w-14 h-14 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+            <span class="material-symbols-outlined text-[28px] text-red-500">delete_forever</span>
+          </div>
+          <p class="text-base font-semibold text-[#19181A] dark:text-[#F0EFEC]">Hapus Akun Permanen?</p>
+          <p class="text-sm text-[#65635E] dark:text-[#918fa1]">Semua data termasuk progress, XP, dan riwayat akan dihapus dari server. Tindakan ini tidak bisa dibatalkan.</p>
+          <div class="flex gap-3 w-full mt-1">
+            <button id="delete-account-cancel" class="flex-1 py-2.5 px-4 bg-[#E4E2DE] dark:bg-[#2E2C2A] text-[#19181A] dark:text-[#F0EFEC] rounded-xl font-semibold text-sm hover:brightness-90 active:scale-[0.97] transition-all">Batal</button>
+            <button id="delete-account-confirm" class="flex-1 py-2.5 px-4 bg-red-500 text-white rounded-xl font-semibold text-sm hover:brightness-110 active:scale-[0.97] transition-all">Hapus Akun</button>
+          </div>
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
+    const ok = await new Promise((resolve) => {
+      document.getElementById('delete-account-confirm').onclick = () => { overlay.remove(); resolve(true); };
+      document.getElementById('delete-account-cancel').onclick = () => { overlay.remove(); resolve(false); };
+      overlay.onclick = (e) => { if (e.target === overlay) { overlay.remove(); resolve(false); } };
+    });
+    if (!ok) return;
+    try {
+      const res = await fetch(`${this._backendUrl}/api/account`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${this._token}` }
+      });
+      if (!res.ok) { showToast('Gagal menghapus akun', 'error'); return; }
+      this._token = null;
+      localStorage.removeItem('eps_token');
+      Storage.clear();
+      showToast('Akun berhasil dihapus', 'success');
+      setTimeout(() => location.reload(), 1500);
+    } catch (e) {
+      showToast('Gagal terhubung ke server', 'error');
+    }
+  },
+
   async handleSettingsLogout() {
     const ok = await this.confirmAndLogout();
     if (!ok) return;
@@ -1414,6 +1460,8 @@ const app = {
 
     const nameEl = document.getElementById('profile-user-name');
     if (nameEl) nameEl.textContent = this.data?.userGoogleName || this.data?.userName || 'Pelajar';
+    const emailEl = document.getElementById('profile-user-email');
+    if (emailEl) emailEl.textContent = this.data?.userEmail ? 'Masuk sebagai ' + this.data.userEmail : '';
     const xpEl = document.getElementById('profile-user-xp');
     if (xpEl) xpEl.textContent = (this.data.xp || 0) + ' XP';
     this._renderAvatar();

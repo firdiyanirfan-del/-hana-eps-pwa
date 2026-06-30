@@ -77,7 +77,7 @@ router.put('/', authMiddleware, async (req, res) => {
   try {
     await ensureDb();
     const userId = req.userId;
-    const { progress, wrongAnswers, settings } = req.body;
+    const { progress, wrongAnswers, settings, profile } = req.body;
 
     if (progress) {
       await run(`
@@ -121,6 +121,14 @@ router.put('/', authMiddleware, async (req, res) => {
         settings.examDate || null,
         JSON.stringify(settings.bookmarks || []),
         JSON.stringify(settings.streakDates || []),
+        userId
+      ]);
+    }
+
+    if (profile) {
+      await run('UPDATE users SET name = $1, avatar = $2 WHERE id = $3', [
+        profile.name || '',
+        profile.avatar || null,
         userId
       ]);
     }

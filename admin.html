@@ -27,7 +27,7 @@
   <div id="toast-container" class="fixed top-4 right-4 z-[99999] flex flex-col gap-2 pointer-events-none"></div>
 
   <div class="flex items-center justify-between mb-8">
-    <h1 class="text-2xl font-extrabold text-white">📊 Admin Panel</h1>
+    <h1 class="text-2xl font-extrabold text-white">📊 Admin Panel <span id="unread-badge" class="hidden text-xs bg-red-500 text-white px-2 py-0.5 rounded-full ml-2 align-middle"></span></h1>
     <button onclick="logout()" class="text-sm text-slate-400 hover:text-white transition">Logout</button>
   </div>
 
@@ -152,10 +152,15 @@
     async function loadStats() {
       const data = await api('/api/admin/stats');
       if (!data) return;
+      const unread = await api('/api/admin/feedback/unread-count');
+      const unreadCount = unread ? unread.count : 0;
       document.getElementById('stats-cards').innerHTML = `
         <div class="card text-center"><p class="text-3xl font-extrabold text-[#6C63FF]">${data.totalUsers}</p><p class="text-xs text-slate-400 mt-1">Total User</p></div>
         <div class="card text-center"><p class="text-3xl font-extrabold text-[#22c55e]">${data.totalXp.toLocaleString()}</p><p class="text-xs text-slate-400 mt-1">Total XP</p></div>
-        <div class="card text-center"><p class="text-3xl font-extrabold text-[#f59e0b]">${data.totalFeedback}</p><p class="text-xs text-slate-400 mt-1">Feedback</p></div>`;
+        <div class="card text-center"><p class="text-3xl font-extrabold text-[#f59e0b]">${data.totalFeedback} <span class="${unreadCount > 0 ? 'text-red-400' : 'text-slate-500'} text-sm font-bold">· ${unreadCount} baru</span></p><p class="text-xs text-slate-400 mt-1">Feedback</p></div>`;
+      const badge = document.getElementById('unread-badge');
+      if (unreadCount > 0) { badge.classList.remove('hidden'); badge.textContent = unreadCount + ' baru'; }
+      else { badge.classList.add('hidden'); }
     }
 
     let currentPage = 1;
@@ -170,14 +175,57 @@
       pag.innerHTML = Array.from({length: Math.min(data.totalPages, 10)}, (_, i) => `<button onclick="currentPage=${i+1};loadUsers()" class="px-3 py-1 rounded-lg text-xs ${i+1===currentPage?'bg-[#6C63FF] text-white':'bg-[#1e2a4a] text-slate-400 hover:text-white'}">${i+1}</button>`).join('');
     }
 
+    const STATUS_LABELS = { baru: 'Baru', dibaca: 'Dibaca', selesai: 'Selesai' };
+    const STATUS_COLORS = { baru: 'bg-red-500/20 text-red-400 border-red-500/30', dibaca: 'bg-amber-500/20 text-amber-400 border-amber-500/30', selesai: 'bg-green-500/20 text-green-400 border-green-500/30' };
+
+    async function updateStatus(id, status) {
+      await api(`/api/admin/feedback/${id}/status`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) });
+      loadFeedback();
+      loadStats();
+    }
+
+    async function sendReply(id) {
+      const ta = document.getElementById('reply-input-' + id);
+      if (!ta || !ta.value.trim()) return;
+      const btn = document.getElementById('reply-btn-' + id);
+      btn.disabled = true; btn.textContent = 'Menyimpan...';
+      await api(`/api/admin/feedback/${id}/reply`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ reply: ta.value }) });
+      btn.disabled = false; btn.textContent = 'Kirim';
+      loadFeedback();
+      loadStats();
+    }
+
+    function statusOptions(id, current) {
+      return ['baru', 'dibaca', 'selesai'].map(s =>
+        `<button onclick="updateStatus(${id}, '${s}')" class="block w-full text-left px-3 py-1.5 text-xs hover:bg-white/10 rounded-lg transition ${s === current ? 'font-bold' : ''}">${STATUS_LABELS[s]}</button>`
+      ).join('');
+    }
+
     async function loadFeedback() {
-      const data = await api('/api/admin/feedback');
+      const data = await api('/api/admin/feedback?_=' + Date.now());
       if (!data) return;
-      document.getElementById('feedback-list').innerHTML = data.feedback.map(f => `
-        <div class="border-t border-[#2E3A59]/50 py-3 flex items-start gap-3">
-          <span class="badge badge-${f.type} shrink-0 mt-0.5">${f.type}</span>
-          <div class="flex-1"><p class="text-xs text-slate-300">${f.message}</p><p class="text-xs text-slate-500 mt-1">${f.email || 'anon'} · ${new Date(f.created_at).toLocaleDateString()}</p></div>
-        </div>`).join('');
+      document.getElementById('feedback-list').innerHTML = data.feedback.map(f => {
+        const statusColor = STATUS_COLORS[f.status] || STATUS_COLORS.baru;
+        const rowBg = f.status === 'baru' ? 'bg-indigo-500/5' : '';
+        return `<div class="border-t border-[#2E3A59]/50 py-4 px-3 flex items-start gap-3 ${rowBg} rounded-lg transition">
+          <div class="flex flex-col items-center gap-1 shrink-0 mt-0.5 min-w-[60px]">
+            <span class="badge badge-${f.type}">${f.type}</span>
+            <div class="relative inline-block">
+              <button onclick="this.nextElementSibling.classList.toggle('hidden')" class="text-xs px-2 py-0.5 rounded-full border font-semibold ${statusColor}">${STATUS_LABELS[f.status]}</button>
+              <div class="hidden absolute top-full left-0 mt-1 bg-[#1e2a4a] border border-[#2E3A59] rounded-xl shadow-2xl py-1 px-1 z-10 min-w-[110px]">${statusOptions(f.id, f.status)}</div>
+            </div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-xs text-slate-300 leading-relaxed">${f.message}</p>
+            <p class="text-[10px] text-slate-500 mt-1.5">${f.email || 'anon'} · ${new Date(f.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</p>
+            ${f.admin_reply ? `<div class="mt-2 p-2.5 bg-[#6C63FF]/10 border border-[#6C63FF]/20 rounded-xl"><p class="text-[10px] font-bold text-[#6C63FF] uppercase tracking-wider mb-1">Balasan Admin</p><p class="text-xs text-slate-300">${f.admin_reply}</p></div>` : ''}
+            <div class="mt-2 flex gap-2">
+              <textarea id="reply-input-${f.id}" rows="2" class="flex-1 bg-[#0c1424] text-white text-xs px-3 py-2 rounded-xl border border-[#2E3A59] focus:border-[#6C63FF] outline-none resize-none" placeholder="Tulis balasan...">${f.admin_reply || ''}</textarea>
+              <button id="reply-btn-${f.id}" onclick="sendReply(${f.id})" class="shrink-0 self-end px-3 py-2 bg-[#6C63FF] text-white text-xs font-bold rounded-xl hover:brightness-110 active:scale-95 transition">Kirim</button>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
     }
 
     // ===================== ACTIONS =====================
@@ -217,8 +265,15 @@
         localStorage.setItem('eps_token', token);
         window.history.replaceState({}, '', '/admin.html');
       }
-      if (token) { showDashboard(); loadStats(); loadUsers(); loadFeedback(); }
-      else { showLogin(); }
+      if (token) {
+        showDashboard();
+        loadStats();
+        loadUsers();
+        loadFeedback();
+        setInterval(() => { loadFeedback(); loadStats(); }, 15000);
+      } else {
+        showLogin();
+      }
     })();
   </script>
 </body>

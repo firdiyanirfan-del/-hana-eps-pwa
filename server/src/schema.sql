@@ -53,8 +53,13 @@ CREATE TABLE IF NOT EXISTS feedback (
   user_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
   type TEXT NOT NULL,
   message TEXT NOT NULL,
+  status TEXT DEFAULT 'baru',
+  admin_reply TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE feedback ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'baru';
+ALTER TABLE feedback ADD COLUMN IF NOT EXISTS admin_reply TEXT;
 
 CREATE INDEX IF NOT EXISTS idx_wrong_answers_user ON wrong_answers(user_id);
 CREATE INDEX IF NOT EXISTS idx_feedback_user ON feedback(user_id);

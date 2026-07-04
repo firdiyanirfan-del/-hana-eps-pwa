@@ -1656,7 +1656,7 @@ const app = {
   },
 
   // ============================================================
-  // ENGINE TAMBAHAN: MODE LATIHAN PER BAB (AUTO DETECT CH 6-28)
+  // ENGINE TAMBAHAN: MODE LATIHAN PER BAB (BAB 6 - 60)
   // ============================================================
   showChapterScreen() {
     const modal = document.getElementById('modal-chapter-selector');
@@ -3191,10 +3191,26 @@ window.showSandboxBuilder = function() {
           <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1">Cakupan Klaster Bab</label>
           <select id="sb-scope" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs focus:border-[#6C63FF] focus:outline-none transition-colors">
             <option value="all">Semua Bab (Acak Total Bank)</option>
-            <option value="dasar">Bab Teori Dasar (Bab 6 - 12)</option>
-            <option value="industri">Bab Lingkungan Kerja (Bab 13 - 20)</option>
-            <option value="budaya">Bab Budaya & Keselamatan (Bab 21 - 28)</option>
+            <option value="dasar">Teori Dasar (Bab 6 - 12)</option>
+            <option value="industri">Lingkungan Kerja (Bab 13 - 20)</option>
+            <option value="budaya">Budaya & Keselamatan (Bab 21 - 28)</option>
+            <option value="layanan">Layanan & Etika (Bab 29 - 36)</option>
+            <option value="fasilitas">Fasilitas & Operasional (Bab 37 - 44)</option>
+            <option value="sektor">Sektor & Regulasi (Bab 45 - 52)</option>
+            <option value="dokumen">Dokumen & Kepatuhan (Bab 53 - 60)</option>
+            <option value="manual">Pilih Manual (Bab 6 - 60)</option>
           </select>
+        </div>
+
+        <div id="sb-manual-range" class="hidden flex gap-2">
+          <div class="flex-1">
+            <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1">Dari Bab</label>
+            <input type="number" id="sb-range-start" value="6" min="6" max="60" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-sm focus:border-[#6C63FF] focus:outline-none transition-colors">
+          </div>
+          <div class="flex-1">
+            <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1">Sampai Bab</label>
+            <input type="number" id="sb-range-end" value="10" min="6" max="60" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-sm focus:border-[#6C63FF] focus:outline-none transition-colors">
+          </div>
         </div>
       </div>
       
@@ -3206,6 +3222,12 @@ window.showSandboxBuilder = function() {
 
   document.body.appendChild(modal);
   document.getElementById('btn-close-sandbox').onclick = () => modal.remove();
+
+  // Toggle manual range inputs
+  document.getElementById('sb-scope').onchange = function() {
+    const manual = document.getElementById('sb-manual-range');
+    manual.classList.toggle('hidden', this.value !== 'manual');
+  };
 
   document.getElementById('btn-start-sandbox').onclick = function() {
     let qCount = parseInt(document.getElementById('sb-count').value) || 10;
@@ -3239,24 +3261,52 @@ window.showSandboxBuilder = function() {
       return !/[a-zA-Z]/.test(sanitized);
     });
 
+    // Helper: filter soal berdasarkan range bab (q.ch)
+    function filterByChapterRange(pool, start, end) {
+      return pool.filter(q => q.ch && q.ch >= start && q.ch <= end);
+    }
+
     // Filter berdasarkan klaster bab jika dipilih kustom
     if (scope !== 'all') {
-      allPool = allPool.filter(q => {
-        if (!q.id) return true;
-        const match = q.id.match(/b(\d+)_/);
-        if (match) {
-          const babNum = parseInt(match[1]);
-          if (scope === 'dasar') return babNum >= 6 && babNum <= 12;
-          if (scope === 'industri') return babNum >= 13 && babNum <= 20;
-          if (scope === 'budaya') return babNum >= 21 && babNum <= 28;
+      const rangeMap = {
+        dasar:    [6, 12],
+        industri: [13, 20],
+        budaya:   [21, 28],
+        layanan:  [29, 36],
+        fasilitas:[37, 44],
+        sektor:   [45, 52],
+        dokumen:  [53, 60],
+      };
+
+      if (scope === 'manual') {
+        let start = parseInt(document.getElementById('sb-range-start').value) || 6;
+        let end = parseInt(document.getElementById('sb-range-end').value) || 60;
+        start = Math.max(6, Math.min(60, start));
+        end = Math.max(6, Math.min(60, end));
+        if (start > end) [start, end] = [end, start];
+
+        const filtered = filterByChapterRange(allPool, start, end);
+        // Jika tidak ada soal dengan ch, fallback ke semua soal (cluster 6-28 tidak punya ch)
+        allPool = filtered.length > 0 ? filtered : allPool;
+      } else {
+        const range = rangeMap[scope];
+        if (range) {
+          // Cluster 6-28: data beginner tidak punya ch, jadi fallback ke allPool
+          if (range[0] >= 29) {
+            allPool = filterByChapterRange(allPool, range[0], range[1]);
+          } else {
+            const filtered = filterByChapterRange(allPool, range[0], range[1]);
+            if (filtered.length > 0) allPool = filtered;
+          }
         }
-        return true;
-      });
+      }
     }
 
     // Pengaman darurat jika data klaster benar-benar kosong
     if (allPool.length === 0) {
-      alert("Stok soal untuk kategori bab ini belum tersedia di database data kuis Anda!");
+      if (typeof showToast === 'function') {
+        showToast('Stok soal untuk bab ini belum tersedia!', 'error');
+      }
       modal.remove();
       return;
     }

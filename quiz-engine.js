@@ -3,6 +3,29 @@
 // =========================================================================
 
 Object.assign(app, {
+  // === HANA MASCOT ENCOURAGEMENT PHRASES ===
+  _mascotPhrases: [
+    'Semangat! Kamu pasti bisa! 💪',
+    'Ayo, baca soalnya baik-baik! 📖',
+    'Fokus! Hana yakin kamu hebat! ⭐',
+    'Jangan terburu-buru, pikir dulu! 🧠',
+    'Kamu sudah sejauh ini, teruskan! 🚀',
+    'Hana bangga sama kamu! 🌟',
+    'Satu soal lagi, kamu pasti bisa! 🔥',
+    'Tenang, kerjakan dengan santai! 😊',
+    'Setiap soal bikin kamu makin pintar! 📚',
+    'Ayo buktikan kemampuanmu! 🏆',
+    'Kamu lebih hebat dari yang kamu kira! ✨',
+    'Fokus dan percaya diri! 🎯',
+  ],
+  _getRandomPhrase() {
+    return this._mascotPhrases[Math.floor(Math.random() * this._mascotPhrases.length)];
+  },
+  _updateMascotBubble(text) {
+    const el = document.getElementById('hana-quiz-bubble');
+    if (el) el.innerText = text;
+  },
+
   // === SESSION RECOVERY MECHANISMS ===
   recoverSession() {
     const saved = sessionStorage.getItem('eps_quiz_session');
@@ -314,6 +337,8 @@ Object.assign(app, {
     document.getElementById('q-feedback').classList.add('hidden');
     document.getElementById('btn-next').classList.add('hidden');
     document.getElementById('timer-box').classList.remove('timer-warning');
+
+    this._updateMascotBubble(this._getRandomPhrase());
   },
 
   playAudio() {
@@ -425,6 +450,7 @@ Object.assign(app, {
           this.state.correctCount++;
           q.type === 'reading' ? this.state.readingCorrect++ : this.state.listeningCorrect++;
           Sound.play('correct');
+          this._updateMascotBubble('Tepat sekali! Hebat! 🎉');
         } else {
           this.state.tempSelectedButton.classList.remove('selected');
           this.state.tempSelectedButton.classList.add('wrong');
@@ -433,6 +459,7 @@ Object.assign(app, {
           if (navigator.vibrate && (!this.data.settings || this.data.settings.vibration !== false)) {
             navigator.vibrate(100);
           }
+          this._updateMascotBubble('Yah, kurang tepat. Coba lagi ya! 💪');
         }
 
         const fb = document.getElementById('q-feedback');

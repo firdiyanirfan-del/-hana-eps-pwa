@@ -140,7 +140,6 @@ body {
 /* Memaksa Seluruh Komponen Halaman Pengaturan Selaras Secara Real-Time */
 #settings-screen, #screen-feedback {
   background-color: var(--hana-canvas) !important;
-  color: var(--hana-text-1) !important;
 }
 
 /* Memperbaiki Seluruh Blok Modal Box Supaya Menggunakan Permukaan Solid (Surface) */
@@ -1134,90 +1133,27 @@ body.is-jalur .dynamic-island {
 }
 
 /* ============================================================
-   🎨 MODERN UNIFORM ADAPTIVE SETTINGS & HUD THEME SYSTEM
+   🎨 SETTINGS FONT PICKER & PREVIEW
    ============================================================ */
 
-/* Force Settings panel to follow semantic CSS design tokens natively */
-#settings-screen {
-  background: var(--bg) !important;
-  color: var(--text-primary) !important;
-  transition: background 0.3s ease, color 0.3s ease !important;
-}
-
-#settings-screen .sticky {
-  background: var(--panel-bg) !important;
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  border-bottom: 1px solid var(--card-border) !important;
-}
-
-#settings-screen .sticky h3 {
-  color: var(--text-primary) !important;
-}
-
-#settings-screen .sticky button {
-  background: var(--btn-bg) !important;
-  border: 1px solid var(--card-border) !important;
-}
-
-#settings-screen .sticky button svg {
-  color: var(--text-primary) !important;
-}
-
-/* Fix Card structures in Settings to prevent color bleeding */
-#settings-screen .bg-\[var\(--card-bg\)\] {
-  background: var(--card-bg) !important;
-  border-color: var(--card-border) !important;
-}
-
-#settings-screen p.font-bold,
-#settings-screen h4.font-bold {
-  color: var(--text-primary) !important;
-}
-
-#settings-screen p.text-slate-500,
-#settings-screen p.text-slate-400,
-#settings-screen p.text-slate-100 {
-  color: var(--text-secondary) !important;
-}
-
-/* 🟢 FIX FONT PICKER BUTTON CONTRAST PERMANENTLY */
-#font-family-picker button {
-  background: var(--btn-bg) !important;
-  color: var(--text-primary) !important;
-  border: 2px solid var(--card-border) !important;
-  transition: all 0.2s ease !important;
-}
-
-#font-family-picker button:hover {
-  border-color: var(--accent-mint) !important;
-}
-
-/* Style for selected font buttons */
-#font-family-picker button.bg-indigo-50,
-#font-family-picker button.dark\:bg-indigo-900\/30 {
-  background: rgba(99, 102, 241, 0.15) !important;
-  border-color: #6366f1 !important;
-  color: #6366f1 !important;
+/* Font picker selected state — mapped to hana-primary */
+#font-family-picker button.font-btn-selected {
+  border-color: var(--hana-primary) !important;
+  background: rgba(92, 84, 232, 0.08) !important;
+  color: var(--hana-primary) !important;
   font-weight: 900 !important;
+}
+#font-family-picker button.font-btn-default {
+  border-color: var(--hana-border) !important;
+  background: transparent !important;
+  color: var(--hana-text-2) !important;
 }
 
 /* Live Preview box inside settings */
 #settings-preview-box {
-  background: var(--bg) !important;
-  border-color: var(--card-border) !important;
-  color: var(--text-primary) !important;
-}
-
-/* Danger Zone Card Refactoring */
-#settings-screen .bg-gradient-to-b {
-  background: linear-gradient(to bottom, transparent 0%, rgba(239, 68, 68, 0.05) 100%) !important;
-  border-top: 2px solid rgba(239, 68, 68, 0.2) !important;
-}
-
-#settings-screen .bg-white.dark\:bg-red-950\/30 {
-  background: var(--card-bg) !important;
-  border-color: rgba(239, 68, 68, 0.3) !important;
+  background: var(--hana-canvas) !important;
+  border-color: var(--hana-border) !important;
+  color: var(--hana-text-1) !important;
 }
 
 /* ============================================================
@@ -1522,9 +1458,8 @@ body:not(.mode-jalur) #dashboard-screen {
   stroke: var(--hana-primary) !important;
 }
 
-/* 🛡️ FINAL CORRECTION: SETTINGS LAYER UNBLOCK PATCH */
+/* 🛡️ SETTINGS LAYER STACKING */
 
-/* 1. Mengembalikan Takhta Pengaturan ke Tingkat Teratas Agar Bisa Di-klik */
 #settings-screen {
   background-color: var(--hana-canvas) !important;
   opacity: 1 !important;
@@ -1532,36 +1467,13 @@ body:not(.mode-jalur) #dashboard-screen {
   pointer-events: auto !important;
 }
 
-/* 2. Mengunci Posisi Overlay Gelap Tepat di Bawah Kaca Pengaturan */
 #settings-overlay {
   z-index: 9998 !important;
 }
 
-/* 2. Mengunci Sticky Header Pengaturan Agar Selaras dengan Navigasi Atas Premium */
 #settings-screen .sticky {
   background-color: var(--hana-surface) !important;
   border-bottom: 0.5px solid var(--hana-border) !important;
-}
-
-/* 3. Menghidupkan Token Warna Card Internal di Dalam Pengaturan */
-#settings-screen .bg-\\[var\\(--card-bg\\)\\] {
-  background-color: var(--hana-surface) !important;
-  border: 0.5px solid var(--hana-border) !important;
-  box-shadow: var(--shadow-card) !important;
-  border-radius: var(--radius-card) !important;
-}
-
-/* 4. Menyelaraskan Tipografi Teks di Dalam Pengaturan */
-#settings-screen h3,
-#settings-screen h4,
-#settings-screen p,
-#settings-screen label {
-  color: var(--hana-text-1) !important;
-}
-
-#settings-screen p.text-slate-500,
-#settings-screen p.text-slate-400 {
-  color: var(--hana-text-2) !important;
 }
 
 /* 5. Profile Screen Full-Screen Panel (Stitch) */
@@ -1865,13 +1777,15 @@ body:not(.mode-jalur) #dashboard-screen {
   background-color: var(--hana-surface) !important;
 }
 
-/* === 5. LOCK TOTAL SCREEN PENGATURAN (SETTINGS SCREEN) === */
+/* === 5. DARK MODE SETTINGS SCREEN === */
 .dark #settings-screen,
 [data-theme="dark"] #settings-screen {
   background-color: var(--hana-canvas) !important;
 }
-.dark #settings-screen .bg-white,
-[data-theme="dark"] #settings-screen .bg-white {
+.dark #settings-screen section.bg-\[var\(--hana-surface\)\],
+[data-theme="dark"] #settings-screen section.bg-\[var\(--hana-surface\)\],
+.dark #settings-screen .bg-\[var\(--hana-surface\)\],
+[data-theme="dark"] #settings-screen .bg-\[var\(--hana-surface\)\] {
   background-color: var(--hana-surface) !important;
   border-color: var(--hana-border) !important;
 }

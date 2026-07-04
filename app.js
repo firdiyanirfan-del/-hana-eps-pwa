@@ -1115,20 +1115,18 @@ const app = {
     const previewBox = document.getElementById('settings-preview-box');
     if (!previewBox) return;
 
-    // Remove all font classes and add selected
     previewBox.classList.remove('font-pretendard', 'font-notosans', 'font-gmarket');
     previewBox.classList.add(`font-${fontName}`);
 
-    // Update button styles to show selection
     const picker = document.getElementById('font-family-picker');
     if (picker) {
       picker.querySelectorAll('button').forEach(btn => {
-        btn.classList.remove('border-indigo-500', 'bg-indigo-50', 'dark:bg-indigo-900/30');
-        btn.classList.add('border-slate-200', 'dark:border-slate-600');
+        btn.classList.remove('font-btn-selected');
+        btn.classList.add('font-btn-default');
       });
       if (btnElement) {
-        btnElement.classList.remove('border-slate-200', 'dark:border-slate-600');
-        btnElement.classList.add('border-indigo-500', 'bg-indigo-50', 'dark:bg-indigo-900/30');
+        btnElement.classList.remove('font-btn-default');
+        btnElement.classList.add('font-btn-selected');
       }
     }
   },
@@ -1342,16 +1340,40 @@ const app = {
     if (nameEl) nameEl.textContent = this.data.userName || 'Pelajar';
     const xpEl = document.getElementById('settings-profile-xp');
     if (xpEl) xpEl.textContent = (this.data.xp || 0) + ' XP';
+
+    // Premium badge visibility
+    const premiumBadge = document.getElementById('settings-premium-badge');
+    if (premiumBadge) {
+      if (this.data.isPremium) {
+        premiumBadge.classList.remove('hidden');
+      } else {
+        premiumBadge.classList.add('hidden');
+      }
+    }
+
+    // Sync font button state
+    const savedFont = this.data.fontFamily || 'font-pretendard';
+    const fontMap = { 'font-pretendard': 'font-btn-pretendard', 'font-notosans': 'font-btn-notosans', 'font-gmarket': 'font-btn-gmarket' };
+    const activeBtn = document.getElementById(fontMap[savedFont]);
+    if (activeBtn) this.previewFont(savedFont.replace('font-', ''), activeBtn);
+
+    // Restore font size slider
+    const sizeSlider = document.getElementById('font-size-slider');
+    const sizeLabel = document.getElementById('font-size-label');
+    const savedSize = this.data.fontSize || 16;
+    if (sizeSlider) sizeSlider.value = savedSize;
+    if (sizeLabel) sizeLabel.textContent = savedSize + 'px';
+
     const examEl = document.getElementById('settings-exam-text');
     if (examEl) {
       if (this.data.examDate) {
         const diff = new Date(this.data.examDate) - new Date();
         const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
-        if (days > 0) examEl.innerHTML = '<span class="material-symbols-outlined text-[14px] text-[var(--text-secondary)]">calendar_today</span> D-' + days;
+        if (days > 0) examEl.innerHTML = '<span class="material-symbols-outlined text-[14px] text-[var(--hana-text-2)]">calendar_today</span> D-' + days;
         else if (days === 0) examEl.innerHTML = '<span class="material-symbols-outlined text-[14px] text-amber-400">celebration</span> Hari Ini!';
         else examEl.innerHTML = '<span class="material-symbols-outlined text-[14px] text-rose-400">event_busy</span> Sudah Lewat';
       } else {
-        examEl.innerHTML = '<span class="material-symbols-outlined text-[14px] text-[var(--text-secondary)]">calendar_today</span> Atur Tanggal';
+        examEl.innerHTML = '<span class="material-symbols-outlined text-[14px] text-[var(--hana-text-2)]">calendar_today</span> Atur Tanggal';
       }
     }
 
@@ -1361,7 +1383,7 @@ const app = {
     const loggedOutActions = document.getElementById('settings-logged-out-actions');
     if (accEmail) {
       if (this.data.userEmail) {
-        accEmail.textContent = 'Masuk sebagai ' + this.data.userEmail;
+        accEmail.textContent = this.data.userEmail;
         if (loggedInActions) loggedInActions.classList.remove('hidden');
         if (loggedOutActions) loggedOutActions.classList.add('hidden');
       } else {

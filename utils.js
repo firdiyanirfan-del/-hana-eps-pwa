@@ -212,7 +212,7 @@ const Storage = {
 // ============================================================
 function applyDarkMode(on) {
   document.documentElement.classList.toggle('dark', on);
-  document.getElementById('darkModeThumb').style.transform = on ? 'translateX(1.5rem)' : 'translateX(0)';
+  document.getElementById('darkModeThumb').style.transform = on ? 'translateX(1.25rem)' : 'translateX(0)';
 }
 function initDarkMode() {
   const saved = localStorage.getItem('epsDarkMode') === 'true';

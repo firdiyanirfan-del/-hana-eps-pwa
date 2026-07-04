@@ -161,6 +161,154 @@ body {
   box-shadow: var(--shadow-card) !important;
 }
 
+/* ==========================================================================
+   🎴 STITCH QUIZ OPTION BUTTONS (New Design)
+   ========================================================================== */
+.q-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  border: 1.5px solid var(--hana-border);
+  background: var(--hana-surface);
+  color: var(--hana-text-1);
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+  min-height: 56px;
+}
+.q-option:hover:not(:disabled):not(.disabled) {
+  border-color: var(--hana-primary);
+  background: color-mix(in srgb, var(--hana-primary) 6%, var(--hana-surface));
+  transform: translateY(-1px);
+}
+.q-option:active:not(:disabled):not(.disabled) {
+  transform: scale(0.97);
+}
+.q-option .q-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--hana-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--hana-text-2);
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  background: transparent;
+}
+.q-option .q-opt-text {
+  font-weight: 700;
+  font-size: 15px;
+  flex: 1;
+  line-height: 1.4;
+  text-align: left;
+  color: var(--hana-text-1);
+}
+.q-option .q-opt-icon {
+  display: none;
+  flex-shrink: 0;
+  font-size: 20px;
+}
+
+/* Selected state */
+.q-option.selected {
+  border-color: var(--hana-primary);
+  background: color-mix(in srgb, var(--hana-primary) 10%, var(--hana-surface));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--hana-primary) 30%, transparent);
+}
+.q-option.selected .q-circle {
+  border-color: var(--hana-primary);
+  background: var(--hana-primary);
+  color: white;
+}
+
+/* Correct state (study mode feedback) */
+.q-option.correct {
+  border-color: #006949 !important;
+  background: #e7f5ed !important;
+  box-shadow: 0 0 0 1px rgba(0, 105, 73, 0.2) !important;
+}
+.q-option.correct .q-circle {
+  border-color: #006949 !important;
+  background: #006949 !important;
+  color: white !important;
+}
+.q-option.correct .q-opt-icon {
+  display: block;
+  color: #006949;
+}
+.q-option.correct .q-opt-text {
+  color: #006949 !important;
+}
+
+/* Wrong state (study mode feedback) */
+.q-option.wrong {
+  border-color: var(--hana-danger) !important;
+  background: color-mix(in srgb, var(--hana-danger) 10%, var(--hana-surface)) !important;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--hana-danger) 20%, transparent) !important;
+}
+.q-option.wrong .q-circle {
+  border-color: var(--hana-danger) !important;
+  background: var(--hana-danger) !important;
+  color: white !important;
+}
+.q-option.wrong .q-opt-icon {
+  display: block;
+  color: var(--hana-danger);
+}
+.q-option.wrong .q-opt-text {
+  color: var(--hana-danger) !important;
+}
+
+/* Dopamine Punch animation for correct answers */
+@keyframes qDopaminePunch {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 105, 73, 0.6); }
+  40% { transform: scale(1.05); box-shadow: 0 0 20px rgba(0, 105, 73, 0.3); }
+  70% { transform: scale(0.97); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 105, 73, 0); }
+}
+.q-option.correct-punch {
+  animation: qDopaminePunch 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
+  border-color: #006949 !important;
+  background: #e7f5ed !important;
+}
+.q-option.correct-punch .q-circle {
+  border-color: #006949 !important;
+  background: #006949 !important;
+  color: white !important;
+}
+
+/* Disabled state */
+.q-option.disabled, .q-option:disabled {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Dark mode adjustments for q-option */
+.dark .q-option:hover:not(:disabled):not(.disabled) {
+  border-color: var(--hana-primary);
+  background: color-mix(in srgb, var(--hana-primary) 10%, var(--hana-surface));
+}
+.dark .q-option.selected {
+  background: color-mix(in srgb, var(--hana-primary) 15%, var(--hana-surface));
+}
+.dark .q-option.correct {
+  background: rgba(0, 105, 73, 0.2) !important;
+}
+.dark .q-option.wrong {
+  background: color-mix(in srgb, var(--hana-danger) 20%, var(--hana-surface)) !important;
+}
+
 /* Aturan Teks Tambahan Supaya Tidak Samar */
 .modal-box h2, .modal-box h3, .modal-box p,
 #settings-screen h3, #settings-screen h4, #settings-screen p, #settings-screen label {
@@ -1072,28 +1220,29 @@ body.is-jalur .dynamic-island {
    ========================================================================== */
 
 #quiz-screen {
+  background: var(--hana-canvas);
   transition: background 0.5s ease-in-out;
 }
 
-/* 🌸 1. Tema Sakura - HANYA AKTIF JIKALAU TIDAK SEDANG DALAM MODE UBT */
-#quiz-screen.theme-sakura:not(.ubt-mode) { background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 100%); }
-.dark #quiz-screen.theme-sakura:not(.ubt-mode) { background: linear-gradient(135deg, #2d1b2e 0%, #1a1018 100%); }
+/* 🌸 1. Tema Sakura - subtle accent */
+#quiz-screen.theme-sakura:not(.ubt-mode) { background: linear-gradient(180deg, var(--hana-canvas) 0%, color-mix(in srgb, #fff0f5 40%, var(--hana-canvas)) 100%); }
+.dark #quiz-screen.theme-sakura:not(.ubt-mode) { background: linear-gradient(180deg, var(--hana-canvas) 0%, color-mix(in srgb, #2d1b2e 30%, var(--hana-canvas)) 100%); }
 
-/* 🌿 2. Tema Dasar */
-#quiz-screen.theme-forest:not(.ubt-mode) { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); }
-.dark #quiz-screen.theme-forest:not(.ubt-mode) { background: linear-gradient(135deg, #0f291e 0%, #0a1711 100%); }
+/* 🌿 2. Tema Beginner */
+#quiz-screen.theme-forest:not(.ubt-mode) { --q-accent: #006949; background: linear-gradient(180deg, var(--hana-canvas) 0%, color-mix(in srgb, #dcfce7 40%, var(--hana-canvas)) 100%); }
+.dark #quiz-screen.theme-forest:not(.ubt-mode) { background: linear-gradient(180deg, var(--hana-canvas) 0%, color-mix(in srgb, #0f291e 30%, var(--hana-canvas)) 100%); }
 
 /* 🌊 3. Tema Normal */
-#quiz-screen.theme-water:not(.ubt-mode) { background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); }
-.dark #quiz-screen.theme-water:not(.ubt-mode) { background: linear-gradient(135deg, #0c2438 0%, #071421 100%); }
+#quiz-screen.theme-water:not(.ubt-mode) { --q-accent: var(--hana-primary); background: linear-gradient(180deg, var(--hana-canvas) 0%, color-mix(in srgb, #e0f2fe 40%, var(--hana-canvas)) 100%); }
+.dark #quiz-screen.theme-water:not(.ubt-mode) { background: linear-gradient(180deg, var(--hana-canvas) 0%, color-mix(in srgb, #0c2438 30%, var(--hana-canvas)) 100%); }
 
 /* 🍁 4. Tema Pro */
-#quiz-screen.theme-autumn:not(.ubt-mode) { background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); }
-.dark #quiz-screen.theme-autumn:not(.ubt-mode) { background: linear-gradient(135deg, #331e0b 0%, #1a0f05 100%); }
+#quiz-screen.theme-autumn:not(.ubt-mode) { --q-accent: #f97316; background: linear-gradient(180deg, var(--hana-canvas) 0%, color-mix(in srgb, #ffedd5 40%, var(--hana-canvas)) 100%); }
+.dark #quiz-screen.theme-autumn:not(.ubt-mode) { background: linear-gradient(180deg, var(--hana-canvas) 0%, color-mix(in srgb, #331e0b 30%, var(--hana-canvas)) 100%); }
 
-/* 🏰 5. Tema Boss/UBT */
-#quiz-screen.theme-winter:not(.ubt-mode) { background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); }
-.dark #quiz-screen.theme-winter:not(.ubt-mode) { background: linear-gradient(135deg, #1e1b38 0%, #0f0d1c 100%); }
+/* 🏰 5. Tema Simulasi */
+#quiz-screen.theme-winter:not(.ubt-mode) { --q-accent: #8B5CF6; background: linear-gradient(180deg, var(--hana-canvas) 0%, color-mix(in srgb, #ede9fe 40%, var(--hana-canvas)) 100%); }
+.dark #quiz-screen.theme-winter:not(.ubt-mode) { background: linear-gradient(180deg, var(--hana-canvas) 0%, color-mix(in srgb, #1e1b38 30%, var(--hana-canvas)) 100%); }
 
 /* ============================================================
    NATIVE FULL-SCREEN SETTINGS PANEL
@@ -1799,9 +1948,7 @@ body:not(.mode-jalur) #dashboard-screen {
   font-family: monospace, sans-serif !important;
 }
 
-.ubt-mode .btn-option, 
-.ubt-mode .quiz-option, 
-.ubt-mode #q-options button {
+.ubt-mode .q-option {
   background-color: #FFFFFF !important;
   color: #1E293B !important;
   border: 2px solid #94A3B8 !important;
@@ -1809,14 +1956,20 @@ body:not(.mode-jalur) #dashboard-screen {
   box-shadow: none !important;
   font-weight: 700 !important;
   margin-bottom: 8px !important;
+  min-height: 44px !important;
 }
 
 /* Active clicked state inside official UBT Simulator */
-.ubt-mode .btn-option.border-indigo-500,
-.ubt-mode .btn-option:hover {
+.ubt-mode .q-option.selected,
+.ubt-mode .q-option:hover {
   border-color: #3B82F6 !important;
   background-color: #EFF6FF !important;
   transform: none !important;
+}
+
+.ubt-mode .q-option .q-circle {
+  border-radius: 0px !important;
+  border-color: #94A3B8 !important;
 }
 
 .ubt-mode #q-progress-container,
@@ -1829,44 +1982,7 @@ body:not(.mode-jalur) #dashboard-screen {
   font-family: inherit !important;
 }
 
-/* ==========================================================================
-   🛡️ ABSOLUTE OVERRIDE: ACTIVE QUIZ OPTION BORDER
-   ========================================================================== */
-button.btn-option.border-indigo-500:not(.correct):not(.correct-punch):not(.wrong) {
-  border-color: #6366f1 !important;
-  box-shadow: 0 0 0 1px #6366f1 !important;
-  background-color: #eef2ff !important;
-  color: #4338ca !important;
-  transform: scale(0.98) !important;
-}
 
-.dark button.btn-option.border-indigo-500:not(.correct):not(.correct-punch):not(.wrong),
-html[class*="dark"] button.btn-option.border-indigo-500:not(.correct):not(.correct-punch):not(.wrong) {
-  border-color: #818cf8 !important;
-  box-shadow: 0 0 0 1px #818cf8 !important;
-  background-color: rgba(49, 46, 129, 0.4) !important;
-  color: #c7d2fe !important;
-}
-
-/* ==========================================================================
-   🌟 ELEGANT SELECTED ANSWER STATE (QUIZ ENGINE)
-   ========================================================================== */
-button.btn-option.selected-answer:not(.correct):not(.wrong):not(.correct-punch) {
-  border: 2px solid #6366f1 !important;
-  background-color: #eef2ff !important;
-  color: #4338ca !important;
-  box-shadow: 0 6px 15px rgba(99, 102, 241, 0.25) !important;
-  transform: scale(0.98) !important;
-  font-weight: 900 !important;
-}
-
-.dark button.btn-option.selected-answer:not(.correct):not(.wrong):not(.correct-punch),
-html[class*="dark"] button.btn-option.selected-answer:not(.correct):not(.wrong):not(.correct-punch) {
-  border: 2px solid #818cf8 !important;
-  background-color: rgba(49, 46, 129, 0.4) !important;
-  color: #e0e7ff !important;
-  box-shadow: 0 6px 15px rgba(129, 140, 248, 0.2) !important;
-}
 
 /* ==========================================================================
    🏝️ FLOATING ISLAND BOTTOM NAV (PREMIUM)

@@ -278,9 +278,8 @@ Object.assign(app, {
       const textJawaban = opt;
       const letter = String.fromCharCode(65 + idx);
 
-      b.className = 'btn-option w-full flex items-center gap-4 p-4 rounded-2xl font-bold transition-all border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 shadow-sm text-left hover:border-indigo-400';
-
-      b.innerHTML = `<span class="w-7 h-7 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-xs font-black text-slate-500 dark:text-slate-400 shrink-0 border border-slate-200 dark:border-slate-700">${letter}</span><span class="font-bold text-base flex-1 leading-snug text-left">${textJawaban}</span>`;
+      b.className = 'q-option';
+      b.innerHTML = `<div class="q-circle">${letter}</div><span class="q-opt-text">${textJawaban}</span>`;
 
       b.dataset.originalOpt = opt;
       b.onclick = (e) => this.handleAnswer(e, opt, q);
@@ -305,10 +304,10 @@ Object.assign(app, {
       const isBm = this.data.bookmarks.some(b => b.q === q.q);
       if (isBm) {
         btnBm.classList.add('bg-yellow-400', 'text-white');
-        btnBm.classList.remove('bg-[var(--btn-bg)]');
+        btnBm.classList.remove('bg-[var(--hana-card)]');
       } else {
         btnBm.classList.remove('bg-yellow-400', 'text-white');
-        btnBm.classList.add('bg-[var(--btn-bg)]');
+        btnBm.classList.add('bg-[var(--hana-card)]');
       }
     }
 
@@ -334,20 +333,19 @@ Object.assign(app, {
     const playBtn = document.getElementById('btn-play-audio');
     
     if (bar && statusTxt && playBtn) {
-      playBtn.innerHTML = '<i data-lucide="volume-2" class="w-5 h-5 fill-current animate-pulse"></i>';
-      statusTxt.innerText = 'SEDANG MEMUTAR...';
+      playBtn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-pulse">volume_up</span>';
+      statusTxt.innerText = 'MEMUTAR...';
       bar.style.transition = `width ${(3.5 / speed).toFixed(1)}s linear`;
       setTimeout(() => { bar.style.width = '100%'; }, 50);
     }
     
     u.onend = () => {
       if (bar && statusTxt && playBtn) {
-        playBtn.innerHTML = '<i data-lucide="play" class="w-5 h-5 fill-current"></i>';
+        playBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">play_arrow</span>';
         statusTxt.innerText = 'SELESAI';
         bar.style.transition = 'none';
         bar.style.width = '0%';
       }
-      if (typeof lucide !== 'undefined') lucide.createIcons();
     };
     
     window.speechSynthesis.speak(u);
@@ -378,28 +376,19 @@ Object.assign(app, {
     if (this.state.isAnswerChecked) return;
     const btn = event.currentTarget;
     
-    // 1. Reset all buttons and strip inline styles
-    const buttons = document.querySelectorAll('.btn-option');
+    // 1. Reset all buttons to default state
+    const buttons = document.querySelectorAll('.q-option');
     buttons.forEach(b => {
-      b.className = 'btn-option w-full flex items-center gap-4 p-4 rounded-2xl font-bold transition-all border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 shadow-sm text-left hover:border-indigo-300';
-      b.style.cssText = ''; 
+      b.classList.remove('selected');
     });
     
-    // 2. Detect Current Theme Mode
-    const isDark = document.documentElement.classList.contains('dark') || document.body.classList.contains('dark');
-    
-    // 3. Absolute Inline Override (The Nuclear Option)
-    btn.className = 'btn-option w-full flex items-center gap-4 p-4 rounded-2xl font-black transition-all shadow-md text-left';
-    if (isDark) {
-      btn.style.cssText = 'border: 2px solid #818cf8 !important; background-color: rgba(49, 46, 129, 0.4) !important; color: #c7d2fe !important; transform: scale(0.98) !important; box-shadow: 0 4px 15px rgba(129, 140, 248, 0.2) !important;';
-    } else {
-      btn.style.cssText = 'border: 2px solid #6366f1 !important; background-color: #eef2ff !important; color: #4338ca !important; transform: scale(0.98) !important; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3) !important;';
-    }
+    // 2. Mark selected
+    btn.classList.add('selected');
     
     this.state.tempSelectedAnswer = userAns;
     this.state.tempSelectedButton = btn;
     
-    // 4. Show Next Button Dynamically
+    // 3. Show Next Button Dynamically
     const btnNext = document.getElementById('btn-next');
     if (btnNext) {
       btnNext.classList.remove('hidden');
@@ -415,13 +404,13 @@ Object.assign(app, {
   handleNextButton() {
     const q = this.state.questions[this.state.currentIdx];
     const btnNext = document.getElementById('btn-next');
-    const buttons = document.querySelectorAll('.btn-option');
+    const buttons = document.querySelectorAll('.q-option');
 
     const isBelajar = localStorage.getItem('hana_quiz_play_mode') === 'belajar';
     if (isBelajar && !this.state.isSimulasi && !this.state.isImageQuiz && this.state.level !== 'Soal Bergambar') {
       if (!this.state.isAnswerChecked) {
         this.state.isAnswerChecked = true;
-        buttons.forEach(b => b.style.pointerEvents = 'none');
+        buttons.forEach(b => b.classList.add('disabled'));
 
         const correct = this.state.tempSelectedAnswer === q.c;
         this.state.answers.push({ q: q.q, user: this.state.tempSelectedAnswer, correct: q.c, isCorrect: correct, ex: q.ex, type: q.type });
@@ -432,11 +421,12 @@ Object.assign(app, {
         }
 
         if (correct) {
-          this.state.tempSelectedButton.classList.add('correct-punch');
+          this.state.tempSelectedButton.classList.add('correct-punch', 'correct');
           this.state.correctCount++;
           q.type === 'reading' ? this.state.readingCorrect++ : this.state.listeningCorrect++;
           Sound.play('correct');
         } else {
+          this.state.tempSelectedButton.classList.remove('selected');
           this.state.tempSelectedButton.classList.add('wrong');
           buttons.forEach(b => { if (b.dataset.originalOpt === q.c) b.classList.add('correct'); });
           Sound.play('wrong');
@@ -447,8 +437,14 @@ Object.assign(app, {
 
         const fb = document.getElementById('q-feedback');
         if (fb) {
-          fb.className = `p-4 rounded-[20px] text-sm font-bold mt-4 shadow-sm border select-none animate-pulse ${correct ? 'bg-green-100 text-green-700 dark:bg-green-900/50' : 'bg-red-100 text-red-700 dark:bg-red-900/50'}`;
-          fb.innerHTML = `<div>${correct ? 'Tepat Sekali! ✓' : 'Kurang Tepat ✗'}</div><div class="mt-2 font-normal">${q.ex}</div>`;
+          fb.className = 'rounded-[20px] p-4 text-sm font-bold shadow-sm border select-none';
+          if (correct) {
+            fb.style.cssText = 'background: #e7f5ed; color: #006949; border-color: rgba(0,105,73,0.3);';
+          } else {
+            fb.style.cssText = 'background: #fef2f2; color: #dc2626; border-color: rgba(220,38,38,0.3);';
+          }
+          const icon = correct ? 'check_circle' : 'cancel';
+          fb.innerHTML = `<div class="flex items-center gap-2"><span class="material-symbols-outlined">${icon}</span><span>${correct ? 'Tepat Sekali!' : 'Kurang Tepat'}</span></div><div class="mt-2 font-normal text-sm">${q.ex}</div>`;
           fb.classList.remove('hidden');
         }
 
@@ -729,10 +725,10 @@ Object.assign(app, {
     
     const btnUBT = document.getElementById('btn-ubt-toggle');
     if (btnUBT) {
-      btnUBT.innerText = isUBT ? "🎨 UI Modern" : "💻 UBT UI";
+      btnUBT.innerText = isUBT ? "🎨" : "💻";
       btnUBT.className = isUBT 
-        ? "px-3 py-1.5 bg-indigo-500 text-white rounded-xl text-xs font-bold transition-colors shadow-inner" 
-        : "px-3 py-1.5 bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300 rounded-xl text-xs font-bold transition-colors shadow-sm";
+        ? "w-8 h-8 flex items-center justify-center rounded-lg text-white text-[11px] font-bold bg-indigo-500" 
+        : "w-8 h-8 flex items-center justify-center rounded-lg text-[var(--hana-text-2)] text-[11px] font-bold bg-[var(--hana-card)]";
     }
 
     const linkId = 'ubt-external-stylesheet';

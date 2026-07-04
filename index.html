@@ -561,92 +561,110 @@
     </button>
   </nav>
 </div>
-        <div id="quiz-screen" class="glass-panel !rounded-none md:!rounded-3xl !border-0 md:!border-[1.5px] h-[100dvh] md:h-[800px] hidden flex-col w-full mx-auto relative overflow-hidden bg-[var(--bg)]">
+<div id="quiz-screen" class="h-[100dvh] hidden flex-col w-full mx-auto relative overflow-hidden">
   
-  <!-- 🧊 STITCH HEADER: GLASS NAVBAR -->
-  <header class="flex-none backdrop-blur-xl bg-white/70 dark:bg-slate-900/70 h-16 px-4 flex items-center justify-between border-b border-slate-200/50 dark:border-slate-800/50 z-20 relative">
-    <div class="flex items-center gap-3">
-      <button onclick="window.showConfirmExit(() => app.showDashboard(), 'kuis')" class="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:scale-95 transition-transform active:scale-90">
-        <span class="material-symbols-outlined text-lg">close</span>
+  <!-- HEADER: Stitch Glass -->
+  <header class="fixed top-0 left-0 w-full z-20 h-16 flex items-center px-4 justify-between glass-card border-b border-[var(--hana-border)]" style="background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
+    <div class="flex items-center gap-3 flex-1">
+      <button onclick="window.showConfirmExit(() => app.showDashboard(), 'kuis')" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[var(--hana-border)] transition-all active:scale-90">
+        <span class="material-symbols-outlined text-[var(--hana-text-1)]">close</span>
       </button>
-      <div class="h-2 w-32 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-        <div id="q-progress" class="h-full bg-[#6C63FF] rounded-full transition-all duration-500 shadow-[0_0_12px_rgba(108,99,255,0.4)]" style="width: 0%;"></div>
+      <div class="flex-1 max-w-[200px] mx-2">
+        <div class="h-2 bg-[var(--hana-border)] rounded-full overflow-hidden">
+          <div id="q-progress" class="h-full rounded-full transition-all duration-700 ease-out" style="width: 0%; background: var(--hana-primary);"></div>
+        </div>
       </div>
     </div>
-    <div class="flex items-center gap-3">
-      <button id="btn-ubt-toggle" onclick="app.toggleUBTMode()" class="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:scale-95 transition-transform active:scale-90 text-[11px] font-bold">💻</button>
-      <button id="btn-bookmark" onclick="app.toggleBookmark()" class="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:scale-95 transition-transform active:scale-90">
+    <div class="flex items-center gap-2">
+      <button id="btn-ubt-toggle" onclick="app.toggleUBTMode()" class="w-8 h-8 flex items-center justify-center rounded-lg bg-[var(--hana-card)] text-[var(--hana-text-2)] hover:scale-95 transition-transform active:scale-90 text-[11px] font-bold">💻</button>
+      <button id="btn-bookmark" onclick="app.toggleBookmark()" class="w-8 h-8 flex items-center justify-center rounded-lg bg-[var(--hana-card)] text-[var(--hana-text-2)] hover:scale-95 transition-transform active:scale-90">
         <span class="material-symbols-outlined text-lg">bookmark</span>
       </button>
-      <div id="quiz-timer-container" class="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 dark:bg-slate-800 rounded-full">
-        <span class="material-symbols-outlined text-[#6C63FF] dark:text-[#c4c0ff] text-sm">timer</span>
-        <span id="q-timer" class="font-bold text-[#6C63FF] dark:text-[#c4c0ff] text-sm">00:00</span>
+      <div id="quiz-timer-container" class="flex items-center gap-1 px-2.5 py-1 rounded-lg" style="background: var(--hana-card);">
+        <span class="material-symbols-outlined text-[16px]" style="color: var(--hana-primary);">timer</span>
+        <span id="q-timer" class="font-black text-sm" style="color: var(--hana-primary);">00:00</span>
       </div>
-      <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500">
+      <div class="font-black text-[11px] px-2 py-1 rounded-lg" style="color: var(--hana-text-2); background: var(--hana-card);">
         <span id="q-counter">1/15</span>
-      </span>
+      </div>
     </div>
   </header>
 
-  <!-- 🧊 STITCH MAIN: COMPACT CONTENT AREA -->
-  <main class="flex-1 overflow-y-auto custom-scrollbar max-w-md mx-auto pt-6 pb-48 px-6 w-full relative z-10">
-    
-    <div id="timer-box" class="hidden"></div>
-    <div id="q-badge" class="hidden">LEVEL</div>
+  <!-- AMBIENT GLOW -->
+  <div class="fixed top-40 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full -z-10" style="background: var(--hana-primary); opacity: 0.05; filter: blur(80px);"></div>
 
-    <!-- Dynamic content container (audio player, image, etc) -->
-    <div id="quiz-dynamic-content" class="w-full mb-5">
-      <div id="q-audio-box" class="hidden w-full p-4 bg-white dark:bg-[#1C1B1A] border border-slate-200/60 dark:border-slate-800/60 rounded-[20px] flex-col shadow-sm mb-4">
-        <div class="flex items-center justify-between mb-3 w-full">
-          <p class="text-xs font-black text-indigo-500 dark:text-indigo-400 flex items-center gap-1.5">
-            <i data-lucide="headphones" class="w-4 h-4"></i> Soal Mendengarkan
-          </p>
-          <div id="audio-plays-left" class="text-[10px] font-black text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/80 px-2.5 py-1 rounded-md uppercase tracking-widest">Sisa Putar: 2</div>
-        </div>
-        <div class="flex items-center gap-3 w-full">
-          <button id="btn-play-audio" onclick="app.playAudio()" class="w-11 h-11 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl flex items-center justify-center shadow-md active:scale-95 transition-all shrink-0">
-            <i data-lucide="play" class="w-5 h-5 fill-current"></i>
-          </button>
-          <div class="flex-1 h-9 rounded-xl overflow-hidden relative bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700/50">
-            <div id="audio-progress-bar" class="h-full w-0 bg-gradient-to-r from-indigo-400 to-purple-500 transition-all duration-[3000ms] ease-linear"></div>
-            <div class="absolute inset-0 flex items-center px-3">
-              <span id="audio-status-text" class="text-[10px] text-slate-500 font-bold uppercase tracking-widest transition-colors duration-300">Siap Diputar</span>
-            </div>
+  <!-- MAIN CONTENT -->
+  <main class="flex-1 overflow-y-auto custom-scrollbar px-4 pt-20 pb-48 w-full relative z-10">
+    <div class="max-w-lg mx-auto flex flex-col gap-5">
+
+      <div id="timer-box" class="hidden"></div>
+      <div id="q-badge" class="hidden">LEVEL</div>
+
+      <!-- Dynamic content container -->
+      <div id="quiz-dynamic-content" class="w-full">
+        <div id="q-audio-box" class="hidden w-full p-4 rounded-[24px] flex-col shadow-sm mb-4" style="background: var(--hana-surface); border: 0.5px solid var(--hana-border);">
+          <div class="flex items-center justify-between mb-3 w-full">
+            <p class="text-[11px] font-black flex items-center gap-1.5" style="color: var(--hana-primary);">
+              <span class="material-symbols-outlined text-[16px]">headphones</span> Soal Mendengarkan
+            </p>
+            <div id="audio-plays-left" class="text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md" style="color: var(--hana-text-2); background: var(--hana-card);">Sisa Putar: 2</div>
           </div>
-          <button onclick="app.toggleAudioSpeed()" id="btn-audio-speed" class="px-3 h-9 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800/50 rounded-xl text-xs font-black shadow-sm active:scale-95 transition-all shrink-0">1.0x</button>
+          <div class="flex items-center gap-3 w-full">
+            <button id="btn-play-audio" onclick="app.playAudio()" class="w-11 h-11 rounded-xl flex items-center justify-center shadow-md active:scale-95 transition-all shrink-0" style="background: var(--hana-primary); color: white;">
+              <span class="material-symbols-outlined text-[20px]">play_arrow</span>
+            </button>
+            <div class="flex-1 h-9 rounded-xl overflow-hidden relative" style="background: var(--hana-card); border: 0.5px solid var(--hana-border);">
+              <div id="audio-progress-bar" class="h-full w-0 transition-all duration-[3000ms] ease-linear" style="background: linear-gradient(90deg, var(--hana-primary), var(--hana-primary-hover));"></div>
+              <div class="absolute inset-0 flex items-center px-3">
+                <span id="audio-status-text" class="text-[9px] font-black uppercase tracking-widest" style="color: var(--hana-text-2);">Siap Diputar</span>
+              </div>
+            </div>
+            <button onclick="app.toggleAudioSpeed()" id="btn-audio-speed" class="px-3 h-9 rounded-xl text-[11px] font-black shadow-sm active:scale-95 transition-all shrink-0" style="color: var(--hana-primary); background: var(--hana-primary-10); border: 0.5px solid var(--hana-border);">1.0x</button>
+          </div>
+        </div>
+
+        <div id="q-image-container" class="hidden w-full max-w-[220px] aspect-[4/3] rounded-2xl overflow-hidden flex items-center justify-center p-2 mb-2 shadow-inner mx-auto" style="background: var(--hana-card); border: 0.5px solid var(--hana-border);">
+          <img id="q-image" src="" alt="Soal EPS-TOPIK" class="max-h-full max-w-full object-contain rounded-xl">
         </div>
       </div>
 
-      <div id="q-image-container" class="hidden w-full max-w-[220px] aspect-[4/3] bg-slate-50 dark:bg-[#0c1424] rounded-2xl border border-slate-100 dark:border-slate-800/40 overflow-hidden flex items-center justify-center p-2 mb-2 shadow-inner mx-auto">
-        <img id="q-image" src="" alt="Soal EPS-TOPIK" class="max-h-full max-w-full object-contain rounded-xl">
-      </div>
+      <!-- Question Card (Stitch) -->
+      <section class="w-full rounded-[24px] p-5 shadow-sm flex flex-col gap-4" style="background: var(--hana-surface); border: 0.5px solid var(--hana-border);">
+        <div class="flex items-center justify-between">
+          <span id="q-level-badge" class="font-black text-[10px] px-3 py-1 rounded-full uppercase tracking-wider hidden" style="background: var(--hana-primary-10); color: var(--hana-primary);"></span>
+          <div class="flex-1"></div>
+          <div id="q-audio-btn-header" class="hidden">
+            <button onclick="app.playAudio()" class="flex items-center gap-1 text-xs font-bold" style="color: var(--hana-primary);">
+              <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">volume_up</span>
+            </button>
+          </div>
+        </div>
+        <h2 id="q-text" class="text-[16px] font-extrabold leading-relaxed" style="color: var(--hana-text-1);">Memuat...</h2>
+        <p class="text-[13px] font-medium" style="color: var(--hana-text-2);" id="q-subtext"></p>
+      </section>
+
+      <!-- Options container (filled by JS) -->
+      <div id="q-options" class="flex flex-col gap-3"></div>
+
+      <!-- AI Explanation box -->
+      <div id="quiz-ai-explanation-box" class="hidden p-4 rounded-[20px] text-sm leading-relaxed" style="background: var(--hana-primary-10); border: 0.5px solid var(--hana-border); color: var(--hana-text-1);"></div>
+
+      <!-- Feedback box (filled by JS) -->
+      <div id="q-feedback" class="hidden rounded-[20px] p-4 shadow-sm border select-none" style="border-color: var(--hana-border);"></div>
+
     </div>
-
-    <!-- Stitch Question Card -->
-    <div class="w-full bg-white dark:bg-[#151C2C] rounded-2xl p-5 mb-5 shadow-sm border border-slate-200/50 dark:border-slate-800/60">
-      <div class="flex items-center justify-between mb-3">
-        <span class="text-[10px] font-bold text-[#6C63FF] dark:text-[#c4c0ff] uppercase tracking-widest">Pertanyaan</span>
-      </div>
-      <div class="relative">
-          <h2 id="q-text" class="text-base font-bold text-slate-800 dark:text-white leading-relaxed">Memuat...</h2>
-      </div>
-    </div>
-
-    <!-- Options container -->
-    <div id="q-options" class="grid gap-3"></div>
-
-    <!-- AI Explanation box -->
-    <div id="quiz-ai-explanation-box" class="hidden mt-4 p-4 rounded-2xl bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-800/50 text-sm text-slate-700 dark:text-slate-300 leading-relaxed"></div>
-
-    <!-- Feedback -->
-    <div id="q-feedback" class="hidden p-4 rounded-2xl text-sm font-bold mt-4 shadow-sm border select-none"></div>
   </main>
 
-  <!-- 🧊 STITCH FOOTER: FLOATING BOTTOM BAR -->
-  <footer class="fixed bottom-0 left-0 w-full z-50 bg-white/80 dark:bg-[#051424]/80 backdrop-blur-xl pt-4 pb-6 px-6 border-t border-slate-200 dark:border-slate-800">
-    <div class="max-w-md mx-auto flex flex-col gap-3">
-      <p id="hana-quiz-bubble" class="text-xs text-[#6C63FF] dark:text-[#c4c0ff] font-medium text-center italic"></p>
-      <button id="btn-next" onclick="app.handleNextButton()" class="w-full bg-[#6C63FF] dark:bg-[#c4c0ff] text-white dark:text-[#1b0091] py-4 rounded-full font-bold flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md shadow-[#6C63FF]/20 hidden">
+  <!-- FOOTER: Floating Bottom Bar (Stitch) -->
+  <footer class="fixed bottom-0 left-0 w-full z-20 pt-4 pb-6 px-4" style="background: var(--hana-surface); border-top: 0.5px solid var(--hana-border); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
+    <div class="max-w-lg mx-auto flex flex-col gap-3">
+      <div class="flex items-end gap-3 px-2">
+        <div class="w-10 h-10 rounded-2xl flex items-center justify-center overflow-hidden flex-shrink-0" style="background: var(--hana-primary-10);">
+          <img src="assets/hana_encourage.png" alt="Hana" class="w-9 h-9 object-contain">
+        </div>
+        <p id="hana-quiz-bubble" class="text-[12px] italic px-4 py-2.5 rounded-2xl rounded-bl-none max-w-[80%] shadow-sm" style="color: var(--hana-text-2); background: var(--hana-card); border: 0.5px solid var(--hana-border);"></p>
+      </div>
+      <button id="btn-next" onclick="app.handleNextButton()" class="w-full h-12 rounded-2xl text-white font-extrabold text-[14px] flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg hidden" style="background: var(--hana-primary); box-shadow: 0 8px 24px color-mix(in srgb, var(--hana-primary) 40%, transparent);">
         <span>Lanjut</span>
         <span class="material-symbols-outlined">arrow_forward</span>
       </button>

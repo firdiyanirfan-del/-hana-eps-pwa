@@ -2153,6 +2153,8 @@ Gunakan format **bold** untuk setiap kata Korea yang muncul. Pisahkan tiap bagia
 
 };
 
+window.app = app;
+
 window.onload = () => {
   app.init();
   initDarkMode();

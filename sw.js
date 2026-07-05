@@ -38,31 +38,37 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
 
-  // Groq API — network only
-  if (url.hostname === 'api.groq.com') return;
+  // External — network only
+  if (url.hostname !== self.location.hostname) return;
 
-  // FormSubmit — network only
-  if (url.hostname === 'formsubmit.co') return;
-
-  // CDN assets — network first, fallback cache
-  if (url.hostname.includes('cdn.') || url.hostname.includes('unpkg.com') || url.hostname.includes('fonts.') || url.hostname === 'illustrations.popsy.co') {
+  // index.html — network first (always fresh from server)
+  if (url.pathname === '/' || url.pathname.endsWith('index.html')) {
     e.respondWith(
-      fetch(e.request).catch(() => caches.match(e.request))
+      fetch(e.request)
+        .then(res => {
+          const clone = res.clone();
+          caches.open(CACHE).then(c => c.put(e.request, clone));
+          return res;
+        })
+        .catch(() => caches.match(e.request))
     );
     return;
   }
 
-  // Local assets — cache first, network fallback + update cache
+  // Other local assets — stale-while-revalidate
+  // Return cached immediately, update cache in background for next load
   e.respondWith(
     caches.match(e.request).then(cached => {
-      if (cached) return cached;
-      return fetch(e.request).then(res => {
-        if (res && res.status === 200) {
-          const clone = res.clone();
-          caches.open(CACHE).then(c => c.put(e.request, clone));
-        }
-        return res;
-      });
+      const fetchAndUpdate = fetch(e.request)
+        .then(res => {
+          if (res && res.status === 200) {
+            const clone = res.clone();
+            caches.open(CACHE).then(c => c.put(e.request, clone));
+          }
+          return res;
+        })
+        .catch(() => cached);
+      return cached || fetchAndUpdate;
     })
   );
 });

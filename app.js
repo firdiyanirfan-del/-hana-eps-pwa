@@ -1502,6 +1502,12 @@ const app = {
     if (xpEl) xpEl.textContent = (this.data.xp || 0) + ' XP';
     this._renderAvatar();
 
+    // Premium badge visibility
+    const premiumBadge = document.getElementById('profile-premium-badge');
+    if (premiumBadge) {
+      premiumBadge.classList.toggle('hidden', !this.data.isPremium);
+    }
+
     const sesiEl = document.getElementById('profile-sessions-count');
     if (sesiEl) {
       const count = this.data.quizHistory?.length || 0;

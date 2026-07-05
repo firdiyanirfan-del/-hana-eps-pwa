@@ -363,7 +363,7 @@ const aiChat = {
       const data = await app.groqFetch([
         { role: 'system', content: 'Kamu adalah profesor bahasa Korea sekaligus penguji kelulusan EPS-TOPIK yang sangat andal. Patuhi instruksi format pembedahan soal yang diminta user dengan sangat disiplin, rapi, gunakan Bahasa Indonesia yang memotivasi, dan gunakan baris baru agar nyaman dibaca di perangkat mobile.' },
         { role: 'user', content: prompt }
-      ], 30000, 'llama-3.3-70b-versatile');
+      ], 30000);
       document.getElementById(spinnerId)?.remove();
 
       let explanationHtml = '';
@@ -473,7 +473,7 @@ const aiChat = {
       const data = await app.groqFetch([
         { role: 'system', content: 'Kamu adalah profesor bahasa Korea sekaligus penguji kelulusan EPS-TOPIK yang sangat andal. Patuhi instruksi format pembedahan soal yang diminta user dengan sangat disiplin, rapi, gunakan Bahasa Indonesia yang memotivasi, dan gunakan baris baru agar nyaman dibaca di perangkat mobile.' },
         { role: 'user', content: promptLengkap }
-      ], 30000, 'llama-3.3-70b-versatile');
+      ], 30000);
       document.getElementById(typingId)?.remove();
 
       const reply = data?.choices?.[0]?.message?.content;

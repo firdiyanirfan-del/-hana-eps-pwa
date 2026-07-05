@@ -408,14 +408,12 @@
           <img alt="Hana Mascot Studying" class="w-44 h-44 drop-shadow-xl object-contain" src="assets/hana_studying.png" />
         </div>
         <div class="space-y-2">
-          <div class="flex items-center justify-center gap-2 flex-wrap">
-            <span id="hero-chapter-badge" class="inline-block bg-white/20 dark:bg-white/10 backdrop-blur-md border border-white/30 dark:border-white/20 px-3 py-1 rounded-full text-[10px] font-bold text-white tracking-[0.15em] uppercase">CHAPTER 04 • STANDARD</span>
-            <span id="quizModeBadge" onclick="app.toggleQuizMode()" class="px-3 py-1 bg-white/20 dark:bg-white/10 backdrop-blur-md border border-white/30 dark:border-white/20 rounded-full text-[10px] font-bold text-white tracking-wide uppercase shadow-sm transition-all duration-200 active:scale-95 flex items-center gap-1 cursor-pointer select-none">⏱️ Mode Ujian</span>
-          </div>
+          <span id="hero-chapter-badge" class="text-white/90 text-[10px] font-bold tracking-[0.15em] uppercase"></span>
           <h2 id="hero-chapter-title" class="text-white font-headline-lg-mobile leading-tight px-4 font-bold">Lanjutkan Belajar Bab Standard</h2>
           <p id="hero-subtitle" class="text-white/80 text-sm font-medium"></p>
         </div>
-        <button onclick="app.showChapterScreen()" class="mt-6 squishy flex items-center gap-2 bg-[#6C63FF] dark:bg-white text-white dark:text-[#1b0091] px-8 py-3.5 rounded-2xl font-extrabold shadow-xl shadow-[#6C63FF]/20 dark:shadow-white/10 hover:shadow-[#6C63FF]/30 dark:hover:shadow-white/20 transition-all">
+        <span id="quizModeBadge" onclick="app.toggleQuizMode()" class="mt-3 px-3 py-1 bg-white/20 dark:bg-white/10 backdrop-blur-md border border-white/30 dark:border-white/20 rounded-full text-[10px] font-bold text-white tracking-wide uppercase shadow-sm transition-all duration-200 active:scale-95 flex items-center gap-1 cursor-pointer select-none">⏱️ Mode Ujian</span>
+        <button onclick="app.showChapterScreen()" class="mt-3 squishy flex items-center gap-2 bg-[#6C63FF] dark:bg-white text-white dark:text-[#1b0091] px-8 py-3.5 rounded-2xl font-extrabold shadow-xl shadow-[#6C63FF]/20 dark:shadow-white/10 hover:shadow-[#6C63FF]/30 dark:hover:shadow-white/20 transition-all">
           <span id="hero-cta-text">LANJUT BELAJAR</span>
           <span id="hero-cta-icon" class="material-symbols-outlined text-xl">bolt</span>
         </button>

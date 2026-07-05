@@ -157,7 +157,7 @@ const app = {
     const subtitle = document.getElementById('hero-subtitle');
     const ctaText = document.getElementById('hero-cta-text');
     const ctaIcon = document.getElementById('hero-cta-icon');
-    if (!badge || !title || !subtitle || !ctaText || !ctaIcon) return;
+    if (!title || !subtitle || !ctaText || !ctaIcon) return;
 
     const cp = this.data.chapterProgress || {};
     const total = 55;
@@ -210,14 +210,14 @@ const app = {
       cta = 'LANJUTKAN';
       icon = 'check_circle';
     } else {
-      badgeText = '\u{1F3AF} AYO MULAI';
+      badgeText = '';
       titleText = 'Siap Latihan Hari Ini?';
       subText = `${pct}% progress — Ayo kejar!`;
       cta = 'LANJUTKAN';
       icon = 'bolt';
     }
 
-    badge.textContent = badgeText;
+    if (badge) badge.textContent = badgeText;
     title.textContent = titleText;
     subtitle.textContent = subText;
     ctaText.textContent = cta;
@@ -625,11 +625,11 @@ const app = {
     if (!badge) return;
     const currentMode = localStorage.getItem('hana_quiz_play_mode') || 'ujian';
     if (currentMode === 'belajar') {
-      badge.className = "px-3 py-1.5 bg-violet-50 dark:bg-violet-950/30 text-violet-600 dark:text-violet-400 border border-violet-200 dark:border-violet-800/40 rounded-xl text-[10px] font-black tracking-wide uppercase shadow-sm transition-all duration-200 active:scale-95 flex items-center gap-1 cursor-pointer select-none";
-      badge.innerHTML = "<span>📖 Mode Belajar: Panduan ON</span>";
+      badge.className = "px-3 py-1 bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 rounded-full text-[11px] font-bold text-white tracking-wide uppercase shadow-sm transition-all duration-200 active:scale-95 flex items-center gap-1.5 cursor-pointer select-none";
+      badge.innerHTML = "<span>📖 Mode Belajar</span>";
     } else {
-      badge.className = "px-3 py-1.5 bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800/40 rounded-xl text-[10px] font-black tracking-wide uppercase shadow-sm transition-all duration-200 active:scale-95 flex items-center gap-1 cursor-pointer select-none";
-      badge.innerHTML = "<span>⏱️ Mode Ujian: Tanpa Kunci</span>";
+      badge.className = "px-3 py-1 bg-amber-500/20 dark:bg-amber-500/20 backdrop-blur-md border border-amber-400/30 dark:border-amber-400/30 rounded-full text-[11px] font-bold text-amber-300 tracking-wide uppercase shadow-sm transition-all duration-200 active:scale-95 flex items-center gap-1.5 cursor-pointer select-none";
+      badge.innerHTML = "<span>⏱️ Mode Ujian</span>";
     }
   },
 

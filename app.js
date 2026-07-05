@@ -2876,7 +2876,9 @@ window.flashcardEngine = {
   // --- Flashcard-screen (old view) helpers ---
   _ensureVocab() {
     if (!this.vocabData) {
-      this.vocabData = window.HANA_FLASHCARD_DATA || [];
+      const main = window.HANA_FLASHCARD_DATA || [];
+      const extra = window.HANA_FLASHCARD_DATA_SECTIONAL || [];
+      this.vocabData = [...main, ...extra];
       this.vocabIndex = 0;
       this.currentCategory = 'all';
       this.currentChapter = 'all';

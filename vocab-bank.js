@@ -3629,3 +3629,830 @@ window.HANA_FLASHCARD_DATA = [
   }
 
 ];
+
+// =========================================================================
+// 📱 SEKSI TEMATIK — KOSAKATA DI LUAR BAB (EPS-TOPIK THEMATIC VOCAB)
+// =========================================================================
+window.HANA_FLASHCARD_DATA_SECTIONAL = [
+  // --- TEKNOLOGI & HP ---
+  {
+    uid: "sec_fc_001", category: "vocab", chapter: null, section: "teknologi",
+    kr: "스마트폰", ro: "seu-ma-teu-pon",
+    id: "Smartphone", meaning: "Smartphone",
+    example: "스마트폰을 충전해야 해요."
+  },
+  {
+    uid: "sec_fc_002", category: "vocab", chapter: null, section: "teknologi",
+    kr: "충전기", ro: "chung-jeon-gi",
+    id: "Charger", meaning: "Charger",
+    example: "충전기가 없어요. 빌려 주세요."
+  },
+  {
+    uid: "sec_fc_003", category: "vocab", chapter: null, section: "teknologi",
+    kr: "배터리", ro: "bae-teo-ri",
+    id: "Baterai", meaning: "Baterai",
+    example: "배터리가 없어서 전화를 못 했어요."
+  },
+  {
+    uid: "sec_fc_004", category: "vocab", chapter: null, section: "teknologi",
+    kr: "와이파이", ro: "wa-i-pa-i",
+    id: "WiFi", meaning: "WiFi",
+    example: "와이파이 비밀번호가 뭐예요?"
+  },
+  {
+    uid: "sec_fc_005", category: "vocab", chapter: null, section: "teknologi",
+    kr: "카카오톡", ro: "ka-ka-o-tok",
+    id: "KakaoTalk", meaning: "KakaoTalk",
+    example: "카카오톡으로 연락할게요."
+  },
+  {
+    uid: "sec_fc_006", category: "vocab", chapter: null, section: "teknologi",
+    kr: "비밀번호", ro: "bi-mil-beon-ho",
+    id: "Kata sandi / Password", meaning: "Kata sandi / Password",
+    example: "비밀번호를 잊어버렸어요."
+  },
+  {
+    uid: "sec_fc_007", category: "vocab", chapter: null, section: "teknologi",
+    kr: "노트북", ro: "no-teu-buk",
+    id: "Laptop", meaning: "Laptop",
+    example: "노트북이 고장 났어요."
+  },
+  {
+    uid: "sec_fc_008", category: "vocab", chapter: null, section: "teknologi",
+    kr: "키보드", ro: "ki-bo-deu",
+    id: "Keyboard", meaning: "Keyboard",
+    example: "키보드가 작동하지 않아요."
+  },
+  {
+    uid: "sec_fc_009", category: "vocab", chapter: null, section: "teknologi",
+    kr: "마우스", ro: "ma-u-seu",
+    id: "Mouse", meaning: "Mouse",
+    example: "마우스가 고장 났어요."
+  },
+  {
+    uid: "sec_fc_010", category: "vocab", chapter: null, section: "teknologi",
+    kr: "모니터", ro: "mo-ni-teo",
+    id: "Monitor", meaning: "Monitor",
+    example: "모니터 화면이 안 나와요."
+  },
+  {
+    uid: "sec_fc_011", category: "vocab", chapter: null, section: "teknologi",
+    kr: "화면", ro: "hwa-myeon",
+    id: "Layar", meaning: "Layar",
+    example: "화면이 너무 어두워요."
+  },
+  {
+    uid: "sec_fc_012", category: "vocab", chapter: null, section: "teknologi",
+    kr: "카메라", ro: "ka-me-ra",
+    id: "Kamera", meaning: "Kamera",
+    example: "카메라로 사진을 찍어요."
+  },
+  {
+    uid: "sec_fc_013", category: "vocab", chapter: null, section: "teknologi",
+    kr: "이어폰", ro: "i-eo-pon",
+    id: "Earphone", meaning: "Earphone",
+    example: "이어폰을 끼고 음악을 들어요."
+  },
+  {
+    uid: "sec_fc_014", category: "vocab", chapter: null, section: "teknologi",
+    kr: "블루투스", ro: "beul-lu-tu-seu",
+    id: "Bluetooth", meaning: "Bluetooth",
+    example: "블루투스로 연결하세요."
+  },
+  {
+    uid: "sec_fc_015", category: "vocab", chapter: null, section: "teknologi",
+    kr: "저장하다", ro: "jeo-jang-ha-da",
+    id: "Menyimpan", meaning: "Menyimpan",
+    example: "파일을 저장하세요."
+  },
+  {
+    uid: "sec_fc_016", category: "vocab", chapter: null, section: "teknologi",
+    kr: "삭제하다", ro: "sak-je-ha-da",
+    id: "Menghapus", meaning: "Menghapus",
+    example: "불필요한 앱을 삭제하세요."
+  },
+  {
+    uid: "sec_fc_017", category: "vocab", chapter: null, section: "teknologi",
+    kr: "데이터", ro: "de-i-teo",
+    id: "Data / Paket data", meaning: "Data / Paket data",
+    example: "데이터가 부족해요."
+  },
+  {
+    uid: "sec_fc_018", category: "vocab", chapter: null, section: "teknologi",
+    kr: "다운로드", ro: "da-un-ro-deu",
+    id: "Download / Unduh", meaning: "Download / Unduh",
+    example: "앱을 다운로드하고 있어요."
+  },
+  {
+    uid: "sec_fc_019", category: "vocab", chapter: null, section: "teknologi",
+    kr: "업데이트", ro: "eop-de-i-teu",
+    id: "Update / Pembaruan", meaning: "Update / Pembaruan",
+    example: "휴대폰을 업데이트해야 돼요."
+  },
+  {
+    uid: "sec_fc_020", category: "vocab", chapter: null, section: "teknologi",
+    kr: "비행기 모드", ro: "bi-haeng-gi mo-deu",
+    id: "Mode pesawat", meaning: "Mode pesawat",
+    example: "비행기 모드를 켜 주세요."
+  },
+
+  // --- BINATANG & ALAM ---
+  {
+    uid: "sec_fc_021", category: "vocab", chapter: null, section: "binatang",
+    kr: "강아지", ro: "gang-a-ji",
+    id: "Anjing", meaning: "Anjing",
+    example: "강아지를 키우고 싶어요."
+  },
+  {
+    uid: "sec_fc_022", category: "vocab", chapter: null, section: "binatang",
+    kr: "고양이", ro: "go-yang-i",
+    id: "Kucing", meaning: "Kucing",
+    example: "고양이가 귀여워요."
+  },
+  {
+    uid: "sec_fc_023", category: "vocab", chapter: null, section: "binatang",
+    kr: "호랑이", ro: "ho-rang-i",
+    id: "Harimau", meaning: "Harimau",
+    example: "호랑이는 무서운 동물이에요."
+  },
+  {
+    uid: "sec_fc_024", category: "vocab", chapter: null, section: "binatang",
+    kr: "코끼리", ro: "ko-kki-ri",
+    id: "Gajah", meaning: "Gajah",
+    example: "코끼리가 아주 커요."
+  },
+  {
+    uid: "sec_fc_025", category: "vocab", chapter: null, section: "binatang",
+    kr: "원숭이", ro: "won-sung-i",
+    id: "Monyet", meaning: "Monyet",
+    example: "원숭이가 나무에 올라가요."
+  },
+  {
+    uid: "sec_fc_026", category: "vocab", chapter: null, section: "binatang",
+    kr: "토끼", ro: "to-kki",
+    id: "Kelinci", meaning: "Kelinci",
+    example: "토끼가 당근을 먹어요."
+  },
+  {
+    uid: "sec_fc_027", category: "vocab", chapter: null, section: "binatang",
+    kr: "사자", ro: "sa-ja",
+    id: "Singa", meaning: "Singa",
+    example: "사자는 숲의 왕이에요."
+  },
+  {
+    uid: "sec_fc_028", category: "vocab", chapter: null, section: "binatang",
+    kr: "곰", ro: "gom",
+    id: "Beruang", meaning: "Beruang",
+    example: "곰이 겨울잠을 자요."
+  },
+  {
+    uid: "sec_fc_029", category: "vocab", chapter: null, section: "binatang",
+    kr: "뱀", ro: "baem",
+    id: "Ular", meaning: "Ular",
+    example: "뱀이 길을 건너고 있어요."
+  },
+  {
+    uid: "sec_fc_030", category: "vocab", chapter: null, section: "binatang",
+    kr: "새", ro: "sae",
+    id: "Burung", meaning: "Burung",
+    example: "새가 하늘을 날아요."
+  },
+  {
+    uid: "sec_fc_031", category: "vocab", chapter: null, section: "binatang",
+    kr: "물고기", ro: "mul-go-gi",
+    id: "Ikan", meaning: "Ikan",
+    example: "물고기가 물에서 헤엄쳐요."
+  },
+  {
+    uid: "sec_fc_032", category: "vocab", chapter: null, section: "binatang",
+    kr: "거북이", ro: "geo-bu-gi",
+    id: "Kura-kura", meaning: "Kura-kura",
+    example: "거북이는 수명이 길어요."
+  },
+  {
+    uid: "sec_fc_033", category: "vocab", chapter: null, section: "binatang",
+    kr: "나비", ro: "na-bi",
+    id: "Kupu-kupu", meaning: "Kupu-kupu",
+    example: "나비가 꽃에 앉았어요."
+  },
+  {
+    uid: "sec_fc_034", category: "vocab", chapter: null, section: "binatang",
+    kr: "꽃", ro: "kkot",
+    id: "Bunga", meaning: "Bunga",
+    example: "꽃이 예쁘게 피었어요."
+  },
+  {
+    uid: "sec_fc_035", category: "vocab", chapter: null, section: "binatang",
+    kr: "나무", ro: "na-mu",
+    id: "Pohon", meaning: "Pohon",
+    example: "나무가 아주 높아요."
+  },
+  {
+    uid: "sec_fc_036", category: "vocab", chapter: null, section: "binatang",
+    kr: "강", ro: "gang",
+    id: "Sungai", meaning: "Sungai",
+    example: "강물이 차가워요."
+  },
+  {
+    uid: "sec_fc_037", category: "vocab", chapter: null, section: "binatang",
+    kr: "바다", ro: "ba-da",
+    id: "Laut", meaning: "Laut",
+    example: "바다가 아름다워요."
+  },
+  {
+    uid: "sec_fc_038", category: "vocab", chapter: null, section: "binatang",
+    kr: "산", ro: "san",
+    id: "Gunung", meaning: "Gunung",
+    example: "주말에 산에 등산하러 가요."
+  },
+  {
+    uid: "sec_fc_039", category: "vocab", chapter: null, section: "binatang",
+    kr: "하늘", ro: "ha-neul",
+    id: "Langit", meaning: "Langit",
+    example: "하늘이 맑아요."
+  },
+  {
+    uid: "sec_fc_040", category: "vocab", chapter: null, section: "binatang",
+    kr: "별", ro: "byeol",
+    id: "Bintang", meaning: "Bintang",
+    example: "별이 반짝이고 있어요."
+  },
+  {
+    uid: "sec_fc_041", category: "vocab", chapter: null, section: "binatang",
+    kr: "달", ro: "dal",
+    id: "Bulan", meaning: "Bulan",
+    example: "오늘 달이 정말 밝아요."
+  },
+  {
+    uid: "sec_fc_042", category: "vocab", chapter: null, section: "binatang",
+    kr: "해", ro: "hae",
+    id: "Matahari", meaning: "Matahari",
+    example: "해가 동쪽에서 떠요."
+  },
+  {
+    uid: "sec_fc_043", category: "vocab", chapter: null, section: "binatang",
+    kr: "숲", ro: "sup",
+    id: "Hutan", meaning: "Hutan",
+    example: "숲에서 버섯을 땄어요."
+  },
+  {
+    uid: "sec_fc_044", category: "vocab", chapter: null, section: "binatang",
+    kr: "땅", ro: "ttang",
+    id: "Tanah / Bumi", meaning: "Tanah / Bumi",
+    example: "땅이 질어서 걷기 힘들어요."
+  },
+  {
+    uid: "sec_fc_045", category: "vocab", chapter: null, section: "binatang",
+    kr: "구름", ro: "gu-reum",
+    id: "Awan", meaning: "Awan",
+    example: "구름이 하늘에 떠 있어요."
+  },
+
+  // --- WARNA & BENTUK ---
+  {
+    uid: "sec_fc_046", category: "vocab", chapter: null, section: "warna",
+    kr: "빨간색", ro: "ppal-gan-saek",
+    id: "Merah", meaning: "Merah",
+    example: "빨간색이 제일 좋아요."
+  },
+  {
+    uid: "sec_fc_047", category: "vocab", chapter: null, section: "warna",
+    kr: "파란색", ro: "pa-ran-saek",
+    id: "Biru", meaning: "Biru",
+    example: "파란색 하늘이 아름다워요."
+  },
+  {
+    uid: "sec_fc_048", category: "vocab", chapter: null, section: "warna",
+    kr: "노란색", ro: "no-ran-saek",
+    id: "Kuning", meaning: "Kuning",
+    example: "노란색 꽃이 피었어요."
+  },
+  {
+    uid: "sec_fc_049", category: "vocab", chapter: null, section: "warna",
+    kr: "초록색", ro: "cho-rok-saek",
+    id: "Hijau", meaning: "Hijau",
+    example: "초록색이 눈에 편안해요."
+  },
+  {
+    uid: "sec_fc_050", category: "vocab", chapter: null, section: "warna",
+    kr: "보라색", ro: "bo-ra-saek",
+    id: "Ungu", meaning: "Ungu",
+    example: "보라색 옷이 예뻐요."
+  },
+  {
+    uid: "sec_fc_051", category: "vocab", chapter: null, section: "warna",
+    kr: "주황색", ro: "ju-hwang-saek",
+    id: "Oranye", meaning: "Oranye",
+    example: "주황색 귤이 맛있어요."
+  },
+  {
+    uid: "sec_fc_052", category: "vocab", chapter: null, section: "warna",
+    kr: "흰색", ro: "huin-saek",
+    id: "Putih", meaning: "Putih",
+    example: "흰색 눈이 왔어요."
+  },
+  {
+    uid: "sec_fc_053", category: "vocab", chapter: null, section: "warna",
+    kr: "검은색", ro: "geo-meun-saek",
+    id: "Hitam", meaning: "Hitam",
+    example: "검은색 가방을 샀어요."
+  },
+  {
+    uid: "sec_fc_054", category: "vocab", chapter: null, section: "warna",
+    kr: "회색", ro: "hoe-saek",
+    id: "Abu-abu", meaning: "Abu-abu",
+    example: "회색 구름이 끼었어요."
+  },
+  {
+    uid: "sec_fc_055", category: "vocab", chapter: null, section: "warna",
+    kr: "갈색", ro: "gal-saek",
+    id: "Coklat", meaning: "Coklat",
+    example: "갈색 신발을 신었어요."
+  },
+  {
+    uid: "sec_fc_056", category: "vocab", chapter: null, section: "warna",
+    kr: "분홍색", ro: "bun-hong-saek",
+    id: "Merah muda / Pink", meaning: "Merah muda / Pink",
+    example: "분홍색 꽃이 귀여워요."
+  },
+  {
+    uid: "sec_fc_057", category: "vocab", chapter: null, section: "warna",
+    kr: "동그라미", ro: "dong-geu-ra-mi",
+    id: "Lingkaran", meaning: "Lingkaran",
+    example: "종이에 동그라미를 그리세요."
+  },
+  {
+    uid: "sec_fc_058", category: "vocab", chapter: null, section: "warna",
+    kr: "세모", ro: "se-mo",
+    id: "Segitiga", meaning: "Segitiga",
+    example: "세모 모양을 그리고 있어요."
+  },
+  {
+    uid: "sec_fc_059", category: "vocab", chapter: null, section: "warna",
+    kr: "네모", ro: "ne-mo",
+    id: "Persegi / Kotak", meaning: "Persegi / Kotak",
+    example: "네모 칸 안에 써 주세요."
+  },
+  {
+    uid: "sec_fc_060", category: "vocab", chapter: null, section: "warna",
+    kr: "별 모양", ro: "byeol mo-yang",
+    id: "Bentuk bintang", meaning: "Bentuk bintang",
+    example: "별 모양 쿠키를 만들었어요."
+  },
+  {
+    uid: "sec_fc_061", category: "vocab", chapter: null, section: "warna",
+    kr: "길다", ro: "gil-da",
+    id: "Panjang", meaning: "Panjang",
+    example: "이 바지가 너무 길어요."
+  },
+  {
+    uid: "sec_fc_062", category: "vocab", chapter: null, section: "warna",
+    kr: "짧다", ro: "jjal-da",
+    id: "Pendek", meaning: "Pendek",
+    example: "치마가 너무 짧아요."
+  },
+  {
+    uid: "sec_fc_063", category: "vocab", chapter: null, section: "warna",
+    kr: "넓다", ro: "neol-da",
+    id: "Luas / Lebar", meaning: "Luas / Lebar",
+    example: "이 방이 아주 넓어요."
+  },
+  {
+    uid: "sec_fc_064", category: "vocab", chapter: null, section: "warna",
+    kr: "좁다", ro: "jop-da",
+    id: "Sempit", meaning: "Sempit",
+    example: "길이 좁아서 불편해요."
+  },
+  {
+    uid: "sec_fc_065", category: "vocab", chapter: null, section: "warna",
+    kr: "두껍다", ro: "du-kkeop-da",
+    id: "Tebal", meaning: "Tebal",
+    example: "이 책이 아주 두꺼워요."
+  },
+  {
+    uid: "sec_fc_066", category: "vocab", chapter: null, section: "warna",
+    kr: "얇다", ro: "yal-da",
+    id: "Tipis", meaning: "Tipis",
+    example: "종이가 너무 얇아요."
+  },
+
+  // --- PASANGAN KATA MIRIP ---
+  {
+    uid: "sec_fc_067", category: "vocab", chapter: null, section: "pasangan",
+    kr: "발", ro: "bal",
+    id: "Kaki (bagian tubuh)", meaning: "Kaki (bagian tubuh)",
+    example: "발이 아파요. 좀 쉴게요."
+  },
+  {
+    uid: "sec_fc_068", category: "vocab", chapter: null, section: "pasangan",
+    kr: "팔", ro: "pal",
+    id: "Lengan", meaning: "Lengan",
+    example: "팔이 저려서 불편해요."
+  },
+  {
+    uid: "sec_fc_069", category: "vocab", chapter: null, section: "pasangan",
+    kr: "싸다", ro: "ssa-da",
+    id: "Murah", meaning: "Murah",
+    example: "이 옷이 아주 싸요."
+  },
+  {
+    uid: "sec_fc_070", category: "vocab", chapter: null, section: "pasangan",
+    kr: "쓰다", ro: "sseu-da",
+    id: "Menulis", meaning: "Menulis",
+    example: "편지를 쓰고 있어요."
+  },
+  {
+    uid: "sec_fc_071", category: "vocab", chapter: null, section: "pasangan",
+    kr: "배", ro: "bae",
+    id: "Perut / Pir / Kapal", meaning: "Perut / Pir / Kapal",
+    example: "배가 고파요."
+  },
+  {
+    uid: "sec_fc_072", category: "vocab", chapter: null, section: "pasangan",
+    kr: "뱀", ro: "baem",
+    id: "Ular", meaning: "Ular",
+    example: "뱀을 봤어요. 무서웠어요."
+  },
+  {
+    uid: "sec_fc_073", category: "vocab", chapter: null, section: "pasangan",
+    kr: "밥", ro: "bap",
+    id: "Nasi / Makanan", meaning: "Nasi / Makanan",
+    example: "밥을 먹고 있어요."
+  },
+  {
+    uid: "sec_fc_074", category: "vocab", chapter: null, section: "pasangan",
+    kr: "밤", ro: "bam",
+    id: "Malam", meaning: "Malam",
+    example: "밤에 일하는 것이 힘들어요."
+  },
+  {
+    uid: "sec_fc_075", category: "vocab", chapter: null, section: "pasangan",
+    kr: "눈", ro: "nun",
+    id: "Mata / Salju", meaning: "Mata / Salju",
+    example: "눈이 나빠서 안경을 써요."
+  },
+  {
+    uid: "sec_fc_076", category: "vocab", chapter: null, section: "pasangan",
+    kr: "귀", ro: "gwi",
+    id: "Telinga", meaning: "Telinga",
+    example: "귀가 아파서 병원에 가요."
+  },
+  {
+    uid: "sec_fc_077", category: "vocab", chapter: null, section: "pasangan",
+    kr: "물", ro: "mul",
+    id: "Air", meaning: "Air",
+    example: "물을 마시고 싶어요."
+  },
+  {
+    uid: "sec_fc_078", category: "vocab", chapter: null, section: "pasangan",
+    kr: "불", ro: "bul",
+    id: "Api", meaning: "Api",
+    example: "불이 났어요. 빨리 나가요!"
+  },
+  {
+    uid: "sec_fc_079", category: "vocab", chapter: null, section: "pasangan",
+    kr: "문", ro: "mun",
+    id: "Pintu", meaning: "Pintu",
+    example: "문을 닫아 주세요."
+  },
+  {
+    uid: "sec_fc_080", category: "vocab", chapter: null, section: "pasangan",
+    kr: "몸", ro: "mom",
+    id: "Tubuh", meaning: "Tubuh",
+    example: "몸이 안 좋아서 쉬고 있어요."
+  },
+  {
+    uid: "sec_fc_081", category: "vocab", chapter: null, section: "pasangan",
+    kr: "일", ro: "il",
+    id: "Pekerjaan / Hari", meaning: "Pekerjaan / Hari",
+    example: "오늘 일이 많아요."
+  },
+  {
+    uid: "sec_fc_082", category: "vocab", chapter: null, section: "pasangan",
+    kr: "이", ro: "i",
+    id: "Gigi / Dua", meaning: "Gigi / Dua",
+    example: "이를 닦아야 해요."
+  },
+  {
+    uid: "sec_fc_083", category: "vocab", chapter: null, section: "pasangan",
+    kr: "낮", ro: "nat",
+    id: "Siang hari", meaning: "Siang hari",
+    example: "낮에 일하고 밤에 쉬어요."
+  },
+  {
+    uid: "sec_fc_084", category: "vocab", chapter: null, section: "pasangan",
+    kr: "밤", ro: "bam",
+    id: "Malam", meaning: "Malam",
+    example: "밤에 잠을 자요."
+  },
+  {
+    uid: "sec_fc_085", category: "vocab", chapter: null, section: "pasangan",
+    kr: "위", ro: "wi",
+    id: "Atas", meaning: "Atas",
+    example: "시계가 위에 있어요."
+  },
+  {
+    uid: "sec_fc_086", category: "vocab", chapter: null, section: "pasangan",
+    kr: "아래", ro: "a-rae",
+    id: "Bawah", meaning: "Bawah",
+    example: "아래 층에 있어요."
+  },
+  {
+    uid: "sec_fc_087", category: "vocab", chapter: null, section: "pasangan",
+    kr: "앞", ro: "ap",
+    id: "Depan", meaning: "Depan",
+    example: "은행 앞에서 만나요."
+  },
+  {
+    uid: "sec_fc_088", category: "vocab", chapter: null, section: "pasangan",
+    kr: "뒤", ro: "dwi",
+    id: "Belakang", meaning: "Belakang",
+    example: "건물 뒤에 주차하세요."
+  },
+  {
+    uid: "sec_fc_089", category: "vocab", chapter: null, section: "pasangan",
+    kr: "왼쪽", ro: "oen-jjok",
+    id: "Kiri", meaning: "Kiri",
+    example: "왼쪽으로 가 주세요."
+  },
+  {
+    uid: "sec_fc_090", category: "vocab", chapter: null, section: "pasangan",
+    kr: "오른쪽", ro: "o-reun-jjok",
+    id: "Kanan", meaning: "Kanan",
+    example: "오른쪽에 있어요."
+  },
+
+  // --- EMOSI & PERASAAN ---
+  {
+    uid: "sec_fc_091", category: "vocab", chapter: null, section: "emosi",
+    kr: "외롭다", ro: "oe-rop-da",
+    id: "Kesepian", meaning: "Kesepian",
+    example: "가족이 보고 싶어서 외로워요."
+  },
+  {
+    uid: "sec_fc_092", category: "vocab", chapter: null, section: "emosi",
+    kr: "슬프다", ro: "seul-peu-da",
+    id: "Sedih", meaning: "Sedih",
+    example: "영화가 슬퍼서 울었어요."
+  },
+  {
+    uid: "sec_fc_093", category: "vocab", chapter: null, section: "emosi",
+    kr: "부럽다", ro: "bu-reop-da",
+    id: "Iri / Dengki", meaning: "Iri / Dengki",
+    example: "친구가 부러워요."
+  },
+  {
+    uid: "sec_fc_094", category: "vocab", chapter: null, section: "emosi",
+    kr: "설레다", ro: "seol-le-da",
+    id: "Berdebar-debar / Deg-degan", meaning: "Berdebar-debar / Deg-degan",
+    example: "시험 결과가 기대되어 설레요."
+  },
+  {
+    uid: "sec_fc_095", category: "vocab", chapter: null, section: "emosi",
+    kr: "짜증나다", ro: "jja-jeung-na-da",
+    id: "Kesal / Sebal", meaning: "Kesal / Sebal",
+    example: "소음 때문에 짜증나요."
+  },
+  {
+    uid: "sec_fc_096", category: "vocab", chapter: null, section: "emosi",
+    kr: "즐겁다", ro: "jeul-geop-da",
+    id: "Senang / Gembira", meaning: "Senang / Gembira",
+    example: "친구를 만나서 즐거워요."
+  },
+  {
+    uid: "sec_fc_097", category: "vocab", chapter: null, section: "emosi",
+    kr: "무섭다", ro: "mu-seop-da",
+    id: "Takut / Menakutkan", meaning: "Takut / Menakutkan",
+    example: "밤에 혼자 있으면 무서워요."
+  },
+  {
+    uid: "sec_fc_098", category: "vocab", chapter: null, section: "emosi",
+    kr: "놀라다", ro: "nol-la-da",
+    id: "Kaget / Terkejut", meaning: "Kaget / Terkejut",
+    example: "갑자기 큰 소리에 놀랐어요."
+  },
+  {
+    uid: "sec_fc_099", category: "vocab", chapter: null, section: "emosi",
+    kr: "실망하다", ro: "sil-mang-ha-da",
+    id: "Kecewa", meaning: "Kecewa",
+    example: "결과에 실망했어요."
+  },
+  {
+    uid: "sec_fc_100", category: "vocab", chapter: null, section: "emosi",
+    kr: "감동하다", ro: "gam-dong-ha-da",
+    id: "Terharu / Tersentuh", meaning: "Terharu / Tersentuh",
+    example: "그의 말에 감동했어요."
+  },
+  {
+    uid: "sec_fc_101", category: "vocab", chapter: null, section: "emosi",
+    kr: "그립다", ro: "geu-rip-da",
+    id: "Rindu", meaning: "Rindu",
+    example: "고향이 그리워요."
+  },
+  {
+    uid: "sec_fc_102", category: "vocab", chapter: null, section: "emosi",
+    kr: "지루하다", ro: "ji-ru-ha-da",
+    id: "Bosan", meaning: "Bosan",
+    example: "기다리는 것이 지루해요."
+  },
+  {
+    uid: "sec_fc_103", category: "vocab", chapter: null, section: "emosi",
+    kr: "궁금하다", ro: "gung-geum-ha-da",
+    id: "Penasaran", meaning: "Penasaran",
+    example: "한국 문화가 궁금해요."
+  },
+  {
+    uid: "sec_fc_104", category: "vocab", chapter: null, section: "emosi",
+    kr: "부끄럽다", ro: "bu-kkeu-reop-da",
+    id: "Malu", meaning: "Malu",
+    example: "실수해서 부끄러웠어요."
+  },
+  {
+    uid: "sec_fc_105", category: "vocab", chapter: null, section: "emosi",
+    kr: "편안하다", ro: "pyeon-an-ha-da",
+    id: "Nyaman / Tenang", meaning: "Nyaman / Tenang",
+    example: "집에 있으면 편안해요."
+  },
+  {
+    uid: "sec_fc_106", category: "vocab", chapter: null, section: "emosi",
+    kr: "불안하다", ro: "bu-ran-ha-da",
+    id: "Cemas / Gelisah", meaning: "Cemas / Gelisah",
+    example: "시험이 불안해요."
+  },
+  {
+    uid: "sec_fc_107", category: "vocab", chapter: null, section: "emosi",
+    kr: "화나다", ro: "hwa-na-da",
+    id: "Marah", meaning: "Marah",
+    example: "그 말에 화가 났어요."
+  },
+  {
+    uid: "sec_fc_108", category: "vocab", chapter: null, section: "emosi",
+    kr: "당황하다", ro: "dang-hwang-ha-da",
+    id: "Bingung / Grogi", meaning: "Bingung / Grogi",
+    example: "갑자기 질문을 받아서 당황했어요."
+  },
+  {
+    uid: "sec_fc_109", category: "vocab", chapter: null, section: "emosi",
+    kr: "자신 있다", ro: "ja-sin it-da",
+    id: "Percaya diri", meaning: "Percaya diri",
+    example: "한국어에 자신 있어요."
+  },
+  {
+    uid: "sec_fc_110", category: "vocab", chapter: null, section: "emosi",
+    kr: "자신 없다", ro: "ja-sin eop-da",
+    id: "Tidak percaya diri", meaning: "Tidak percaya diri",
+    example: "발표하는 것이 자신 없어요."
+  },
+
+  // --- MAKANAN & BUMBU ---
+  {
+    uid: "sec_fc_111", category: "vocab", chapter: null, section: "makanan",
+    kr: "간장", ro: "gan-jang",
+    id: "Kecap asin", meaning: "Kecap asin",
+    example: "간장을 좀 더 넣으세요."
+  },
+  {
+    uid: "sec_fc_112", category: "vocab", chapter: null, section: "makanan",
+    kr: "고추장", ro: "go-chu-jang",
+    id: "Pasta cabai / Gochujang", meaning: "Pasta cabai / Gochujang",
+    example: "고추장이 매워요."
+  },
+  {
+    uid: "sec_fc_113", category: "vocab", chapter: null, section: "makanan",
+    kr: "된장", ro: "doen-jang",
+    id: "Pasta kedelai fermentasi", meaning: "Pasta kedelai fermentasi",
+    example: "된장찌개가 먹고 싶어요."
+  },
+  {
+    uid: "sec_fc_114", category: "vocab", chapter: null, section: "makanan",
+    kr: "쌈장", ro: "ssam-jang",
+    id: "Ssamjang (pasta bungkus)", meaning: "Ssamjang (pasta bungkus)",
+    example: "쌈장이 맛있어요."
+  },
+  {
+    uid: "sec_fc_115", category: "vocab", chapter: null, section: "makanan",
+    kr: "참기름", ro: "cham-gi-reum",
+    id: "Minyak wijen", meaning: "Minyak wijen",
+    example: "참기름 냄새가 좋아요."
+  },
+  {
+    uid: "sec_fc_116", category: "vocab", chapter: null, section: "makanan",
+    kr: "식초", ro: "sik-cho",
+    id: "Cuka", meaning: "Cuka",
+    example: "식초를 조금 넣었어요."
+  },
+  {
+    uid: "sec_fc_117", category: "vocab", chapter: null, section: "makanan",
+    kr: "설탕", ro: "seol-tang",
+    id: "Gula", meaning: "Gula",
+    example: "설탕은 어디에 있어요?"
+  },
+  {
+    uid: "sec_fc_118", category: "vocab", chapter: null, section: "makanan",
+    kr: "소금", ro: "so-geum",
+    id: "Garam", meaning: "Garam",
+    example: "소금을 너무 많이 넣었어요."
+  },
+  {
+    uid: "sec_fc_119", category: "vocab", chapter: null, section: "makanan",
+    kr: "후추", ro: "hu-chu",
+    id: "Lada / Merica", meaning: "Lada / Merica",
+    example: "후추를 뿌려 주세요."
+  },
+  {
+    uid: "sec_fc_120", category: "vocab", chapter: null, section: "makanan",
+    kr: "밀가루", ro: "mil-ga-ru",
+    id: "Tepung terigu", meaning: "Tepung terigu",
+    example: "밀가루로 빵을 만들어요."
+  },
+  {
+    uid: "sec_fc_121", category: "vocab", chapter: null, section: "makanan",
+    kr: "계란", ro: "gye-ran",
+    id: "Telur", meaning: "Telur",
+    example: "계란 두 개를 삶아 주세요."
+  },
+  {
+    uid: "sec_fc_122", category: "vocab", chapter: null, section: "makanan",
+    kr: "빵", ro: "ppang",
+    id: "Roti", meaning: "Roti",
+    example: "아침에 빵을 먹어요."
+  },
+  {
+    uid: "sec_fc_123", category: "vocab", chapter: null, section: "makanan",
+    kr: "치즈", ro: "chi-jeu",
+    id: "Keju", meaning: "Keju",
+    example: "치즈가 짜요."
+  },
+  {
+    uid: "sec_fc_124", category: "vocab", chapter: null, section: "makanan",
+    kr: "버터", ro: "beo-teo",
+    id: "Mentega", meaning: "Mentega",
+    example: "버터를 바른 빵이 맛있어요."
+  },
+  {
+    uid: "sec_fc_125", category: "vocab", chapter: null, section: "makanan",
+    kr: "국", ro: "guk",
+    id: "Sup", meaning: "Sup",
+    example: "국이 뜨거워요. 조심하세요."
+  },
+  {
+    uid: "sec_fc_126", category: "vocab", chapter: null, section: "makanan",
+    kr: "김치", ro: "gim-chi",
+    id: "Kimchi", meaning: "Kimchi",
+    example: "김치가 매워요."
+  },
+  {
+    uid: "sec_fc_127", category: "vocab", chapter: null, section: "makanan",
+    kr: "떡볶이", ro: "tteok-bbok-i",
+    id: "Tteokbokki", meaning: "Tteokbokki",
+    example: "떡볶이가 먹고 싶어요."
+  },
+  {
+    uid: "sec_fc_128", category: "vocab", chapter: null, section: "makanan",
+    kr: "김밥", ro: "gim-bap",
+    id: "Kimbab", meaning: "Kimbab",
+    example: "김밥을 만들어요."
+  },
+  {
+    uid: "sec_fc_129", category: "vocab", chapter: null, section: "makanan",
+    kr: "라면", ro: "ra-myeon",
+    id: "Mie instan", meaning: "Mie instan",
+    example: "라면을 끓여요."
+  },
+  {
+    uid: "sec_fc_130", category: "vocab", chapter: null, section: "makanan",
+    kr: "만두", ro: "man-du",
+    id: "Pangsit / Dumpling", meaning: "Pangsit / Dumpling",
+    example: "만두를 빚고 있어요."
+  },
+  {
+    uid: "sec_fc_131", category: "vocab", chapter: null, section: "makanan",
+    kr: "생선", ro: "saeng-seon",
+    id: "Ikan (mentah)", meaning: "Ikan (mentah)",
+    example: "생선을 구워 먹어요."
+  },
+  {
+    uid: "sec_fc_132", category: "vocab", chapter: null, section: "makanan",
+    kr: "고기", ro: "go-gi",
+    id: "Daging", meaning: "Daging",
+    example: "고기를 먹고 싶어요."
+  },
+  {
+    uid: "sec_fc_133", category: "vocab", chapter: null, section: "makanan",
+    kr: "채소", ro: "chae-so",
+    id: "Sayuran", meaning: "Sayuran",
+    example: "채소를 많이 먹어야 해요."
+  },
+  {
+    uid: "sec_fc_134", category: "vocab", chapter: null, section: "makanan",
+    kr: "과일", ro: "gwa-il",
+    id: "Buah", meaning: "Buah",
+    example: "과일이 싱싱해요."
+  },
+  {
+    uid: "sec_fc_135", category: "vocab", chapter: null, section: "makanan",
+    kr: "요리", ro: "yo-ri",
+    id: "Masakan / Memasak", meaning: "Masakan / Memasak",
+    example: "한국 요리를 배우고 있어요."
+  }
+];

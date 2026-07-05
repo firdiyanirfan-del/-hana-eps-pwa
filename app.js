@@ -2882,6 +2882,7 @@ window.flashcardEngine = {
       this.vocabIndex = 0;
       this.currentCategory = 'all';
       this.currentChapter = 'all';
+      this.currentSection = 'all';
       this._filterText = '';
     }
   },
@@ -2896,6 +2897,10 @@ window.flashcardEngine = {
     
     if (this.currentChapter && this.currentChapter !== 'all') {
       list = list.filter(v => v.chapter === this.currentChapter);
+    }
+
+    if (this.currentSection && this.currentSection !== 'all') {
+      list = list.filter(v => v.section === this.currentSection && v.chapter === null);
     }
     return list;
   },
@@ -3041,7 +3046,16 @@ window.flashcardEngine = {
   _updateChapterLabel() {
     const label = document.getElementById('flashcard-chapter-label');
     if (!label) return;
-    label.innerText = this.currentChapter === 'all' ? 'Semua Bab' : 'Bab ' + this.currentChapter;
+    if (this.currentSection !== 'all') {
+      label.innerText = this._getSectionLabel(this.currentSection);
+    } else {
+      label.innerText = this.currentChapter === 'all' ? 'Semua Bab' : 'Bab ' + this.currentChapter;
+    }
+  },
+
+  _getSectionLabel(section) {
+    const map = { teknologi: '💻 Teknologi', binatang: '🐾 Binatang & Alam', warna: '🎨 Warna & Bentuk', pasangan: '🔀 Kata Mirip', emosi: '😊 Emosi', makanan: '🍳 Makanan' };
+    return map[section] || section;
   },
 
   openChapterPicker() {
@@ -3059,15 +3073,39 @@ window.flashcardEngine = {
       }
     });
 
-    const selected = this.currentChapter;
-    let html = `<div onclick="window.flashcardEngine.setChapter('all')" class="flex flex-col items-center justify-center p-3 rounded-2xl border-2 cursor-pointer active:scale-95 transition-all ${selected === 'all' ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 hover:border-indigo-300 dark:hover:border-indigo-700'}">
+    const sectionTag = {};
+    this.vocabData.forEach(v => {
+      if (v.section) {
+        sectionTag[v.section] = (sectionTag[v.section] || 0) + 1;
+      }
+    });
+    const sectionNames = Object.keys(sectionTag);
+
+    const selChapter = this.currentChapter;
+    const selSection = this.currentSection;
+    let html = `<div onclick="window.flashcardEngine.setChapter('all'); window.flashcardEngine.setSection('all')" class="flex flex-col items-center justify-center p-3 rounded-2xl border-2 cursor-pointer active:scale-95 transition-all ${selChapter === 'all' && selSection === 'all' ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 hover:border-indigo-300 dark:hover:border-indigo-700'}">
       <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Semua</span>
       <span class="text-base font-black text-slate-800 dark:text-white mt-0.5">All</span>
       <span class="text-[9px] text-slate-400 mt-0.5">${this.vocabData.length} kata</span>
     </div>`;
 
+    if (sectionNames.length > 0) {
+      html += `<div class="col-span-full mt-3 mb-0.5"><span class="text-[10px] font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-widest">📂 Section Tematik</span></div>`;
+      sectionNames.forEach(sec => {
+        const isActive = selSection === sec;
+        const count = sectionTag[sec];
+        const label = this._getSectionLabel(sec);
+        html += `<div onclick="window.flashcardEngine.setSection('${sec}')" class="flex flex-col items-center justify-center p-3 rounded-2xl border-2 cursor-pointer active:scale-95 transition-all ${isActive ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 hover:border-indigo-300 dark:hover:border-indigo-700'}">
+        <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">${label}</span>
+        <span class="text-[9px] text-slate-400 mt-0.5">${count} kata</span>
+      </div>`;
+      });
+    }
+
+    html += `<div class="col-span-full mt-3 mb-0.5"><span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">📖 Pilih Bab</span></div>`;
+
     chapters.forEach(ch => {
-      const isActive = selected === ch;
+      const isActive = selChapter === ch && selSection === 'all';
       const count = counts[ch] || 0;
       html += `<div onclick="window.flashcardEngine.setChapter(${ch})" class="flex flex-col items-center justify-center p-3 rounded-2xl border-2 cursor-pointer active:scale-95 transition-all ${isActive ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 hover:border-indigo-300 dark:hover:border-indigo-700'}">
         <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Bab</span>
@@ -3101,6 +3139,16 @@ window.flashcardEngine = {
 
   setChapter(chapter) {
     this.currentChapter = chapter;
+    this.currentSection = 'all';
+    this.vocabIndex = 0;
+    this._updateChapterLabel();
+    this.closeChapterPicker();
+    this._renderFlashcardScreen(0);
+  },
+
+  setSection(section) {
+    this.currentSection = section;
+    this.currentChapter = 'all';
     this.vocabIndex = 0;
     this._updateChapterLabel();
     this.closeChapterPicker();

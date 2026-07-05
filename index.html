@@ -993,7 +993,7 @@
               <!-- Same-Chapter Word Chips (dinamis dari JS) -->
               <div id="flashcard-related-grid" class="grid grid-cols-2 gap-3"></div>
               <!-- Tombol Tanya Hana AI -->
-              <button onclick="app.bukaAiSheet()" class="w-full py-2.5 bg-gradient-to-r from-[#6C63FF] to-[#8B84FF] text-white font-bold text-xs rounded-xl shadow-md active:scale-95 transition-all flex items-center justify-center gap-2 hover:shadow-lg">
+              <button onclick="event.stopPropagation();app.bukaAiSheet()" class="w-full py-2.5 bg-gradient-to-r from-[#6C63FF] to-[#8B84FF] text-white font-bold text-xs rounded-xl shadow-md active:scale-95 transition-all flex items-center justify-center gap-2 hover:shadow-lg">
                 <span class="material-symbols-outlined text-sm">psychology</span>
                 Tanya Hana AI
               </button>

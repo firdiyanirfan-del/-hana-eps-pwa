@@ -2989,7 +2989,7 @@ window.flashcardEngine = {
       const chipIdx = filtered.findIndex(v => v.uid === chip.uid);
       const clickable = chipIdx !== -1;
       const label = 'Bab ' + (chip.chapter || '?');
-      html += `<div class="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700/60 ${clickable ? 'cursor-pointer hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors' : 'opacity-50'}" ${clickable ? `onclick="window.flashcardEngine.goToIndex(${chipIdx})"` : ''}>
+      html += `<div class="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700/60 ${clickable ? 'cursor-pointer hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors' : 'opacity-50'}" ${clickable ? `onclick="event.stopPropagation();window.flashcardEngine.goToIndex(${chipIdx})"` : ''}>
         <span class="block text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase">${label}</span>
         <span class="font-medium text-sm text-slate-800 dark:text-white">${chip.kr}</span>
       </div>`;

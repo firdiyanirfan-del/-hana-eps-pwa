@@ -317,7 +317,7 @@ Object.assign(app, {
         try {
            const audioPreload = new Audio(nextQ.audio);
            audioPreload.preload = 'auto';
-        } catch(e){}
+        } catch(e){ console.warn(e) }
       }
     }
 
@@ -777,4 +777,3 @@ Object.assign(app, {
   },
 });
 
-console.log("HANA Quiz Engine successfully modularized & attached.");

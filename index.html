@@ -2790,7 +2790,7 @@
     'Hampir siap, lanjutkan semangatmu!',
     'Menyusun materi belajar khusus untukmu'
   ];
-  var quoteIdx = 0;
+  let quoteIdx = 0;
 
   function rotateQuote() {
     if (quoteEl) {
@@ -2804,26 +2804,38 @@
     }
   }
 
-  var quoteTimer = setInterval(rotateQuote, 4000);
+  const quoteTimer = setInterval(rotateQuote, 4000);
   rotateQuote();
 
-  var attempts = 0;
+  let attempts = 0;
 
   function checkHealth() {
     attempts++;
-    fetch('/api/health', { method: 'GET', cache: 'no-store' })
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
+    fetch('/api/health', { method: 'GET', cache: 'no-store', signal: controller.signal })
       .then(function(r) {
+        clearTimeout(timeoutId);
         if (r.ok) {
           clearInterval(quoteTimer);
           overlay.style.opacity = 0;
           setTimeout(function() { overlay.classList.add('hidden'); }, 500);
         } else if (attempts < 30) {
           setTimeout(checkHealth, 2000);
+        } else {
+          clearInterval(quoteTimer);
+          overlay.style.opacity = 0;
+          setTimeout(function() { overlay.classList.add('hidden'); }, 500);
         }
       })
       .catch(function() {
+        clearTimeout(timeoutId);
         if (attempts < 30) {
           setTimeout(checkHealth, 2000);
+        } else {
+          clearInterval(quoteTimer);
+          overlay.style.opacity = 0;
+          setTimeout(function() { overlay.classList.add('hidden'); }, 500);
         }
       });
   }
@@ -2833,7 +2845,7 @@
 </script>
 <script>
 document.addEventListener('touchstart', function(e) {
-  var x = e.touches[0].clientX;
+  const x = e.touches[0].clientX;
   if (x < 20 || x > window.innerWidth - 20) e.preventDefault();
 }, { passive: false });
 document.addEventListener('touchmove', function(e) {

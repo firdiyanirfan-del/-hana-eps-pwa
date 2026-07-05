@@ -68,7 +68,7 @@ const aiChat = {
     try {
       const saved = localStorage.getItem('hana_quiz_history');
       if (saved) this._history = JSON.parse(saved);
-    } catch (e) {}
+    } catch (e) { console.warn(e) }
 
     if (!document.getElementById('chat-context-menu')) {
       const menu = document.createElement('div');
@@ -270,7 +270,7 @@ const aiChat = {
       return;
     }
 
-    this._renderBubble(q, 'right');
+    this._renderBubble(this._escapeHtml(q), 'right');
     const typingId = 'ai-typing-' + Date.now();
     this._renderTyping(typingId);
     input.value = '';
@@ -284,7 +284,7 @@ const aiChat = {
 
       const reply = data?.choices?.[0]?.message?.content;
       if (reply) {
-        const formatted = reply.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-indigo-600 dark:text-indigo-400">$1</strong>').replace(/\n/g, '<br>');
+        const formatted = this._escapeHtml(reply).replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-indigo-600 dark:text-indigo-400">$1</strong>').replace(/\n/g, '<br>');
         this._renderBubble(formatted, 'left');
         if (data.remaining_tokens !== undefined && window.app) {
           window.app.data._remainingTokens = data.remaining_tokens;
@@ -303,7 +303,7 @@ const aiChat = {
         this._showLimitModal(e.used);
         return;
       }
-      this._renderBubble('⚠️ ' + e.message, 'left');
+      this._renderBubble('⚠️ ' + this._escapeHtml(e.message), 'left');
     }
   },
 
@@ -465,7 +465,7 @@ const aiChat = {
       this._showLoginModal();
       return;
     }
-    this._renderBubble('🤖 Bedah Soal: "' + teksTampilanUser.substring(0, 40) + '..."', 'right');
+    this._renderBubble('🤖 Bedah Soal: "' + this._escapeHtml(teksTampilanUser.substring(0, 40)) + '..."', 'right');
     const typingId = 'ai-typing-' + Date.now();
     this._renderTyping(typingId);
 
@@ -478,7 +478,7 @@ const aiChat = {
 
       const reply = data?.choices?.[0]?.message?.content;
       if (reply) {
-        const formatted = reply
+        const formatted = this._escapeHtml(reply)
           .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-indigo-600 dark:text-indigo-400 block mt-2 first:mt-0">$1</strong>')
           .replace(/\n/g, '<br>');
         this._renderBubble(formatted, 'left');
@@ -489,7 +489,7 @@ const aiChat = {
       document.getElementById(typingId)?.remove();
       if (e.message === 'LOGIN_REQUIRED') { this._showLoginModal(); return; }
       if (e.message === 'LIMIT_REACHED') { this._showLimitModal(e.used); return; }
-      this._renderBubble('⚠️ ' + e.message, 'left');
+      this._renderBubble('⚠️ ' + this._escapeHtml(e.message), 'left');
     }
   }
 };

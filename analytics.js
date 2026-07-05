@@ -215,7 +215,7 @@ Object.assign(app, {
   }
 });
 
-console.log("HANA Analytics Engine modularized.");
+
 
 // =========================================================================
 // 🌟 SVG RING ENGINE & O-DAP NOTE UI REVAMP (MONKEY PATCH)
@@ -518,7 +518,7 @@ Object.assign(app, {
   }
 });
 
-console.log("HANA Casino Roulette Sub-Engine successfully operational and bound to App scope.");
+
 
 // =========================================================================
 // 📦 INTERACTIVE BOOKMARK VAULT ENGINE LOGIC
@@ -609,4 +609,4 @@ Object.assign(app, {
   }
 });
 
-console.log("HANA Bookmark Vault Engine operational.");
+

@@ -375,7 +375,7 @@ const semanticGame = {
       if (typeof confetti !== 'undefined') confetti({ particleCount: 30, spread: 45, origin: { y: isTopSelected ? 0.3 : 0.7 }, zIndex: 99999 });
       
       const snd = new Audio('asset game/audio/benar.wav'); snd.volume = 0.4;
-      if (audioCtx && audioCtx.createMediaElementSource) { try { const src = audioCtx.createMediaElementSource(snd); src.connect(audioCtx.destination); } catch(e){} }
+      if (audioCtx && audioCtx.createMediaElementSource) { try { const src = audioCtx.createMediaElementSource(snd); src.connect(audioCtx.destination); } catch(e){ console.warn(e) } }
       snd.play().catch(()=>{});
       if(navigator.vibrate) navigator.vibrate(50);
       if(typeof app !== 'undefined' && app.data) { app.data.xp += 10; Storage.set(app.data); app.renderDashboard(); }
@@ -392,7 +392,7 @@ const semanticGame = {
       if (targetZone) targetZone.classList.add('hana-zone-error');
       
       const snd = new Audio('asset game/audio/salah.wav'); snd.volume = 0.3;
-      if (audioCtx && audioCtx.createMediaElementSource) { try { const src = audioCtx.createMediaElementSource(snd); src.connect(audioCtx.destination); } catch(e){} }
+      if (audioCtx && audioCtx.createMediaElementSource) { try { const src = audioCtx.createMediaElementSource(snd); src.connect(audioCtx.destination); } catch(e){ console.warn(e) } }
       snd.play().catch(()=>{});
       if(navigator.vibrate) navigator.vibrate([80,40,80]);
     }
@@ -535,7 +535,7 @@ const wordConnectGame = {
       if(typeof confetti !== 'undefined') confetti({ particleCount: 30, spread: 45, origin: { y: 0.75 }, zIndex: 99999 });
       
       const snd = new Audio('asset game/audio/benar.wav'); snd.volume = 0.4;
-      if (audioCtx && audioCtx.createMediaElementSource) { try { const src = audioCtx.createMediaElementSource(snd); src.connect(audioCtx.destination); } catch(e){} }
+      if (audioCtx && audioCtx.createMediaElementSource) { try { const src = audioCtx.createMediaElementSource(snd); src.connect(audioCtx.destination); } catch(e){ console.warn(e) } }
       snd.play().catch(()=>{});
       if(navigator.vibrate) navigator.vibrate(50);
       if(typeof app !== 'undefined' && app.data) { app.data.xp += 10; Storage.set(app.data); app.renderDashboard(); }
@@ -549,7 +549,7 @@ const wordConnectGame = {
       });
       
       const snd = new Audio('asset game/audio/salah.wav'); snd.volume = 0.3;
-      if (audioCtx && audioCtx.createMediaElementSource) { try { const src = audioCtx.createMediaElementSource(snd); src.connect(audioCtx.destination); } catch(e){} }
+      if (audioCtx && audioCtx.createMediaElementSource) { try { const src = audioCtx.createMediaElementSource(snd); src.connect(audioCtx.destination); } catch(e){ console.warn(e) } }
       snd.play().catch(()=>{});
       if(navigator.vibrate) navigator.vibrate([100, 50, 100]);
     }
@@ -642,7 +642,7 @@ const matchMadnessGame = {
       const audioPath = item.img.replace('.png', '.wav').replace('asset game/', 'asset game/audio/');
       const snd = new Audio(audioPath); snd.volume = 0.5;
       const audioCtx = (typeof Sound !== 'undefined' && Sound._ctx) ? Sound._ctx : null;
-      if (audioCtx && audioCtx.createMediaElementSource) { try { const src = audioCtx.createMediaElementSource(snd); src.connect(audioCtx.destination); } catch(e){} }
+      if (audioCtx && audioCtx.createMediaElementSource) { try { const src = audioCtx.createMediaElementSource(snd); src.connect(audioCtx.destination); } catch(e){ console.warn(e) } }
       snd.play().catch(()=>{});
     }
     this.checkMatch();
@@ -678,7 +678,7 @@ const matchMadnessGame = {
       document.getElementById('madness-score-text').innerText = `XP: +${this.score * 10}`;
       
       const snd = new Audio('asset game/audio/benar.wav'); snd.volume = 0.4;
-      if (audioCtx && audioCtx.createMediaElementSource) { try { const src = audioCtx.createMediaElementSource(snd); src.connect(audioCtx.destination); } catch(e){} }
+      if (audioCtx && audioCtx.createMediaElementSource) { try { const src = audioCtx.createMediaElementSource(snd); src.connect(audioCtx.destination); } catch(e){ console.warn(e) } }
       snd.play().catch(()=>{});
 
       if (navigator.vibrate) navigator.vibrate(40);
@@ -695,7 +695,7 @@ const matchMadnessGame = {
       HanaJuicyEngine.triggerWrong();
 
       const snd = new Audio('asset game/audio/salah.wav'); snd.volume = 0.3;
-      if (audioCtx && audioCtx.createMediaElementSource) { try { const src = audioCtx.createMediaElementSource(snd); src.connect(audioCtx.destination); } catch(e){} }
+      if (audioCtx && audioCtx.createMediaElementSource) { try { const src = audioCtx.createMediaElementSource(snd); src.connect(audioCtx.destination); } catch(e){ console.warn(e) } }
       snd.play().catch(()=>{});
 
       if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
@@ -801,7 +801,7 @@ const listenStrikeGame = {
       document.getElementById('listen-score-text').innerText = `XP: +${this.score * 10}`;
 
       const snd = new Audio('asset game/audio/benar.wav'); snd.volume = 0.4;
-      if (audioCtx && audioCtx.createMediaElementSource) { try { const src = audioCtx.createMediaElementSource(snd); src.connect(audioCtx.destination); } catch(e){} }
+      if (audioCtx && audioCtx.createMediaElementSource) { try { const src = audioCtx.createMediaElementSource(snd); src.connect(audioCtx.destination); } catch(e){ console.warn(e) } }
       snd.play().catch(()=>{});
 
       if (navigator.vibrate) navigator.vibrate(50);
@@ -811,7 +811,7 @@ const listenStrikeGame = {
       HanaJuicyEngine.triggerWrong();
 
       const snd = new Audio('asset game/audio/salah.wav'); snd.volume = 0.3;
-      if (audioCtx && audioCtx.createMediaElementSource) { try { const src = audioCtx.createMediaElementSource(snd); src.connect(audioCtx.destination); } catch(e){} }
+      if (audioCtx && audioCtx.createMediaElementSource) { try { const src = audioCtx.createMediaElementSource(snd); src.connect(audioCtx.destination); } catch(e){ console.warn(e) } }
       snd.play().catch(()=>{});
 
       if (navigator.vibrate) navigator.vibrate([80, 50, 80]);
@@ -928,4 +928,3 @@ Object.assign(app, {
 });
 
 
-if(semanticGame.rawDataset.length > 0) console.log("HANA Juicy Game Engine synchronized successfully.");

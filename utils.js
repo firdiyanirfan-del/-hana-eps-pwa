@@ -16,7 +16,7 @@
     const img = new Image();
     img.src = src;
   });
-  console.log('🔮 [HANA Engine] All 3D Mascot assets preloaded successfully.');
+
 })();
 
 // ============================================================
@@ -119,7 +119,7 @@ const Storage = {
         const parsedLegacy = JSON.parse(legacyData);
         Storage.set(parsedLegacy); // Distribusikan data lama ke format laci baru
         localStorage.removeItem(Storage.KEYS.LEGACY); // Bakar laci lama agar bersih
-        console.log("🛠️ Storage Migration Successful!");
+
       }
 
       // Ambil data dari masing-masing laci (Pecah Modul)
@@ -258,7 +258,7 @@ const Sound = {
         o.start(); g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
         o.stop(ctx.currentTime + 0.35);
       }
-    } catch (e) { }
+    } catch (e) { console.warn(e) }
   }
 };
 

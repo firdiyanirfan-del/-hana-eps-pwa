@@ -1632,7 +1632,7 @@ const app = {
     if (isBgmActive) {
       bgm.volume = 0.2;
       bgm.play().catch(error => {
-        console.log("Autoplay BGM tertunda sampai interaksi user pertama.");
+
       });
     } else {
       bgm.pause();
@@ -2141,16 +2141,7 @@ window.onload = () => {
   initDarkMode();
   aiChat.init();
 
-  // ============================================================
-  // PATCH INTERSEPTOR V6: INLINE RESULT-SCREEN ACCORDION DELEGATE
-  // ============================================================
-  if (window.aiChat && aiChat.tanyaSoalSalah) {
-    const originalTanyaSoalSalah = aiChat.tanyaSoalSalah;
-    
-    aiChat.tanyaSoalSalah = function(q, correct, user, el) {
-      originalTanyaSoalSalah.call(aiChat, q, correct, user, el);
-    };
-  }
+
 
   window.flashcardEngine.init();
   
@@ -2777,8 +2768,8 @@ window.addEventListener("popstate", (e) => {
 });
 
 window.fireConfetti = function() {
-  var duration = 3 * 1000;
-  var end = Date.now() + duration;
+  const duration = 3 * 1000;
+  const end = Date.now() + duration;
   (function frame() {
     confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, zIndex: 9999 });
     confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, zIndex: 9999 });

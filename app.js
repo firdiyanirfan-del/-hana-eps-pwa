@@ -18,6 +18,7 @@ const app = {
       if (res.status === 401) {
         this._token = null;
         this._sessionExpired = true;
+        // 🟢 Session dianggap expired — akan direset ke false di baris ~39 setelah sync sukses
         localStorage.removeItem('eps_token');
         this.data.userEmail = '';
         this.data.userAvatar = '';
@@ -37,6 +38,7 @@ const app = {
       }
       if (!res.ok) return;
       const data = await res.json();
+      this._sessionExpired = false; // 🟢 Sync sukses — session valid
       if (data.progress) {
         this.data.xp = data.progress.xp || 0;
         this.data.streak = data.progress.streak || 0;
@@ -111,6 +113,7 @@ const app = {
 
   logout() {
     this._token = null;
+    this._sessionExpired = false;
     localStorage.removeItem('eps_token');
     this.data.userEmail = '';
     this.data.userAvatar = '';
@@ -425,6 +428,7 @@ const app = {
     const token = urlParams.get('token');
     if (token) {
       this._token = token;
+      this._sessionExpired = false;
       localStorage.setItem('eps_token', token);
       window.history.replaceState({}, document.title, window.location.pathname);
       this.syncFromServer().then(() => {
@@ -1908,6 +1912,13 @@ const app = {
     const input = document.getElementById('ai-sheet-input');
     const q = input ? input.value.trim() : '';
     if (!q) return;
+
+    if (!this._token || this._sessionExpired) {
+      const loginModal = window.aiChat && window.aiChat._showLoginModal;
+      if (typeof loginModal === 'function') loginModal();
+      else if (typeof showToast === 'function') showToast('Silakan login untuk menggunakan AI', 'error');
+      return;
+    }
 
     const chatBox = document.getElementById('ai-sheet-chat-container');
     if (!chatBox) return;

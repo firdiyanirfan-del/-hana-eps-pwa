@@ -55,6 +55,20 @@ self.addEventListener('fetch', e => {
     return;
   }
 
+  // Semua .js — network first (biar update langsung kena)
+  if (url.pathname.endsWith('.js')) {
+    e.respondWith(
+      fetch(e.request)
+        .then(res => {
+          const clone = res.clone();
+          caches.open(CACHE).then(c => c.put(e.request, clone));
+          return res;
+        })
+        .catch(() => caches.match(e.request))
+    );
+    return;
+  }
+
   // Other local assets — stale-while-revalidate
   // Return cached immediately, update cache in background for next load
   e.respondWith(

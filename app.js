@@ -17,10 +17,22 @@ const app = {
       });
       if (res.status === 401) {
         this._token = null;
+        this._sessionExpired = true;
         localStorage.removeItem('eps_token');
         this.data.userEmail = '';
+        this.data.userAvatar = '';
+        this.data.userGoogleName = '';
+        this.data.userName = '';
         Storage.set(this.data);
-        if (typeof showToast === 'function') showToast('Sesi habis. Silakan login ulang', 'error');
+        this.renderDashboard();
+        this._updateAllUserInfoDisplays();
+        setTimeout(() => {
+          if (typeof window.aiChat !== 'undefined' && typeof window.aiChat._showLoginModal === 'function') {
+            window.aiChat._showLoginModal();
+          } else if (typeof showToast === 'function') {
+            showToast('Sesi habis. Silakan login ulang', 'error');
+          }
+        }, 500);
         return;
       }
       if (!res.ok) return;
@@ -45,9 +57,9 @@ const app = {
         this.data.isPremium = data.isPremium || false;
         if (data.user) {
           this.data.userEmail = data.user.email || '';
-          if (!this.data.userAvatar && data.user.avatar) this.data.userAvatar = data.user.avatar;
-          if (!this.data.userGoogleName && data.user.name) this.data.userGoogleName = data.user.name;
-          if (!this.data.userName && data.user.name) this.data.userName = data.user.name;
+          this.data.userAvatar = data.user.avatar || this.data.userAvatar;
+          this.data.userGoogleName = data.user.name || this.data.userGoogleName;
+          if (data.user.name) this.data.userName = data.user.name;
         }
         Storage.set(this.data);
       }
@@ -103,8 +115,10 @@ const app = {
     this.data.userEmail = '';
     this.data.userAvatar = '';
     this.data.userGoogleName = '';
+    this.data.userName = '';
     Storage.set(this.data);
     this.renderDashboard();
+    this._updateAllUserInfoDisplays();
     setTimeout(() => { if (typeof showToast === 'function') showToast('Berhasil keluar', 'success'); }, 300);
   },
 
@@ -413,9 +427,8 @@ const app = {
       this._token = token;
       localStorage.setItem('eps_token', token);
       window.history.replaceState({}, document.title, window.location.pathname);
-      this.data.userEmail = 'synced';
-      Storage.set(this.data);
       this.syncFromServer().then(() => {
+        Storage.set(this.data);
         this.renderDashboard();
         this._updateAllUserInfoDisplays();
         const email = this.data.userEmail || 'Akun Google';
@@ -503,10 +516,11 @@ const app = {
     const progressPct = xpToNext > 0 ? Math.min(100, Math.round((xpInLevel / xpToNext) * 100)) : 100;
 
     // Tembak nama user
+    const displayName = this.data.userGoogleName || this.data.userName || 'Pelajar';
     const userNameEl = document.getElementById('ui-user-name');
-    if (userNameEl) userNameEl.innerText = this.data.userName || 'Pelajar';
+    if (userNameEl) userNameEl.innerText = displayName;
     const profileNameEl = document.getElementById('profile-user-name');
-    if (profileNameEl) profileNameEl.innerText = this.data.userName || 'Pelajar';
+    if (profileNameEl) profileNameEl.innerText = displayName;
     this._renderAvatar();
     
     // Nav: level, XP, streak, progress bar

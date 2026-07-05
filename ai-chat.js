@@ -9,7 +9,7 @@ const aiChat = {
   _contextTarget: null,
 
   _isLoggedIn() {
-    return !!(window.app && window.app._token);
+    return !!(window.app && window.app._token && !window.app._sessionExpired);
   },
 
   _showLoginModal() {

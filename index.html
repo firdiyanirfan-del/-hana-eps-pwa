@@ -1173,16 +1173,15 @@
             <p class="text-[11px] text-slate-400 font-medium">Pro Mode</p>
           </div>
         </button>
-        
-        <button onclick="app.startChapterQuiz(4)" class="flex items-center gap-4 p-4 rounded-[14px] text-left active:scale-[0.98] transition-all shadow-md group relative overflow-hidden" style="background:linear-gradient(135deg,rgba(244,63,94,0.05),rgba(245,158,11,0.05)); border:1px solid rgba(244,63,94,0.3);">
-          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-r from-rose-500/10 to-transparent"></div>
-          <div class="bg-gradient-to-br from-rose-500 to-amber-500 rounded-xl p-2 text-white shadow-sm z-10 shrink-0"><i data-lucide="crown" class="w-5 h-5"></i></div>
-          <div class="z-10 flex-1">
-            <p class="font-black text-sm bg-gradient-to-r from-rose-500 to-amber-500 bg-clip-text text-transparent tracking-wide">Ujian Bab (Boss Stage)</p>
-            <p class="text-[10px] text-slate-500 font-bold mt-0.5">20 Soal Acak Sesungguhnya</p>
-          </div>
-          <span class="text-rose-400 font-black text-xs z-10 opacity-50 group-hover:opacity-100 transition-opacity">➔</span>
-        </button>
+
+        <div class="flex flex-wrap items-center gap-1.5 mt-1 p-2.5 bg-slate-50 dark:bg-slate-800/30 rounded-xl border border-slate-150 dark:border-slate-700/40">
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mr-1">Durasi</span>
+          <button onclick="app.setQuizDuration(0)" class="timer-option px-2.5 py-1 text-[11px] font-bold rounded-lg border border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-[var(--hana-primary)] transition-all" data-sec="0">∞</button>
+          <button onclick="app.setQuizDuration(600)" class="timer-option px-2.5 py-1 text-[11px] font-bold rounded-lg border border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-[var(--hana-primary)] transition-all" data-sec="600">10m</button>
+          <button onclick="app.setQuizDuration(900)" class="timer-option px-2.5 py-1 text-[11px] font-bold rounded-lg border border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-[var(--hana-primary)] transition-all ring-2 ring-[var(--hana-primary)]" data-sec="900">15m</button>
+          <button onclick="app.setQuizDuration(1200)" class="timer-option px-2.5 py-1 text-[11px] font-bold rounded-lg border border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-[var(--hana-primary)] transition-all" data-sec="1200">20m</button>
+          <button onclick="app.setQuizDuration(1800)" class="timer-option px-2.5 py-1 text-[11px] font-bold rounded-lg border border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-[var(--hana-primary)] transition-all" data-sec="1800">30m</button>
+        </div>
         
         <button onclick="closeModal('modal-mission')" class="w-full py-3 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-xl font-black text-xs uppercase tracking-widest mt-2 active:scale-[0.98] transition-all">Batal</button>
       </div>

@@ -326,7 +326,7 @@ const app = {
       return;
     }
     finalQuestions = this.shuffle(finalQuestions);
-    let qCount = (levelNum === 4) ? Math.min(finalQuestions.length, 15) : Math.min(finalQuestions.length, 5);
+    let qCount = Math.min(finalQuestions.length, 15);
     finalQuestions = finalQuestions.slice(0, qCount);
     this.state.currentMisi = levelNum;
     closeModal('modal-mission');
@@ -335,9 +335,17 @@ const app = {
     this.state.isStage = true;
     this.state.isDaily = false;
     this.state.mode = 'chapter';
-    const totalSeconds = 15 * 60;
+    const totalSeconds = this.state.isUnlimitedTimer ? 86400 : (this.state.selectedDuration || 900);
     this.toggleImmersiveMode(true);
     this.setupQuizEngine(finalQuestions, [], `Kuis Bab ${ch}`, totalSeconds, finalQuestions.length);
+  },
+  setQuizDuration(seconds) {
+    this.state.selectedDuration = seconds;
+    this.state.isUnlimitedTimer = (seconds === 0);
+    document.querySelectorAll('.timer-option').forEach(el => {
+      el.classList.toggle('ring-2', parseInt(el.dataset.sec) === seconds);
+      el.classList.toggle('ring-[var(--hana-primary)]', parseInt(el.dataset.sec) === seconds);
+    });
   },
   setQuizTheme(themeName) {
     const quizScreen = document.getElementById('quiz-screen');

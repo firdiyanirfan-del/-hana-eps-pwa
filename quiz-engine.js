@@ -243,6 +243,11 @@ Object.assign(app, {
   },
 
   startTimer() {
+    if (this.state.isUnlimitedTimer) {
+      document.getElementById('q-timer').innerText = '∞';
+      document.getElementById('timer-box').classList.add('timer-unlimited');
+      return;
+    }
     clearInterval(this.state.timer);
     this.state.timer = setInterval(() => {
       if (this.state.pageHidden) return;
@@ -608,8 +613,8 @@ Object.assign(app, {
     if (this.state.mode === 'chapter' && btnNextStage) {
       const ch = this.state.currentChapter;
       const misi = this.state.currentMisi || 1;
-      if (misi < 4) {
-        const misiNames = ["", "Pemanasan (Beginner)", "Pemahaman (Normal)", "Tantangan (Pro)", "Ujian Bab (Boss Stage)"];
+      if (misi < 3) {
+        const misiNames = ["", "Pemanasan (Beginner)", "Pemahaman (Normal)", "Tantangan (Pro)"];
         btnNextStage.innerText = `Lanjut ke Misi ${misi + 1}: ${misiNames[misi + 1]} ➔`;
       } else {
         btnNextStage.innerText = `Lanjut ke Bab ${ch + 1}: Misi 1 ➔`;
@@ -681,7 +686,7 @@ Object.assign(app, {
     } else if (this.state.mode === 'chapter') {
       const ch = this.state.currentChapter;
       const misi = this.state.currentMisi;
-      if (misi < 4) {
+      if (misi < 3) {
         this.startChapterQuiz(misi + 1);
       } else {
         const nextKey = `bab${ch + 1}`;

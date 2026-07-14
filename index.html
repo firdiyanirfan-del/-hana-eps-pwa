@@ -278,6 +278,16 @@
       border-top-color: rgba(255,255,255,0.05);
       box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
     }
+    .conv-feedback-correct { background: rgba(16, 185, 129, 0.12) !important; border-color: #10b981 !important; }
+    .conv-feedback-wrong { animation: convShake 0.4s ease !important; background: rgba(239, 68, 68, 0.12) !important; border-color: #ef4444 !important; }
+    .conv-feedback-partial { background: rgba(245, 158, 11, 0.12) !important; border-color: #f59e0b !important; }
+    @keyframes convShake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
 
     /* ========== Chapter Graduation Info (Stitch) ========== */
     .grad-info-bg {
@@ -2734,6 +2744,39 @@
       </button>
     </div>
     <div id="chapter-picker-grid" class="grid grid-cols-4 gap-3"></div>
+  </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- RESULT SUMMARY OVERLAY (Conversation Completion) -->
+<!-- ============================================================== -->
+<div id="conv-result-overlay" class="hidden fixed inset-0 z-[99999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in" onclick="if(event.target===this)document.getElementById('conv-result-overlay').classList.add('hidden')">
+  <div class="bg-white dark:bg-[#1C1B1A] rounded-[28px] p-6 w-full max-w-sm shadow-2xl border border-[var(--hana-border)] flex flex-col items-center text-center max-h-[90vh] overflow-y-auto">
+    <div id="conv-result-icon" class="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-500 mb-4">
+      <span class="material-symbols-outlined text-[32px]" style="font-variation-settings:'FILL' 1">celebration</span>
+    </div>
+    <h3 id="conv-result-title" class="text-base font-black text-[var(--text-primary)] mb-1">Percakapan Selesai!</h3>
+    <p id="conv-result-xp" class="text-[11px] font-bold text-[var(--hana-primary)] mb-5">+20 XP</p>
+
+    <div id="conv-result-stats" class="w-full space-y-2 mb-5">
+      <div class="flex items-center justify-between bg-emerald-50 dark:bg-emerald-900/10 rounded-xl px-4 py-2.5">
+        <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5"><span class="material-symbols-outlined text-[14px]">check_circle</span> Benar</span>
+        <span id="conv-stat-correct" class="text-sm font-black text-emerald-600 dark:text-emerald-400">0</span>
+      </div>
+      <div class="flex items-center justify-between bg-amber-50 dark:bg-amber-900/10 rounded-xl px-4 py-2.5">
+        <span class="text-xs font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1.5"><span class="material-symbols-outlined text-[14px]">lightbulb</span> Ditampilkan</span>
+        <span id="conv-stat-revealed" class="text-sm font-black text-amber-600 dark:text-amber-400">0</span>
+      </div>
+    </div>
+
+    <div id="conv-result-review" class="w-full hidden mb-5">
+      <p class="text-[9px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2 text-left">Pelajari Ulang</p>
+      <div id="conv-result-review-list" class="space-y-1.5 max-h-[120px] overflow-y-auto"></div>
+    </div>
+
+    <button onclick="document.getElementById('conv-result-overlay').classList.add('hidden')" class="w-full py-3.5 bg-[var(--hana-primary)] hover:bg-[var(--hana-primary-hover)] text-white font-black rounded-xl text-xs uppercase tracking-widest active:scale-95 transition-all shadow-md shadow-[var(--hana-primary)]/20">
+      Kembali ke Dashboard
+    </button>
   </div>
 </div>
 

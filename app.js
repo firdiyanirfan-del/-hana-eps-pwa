@@ -2455,8 +2455,8 @@ window.HANA_CONVERSATION_DATA = {
     "character": "Sajangnim (사장님)",
     "prologue": "Anda sedang bekerja di lini produksi ketika tiba-tiba mesin utama berhenti. Sajangnim mendekati Anda dan bertanya tentang situasi ini. Susun kalimat Korea yang tepat untuk melaporkan masalah ini!",
     "steps": [
-      { "step": 1, "ai_speak": "바루 씨, 오늘 포장 작업은 어떻게 되고 있어요?", "ai_translation": "Baru, bagaimana pekerjaan pengemasan hari ini?", "user_target": "사장님, 기계가 갑자기 멈췄어요.", "user_translation": "Sajangnim, mesinnya tiba-tiba berhenti.", "word_pool": ["사장님,", "기계가", "갑자기", "멈췄어요.", "농약", "엽서"] },
-      { "step": 2, "ai_speak": "그래요? 기계가 아예 작동하지 않아요?", "ai_translation": "Begitukah? Mesinnya sama sekali tidak beroperasi?", "user_target": "네, 전원 스위치를 올렸는데 작동하지 않아요.", "user_translation": "Ya, saya sudah menaikkan saklar daya tapi tidak beroperasi.", "word_pool": ["네,", "전원", "스위치를", "올렸는데", "작동하지", "않아요.", "출산", "괭이"] },
+      { "step": 1, "ai_speak": "바루 씨, 오늘 포장 작업은 어떻게 되고 있어요?", "ai_translation": "Baru, bagaimana pekerjaan pengemasan hari ini?", "user_target": "사장님, 기계가 갑자기 멈췄어요.", "user_translation": "Sajangnim, mesinnya tiba-tiba berhenti.", "word_pool": ["사장님,", "기계가", "갑자기", "멈췄어요.", "농약", "엽서"], "grammar_tip": "Gunakan ~었어요 untuk bentuk lampau (past tense). 멈추다 → 멈췄어요 (berhenti)." },
+      { "step": 2, "ai_speak": "그래요? 기계가 아예 작동하지 않아요?", "ai_translation": "Begitukah? Mesinnya sama sekali tidak beroperasi?", "user_target": "네, 전원 스위치를 올렸는데 작동하지 않아요.", "user_translation": "Ya, saya sudah menaikkan saklar daya tapi tidak beroperasi.", "word_pool": ["네,", "전원", "스위치를", "올렸는데", "작동하지", "않아요.", "출산", "괭이"], "grammar_tip": "~는데 = 'tetapi/meskipun'. 올렸는데 = 'sudah menaikkan tetapi...' — menghubungkan dua kalimat." },
       { "step": 3, "ai_speak": "손잡이에 있는 안전 스위치는 확인해 봤어요?", "ai_translation": "Apakah kamu sudah mengecek saklar pengaman yang ada di pegangan?", "user_target": "확인했는데 아무 문제가 없는 것 같아요.", "user_translation": "Saya sudah mengeceknya tapi sepertinya tidak ada masalah.", "word_pool": ["확인했는데", "아무", "문제가", "없는", "것", "같아요.", "삼계탕", "낚시"] },
       { "step": 4, "ai_speak": "이상하네요. 어제 점검했을 때는 괜찮았는데 고장 난 것 같아요.", "ai_translation": "Aneh ya. Saat diperiksa kemarin tidak apa-apa, tapi sepertinya sekarang rusak.", "user_target": "수리 센터에 먼저 연락해 보는 게 좋겠어요.", "user_translation": "Sebaiknya kita mencoba menghubungi pusat perbaikan terlebih dahulu.", "word_pool": ["수리", "센터에", "먼저", "연락해", "보는", "게", "좋겠어요.", "체불", "비빔밥"] },
       { "step": 5, "ai_speak": "네, 맞아요. 수리 기사님을 빨리 부르세요.", "ai_translation": "Ya, benar. Tolong panggil teknisi perbaikan dengan cepat.", "user_target": "알겠습니다. 지금 바로 전화할게요.", "user_translation": "Baik. Saya akan menelepon sekarang juga.", "word_pool": ["알겠습니다.", "지금", "바로", "전화할게요.", "눈치", "신부"] },
@@ -2518,7 +2518,7 @@ window.HANA_CONVERSATION_DATA = {
         "ai_translation": "Ya, benar. Tolong kemas tiap sepuluh buah.",
         "user_target": "알겠습니다. 상품 포장을 얼른 끝내겠습니다.",
         "user_translation": "Saya akan segera menyelesaikan pengemasan produk.",
-        "word_pool": ["알겠습니다.", "상품", "포장을", "얼른", "끝내겠습니다.", "조퇴를", "입원"]
+        "word_pool": ["알겠습니다.", "상품", "포장을", "얼른", "끝내겠습니다.", "조퇴를", "입원"], "grammar_tip": "~겠습니다 = 'akan ~' (future intention). 끝내다 → 끝내겠습니다 = 'akan menyelesaikan'."
       },
       {
         "step": 7,
@@ -2589,7 +2589,7 @@ window.HANA_CONVERSATION_DATA = {
         "ai_translation": "Apakah sebelumnya Anda memiliki pengalaman bekerja di pabrik atau industri manufaktur di kampung halaman?",
         "user_target": "네, 고향의 가구 공장에서 삼 년 동안 일한 적이 있습니다.",
         "user_translation": "Ya, saya pernah bekerja selama tiga tahun di pabrik mebel di kampung halaman.",
-        "word_pool": ["네,", "고향의", "가구", "공장에서", "삼", "년", "동안", "일한", "적이", "있습니다.", "엽서", "체불"]
+        "word_pool": ["네,", "고향의", "가구", "공장에서", "삼", "년", "동안", "일한", "적이", "있습니다.", "엽서", "체불"], "grammar_tip": "~(으)ㄴ 적이 있다 = 'pernah ~'. 일하다 → 일한 적이 있습니다 = 'pernah bekerja'."
       },
       {
         "step": 5,
@@ -2648,6 +2648,8 @@ app.conversationEngine = {
   currentStepIndex: 0,
   userHearts: 5,
   selectedWords: [],
+  selectedWordBtnIds: [],
+  stepResults: [],
   difficulty: 'sedang',
   wrongAttempts: 0,
   hintActive: false,
@@ -2657,6 +2659,8 @@ app.conversationEngine = {
     this.currentStepIndex = 0;
     this.userHearts = 5;
     this.selectedWords = [];
+    this.selectedWordBtnIds = [];
+    this.stepResults = [];
     this.difficulty = 'sedang';
     this.wrongAttempts = 0;
     this.hintActive = false;
@@ -2742,6 +2746,8 @@ app.conversationEngine = {
 
     this.wrongAttempts = 0;
     this.hintActive = false;
+    this.selectedWords = [];
+    this.selectedWordBtnIds = [];
     document.getElementById('conv-action-buttons')?.classList.add('hidden');
     document.getElementById('btn-show-answer')?.classList.add('hidden');
     document.getElementById('btn-skip-step')?.classList.add('hidden');
@@ -2763,7 +2769,21 @@ app.conversationEngine = {
 
     if (typeof app.speakText === 'function') app.speakText(step.ai_speak);
 
-    this.selectedWords = [];
+    // Grammar tip card
+    if (step.grammar_tip) {
+      const tipCard = document.createElement('div');
+      tipCard.className = 'flex flex-col items-start max-w-[88%] self-start animate-fade-in stagger-1 mt-1';
+      tipCard.innerHTML = `
+        <div class="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/40 rounded-xl p-3 flex items-start gap-2.5">
+          <span class="material-symbols-outlined text-[16px] text-amber-500 shrink-0 mt-0.5">lightbulb</span>
+          <div>
+            <p class="text-[9px] font-black text-amber-600 dark:text-amber-400 uppercase tracking-wider mb-0.5">Grammar Tips</p>
+            <p class="text-[11px] font-medium text-amber-800 dark:text-amber-200 leading-relaxed">${step.grammar_tip}</p>
+          </div>
+        </div>`;
+      chatLog.appendChild(tipCard);
+    }
+
     document.getElementById('conversation-answer-preview').innerHTML = '';
     this.renderWordPool(this.getFilteredPool(step), false);
   },
@@ -2798,18 +2818,40 @@ app.conversationEngine = {
 
   handleWordClick(word, buttonId) {
     this.selectedWords.push(word);
-    const previewContainer = document.getElementById('conversation-answer-preview');
-    const chip = document.createElement('span');
-    chip.className = 'px-3 py-1.5 bg-[var(--hana-primary)]/15 text-[var(--hana-primary)] border border-[var(--hana-primary)]/25 rounded-[10px] font-bold text-sm animate-scale-in';
-    chip.innerText = word;
-    previewContainer.appendChild(chip);
-
+    this.selectedWordBtnIds.push(buttonId);
+    this.renderPreview();
     const originBtn = document.getElementById(buttonId);
     if (originBtn) { originBtn.classList.add('opacity-30', 'pointer-events-none'); }
   },
 
+  renderPreview() {
+    const container = document.getElementById('conversation-answer-preview');
+    container.innerHTML = '';
+    this.selectedWords.forEach((word, idx) => {
+      const chip = document.createElement('span');
+      chip.className = 'px-3 py-1.5 bg-[var(--hana-primary)]/15 text-[var(--hana-primary)] border border-[var(--hana-primary)]/25 rounded-[10px] font-bold text-sm animate-scale-in cursor-pointer active:scale-95 hover:bg-[var(--hana-primary)]/25 transition-all';
+      chip.innerText = word;
+      chip.dataset.idx = idx;
+      chip.title = 'Klik untuk hapus dari jawaban';
+      chip.onclick = (e) => { e.stopPropagation(); this.handlePreviewWordClick(parseInt(e.currentTarget.dataset.idx)); };
+      container.appendChild(chip);
+    });
+  },
+
+  handlePreviewWordClick(idx) {
+    const btnId = this.selectedWordBtnIds[idx];
+    const btn = document.getElementById(btnId);
+    if (btn) {
+      btn.classList.remove('opacity-30', 'pointer-events-none');
+    }
+    this.selectedWords.splice(idx, 1);
+    this.selectedWordBtnIds.splice(idx, 1);
+    this.renderPreview();
+  },
+
   resetSelection() {
     this.selectedWords = [];
+    this.selectedWordBtnIds = [];
     document.getElementById('conversation-answer-preview').innerHTML = '';
     const step = this.getCurrentStep();
     if (step) {
@@ -2823,9 +2865,12 @@ app.conversationEngine = {
     const userString = this.selectedWords.join(' ').trim();
     const targetString = step.user_target.trim();
 
+    if (this.selectedWords.length === 0) return;
+
     // 1. EXACT MATCH — correct
     if (userString === targetString) {
-      this.submitCorrectAnswer();
+      this.flashFeedback('correct');
+      setTimeout(() => this.submitCorrectAnswer(), 700);
       return;
     }
 
@@ -2836,7 +2881,7 @@ app.conversationEngine = {
       this.wrongAttempts++;
       this.activateHints(step);
       this.showActionButtons();
-      showInfoModal('Hampir Benar!', 'Kata-kata yang Anda pilih sudah benar, tapi urutannya kurang tepat. Coba reset dan periksa urutannya.');
+      this.flashFeedback('partial');
       return;
     }
 
@@ -2846,12 +2891,13 @@ app.conversationEngine = {
     this.wrongAttempts++;
     this.activateHints(step);
     this.showActionButtons();
-    showInfoModal('Kurang Tepat', 'Susunan kalimat salah! Nyawa berkurang 1. Silakan coba lagi.');
-    this.resetSelection();
+    this.flashFeedback('wrong');
+    setTimeout(() => this.resetSelection(), 500);
 
     if (this.userHearts <= 0) {
-      showInfoModal('Game Over', 'Nyawa Anda habis. Jangan menyerah, coba lagi dari awal!');
-      app.switchScreen('dashboard-screen', { showNav: true });
+      setTimeout(() => {
+        app.switchScreen('dashboard-screen', { showNav: true });
+      }, 600);
     }
   },
   openScenarioPicker() {
@@ -2986,6 +3032,7 @@ app.conversationEngine = {
       chatLog.appendChild(userBubble);
       chatLog.scrollTop = chatLog.scrollHeight;
 
+      this.stepResults.push({ status: 'correct', step: this.currentStepIndex });
       this.currentStepIndex++;
       this.updateProgressBar();
 
@@ -2993,9 +3040,8 @@ app.conversationEngine = {
         setTimeout(() => {
           app.data.xp = (app.data.xp || 0) + 20;
           Storage.set(app.data);
-          showInfoModal('Percakapan Selesai!', 'Selamat! Anda berhasil menyelesaikan simulasi percakapan panjang. +20 XP ditambahkan.');
           app.loadAndRefreshUI();
-          app.switchScreen('dashboard-screen', { showNav: true });
+          this.showResultSummary(20);
         }, 800);
       } else {
         setTimeout(() => this.renderCurrentStep(), 1000);
@@ -3019,16 +3065,16 @@ app.conversationEngine = {
       chatLog.appendChild(revealBubble);
       chatLog.scrollTop = chatLog.scrollHeight;
 
+      this.stepResults.push({ status: 'revealed', step: this.currentStepIndex });
       this.currentStepIndex++;
       this.updateProgressBar();
 
       if (this.currentStepIndex >= data.steps.length) {
         setTimeout(() => {
-          showInfoModal('Percakapan Selesai!', 'Anda telah menyelesaikan simulasi. +10 XP ditambahkan.');
           app.data.xp = (app.data.xp || 0) + 10;
           Storage.set(app.data);
           app.loadAndRefreshUI();
-          app.switchScreen('dashboard-screen', { showNav: true });
+          this.showResultSummary(10);
         }, 800);
       } else {
         setTimeout(() => this.renderCurrentStep(), 1000);
@@ -3037,6 +3083,72 @@ app.conversationEngine = {
 
     skipStep() {
       this.revealAnswer();
+    },
+
+    flashFeedback(type) {
+      const previewParent = document.getElementById('conversation-answer-preview')?.parentElement;
+      if (!previewParent) return;
+      previewParent.classList.remove('conv-feedback-correct', 'conv-feedback-wrong', 'conv-feedback-partial');
+      void previewParent.offsetWidth;
+      if (type === 'correct') {
+        previewParent.classList.add('conv-feedback-correct');
+        setTimeout(() => previewParent.classList.remove('conv-feedback-correct'), 700);
+      } else if (type === 'wrong') {
+        previewParent.classList.add('conv-feedback-wrong');
+        setTimeout(() => previewParent.classList.remove('conv-feedback-wrong'), 500);
+      } else if (type === 'partial') {
+        previewParent.classList.add('conv-feedback-partial');
+        setTimeout(() => previewParent.classList.remove('conv-feedback-partial'), 700);
+      }
+    },
+
+    showResultSummary(xpGained) {
+      const data = window.HANA_CONVERSATION_DATA[this.currentScenarioId];
+      const total = data.steps.length;
+      const correct = this.stepResults.filter(r => r.status === 'correct').length;
+      const revealed = this.stepResults.filter(r => r.status === 'revealed').length;
+      const overlay = document.getElementById('conv-result-overlay');
+      if (!overlay) return;
+
+      document.getElementById('conv-result-xp').textContent = `+${xpGained} XP`;
+      document.getElementById('conv-stat-correct').textContent = correct;
+      document.getElementById('conv-stat-revealed').textContent = revealed;
+
+      const reviewList = document.getElementById('conv-result-review-list');
+      reviewList.innerHTML = '';
+      const toReview = this.stepResults.filter(r => r.status === 'revealed');
+      if (toReview.length > 0) {
+        document.getElementById('conv-result-review').classList.remove('hidden');
+        toReview.forEach(r => {
+          const s = data.steps[r.step];
+          const li = document.createElement('div');
+          li.className = 'flex items-center justify-between px-3 py-2 bg-gray-50 dark:bg-white/5 rounded-xl text-left';
+          li.innerHTML = `
+            <div class="min-w-0 flex-1">
+              <p class="text-[11px] font-bold text-gray-700 dark:text-gray-300 truncate">${s.user_target}</p>
+              <p class="text-[10px] text-gray-500 dark:text-gray-400 truncate">${s.user_translation}</p>
+            </div>
+            <span class="text-amber-500 material-symbols-outlined text-[14px] shrink-0 ml-2">lightbulb</span>`;
+          reviewList.appendChild(li);
+        });
+      } else {
+        document.getElementById('conv-result-review').classList.add('hidden');
+      }
+
+      overlay.classList.remove('hidden');
+      overlay.onclick = (e) => {
+        if (e.target === overlay) {
+          overlay.classList.add('hidden');
+          app.switchScreen('dashboard-screen', { showNav: true });
+        }
+      };
+      const closeBtn = overlay.querySelector('button');
+      if (closeBtn) {
+        closeBtn.onclick = () => {
+          overlay.classList.add('hidden');
+          app.switchScreen('dashboard-screen', { showNav: true });
+        };
+      }
     }
   }
 ;

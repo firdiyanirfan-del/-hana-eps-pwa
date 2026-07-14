@@ -392,6 +392,9 @@ const app = {
   },
 
   init() {
+    this.navStack = ['dashboard-screen'];
+    this.scrollPositions = {};
+    this._suppressPopstate = false;
     this.data = Storage.get();
     if (!this.data.wrongAnswers) this.data.wrongAnswers = [];
     if (!this.data.streakDates) this.data.streakDates = [];
@@ -1330,7 +1333,78 @@ const app = {
   skipDictation() { DictationEngine.next(); },
 
 
+  _saveScroll(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const scrollEl = el.querySelector('.overflow-y-auto') || el;
+    this.scrollPositions[id] = scrollEl.scrollTop;
+  },
+  _restoreScroll(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const pos = this.scrollPositions[id];
+    const scrollEl = el.querySelector('.overflow-y-auto') || el;
+    if (typeof pos === 'number') requestAnimationFrame(() => { scrollEl.scrollTop = pos; });
+  },
+  _pushNav(screenId) {
+    if (this.navStack[this.navStack.length - 1] === screenId) return;
+    if (screenId === 'dashboard-screen') {
+      this.navStack = ['dashboard-screen'];
+      history.replaceState({ screen: 'dashboard-screen' }, '');
+      return;
+    }
+    this.navStack.push(screenId);
+    history.pushState({ screen: screenId, ts: Date.now() }, '');
+  },
+  _isQuizActive() {
+    return !!sessionStorage.getItem('eps_quiz_session');
+  },
+  showExitConfirm(type) {
+    const existing = document.getElementById('exit-confirm-modal');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'exit-confirm-modal';
+    overlay.className = 'fixed inset-0 z-[100000] flex items-center justify-center bg-black/60 backdrop-blur-sm px-6';
+    let msg, btnText, action;
+    if (type === 'quiz') {
+      msg = 'Kuis sedang berjalan. Yakin ingin meninggalkan kuis? Progress tidak akan disimpan.';
+      btnText = 'Ya, Tinggalkan';
+      action = () => { this.clearSession(); this.switchScreen('dashboard-screen', { showNav: true, noTrack: true }); };
+    } else {
+      msg = 'Tekan back sekali lagi untuk keluar aplikasi.';
+      btnText = 'Tutup';
+      action = () => { window.close(); if (!window.closed) document.body.innerHTML = '<div class="flex items-center justify-center h-screen bg-[var(--hana-canvas)] text-[var(--hana-text-2)] text-lg font-medium">Aplikasi ditutup</div>'; };
+    }
+    overlay.innerHTML = `
+      <div class="bg-[var(--hana-surface)] rounded-2xl p-6 max-w-sm w-full shadow-2xl border border-[var(--hana-border)] animate-fade-in" onclick="event.stopPropagation()">
+        <div class="text-center">
+          <div class="w-12 h-12 rounded-full bg-[var(--hana-primary)]/10 flex items-center justify-center mx-auto mb-3">
+            <span class="material-symbols-outlined text-[var(--hana-primary)] text-2xl">${type === 'quiz' ? 'quiz' : 'exit_to_app'}</span>
+          </div>
+          <h3 class="text-[var(--hana-text-1)] font-bold text-lg mb-2">${type === 'quiz' ? 'Tinggalkan Kuis?' : 'Keluar Aplikasi?'}</h3>
+          <p class="text-[var(--hana-text-2)] text-sm mb-5">${msg}</p>
+          <div class="flex gap-3">
+            <button class="flex-1 py-2.5 rounded-xl bg-[var(--hana-border)] text-[var(--hana-text-1)] font-bold text-sm active:scale-95 transition-transform squishy" id="exit-confirm-cancel">Batal</button>
+            <button class="flex-1 py-2.5 rounded-xl bg-[var(--hana-primary)] text-white font-bold text-sm active:scale-95 transition-transform squishy" id="exit-confirm-ok">${btnText}</button>
+          </div>
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
+    document.getElementById('exit-confirm-cancel').onclick = () => {
+      overlay.remove();
+      app._suppressPopstate = true;
+      history.pushState({ screen: app.navStack ? app.navStack[app.navStack.length - 1] : 'dashboard-screen', ts: Date.now() }, '');
+      setTimeout(() => { app._suppressPopstate = false; }, 100);
+    };
+    document.getElementById('exit-confirm-ok').onclick = () => { overlay.remove(); action(); };
+  },
+
   switchScreen(screenId, options = {}) {
+    if (options.noTrack !== true) {
+      const prevId = this.navStack[this.navStack.length - 1];
+      if (prevId && prevId !== screenId) this._saveScroll(prevId);
+    }
     hideAllScreens();
     const target = document.getElementById(screenId);
     if (target) {
@@ -1340,11 +1414,20 @@ const app = {
     if (options.immersive) this.toggleImmersiveMode(true);
     else if (options.showNav) this.toggleImmersiveMode(false);
     if (options.callback) options.callback();
+    if (options.noTrack !== true) {
+      this._pushNav(screenId);
+      if (target) {
+        target.classList.add('screen-slide-enter');
+        setTimeout(() => target.classList.remove('screen-slide-enter'), 300);
+      }
+      requestAnimationFrame(() => this._restoreScroll(screenId));
+    }
   },
 
   showDashboard() {
     clearInterval(this.state.timer);
     this.init();
+    this.navStack = ['dashboard-screen'];
     this.switchScreen('dashboard-screen', { showNav: true, callback: () => this.setQuizTheme('') });
   },
 
@@ -1359,6 +1442,7 @@ const app = {
       document.body.style.overflow = "hidden";
     });
     
+    this.navStack.push('settings-screen');
     history.pushState({ settingsOpen: true }, "");
 
     // Populate profile card data
@@ -1435,6 +1519,9 @@ const app = {
     
     overlay.classList.remove('is-open');
     screen.classList.remove('is-open');
+    
+    const idx = this.navStack.lastIndexOf('settings-screen');
+    if (idx !== -1) this.navStack.splice(idx, 1);
     
     setTimeout(() => {
       const ps = document.getElementById('profile-screen');
@@ -1513,6 +1600,8 @@ const app = {
     screen.classList.add('flex');
     document.body.style.overflow = 'hidden';
     screen.scrollTop = 0;
+    this.navStack.push('profile-screen');
+    history.pushState({ screen: 'profile-screen', ts: Date.now() }, '');
 
     const nameEl = document.getElementById('profile-user-name');
     if (nameEl) nameEl.textContent = this.data?.userGoogleName || this.data?.userName || 'Pelajar';
@@ -1578,6 +1667,8 @@ const app = {
     screen.classList.add('hidden');
     screen.classList.remove('flex');
     document.body.style.overflow = '';
+    const idx = this.navStack.lastIndexOf('profile-screen');
+    if (idx !== -1) this.navStack.splice(idx, 1);
   },
 
   toggleHistoryDetail() {
@@ -2214,6 +2305,7 @@ const uiSwitcher = {
     if (mode === 'review' || mode === 'ai-chat' || mode === 'game-hub') {
       const targetEl = document.getElementById(`view-${mode}`);
       if (targetEl) targetEl.classList.remove('hidden');
+      if (typeof app !== 'undefined' && app._pushNav) app._pushNav(`view-${mode}`);
       return;
     }
 
@@ -2796,9 +2888,101 @@ app.conversationEngine = {
 ;
 
 window.addEventListener("popstate", (e) => {
-  const screen = document.getElementById('settings-screen');
-  if (screen && screen.classList.contains('is-open')) {
-    app.closeSettings();
+  try {
+    if (app._suppressPopstate) return;
+
+    // 1. Settings overlay
+    const settings = document.getElementById('settings-screen');
+    if (settings && settings.classList.contains('is-open')) {
+      app.closeSettings();
+      return;
+    }
+
+    // 2. Profile screen
+    const profile = document.getElementById('profile-screen');
+    if (profile && !profile.classList.contains('hidden')) {
+      app.closeProfile();
+      return;
+    }
+
+    // 3. Modal overlays with .modal-overlay class
+    const modalOverlay = document.querySelector('.modal-overlay:not(.hidden)');
+    if (modalOverlay && typeof closeModal === 'function') {
+      closeModal(modalOverlay.id);
+      return;
+    }
+
+    // 4. Other visible modals (help, feedback, textbook, chapter-info)
+    const otherModals = ['modal-help', 'screen-feedback', 'screen-textbook', 'chapter-info-modal', 'modal-game-selector', 'modal-all-missions', 'modal-mission-quiz', 'modal-confirm-exit'];
+    for (const id of otherModals) {
+      const el = document.getElementById(id);
+      if (el && !el.classList.contains('hidden')) {
+        el.classList.add('hidden');
+        return;
+      }
+    }
+
+    // 5. AI chat bottom sheet
+    const aiSheet = document.getElementById('ai-bottom-sheet');
+    if (aiSheet && !aiSheet.classList.contains('hidden')) {
+      aiSheet.classList.add('hidden');
+      aiSheet.style.opacity = '0';
+      return;
+    }
+
+    // 6. Scenario picker sheet
+    const scenarioSheet = document.getElementById('scenario-picker-sheet');
+    if (scenarioSheet && !scenarioSheet.classList.contains('hidden') && typeof app.conversationEngine?.closeScenarioPicker === 'function') {
+      app.conversationEngine.closeScenarioPicker();
+      return;
+    }
+
+    // 7. Quiz active — show confirm before navigating away
+    const top = app.navStack ? app.navStack[app.navStack.length - 1] : '';
+    if (top === 'quiz-screen' && app._isQuizActive()) {
+      app.showExitConfirm('quiz');
+      return;
+    }
+
+    // 8. Navigation stack
+    if (app.navStack && app.navStack.length > 1) {
+      const current = app.navStack.pop();
+
+      // If we popped quiz-screen but quiz is finished, skip it
+      if (current === 'quiz-screen' && !app._isQuizActive()) {
+        const another = app.navStack.pop();
+        if (!another) { app.navStack.push('dashboard-screen'); }
+        const prev = app.navStack[app.navStack.length - 1];
+        if (prev) {
+          app.switchScreen(prev, { showNav: true, noTrack: true });
+          return;
+        }
+      }
+
+      const prev = app.navStack[app.navStack.length - 1];
+      if (prev) {
+        app.switchScreen(prev, { showNav: true, noTrack: true });
+        return;
+      }
+    }
+
+    // 9. Dashboard root — re-push to stay in app
+    if (!app.navStack || app.navStack.length <= 1) {
+      history.pushState({ screen: 'dashboard-screen', ts: Date.now() }, '');
+    }
+  } catch (_) {
+    // Fallback: close all overlays, re-push state to stay alive
+    try {
+      const s = document.getElementById('settings-screen');
+      if (s && s.classList.contains('is-open')) app.closeSettings();
+      const p = document.getElementById('profile-screen');
+      if (p && !p.classList.contains('hidden')) app.closeProfile();
+      document.querySelectorAll('.modal-overlay:not(.hidden)').forEach(el => {
+        if (typeof closeModal === 'function') closeModal(el.id);
+        else el.classList.add('hidden');
+      });
+      history.pushState({ screen: 'dashboard-screen', ts: Date.now() }, '');
+    } catch (_) {}
   }
 });
 

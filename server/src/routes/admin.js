@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { init, get, all, run } from '../db.js';
-import { adminMiddleware } from '../middleware/admin.js';
+import { adminMiddleware, isAdmin as checkAdmin } from '../middleware/admin.js';
+import { authMiddleware } from '../middleware/auth.js';
 
 const router = Router();
 
@@ -252,6 +253,16 @@ router.get('/analytics/wrong-answers', adminMiddleware, async (req, res) => {
   } catch (err) {
     console.error('Admin wrong answers error:', err);
     res.status(500).json({ error: 'Failed to load wrong answers' });
+  }
+});
+
+router.get('/check', authMiddleware, async (req, res) => {
+  try {
+    await ensureDb();
+    const user = await get('SELECT email FROM users WHERE id = $1', [req.userId]);
+    res.json({ isAdmin: !!(user && checkAdmin(user.email)) });
+  } catch (err) {
+    res.json({ isAdmin: false });
   }
 });
 

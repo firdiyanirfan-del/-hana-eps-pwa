@@ -1412,6 +1412,14 @@ const app = {
         accEmail.textContent = this.data.userEmail;
         if (loggedInActions) loggedInActions.classList.remove('hidden');
         if (loggedOutActions) loggedOutActions.classList.add('hidden');
+        // Cek status admin
+        const adminBtn = document.getElementById('settings-admin-link');
+        if (adminBtn) {
+          fetch('/api/admin/check', { headers: { Authorization: 'Bearer ' + (localStorage.getItem('eps_token') || '') } })
+            .then(r => r.json())
+            .then(d => { if (d.isAdmin) adminBtn.classList.remove('hidden'); })
+            .catch(() => {});
+        }
       } else {
         accEmail.textContent = 'Belum masuk';
         if (loggedInActions) loggedInActions.classList.add('hidden');

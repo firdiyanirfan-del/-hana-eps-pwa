@@ -4,135 +4,1081 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin - EPS-TOPIK Hana</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <style>
-    * { font-family: 'Plus Jakarta Sans', sans-serif; }
-    body { background: #0c1424; color: #e2e8f0; }
-    .card { background: #151C2C; border: 1px solid #2E3A59; border-radius: 16px; padding: 20px; }
-    .badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; }
-    .badge-bug { background: #ef4444; color: white; }
-    .badge-saran { background: #6366f1; color: white; }
-    .badge-pujian { background: #22c55e; color: white; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
 
-    @keyframes toast-in { 0% { opacity: 0; transform: translateX(100%) scale(0.9); } 100% { opacity: 1; transform: translateX(0) scale(1); } }
-    @keyframes toast-out { 0% { opacity: 1; transform: translateX(0) scale(1); } 100% { opacity: 0; transform: translateX(100%) scale(0.9); } }
-    @keyframes confirm-in { 0% { opacity: 0; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1); } }
-    .toast-animate { animation: toast-in 0.3s ease-out; }
-    .toast-animate-out { animation: toast-out 0.25s ease-in forwards; }
-    .confirm-animate { animation: confirm-in 0.2s ease-out; }
+    :root {
+      --hana-canvas: #F6F5F2;
+      --hana-surface: #FFFFFF;
+      --hana-card: #F0EFEC;
+      --hana-border: #E4E2DE;
+      --hana-border-strong: #D0CEC9;
+      --hana-primary: #5C54E8;
+      --hana-primary-hover: #4B44D0;
+      --hana-primary-10: #EDEEFF;
+      --hana-primary-20: #DCDEFF;
+      --hana-text-1: #19181A;
+      --hana-text-2: #65625E;
+      --hana-text-3: #9B9890;
+      --hana-xp: #1DB954;
+      --hana-xp-bg: #E8F8EE;
+      --hana-danger: #E24B4A;
+      --hana-danger-bg: #FCEBEB;
+      --hana-warning: #BA7517;
+      --hana-warning-bg: #FAEEDA;
+      --shadow-card: 0 1px 2px rgba(25,24,26,0.04), 0 2px 8px rgba(25,24,26,0.05);
+      --shadow-hover: 0 2px 4px rgba(25,24,26,0.04), 0 4px 16px rgba(25,24,26,0.07), 0 8px 24px rgba(25,24,26,0.04);
+      --shadow-modal: 0 4px 8px rgba(25,24,26,0.05), 0 8px 32px rgba(25,24,26,0.09), 0 16px 40px rgba(25,24,26,0.05);
+      --radius-hero: 24px;
+      --radius-card: 16px;
+      --radius-inner: 14px;
+      --radius-input: 12px;
+      --radius-icon: 10px;
+      --sidebar-w: 220px;
+    }
+
+    .dark {
+      --hana-canvas: #141313;
+      --hana-surface: #1C1B1A;
+      --hana-card: #1E1D1C;
+      --hana-border: #2E2C2A;
+      --hana-border-strong: #3D3A38;
+      --hana-primary: #8B84FF;
+      --hana-primary-hover: #7A73F0;
+      --hana-primary-10: #1E1C3A;
+      --hana-primary-20: #2A2850;
+      --hana-text-1: #F0EFEC;
+      --hana-text-2: #9B9890;
+      --hana-text-3: #65625E;
+      --hana-xp: #1DB954;
+      --hana-xp-bg: #1A2E1E;
+      --hana-danger: #E24B4A;
+      --hana-danger-bg: #2E1518;
+      --hana-warning: #D48A1A;
+      --hana-warning-bg: #2E2212;
+      --shadow-card: 0 1px 2px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.3);
+      --shadow-hover: 0 2px 4px rgba(0,0,0,0.2), 0 4px 16px rgba(0,0,0,0.35), 0 8px 24px rgba(0,0,0,0.2);
+      --shadow-modal: 0 4px 8px rgba(0,0,0,0.25), 0 8px 32px rgba(0,0,0,0.4), 0 16px 40px rgba(0,0,0,0.25);
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--hana-canvas);
+      color: var(--hana-text-1);
+      display: flex;
+      min-height: 100vh;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+      vertical-align: middle;
+      font-size: 20px;
+    }
+
+    /* ===== SIDEBAR ===== */
+    #sidebar {
+      width: var(--sidebar-w);
+      min-width: var(--sidebar-w);
+      background: var(--hana-surface);
+      border-right: 1px solid var(--hana-border);
+      display: flex;
+      flex-direction: column;
+      padding: 20px 12px;
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      transition: background 0.3s, transform 0.25s var(--spring, cubic-bezier(0.34,1.56,0.64,1));
+      z-index: 100;
+    }
+
+    .sidebar-logo {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--hana-primary);
+      padding: 0 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--hana-border);
+      margin-bottom: 16px;
+      white-space: nowrap;
+    }
+
+    .sidebar-logo span { font-size: 22px; }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius-input);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--hana-text-2);
+      cursor: pointer;
+      transition: all 0.15s;
+      margin-bottom: 2px;
+      user-select: none;
+    }
+
+    .nav-item:hover { background: var(--hana-primary-10); color: var(--hana-primary); }
+    .nav-item.active { background: var(--hana-primary-10); color: var(--hana-primary); }
+    .nav-item.active span { font-variation-settings: 'FILL' 1; }
+
+    .sidebar-spacer { flex: 1; }
+
+    .nav-footer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-top: 1px solid var(--hana-border);
+      margin-top: 12px;
+      padding-top: 16px;
+    }
+
+    .nav-footer button {
+      background: none;
+      border: none;
+      color: var(--hana-text-2);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: var(--radius-icon);
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-footer button:hover { background: var(--hana-card); color: var(--hana-danger); }
+
+    /* ===== MAIN ===== */
+    #main {
+      flex: 1;
+      padding: 28px 32px;
+      overflow-y: auto;
+      max-height: 100vh;
+      min-width: 0;
+    }
+
+    /* ===== PAGE HEADER ===== */
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .page-header h2 {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+
+    .page-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ===== PAGE CONTENT ===== */
+    .page-content { display: none; }
+    .page-content.active { display: block; }
+
+    /* ===== STATS GRID ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--hana-surface);
+      border: 1px solid var(--hana-border);
+      border-radius: var(--radius-card);
+      padding: 18px 16px;
+      box-shadow: var(--shadow-card);
+      transition: box-shadow 0.15s;
+    }
+
+    .stat-card:hover { box-shadow: var(--shadow-hover); }
+
+    .stat-card .stat-value {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+
+    .stat-card .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--hana-text-2);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+
+    .stat-card .stat-sub {
+      font-size: 11px;
+      color: var(--hana-text-3);
+      margin-top: 2px;
+    }
+
+    /* ===== CHARTS ===== */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .chart-card {
+      background: var(--hana-surface);
+      border: 1px solid var(--hana-border);
+      border-radius: var(--radius-card);
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .chart-card h3 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--hana-text-2);
+    }
+
+    .chart-card canvas { max-height: 220px; max-width: 100%; }
+
+    .chart-empty {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--hana-text-3);
+      font-size: 13px;
+    }
+
+    /* ===== CARD ===== */
+    .card {
+      background: var(--hana-surface);
+      border: 1px solid var(--hana-border);
+      border-radius: var(--radius-card);
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 20px;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .card-header h3 {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    /* ===== TABLE ===== */
+    .table-wrap { overflow-x: auto; }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    table.data-table th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--hana-text-3);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 10px 12px 10px 0;
+      border-bottom: 1px solid var(--hana-border);
+      white-space: nowrap;
+    }
+
+    table.data-table td {
+      padding: 10px 12px 10px 0;
+      border-bottom: 1px solid var(--hana-border);
+      white-space: nowrap;
+    }
+
+    table.data-table tr:last-child td { border-bottom: none; }
+
+    /* ===== INPUT ===== */
+    .input {
+      background: var(--hana-card);
+      border: 1.5px solid var(--hana-border);
+      border-radius: var(--radius-input);
+      padding: 8px 14px;
+      font-size: 13px;
+      font-family: inherit;
+      color: var(--hana-text-1);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .input:focus { border-color: var(--hana-primary); }
+    .input::placeholder { color: var(--hana-text-3); }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: var(--radius-input);
+      font-size: 12px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn:active { transform: scale(0.95); opacity: 0.8; }
+
+    .btn-primary { background: var(--hana-primary); color: white; }
+    .btn-primary:hover { background: var(--hana-primary-hover); }
+
+    .btn-ghost { background: transparent; color: var(--hana-text-2); }
+    .btn-ghost:hover { background: var(--hana-card); }
+
+    .btn-danger { background: var(--hana-danger-bg); color: var(--hana-danger); }
+    .btn-danger:hover { background: var(--hana-danger); color: white; }
+
+    .btn-sm { padding: 5px 10px; font-size: 11px; border-radius: 8px; }
+
+    .btn-icon {
+      width: 32px; height: 32px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-icon);
+      background: transparent;
+      color: var(--hana-text-2);
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-icon:hover { background: var(--hana-card); color: var(--hana-text-1); }
+
+    /* ===== BADGE ===== */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .badge-premium { background: var(--hana-xp-bg); color: var(--hana-xp); }
+    .badge-free { background: var(--hana-card); color: var(--hana-text-3); }
+
+    .badge-saran { background: var(--hana-primary-10); color: var(--hana-primary); }
+    .badge-bug { background: var(--hana-danger-bg); color: var(--hana-danger); }
+    .badge-dukungan { background: var(--hana-warning-bg); color: var(--hana-warning); }
+
+    .badge-status-baru { background: var(--hana-danger-bg); color: var(--hana-danger); }
+    .badge-status-dibaca { background: var(--hana-warning-bg); color: var(--hana-warning); }
+    .badge-status-selesai { background: var(--hana-xp-bg); color: var(--hana-xp); }
+
+    /* ===== PAGINATION ===== */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      margin-top: 16px;
+    }
+
+    .pagination button {
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.12s;
+      background: transparent;
+      color: var(--hana-text-2);
+    }
+
+    .pagination button:hover { background: var(--hana-primary-10); color: var(--hana-primary); }
+    .pagination button.active { background: var(--hana-primary); color: white; }
+    .pagination button:active { transform: scale(0.9); }
+
+    /* ===== FEEDBACK ITEM ===== */
+    .feedback-item {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--hana-border);
+    }
+
+    .feedback-item:last-child { border-bottom: none; }
+
+    .feedback-item.highlight { background: var(--hana-primary-10); margin: 0 -12px; padding: 16px 12px; border-radius: var(--radius-card); }
+
+    .feedback-top {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .feedback-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      min-width: 60px;
+      flex-shrink: 0;
+    }
+
+    .feedback-body { flex: 1; min-width: 0; }
+
+    .feedback-body p { font-size: 13px; line-height: 1.5; color: var(--hana-text-1); }
+
+    .feedback-info {
+      font-size: 10px;
+      color: var(--hana-text-3);
+      margin-top: 6px;
+    }
+
+    .feedback-reply {
+      margin-top: 10px;
+      padding: 10px 12px;
+      background: var(--hana-primary-10);
+      border: 1px solid var(--hana-primary-20);
+      border-radius: var(--radius-inner);
+    }
+
+    .feedback-reply-label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--hana-primary);
+      margin-bottom: 4px;
+    }
+
+    .feedback-reply-text { font-size: 12px; color: var(--hana-text-2); }
+
+    .feedback-reply-area {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .feedback-reply-area textarea {
+      flex: 1;
+      background: var(--hana-canvas);
+      border: 1.5px solid var(--hana-border);
+      border-radius: var(--radius-input);
+      padding: 10px 12px;
+      font-size: 12px;
+      font-family: inherit;
+      color: var(--hana-text-1);
+      resize: vertical;
+      min-height: 44px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .feedback-reply-area textarea:focus { border-color: var(--hana-primary); }
+
+    .status-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .status-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-top: 4px;
+      background: var(--hana-surface);
+      border: 1px solid var(--hana-border);
+      border-radius: var(--radius-inner);
+      box-shadow: var(--shadow-hover);
+      padding: 4px;
+      z-index: 50;
+      min-width: 110px;
+      display: none;
+    }
+
+    .status-dropdown-menu.open { display: block; }
+
+    .status-dropdown-menu button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      background: none;
+      border: none;
+      border-radius: 8px;
+      color: var(--hana-text-1);
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+
+    .status-dropdown-menu button:hover { background: var(--hana-primary-10); color: var(--hana-primary); }
+
+    /* ===== TOAST ===== */
+    #toast-container {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    .toast {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: var(--radius-inner);
+      box-shadow: var(--shadow-modal);
+      font-size: 13px;
+      font-weight: 600;
+      color: white;
+      max-width: 360px;
+      animation: toast-in 0.3s ease-out;
+    }
+
+    .toast-success { background: var(--hana-xp); }
+    .toast-error { background: var(--hana-danger); }
+    .toast-info { background: var(--hana-primary); }
+
+    .toast-out { animation: toast-out 0.25s ease-in forwards; }
+
+    @keyframes toast-in {
+      0% { opacity: 0; transform: translateX(100%) scale(0.9); }
+      100% { opacity: 1; transform: translateX(0) scale(1); }
+    }
+
+    @keyframes toast-out {
+      0% { opacity: 1; transform: translateX(0) scale(1); }
+      100% { opacity: 0; transform: translateX(100%) scale(0.9); }
+    }
+
+    /* ===== CONFIRM MODAL ===== */
+    .confirm-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 99998;
+      padding: 16px;
+    }
+
+    .confirm-box {
+      background: var(--hana-surface);
+      border: 1px solid var(--hana-border);
+      border-radius: var(--radius-hero);
+      padding: 28px;
+      max-width: 340px;
+      width: 100%;
+      box-shadow: var(--shadow-modal);
+      text-align: center;
+      animation: confirm-in 0.2s ease-out;
+    }
+
+    @keyframes confirm-in {
+      0% { opacity: 0; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .confirm-icon {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--hana-primary-10);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+    }
+
+    .confirm-icon span { font-size: 24px; color: var(--hana-primary); }
+
+    .confirm-box p { font-size: 14px; font-weight: 600; margin-bottom: 20px; line-height: 1.4; }
+
+    .confirm-actions { display: flex; gap: 10px; }
+
+    .confirm-actions button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: var(--radius-input);
+      font-size: 13px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+
+    .confirm-actions button:active { transform: scale(0.95); }
+
+    .confirm-cancel { background: var(--hana-card); color: var(--hana-text-2); }
+    .confirm-cancel:hover { background: var(--hana-border); }
+
+    .confirm-yes { background: var(--hana-primary); color: white; }
+    .confirm-yes:hover { background: var(--hana-primary-hover); }
+
+    /* ===== LOGIN ===== */
+    #login-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100%;
+    }
+
+    .login-box {
+      background: var(--hana-surface);
+      border: 1px solid var(--hana-border);
+      border-radius: var(--radius-hero);
+      padding: 40px 32px;
+      max-width: 360px;
+      width: 100%;
+      text-align: center;
+      box-shadow: var(--shadow-modal);
+    }
+
+    .login-box h1 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--hana-primary);
+      margin-bottom: 8px;
+    }
+
+    .login-box p { font-size: 13px; color: var(--hana-text-2); margin-bottom: 24px; }
+
+    /* ===== HAMBURGER ===== */
+    #sidebar-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--hana-text-1);
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      #sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        transform: translateX(-100%);
+        box-shadow: var(--shadow-modal);
+        height: 100vh;
+        border-right: none;
+      }
+
+      #sidebar.open { transform: translateX(0); }
+
+      #sidebar-toggle { display: flex; align-items: center; justify-content: center; }
+
+      #main { padding: 20px 16px; }
+
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+      .charts-grid { grid-template-columns: 1fr; }
+
+      .stat-card .stat-value { font-size: 22px; }
+
+      #sidebar-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.4);
+        z-index: 99;
+      }
+
+      #sidebar-overlay.open { display: block; }
+    }
+
+    @media (min-width: 769px) {
+      #sidebar-overlay { display: none !important; }
+    }
+
+    /* ===== UNREAD DOT ===== */
+    .unread-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--hana-danger);
+      margin-left: 4px;
+      vertical-align: super;
+    }
+
+    /* ===== RESPONSIVE TABLE (small) ===== */
+    .table-wrap-responsive td .mobile-label { display: none; }
+
+    @media (max-width: 640px) {
+      table.data-table thead { display: none; }
+      table.data-table tr {
+        display: block;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--hana-border);
+      }
+      table.data-table td {
+        display: flex;
+        justify-content: space-between;
+        padding: 4px 0;
+        border-bottom: none;
+      }
+      table.data-table td .mobile-label {
+        display: inline-block;
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--hana-text-3);
+        text-transform: uppercase;
+      }
+    }
+
+    .admin-badge-count {
+      background: var(--hana-danger);
+      color: white;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 999px;
+      margin-left: auto;
+    }
   </style>
 </head>
-<body class="p-6 max-w-6xl mx-auto">
-  <div id="toast-container" class="fixed top-4 right-4 z-[99999] flex flex-col gap-2 pointer-events-none"></div>
+<body>
+  <div id="sidebar-overlay"></div>
 
-  <div class="flex items-center justify-between mb-8">
-    <h1 class="text-2xl font-extrabold text-white">📊 Admin Panel <span id="unread-badge" class="hidden text-xs bg-red-500 text-white px-2 py-0.5 rounded-full ml-2 align-middle"></span></h1>
-    <button onclick="logout()" class="text-sm text-slate-400 hover:text-white transition">Logout</button>
-  </div>
-
-  <div id="login-section" class="card text-center py-12 hidden">
-    <p class="text-slate-400 mb-4">Login dengan akun admin Google untuk mengakses panel</p>
-    <button onclick="login()" class="px-6 py-2.5 bg-[#6C63FF] text-white rounded-xl font-bold hover:brightness-110 transition">Login dengan Google</button>
-  </div>
-
-  <div id="dashboard-section" class="hidden">
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8" id="stats-cards"></div>
-    <div class="card mb-6">
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="font-bold">User Terdaftar</h2>
-        <input id="search-input" placeholder="Cari..." class="bg-[#1e2a4a] text-white px-3 py-1.5 rounded-lg text-sm border border-[#2E3A59] focus:outline-none" oninput="loadUsers()">
-      </div>
-      <div class="overflow-x-auto"><table class="w-full text-sm"><thead><tr class="text-slate-400 text-left"><th class="pb-2 pr-4">Nama</th><th class="pb-2 pr-4">Email</th><th class="pb-2 pr-4">XP</th><th class="pb-2 pr-4">Streak</th><th class="pb-2 pr-4">Premium</th><th class="pb-2 pr-4">Tanggal</th><th class="pb-2">Aksi</th></tr></thead><tbody id="users-table"></tbody></table></div>
-      <div id="pagination" class="flex justify-center gap-2 mt-4"></div>
+  <!-- ===== SIDEBAR ===== -->
+  <aside id="sidebar">
+    <div class="sidebar-logo">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">admin_panel_settings</span>
+      Admin Panel
     </div>
-    <div class="card">
-      <h2 class="font-bold mb-4">Feedback Terbaru</h2>
-      <div id="feedback-list"></div>
+
+    <div class="nav-item active" data-page="dashboard" onclick="showPage('dashboard')">
+      <span class="material-symbols-outlined">dashboard</span> Dashboard
+    </div>
+    <div class="nav-item" data-page="users" onclick="showPage('users')">
+      <span class="material-symbols-outlined">group</span> Users
+    </div>
+    <div class="nav-item" data-page="feedback" onclick="showPage('feedback')">
+      <span class="material-symbols-outlined">feedback</span> Feedback
+      <span id="sidebar-unread" class="admin-badge-count" style="display:none">0</span>
+    </div>
+    <div class="nav-item" data-page="analytics" onclick="showPage('analytics')">
+      <span class="material-symbols-outlined">analytics</span> Analytics
+    </div>
+
+    <div class="sidebar-spacer"></div>
+
+    <div class="nav-footer">
+      <button onclick="toggleTheme()" title="Toggle theme">
+        <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
+      </button>
+      <button onclick="logout()" title="Logout">
+        <span class="material-symbols-outlined">logout</span> Logout
+      </button>
+    </div>
+  </aside>
+
+  <!-- ===== TOAST ===== -->
+  <div id="toast-container"></div>
+
+  <!-- ===== LOGIN ===== -->
+  <div id="login-section">
+    <div class="login-box">
+      <h1>📊 Admin Panel</h1>
+      <p>Login dengan akun admin Google untuk mengakses panel</p>
+      <button class="btn btn-primary" onclick="login()" style="padding:12px 24px;font-size:14px">
+        <span class="material-symbols-outlined">login</span> Login dengan Google
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div id="main" style="display:none">
+    <!-- DASHBOARD -->
+    <div id="page-dashboard" class="page-content active">
+      <div class="page-header">
+        <h2>Dashboard</h2>
+        <div class="page-header-actions">
+          <button class="btn-icon" id="sidebar-toggle" onclick="toggleSidebar()">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
+      <div class="stats-grid" id="stats-cards"></div>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h3>User Baru (30 hari)</h3>
+          <canvas id="userChart"></canvas>
+          <div class="chart-empty" id="userChartEmpty">Belum ada data user</div>
+        </div>
+        <div class="chart-card">
+          <h3>Premium vs Free</h3>
+          <canvas id="premiumChart"></canvas>
+          <div class="chart-empty" id="premiumChartEmpty">Belum ada data premium</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- USERS -->
+    <div id="page-users" class="page-content">
+      <div class="page-header">
+        <h2>Users</h2>
+        <div class="page-header-actions">
+          <button class="btn-icon" onclick="toggleSidebar()">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+          <input class="input" id="search-input" placeholder="Cari nama atau email..." oninput="loadUsers()" style="width:200px">
+        </div>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Email</th>
+                <th>XP</th>
+                <th>Streak</th>
+                <th>Status</th>
+                <th>Tanggal</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="users-table"></tbody>
+          </table>
+        </div>
+        <div class="pagination" id="pagination"></div>
+      </div>
+    </div>
+
+    <!-- FEEDBACK -->
+    <div id="page-feedback" class="page-content">
+      <div class="page-header">
+        <h2>Feedback</h2>
+        <div class="page-header-actions">
+          <button class="btn-icon" onclick="toggleSidebar()">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+          <span id="unread-count" class="badge badge-status-baru" style="display:none"></span>
+        </div>
+      </div>
+      <div class="card" id="feedback-list"></div>
+    </div>
+
+    <!-- ANALYTICS -->
+    <div id="page-analytics" class="page-content">
+      <div class="page-header">
+        <h2>Analytics</h2>
+        <div class="page-header-actions">
+          <button class="btn-icon" onclick="toggleSidebar()">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="stats-grid" id="analytics-stats-cards"></div>
+
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h3>Engagement: Premium vs Free</h3>
+          <canvas id="engagementChart"></canvas>
+          <div class="chart-empty" id="engagementChartEmpty">Memuat data...</div>
+        </div>
+        <div class="chart-card">
+          <h3>Akurasi Reading vs Listening</h3>
+          <canvas id="accuracyChart"></canvas>
+          <div class="chart-empty" id="accuracyChartEmpty">Memuat data...</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>Top Jawaban Salah</h3></div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>#</th><th>Question ID</th><th>Level</th><th>Tipe</th><th>Total Salah</th><th>User Terdampak</th></tr>
+            </thead>
+            <tbody id="wrong-answers-table"></tbody>
+          </table>
+        </div>
+        <div id="wrong-answers-empty" class="chart-empty" style="display:none">Belum ada data jawaban salah</div>
+      </div>
     </div>
   </div>
 
   <script>
     let token = localStorage.getItem('eps_token');
     let _confirmResolve = null;
+    let chartUser = null, chartPremium = null, chartEngagement = null, chartAccuracy = null;
+    let currentPage = 1;
+    let pollInterval = null;
 
-    // ===================== TOAST SYSTEM =====================
+    const STATUS_LABELS = { baru: 'Baru', dibaca: 'Dibaca', selesai: 'Selesai' };
+
+    // ===== THEME =====
+    function initTheme() {
+      const isDark = localStorage.getItem('epsDarkMode') === 'true';
+      document.documentElement.classList.toggle('dark', isDark);
+      updateThemeIcon();
+    }
+
+    function toggleTheme() {
+      const isDark = !document.documentElement.classList.contains('dark');
+      document.documentElement.classList.toggle('dark', isDark);
+      localStorage.setItem('epsDarkMode', isDark);
+      updateThemeIcon();
+      if (chartEngagement) { chartEngagement.destroy(); chartEngagement = null; }
+      if (chartAccuracy) { chartAccuracy.destroy(); chartAccuracy = null; }
+      if (chartUser) { chartUser.destroy(); chartUser = null; }
+      if (chartPremium) { chartPremium.destroy(); chartPremium = null; }
+      loadDashboard();
+      loadAnalytics();
+    }
+
+    function updateThemeIcon() {
+      const icon = document.getElementById('theme-icon');
+      icon.textContent = document.documentElement.classList.contains('dark') ? 'light_mode' : 'dark_mode';
+    }
+
+    // ===== SIDEBAR =====
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+      document.getElementById('sidebar-overlay').classList.toggle('open');
+    }
+
+    document.getElementById('sidebar-overlay').onclick = toggleSidebar;
+
+    // ===== NAVIGATION =====
+    function showPage(name) {
+      document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.getElementById('page-' + name).classList.add('active');
+      document.querySelector('.nav-item[data-page="' + name + '"]').classList.add('active');
+
+      if (name === 'dashboard') loadDashboard();
+      else if (name === 'users') loadUsers();
+      else if (name === 'feedback') loadFeedback();
+      else if (name === 'analytics') loadAnalytics();
+
+      if (window.innerWidth <= 768) {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebar-overlay').classList.remove('open');
+      }
+    }
+
+    // ===== THEME COLOR =====
+    function getCSSVar(name) {
+      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    }
+
+    // ===== TOAST =====
     function showToast(type, message) {
       const container = document.getElementById('toast-container');
       const icons = { success: 'check_circle', error: 'error', info: 'info' };
-      const colors = { success: 'bg-green-600', error: 'bg-red-600', info: 'bg-blue-600' };
+      const cls = { success: 'toast-success', error: 'toast-error', info: 'toast-info' };
       const el = document.createElement('div');
-      el.className = `toast-animate pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-2xl shadow-2xl text-white text-sm font-medium ${colors[type] || 'bg-slate-700'} max-w-sm`;
-      el.innerHTML = `<span class="material-symbols-outlined text-[20px]">${icons[type] || 'info'}</span><span class="flex-1">${message}</span>`;
+      el.className = 'toast ' + (cls[type] || 'toast-info');
+      el.innerHTML = '<span class="material-symbols-outlined">' + (icons[type] || 'info') + '</span><span>' + message + '</span>';
       container.appendChild(el);
       setTimeout(() => {
-        el.classList.remove('toast-animate');
-        el.classList.add('toast-animate-out');
+        el.classList.add('toast-out');
         setTimeout(() => el.remove(), 260);
       }, 3000);
     }
 
-    // ===================== CONFIRM MODAL =====================
+    // ===== CONFIRM =====
     function showConfirm(message) {
       return new Promise((resolve) => {
         _confirmResolve = resolve;
         const existing = document.getElementById('admin-confirm-overlay');
         if (existing) existing.remove();
-
         const overlay = document.createElement('div');
         overlay.id = 'admin-confirm-overlay';
-        overlay.className = 'fixed inset-0 z-[99998] flex items-center justify-center bg-black/60 backdrop-blur-sm px-6';
+        overlay.className = 'confirm-overlay';
         overlay.innerHTML =
-          `<div class="confirm-animate bg-[#151C2C] border border-[#2E3A59] rounded-3xl p-7 max-w-sm w-full shadow-2xl">
-            <div class="flex flex-col items-center text-center gap-4">
-              <div class="w-14 h-14 rounded-full bg-[#6C63FF]/15 flex items-center justify-center">
-                <span class="material-symbols-outlined text-[28px] text-[#6C63FF]">help_outline</span>
-              </div>
-              <p class="text-base font-semibold text-white">${message}</p>
-              <div class="flex gap-3 w-full mt-1">
-                <button id="admin-confirm-no" class="flex-1 py-2.5 px-4 bg-slate-700 text-slate-300 rounded-xl font-semibold text-sm hover:bg-slate-600 active:scale-[0.97] transition-all">Batal</button>
-                <button id="admin-confirm-yes" class="flex-1 py-2.5 px-4 bg-[#6C63FF] text-white rounded-xl font-semibold text-sm hover:brightness-110 active:scale-[0.97] transition-all">Ya, lanjutkan</button>
-              </div>
-            </div>
-          </div>`;
+          '<div class="confirm-box">' +
+            '<div class="confirm-icon"><span class="material-symbols-outlined">help_outline</span></div>' +
+            '<p>' + message + '</p>' +
+            '<div class="confirm-actions">' +
+              '<button id="admin-confirm-no" class="confirm-cancel">Batal</button>' +
+              '<button id="admin-confirm-yes" class="confirm-yes">Ya, lanjutkan</button>' +
+            '</div>' +
+          '</div>';
         document.body.appendChild(overlay);
-
         document.getElementById('admin-confirm-yes').onclick = () => { overlay.remove(); resolve(true); };
         document.getElementById('admin-confirm-no').onclick = () => { overlay.remove(); resolve(false); };
         overlay.onclick = (e) => { if (e.target === overlay) { overlay.remove(); resolve(false); } };
       });
     }
 
-    // ===================== AUTH =====================
-    function login() {
-      window.location.href = '/api/auth/google?state=admin.html';
-    }
+    // ===== AUTH =====
+    function login() { window.location.href = '/api/auth/google?state=admin.html'; }
 
     async function logout() {
       const ok = await showConfirm('Keluar dari panel admin?');
       if (!ok) return;
       localStorage.removeItem('eps_token');
       token = null;
-      showLogin();
+      document.getElementById('login-section').style.display = 'flex';
+      document.getElementById('main').style.display = 'none';
+      if (pollInterval) { clearInterval(pollInterval); pollInterval = null; }
       showToast('info', 'Berhasil logout');
     }
 
-    function showLogin() {
-      document.getElementById('login-section').classList.remove('hidden');
-      document.getElementById('dashboard-section').classList.add('hidden');
-    }
-
-    function showDashboard() {
-      document.getElementById('login-section').classList.add('hidden');
-      document.getElementById('dashboard-section').classList.remove('hidden');
-    }
-
-    // ===================== API CLIENT =====================
+    // ===== API CLIENT =====
     async function api(path, opts) {
       try {
-        const res = await fetch(path, { ...opts, headers: { ...opts?.headers, Authorization: `Bearer ${token}`, 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' } });
+        const res = await fetch(path, {
+          ...opts,
+          headers: {
+            ...opts?.headers,
+            Authorization: 'Bearer ' + token,
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache'
+          }
+        });
         if (res.status === 401 || res.status === 403) {
-          token = null; localStorage.removeItem('eps_token'); showLogin();
+          token = null; localStorage.removeItem('eps_token');
+          document.getElementById('login-section').style.display = 'flex';
+          document.getElementById('main').style.display = 'none';
+          if (pollInterval) { clearInterval(pollInterval); pollInterval = null; }
           showToast('error', 'Sesi habis. Login kembali.');
           return null;
         }
@@ -148,40 +1094,260 @@
       }
     }
 
-    // ===================== LOADERS =====================
-    async function loadStats() {
-      const data = await api('/api/admin/stats');
-      if (!data) return;
+    // =============================================
+    // DASHBOARD
+    // =============================================
+    async function loadDashboard() {
+      const stats = await api('/api/admin/stats');
+      if (!stats) return;
       const unread = await api('/api/admin/feedback/unread-count');
       const unreadCount = unread ? unread.count : 0;
-      document.getElementById('stats-cards').innerHTML = `
-        <div class="card text-center"><p class="text-3xl font-extrabold text-[#6C63FF]">${data.totalUsers}</p><p class="text-xs text-slate-400 mt-1">Total User</p></div>
-        <div class="card text-center"><p class="text-3xl font-extrabold text-[#22c55e]">${data.totalXp.toLocaleString()}</p><p class="text-xs text-slate-400 mt-1">Total XP</p></div>
-        <div class="card text-center"><p class="text-3xl font-extrabold text-[#f59e0b]">${data.totalFeedback} <span class="${unreadCount > 0 ? 'text-red-400' : 'text-slate-500'} text-sm font-bold">· ${unreadCount} baru</span></p><p class="text-xs text-slate-400 mt-1">Feedback</p></div>`;
-      const badge = document.getElementById('unread-badge');
-      if (unreadCount > 0) { badge.classList.remove('hidden'); badge.textContent = unreadCount + ' baru'; }
-      else { badge.classList.add('hidden'); }
+
+      document.getElementById('stats-cards').innerHTML =
+        '<div class="stat-card"><div class="stat-value" style="color:var(--hana-primary)">' + stats.totalUsers + '</div><div class="stat-label">Total User</div></div>' +
+        '<div class="stat-card"><div class="stat-value" style="color:var(--hana-xp)">' + stats.totalXp.toLocaleString() + '</div><div class="stat-label">Total XP</div></div>' +
+        '<div class="stat-card"><div class="stat-value" style="color:var(--hana-warning)">' + stats.totalFeedback + '</div><div class="stat-label">Feedback</div><div class="stat-sub">' + unreadCount + ' baru</div></div>' +
+        '<div class="stat-card" id="dash-premium-card"><div class="stat-value" style="color:var(--hana-primary)">...</div><div class="stat-label">Premium</div></div>' +
+        '<div class="stat-card" id="dash-quiz-card"><div class="stat-value" style="color:var(--hana-xp)">...</div><div class="stat-label">Quiz Selesai</div></div>' +
+        '<div class="stat-card" id="dash-accuracy-card"><div class="stat-value" style="color:var(--hana-text-2)">...</div><div class="stat-label">Akurasi Rata-rata</div></div>';
+
+      loadPremiumStat();
+      loadQuizStat();
+      loadUserChart();
+      loadPremiumChart();
+
+      updateSidebarUnread(unreadCount);
     }
 
-    let currentPage = 1;
+    async function loadPremiumStat() {
+      const data = await api('/api/admin/analytics/premium');
+      if (!data) return;
+      const card = document.getElementById('dash-premium-card');
+      if (card) {
+        card.innerHTML = '<div class="stat-value" style="color:var(--hana-primary)">' + data.totalPremium + ' <span style="font-size:14px;color:var(--hana-text-3)">/ ' + (data.totalPremium + data.totalFree) + '</span></div><div class="stat-label">Premium · ' + data.conversionRate + '%</div>';
+      }
+    }
 
+    async function loadQuizStat() {
+      const data = await api('/api/admin/analytics/quiz');
+      if (!data) return;
+      const card = document.getElementById('dash-quiz-card');
+      if (card) {
+        card.innerHTML = '<div class="stat-value" style="color:var(--hana-xp)">' + data.totalQuizCompletions + '</div><div class="stat-label">Quiz Selesai</div><div class="stat-sub">' + data.activeQuizUsers + ' user aktif</div>';
+      }
+      const accCard = document.getElementById('dash-accuracy-card');
+      if (accCard && data.totalReadQuestions + data.totalListenQuestions > 0) {
+        const totalQ = data.totalReadQuestions + data.totalListenQuestions;
+        const totalC = data.totalReadCorrect + data.totalListenCorrect;
+        const acc = totalQ > 0 ? Math.round(totalC / totalQ * 100) : 0;
+        accCard.innerHTML = '<div class="stat-value" style="color:var(--hana-text-2)">' + acc + '%</div><div class="stat-label">Akurasi Rata-rata</div>';
+      }
+    }
+
+    async function loadUserChart() {
+      const data = await api('/api/admin/analytics/users?days=30');
+      if (!data || !data.data || data.data.length === 0) {
+        document.getElementById('userChart').style.display = 'none';
+        document.getElementById('userChartEmpty').style.display = 'block';
+        return;
+      }
+      document.getElementById('userChart').style.display = 'block';
+      document.getElementById('userChartEmpty').style.display = 'none';
+
+      if (chartUser) chartUser.destroy();
+      const ctx = document.getElementById('userChart').getContext('2d');
+      const primary = getCSSVar('--hana-primary');
+      const primary20 = getCSSVar('--hana-primary-20');
+      const text2 = getCSSVar('--hana-text-2');
+
+      chartUser = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: data.data.map(d => {
+            const parts = d.date.split('-');
+            return parts[1] + '/' + parts[2];
+          }),
+          datasets: [{
+            label: 'User Baru',
+            data: data.data.map(d => d.count),
+            backgroundColor: primary20,
+            borderColor: primary,
+            borderWidth: 1,
+            borderRadius: 4,
+            barPercentage: 0.6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: text2, font: { size: 9 } }, grid: { display: false } },
+            y: { ticks: { color: text2, font: { size: 9 }, stepSize: 1 }, grid: { color: primary20 } }
+          }
+        }
+      });
+    }
+
+    async function loadPremiumChart() {
+      const data = await api('/api/admin/analytics/premium');
+      if (!data) return;
+      if (data.totalPremium + data.totalFree === 0) {
+        document.getElementById('premiumChart').style.display = 'none';
+        document.getElementById('premiumChartEmpty').style.display = 'block';
+        return;
+      }
+      document.getElementById('premiumChart').style.display = 'block';
+      document.getElementById('premiumChartEmpty').style.display = 'none';
+
+      if (chartPremium) chartPremium.destroy();
+      const ctx = document.getElementById('premiumChart').getContext('2d');
+      const primary = getCSSVar('--hana-primary');
+      const text2 = getCSSVar('--hana-text-2');
+      const surface = getCSSVar('--hana-surface');
+
+      chartPremium = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Premium', 'Free'],
+          datasets: [{
+            data: [data.totalPremium, data.totalFree],
+            backgroundColor: [primary, surface],
+            borderColor: [primary, getCSSVar('--hana-border')],
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '65%',
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { color: text2, font: { size: 10 }, padding: 12 }
+            }
+          }
+        }
+      });
+    }
+
+    // =============================================
+    // USERS
+    // =============================================
     async function loadUsers() {
       const search = document.getElementById('search-input').value;
-      const data = await api(`/api/admin/users?page=${currentPage}&search=${encodeURIComponent(search)}&_=${Date.now()}`);
+      const data = await api('/api/admin/users?page=' + currentPage + '&search=' + encodeURIComponent(search) + '&_=' + Date.now());
       if (!data) return;
       const tbody = document.getElementById('users-table');
-      tbody.innerHTML = data.users.map(u => `<tr class="border-t border-[#2E3A59]/50"><td class="py-2 pr-4">${u.name || '-'}</td><td class="py-2 pr-4 text-slate-400">${u.email}</td><td class="py-2 pr-4">${u.xp || 0}</td><td class="py-2 pr-4">${u.streak || 0}</td><td class="py-2 pr-4"><button onclick="togglePremium(${u.id}, ${u.is_premium})" class="text-xs px-2.5 py-1 rounded-full font-semibold ${u.is_premium ? 'bg-green-600 text-white' : 'bg-slate-600 text-slate-300 hover:bg-green-600 hover:text-white'} transition">${u.is_premium ? 'Premium' : 'Free'}</button></td><td class="py-2 pr-4 text-slate-400 text-xs">${u.created_at ? new Date(u.created_at).toLocaleDateString() : '-'}</td><td class="py-2"><button onclick="deleteUser(${u.id})" class="text-xs text-red-400 hover:text-red-300">Hapus</button></td></tr>`).join('');
+      tbody.innerHTML = data.users.map(u =>
+        '<tr>' +
+          '<td><span class="mobile-label">Nama</span>' + (u.name || '-') + '</td>' +
+          '<td><span class="mobile-label">Email</span><span style="color:var(--hana-text-2)">' + u.email + '</span></td>' +
+          '<td><span class="mobile-label">XP</span>' + (u.xp || 0) + '</td>' +
+          '<td><span class="mobile-label">Streak</span>' + (u.streak || 0) + '</td>' +
+          '<td><span class="mobile-label">Status</span>' +
+            '<button onclick="togglePremium(' + u.id + ', ' + u.is_premium + ')" class="btn btn-sm ' + (u.is_premium ? 'badge-premium' : 'badge-free') + '">' + (u.is_premium ? 'Premium' : 'Free') + '</button>' +
+          '</td>' +
+          '<td><span class="mobile-label">Tanggal</span><span style="color:var(--hana-text-3);font-size:12px">' + (u.created_at ? new Date(u.created_at).toLocaleDateString('id-ID') : '-') + '</span></td>' +
+          '<td><span class="mobile-label">Aksi</span><button onclick="deleteUser(' + u.id + ')" class="btn btn-sm btn-danger">Hapus</button></td>' +
+        '</tr>'
+      ).join('');
       const pag = document.getElementById('pagination');
-      pag.innerHTML = Array.from({length: Math.min(data.totalPages, 10)}, (_, i) => `<button onclick="currentPage=${i+1};loadUsers()" class="px-3 py-1 rounded-lg text-xs ${i+1===currentPage?'bg-[#6C63FF] text-white':'bg-[#1e2a4a] text-slate-400 hover:text-white'}">${i+1}</button>`).join('');
+      const totalPages = Math.min(data.totalPages, 10);
+      pag.innerHTML = Array.from({ length: totalPages }, (_, i) =>
+        '<button class="' + (i + 1 === currentPage ? 'active' : '') + '" onclick="currentPage=' + (i + 1) + ';loadUsers()">' + (i + 1) + '</button>'
+      ).join('');
     }
 
-    const STATUS_LABELS = { baru: 'Baru', dibaca: 'Dibaca', selesai: 'Selesai' };
-    const STATUS_COLORS = { baru: 'bg-red-500/20 text-red-400 border-red-500/30', dibaca: 'bg-amber-500/20 text-amber-400 border-amber-500/30', selesai: 'bg-green-500/20 text-green-400 border-green-500/30' };
+    async function togglePremium(id, current) {
+      const label = current ? 'Free' : 'Premium';
+      const ok = await showConfirm('Jadikan user ini <strong>' + label + '</strong>?');
+      if (!ok) return;
+      const result = await api('/api/admin/users/' + id + '/premium', { method: 'PUT' });
+      if (!result) return;
+      showToast('success', 'User berhasil dijadikan ' + label);
+      loadUsers();
+    }
+
+    async function deleteUser(id) {
+      const ok = await showConfirm('Hapus user ini? Tindakan ini tidak bisa dibatalkan.');
+      if (!ok) return;
+      const result = await api('/api/admin/users/' + id, { method: 'DELETE' });
+      if (!result) return;
+      showToast('success', 'User berhasil dihapus');
+      loadUsers();
+    }
+
+    // =============================================
+    // FEEDBACK
+    // =============================================
+    const STATUS_FEED_COLORS = {
+      baru: 'badge-status-baru',
+      dibaca: 'badge-status-dibaca',
+      selesai: 'badge-status-selesai'
+    };
+    const TYPE_BADGES = { saran: 'badge-saran', bug: 'badge-bug', dukungan: 'badge-dukungan' };
+
+    async function loadFeedback() {
+      const data = await api('/api/admin/feedback?_=' + Date.now());
+      if (!data) return;
+      const list = document.getElementById('feedback-list');
+      list.innerHTML = data.feedback.map(f => {
+        const statusBadge = STATUS_FEED_COLORS[f.status] || STATUS_FEED_COLORS.baru;
+        const typeBadge = TYPE_BADGES[f.type] || 'badge-saran';
+        const highlight = f.status === 'baru' ? ' highlight' : '';
+        return '<div class="feedback-item' + highlight + '">' +
+          '<div class="feedback-top">' +
+            '<div class="feedback-meta">' +
+              '<span class="badge ' + typeBadge + '">' + f.type + '</span>' +
+              '<div class="status-dropdown">' +
+                '<button onclick="toggleStatusMenu(this)" class="badge ' + statusBadge + '" style="border:none;cursor:pointer;font-family:inherit">' + STATUS_LABELS[f.status] + ' <span style="font-size:8px">▾</span></button>' +
+                '<div class="status-dropdown-menu">' +
+                  statusOptions(f.id, f.status) +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="feedback-body">' +
+              '<p>' + f.message + '</p>' +
+              '<div class="feedback-info">' + (f.email || 'anon') + ' · ' + new Date(f.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) + '</div>' +
+              (f.admin_reply ? '<div class="feedback-reply"><div class="feedback-reply-label">Balasan Admin</div><div class="feedback-reply-text">' + f.admin_reply + '</div></div>' : '') +
+              '<div class="feedback-reply-area">' +
+                '<textarea id="reply-input-' + f.id + '" rows="1" placeholder="Tulis balasan...">' + (f.admin_reply || '') + '</textarea>' +
+                '<button id="reply-btn-' + f.id + '" onclick="sendReply(' + f.id + ')" class="btn btn-primary btn-sm">Kirim</button>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+      loadStatsRefresh();
+    }
+
+    function toggleStatusMenu(btn) {
+      const menu = btn.parentElement.querySelector('.status-dropdown-menu');
+      const isOpen = menu.classList.contains('open');
+      document.querySelectorAll('.status-dropdown-menu.open').forEach(m => m.classList.remove('open'));
+      if (!isOpen) menu.classList.add('open');
+    }
+
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.status-dropdown')) {
+        document.querySelectorAll('.status-dropdown-menu.open').forEach(m => m.classList.remove('open'));
+      }
+    });
+
+    function statusOptions(id, current) {
+      return ['baru', 'dibaca', 'selesai'].map(s =>
+        '<button onclick="updateStatus(' + id + ', \'' + s + '\')" ' + (s === current ? 'style="background:var(--hana-primary-10);color:var(--hana-primary)"' : '') + '>' + STATUS_LABELS[s] + '</button>'
+      ).join('');
+    }
 
     async function updateStatus(id, status) {
-      await api(`/api/admin/feedback/${id}/status`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) });
+      await api('/api/admin/feedback/' + id + '/status', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      });
       loadFeedback();
-      loadStats();
     }
 
     async function sendReply(id) {
@@ -189,75 +1355,192 @@
       if (!ta || !ta.value.trim()) return;
       const btn = document.getElementById('reply-btn-' + id);
       btn.disabled = true; btn.textContent = 'Menyimpan...';
-      await api(`/api/admin/feedback/${id}/reply`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ reply: ta.value }) });
+      await api('/api/admin/feedback/' + id + '/reply', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reply: ta.value })
+      });
       btn.disabled = false; btn.textContent = 'Kirim';
       loadFeedback();
-      loadStats();
     }
 
-    function statusOptions(id, current) {
-      return ['baru', 'dibaca', 'selesai'].map(s =>
-        `<button onclick="updateStatus(${id}, '${s}')" class="block w-full text-left px-3 py-1.5 text-xs hover:bg-white/10 rounded-lg transition ${s === current ? 'font-bold' : ''}">${STATUS_LABELS[s]}</button>`
-      ).join('');
-    }
-
-    async function loadFeedback() {
-      const data = await api('/api/admin/feedback?_=' + Date.now());
-      if (!data) return;
-      document.getElementById('feedback-list').innerHTML = data.feedback.map(f => {
-        const statusColor = STATUS_COLORS[f.status] || STATUS_COLORS.baru;
-        const rowBg = f.status === 'baru' ? 'bg-indigo-500/5' : '';
-        return `<div class="border-t border-[#2E3A59]/50 py-4 px-3 flex items-start gap-3 ${rowBg} rounded-lg transition">
-          <div class="flex flex-col items-center gap-1 shrink-0 mt-0.5 min-w-[60px]">
-            <span class="badge badge-${f.type}">${f.type}</span>
-            <div class="relative inline-block">
-              <button onclick="this.nextElementSibling.classList.toggle('hidden')" class="text-xs px-2 py-0.5 rounded-full border font-semibold ${statusColor}">${STATUS_LABELS[f.status]}</button>
-              <div class="hidden absolute top-full left-0 mt-1 bg-[#1e2a4a] border border-[#2E3A59] rounded-xl shadow-2xl py-1 px-1 z-10 min-w-[110px]">${statusOptions(f.id, f.status)}</div>
-            </div>
-          </div>
-          <div class="flex-1 min-w-0">
-            <p class="text-xs text-slate-300 leading-relaxed">${f.message}</p>
-            <p class="text-[10px] text-slate-500 mt-1.5">${f.email || 'anon'} · ${new Date(f.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</p>
-            ${f.admin_reply ? `<div class="mt-2 p-2.5 bg-[#6C63FF]/10 border border-[#6C63FF]/20 rounded-xl"><p class="text-[10px] font-bold text-[#6C63FF] uppercase tracking-wider mb-1">Balasan Admin</p><p class="text-xs text-slate-300">${f.admin_reply}</p></div>` : ''}
-            <div class="mt-2 flex gap-2">
-              <textarea id="reply-input-${f.id}" rows="2" class="flex-1 bg-[#0c1424] text-white text-xs px-3 py-2 rounded-xl border border-[#2E3A59] focus:border-[#6C63FF] outline-none resize-none" placeholder="Tulis balasan...">${f.admin_reply || ''}</textarea>
-              <button id="reply-btn-${f.id}" onclick="sendReply(${f.id})" class="shrink-0 self-end px-3 py-2 bg-[#6C63FF] text-white text-xs font-bold rounded-xl hover:brightness-110 active:scale-95 transition">Kirim</button>
-            </div>
-          </div>
-        </div>`;
-      }).join('');
-    }
-
-    // ===================== ACTIONS =====================
-    async function togglePremium(id, current) {
-      const label = current ? 'Free' : 'Premium';
-      const ok = await showConfirm(`Jadikan user ini <strong>${label}</strong>?`);
-      if (!ok) return;
-      const data = await api(`/api/admin/users/${id}/premium`, { method: 'PUT' });
-      if (!data) return;
-      const btn = document.querySelector(`button[onclick*="togglePremium(${id},"]`);
-      if (btn) {
-        const newStatus = !current;
-        btn.className = newStatus ? 'text-xs px-2.5 py-1 rounded-full font-semibold bg-green-600 text-white transition' : 'text-xs px-2.5 py-1 rounded-full font-semibold bg-slate-600 text-slate-300 hover:bg-green-600 hover:text-white transition';
-        btn.textContent = newStatus ? 'Premium' : 'Free';
-        btn.setAttribute('onclick', `togglePremium(${id}, ${newStatus})`);
+    async function loadStatsRefresh() {
+      const unread = await api('/api/admin/feedback/unread-count');
+      if (unread) {
+        updateSidebarUnread(unread.count);
+        const el = document.getElementById('unread-count');
+        if (unread.count > 0) { el.style.display = 'inline'; el.textContent = unread.count + ' baru'; }
+        else el.style.display = 'none';
       }
-      showToast('success', `User berhasil dijadikan ${label}`);
-      loadUsers();
     }
 
-    async function deleteUser(id) {
-      const ok = await showConfirm('Hapus user ini? Tindakan ini tidak bisa dibatalkan.');
-      if (!ok) return;
-      const data = await api(`/api/admin/users/${id}`, { method: 'DELETE' });
+    function updateSidebarUnread(count) {
+      const el = document.getElementById('sidebar-unread');
+      if (count > 0) { el.style.display = 'inline'; el.textContent = count; }
+      else el.style.display = 'none';
+    }
+
+    // =============================================
+    // ANALYTICS
+    // =============================================
+    async function loadAnalytics() {
+      const premium = await api('/api/admin/analytics/premium');
+      const quiz = await api('/api/admin/analytics/quiz');
+      const engagement = await api('/api/admin/analytics/engagement');
+      const wrong = await api('/api/admin/analytics/wrong-answers');
+
+      const cards = document.getElementById('analytics-stats-cards');
+      let cardsHtml = '';
+      if (premium) {
+        cardsHtml += '<div class="stat-card"><div class="stat-value" style="color:var(--hana-primary)">' + premium.totalPremium + '</div><div class="stat-label">Premium</div><div class="stat-sub">' + premium.conversionRate + '% dari total</div></div>';
+        cardsHtml += '<div class="stat-card"><div class="stat-value" style="color:var(--hana-text-2)">' + premium.totalFree + '</div><div class="stat-label">Free User</div></div>';
+      }
+      if (engagement && engagement.data) {
+        const prem = engagement.data.find(d => d.group_name === 'premium');
+        const free = engagement.data.find(d => d.group_name === 'free');
+        if (prem) {
+          cardsHtml += '<div class="stat-card"><div class="stat-value" style="color:var(--hana-xp)">' + prem.avgXp + '</div><div class="stat-label">Rata-rata XP (Premium)</div></div>';
+        }
+        if (free) {
+          cardsHtml += '<div class="stat-card"><div class="stat-value" style="color:var(--hana-text-2)">' + free.avgXp + '</div><div class="stat-label">Rata-rata XP (Free)</div></div>';
+        }
+      }
+      cards.innerHTML = cardsHtml;
+
+      loadEngagementChart(engagement);
+      loadAccuracyChart(quiz);
+
+      const wrongTable = document.getElementById('wrong-answers-table');
+      const wrongEmpty = document.getElementById('wrong-answers-empty');
+      if (wrong && wrong.data && wrong.data.length > 0) {
+        wrongEmpty.style.display = 'none';
+        wrongTable.innerHTML = wrong.data.slice(0, 20).map((w, i) =>
+          '<tr><td>' + (i + 1) + '</td><td style="font-weight:600">' + w.question_id + '</td><td><span class="badge badge-status-dibaca">' + w.level + '</span></td><td><span class="badge ' + (w.type === 'reading' ? 'badge-saran' : 'badge-dukungan') + '">' + w.type + '</span></td><td style="color:var(--hana-danger);font-weight:700">' + w.totalWrong + '</td><td>' + w.affectedUsers + ' user</td></tr>'
+        ).join('');
+      } else {
+        wrongEmpty.style.display = 'block';
+        wrongTable.innerHTML = '';
+      }
+    }
+
+    async function loadEngagementChart(data) {
+      if (!data || !data.data || data.data.length === 0) {
+        document.getElementById('engagementChart').style.display = 'none';
+        document.getElementById('engagementChartEmpty').style.display = 'block';
+        document.getElementById('engagementChartEmpty').textContent = 'Belum ada data engagement';
+        return;
+      }
+      document.getElementById('engagementChart').style.display = 'block';
+      document.getElementById('engagementChartEmpty').style.display = 'none';
+
+      if (chartEngagement) chartEngagement.destroy();
+      const ctx = document.getElementById('engagementChart').getContext('2d');
+      const primary = getCSSVar('--hana-primary');
+      const xp = getCSSVar('--hana-xp');
+      const danger = getCSSVar('--hana-danger');
+      const text2 = getCSSVar('--hana-text-2');
+
+      const premium = data.data.find(d => d.group_name === 'premium');
+      const free = data.data.find(d => d.group_name === 'free');
+
+      chartEngagement = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Rata-rata XP', 'Rata-rata Streak', 'Rata-rata Chat Tokens'],
+          datasets: [
+            {
+              label: 'Premium',
+              data: [premium ? premium.avgXp : 0, premium ? premium.avgStreak : 0, premium ? premium.avgChatTokens : 0],
+              backgroundColor: primary,
+              borderRadius: 4,
+              barPercentage: 0.5
+            },
+            {
+              label: 'Free',
+              data: [free ? free.avgXp : 0, free ? free.avgStreak : 0, free ? free.avgChatTokens : 0],
+              backgroundColor: danger,
+              borderRadius: 4,
+              barPercentage: 0.5
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom', labels: { color: text2, font: { size: 10 }, padding: 12 } }
+          },
+          scales: {
+            x: { ticks: { color: text2, font: { size: 9 } }, grid: { display: false } },
+            y: { ticks: { color: text2, font: { size: 9 } }, grid: { color: getCSSVar('--hana-border') } }
+          }
+        }
+      });
+    }
+
+    async function loadAccuracyChart(data) {
       if (!data) return;
-      showToast('success', 'User berhasil dihapus');
-      loadUsers();
-      loadStats();
+      const totalRead = data.totalReadQuestions || 0;
+      const totalListen = data.totalListenQuestions || 0;
+      if (totalRead + totalListen === 0) {
+        document.getElementById('accuracyChart').style.display = 'none';
+        document.getElementById('accuracyChartEmpty').style.display = 'block';
+        document.getElementById('accuracyChartEmpty').textContent = 'Belum ada data quiz';
+        return;
+      }
+      document.getElementById('accuracyChart').style.display = 'block';
+      document.getElementById('accuracyChartEmpty').style.display = 'none';
+
+      if (chartAccuracy) chartAccuracy.destroy();
+      const ctx = document.getElementById('accuracyChart').getContext('2d');
+      const xp = getCSSVar('--hana-xp');
+      const primary = getCSSVar('--hana-primary');
+      const text2 = getCSSVar('--hana-text-2');
+      const danger = getCSSVar('--hana-danger');
+
+      const readAcc = totalRead > 0 ? Math.round(data.totalReadCorrect / totalRead * 100) : 0;
+      const listenAcc = totalListen > 0 ? Math.round(data.totalListenCorrect / totalListen * 100) : 0;
+
+      chartAccuracy = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Reading', 'Listening'],
+          datasets: [{
+            label: 'Akurasi (%)',
+            data: [readAcc, listenAcc],
+            backgroundColor: [primary, xp],
+            borderRadius: 4,
+            barPercentage: 0.5
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          indexAxis: 'y',
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            x: {
+              min: 0, max: 100,
+              ticks: { color: text2, font: { size: 9 }, callback: function (v) { return v + '%'; } },
+              grid: { color: getCSSVar('--hana-border') }
+            },
+            y: {
+              ticks: { color: text2, font: { size: 11, weight: 'bold' } },
+              grid: { display: false }
+            }
+          }
+        }
+      });
     }
 
-    // ===================== INIT =====================
+    // =============================================
+    // INIT
+    // =============================================
     (async function init() {
+      initTheme();
+
       const params = new URLSearchParams(window.location.search);
       const urlToken = params.get('token');
       if (urlToken) {
@@ -265,14 +1548,21 @@
         localStorage.setItem('eps_token', token);
         window.history.replaceState({}, '', '/admin.html');
       }
+
       if (token) {
-        showDashboard();
-        loadStats();
+        document.getElementById('login-section').style.display = 'none';
+        document.getElementById('main').style.display = 'block';
+        loadDashboard();
         loadUsers();
         loadFeedback();
-        setInterval(() => { loadFeedback(); loadStats(); }, 15000);
+        pollInterval = setInterval(() => {
+          const active = document.querySelector('.page-content.active');
+          if (active && active.id === 'page-dashboard') { loadDashboard(); }
+          loadFeedback();
+        }, 15000);
       } else {
-        showLogin();
+        document.getElementById('login-section').style.display = 'flex';
+        document.getElementById('main').style.display = 'none';
       }
     })();
   </script>

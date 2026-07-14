@@ -143,4 +143,116 @@ router.put('/feedback/:id/reply', adminMiddleware, async (req, res) => {
   }
 });
 
+// ===================== ANALYTICS ENDPOINTS =====================
+
+router.get('/analytics/premium', adminMiddleware, async (req, res) => {
+  try {
+    await ensureDb();
+    const result = await get(`
+      SELECT 
+        COUNT(*) FILTER (WHERE is_premium = true)::int as totalPremium,
+        COUNT(*) FILTER (WHERE is_premium = false)::int as totalFree,
+        ROUND(COUNT(*) FILTER (WHERE is_premium = true)::decimal / NULLIF(COUNT(*), 0) * 100, 1) as conversionRate
+      FROM users
+    `);
+    res.json(result);
+  } catch (err) {
+    console.error('Admin premium analytics error:', err);
+    res.status(500).json({ error: 'Failed to load premium analytics' });
+  }
+});
+
+router.get('/analytics/users', adminMiddleware, async (req, res) => {
+  try {
+    await ensureDb();
+    const days = parseInt(req.query.days) || 30;
+    const data = await all(`
+      SELECT 
+        DATE(created_at) as date,
+        COUNT(*)::int as count
+      FROM users 
+      WHERE created_at >= CURRENT_DATE - $1::interval
+      GROUP BY DATE(created_at)
+      ORDER BY date
+    `, [`${days} days`]);
+    res.json({ data, days });
+  } catch (err) {
+    console.error('Admin user analytics error:', err);
+    res.status(500).json({ error: 'Failed to load user analytics' });
+  }
+});
+
+router.get('/analytics/engagement', adminMiddleware, async (req, res) => {
+  try {
+    await ensureDb();
+    const data = await all(`
+      SELECT
+        CASE WHEN u.is_premium THEN 'premium' ELSE 'free' END as group_name,
+        COUNT(DISTINCT u.id)::int as userCount,
+        COALESCE(AVG(p.xp), 0)::int as avgXp,
+        ROUND(COALESCE(AVG(p.streak), 0), 1) as avgStreak,
+        COALESCE(AVG(u.chat_tokens), 0)::int as avgChatTokens
+      FROM users u
+      LEFT JOIN progress p ON u.id = p.user_id
+      GROUP BY u.is_premium
+    `);
+    res.json({ data });
+  } catch (err) {
+    console.error('Admin engagement analytics error:', err);
+    res.status(500).json({ error: 'Failed to load engagement analytics' });
+  }
+});
+
+router.get('/analytics/quiz', adminMiddleware, async (req, res) => {
+  try {
+    await ensureDb();
+    const quizCompletions = await get(`
+      SELECT COALESCE(SUM(COALESCE(jsonb_array_length(quiz_history::jsonb), 0)), 0)::int as totalQuizCompletions
+      FROM progress
+    `);
+    const activeUsers = await get(`
+      SELECT COUNT(*)::int as count FROM progress WHERE quiz_history IS NOT NULL AND quiz_history != '[]'
+    `);
+    const lifetimeStats = await get(`
+      SELECT 
+        COALESCE(SUM(COALESCE(NULLIF(lifetime_stats::jsonb->>'readTotal', '')::int, 0)), 0)::int as totalReadQuestions,
+        COALESCE(SUM(COALESCE(NULLIF(lifetime_stats::jsonb->>'listTotal', '')::int, 0)), 0)::int as totalListenQuestions,
+        COALESCE(SUM(COALESCE(NULLIF(lifetime_stats::jsonb->>'readCorrect', '')::int, 0)), 0)::int as totalReadCorrect,
+        COALESCE(SUM(COALESCE(NULLIF(lifetime_stats::jsonb->>'listCorrect', '')::int, 0)), 0)::int as totalListenCorrect
+      FROM progress
+      WHERE lifetime_stats IS NOT NULL AND lifetime_stats != '{}'
+    `);
+    res.json({
+      totalQuizCompletions: quizCompletions.totalQuizCompletions,
+      activeQuizUsers: activeUsers.count,
+      ...lifetimeStats
+    });
+  } catch (err) {
+    console.error('Admin quiz analytics error:', err);
+    res.status(500).json({ error: 'Failed to load quiz analytics' });
+  }
+});
+
+router.get('/analytics/wrong-answers', adminMiddleware, async (req, res) => {
+  try {
+    await ensureDb();
+    const data = await all(`
+      SELECT 
+        question_id,
+        level,
+        type,
+        SUM(count)::int as totalWrong,
+        COUNT(DISTINCT user_id)::int as affectedUsers
+      FROM wrong_answers
+      GROUP BY question_id, level, type
+      ORDER BY totalWrong DESC
+      LIMIT 50
+    `);
+    res.json({ data });
+  } catch (err) {
+    console.error('Admin wrong answers error:', err);
+    res.status(500).json({ error: 'Failed to load wrong answers' });
+  }
+});
+
 export default router;

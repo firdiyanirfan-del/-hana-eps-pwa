@@ -2783,7 +2783,7 @@
 <!-- ============================================================== -->
 <!-- LATIHAN PERCAKAPAN (CONVERSATION PRACTICE) — STITCH REDESIGN -->
 <!-- ============================================================== -->
-<div id="screen-conversation" class="hidden min-h-screen bg-[var(--hana-canvas)] conv-gradient-bg flex flex-col font-['Plus_Jakarta_Sans'] relative">
+<div id="screen-conversation" class="hidden min-h-screen w-full overflow-x-hidden bg-[var(--hana-canvas)] conv-gradient-bg flex flex-col font-['Plus_Jakarta_Sans'] relative">
   <!-- Immersive Background Overlay -->
   <div class="absolute inset-0 conv-immersive-overlay"></div>
 
@@ -2810,11 +2810,11 @@
   </header>
 
   <!-- Chat Arena Box -->
-  <div id="conversation-chat-log" class="flex-1 px-4 pt-6 pb-4 overflow-y-auto space-y-6 max-w-xl mx-auto w-full flex flex-col justify-end custom-scrollbar relative z-10"></div>
+  <div id="conversation-chat-log" class="flex-1 px-4 pt-6 pb-4 overflow-y-auto overflow-x-hidden space-y-6 max-w-xl mx-auto w-full flex flex-col justify-end custom-scrollbar relative z-10"></div>
 
   <!-- Input Area (Stitch-style rounded-top section) -->
   <footer class="sticky bottom-0 z-40 w-full relative z-10">
-    <div class="conv-footer-glass rounded-t-[32px] px-4 pt-5 pb-5 max-w-xl mx-auto w-full space-y-4">
+    <div class="conv-footer-glass rounded-t-[32px] px-4 pt-3 pb-4 max-w-xl mx-auto w-full space-y-3 overflow-x-hidden">
       <!-- Answer Preview Area -->
       <div class="relative min-h-[56px] w-full bg-white/50 dark:bg-white/5 rounded-2xl border-2 border-dashed border-[var(--hana-primary)]/20 p-3 flex flex-wrap items-center gap-1.5 pr-10">
         <div id="conversation-answer-preview" class="flex flex-wrap gap-1.5 text-sm font-medium text-[var(--text-primary)]"></div>
@@ -2824,7 +2824,7 @@
       </div>
 
       <!-- Word Chips -->
-      <div id="conversation-word-pool" class="flex flex-wrap justify-center gap-2.5 min-h-[80px]"></div>
+      <div id="conversation-word-pool" class="flex flex-wrap justify-center gap-2 min-h-[60px]"></div>
 
       <!-- Submit Button -->
       <button onclick="app.conversationEngine.checkAnswer()" class="w-full h-[48px] text-white font-extrabold text-xs uppercase tracking-widest rounded-2xl active:scale-[0.97] transition-all flex items-center justify-center gap-2.5 shadow-xl" style="background:linear-gradient(135deg,var(--hana-primary),#8B84FF);box-shadow:0 4px 20px rgba(108,99,255,0.35)">

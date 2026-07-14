@@ -2760,7 +2760,7 @@ app.conversationEngine = {
         <p class="text-sm font-bold text-gray-800 dark:text-[var(--text-primary)] tracking-wide leading-relaxed">${step.ai_speak}</p>
         <div class="h-px bg-gray-100 dark:bg-white/10 my-3"></div>
         <p class="text-xs italic text-gray-500 dark:text-[var(--text-muted)] leading-relaxed">${step.ai_translation}</p>
-        <button onclick="app.speakText('${step.ai_speak.replace(/'/g, "\\'")}')" class="absolute -right-11 top-3 w-8 h-8 rounded-full bg-white dark:bg-[var(--card-bg)] border border-gray-200 dark:border-[var(--card-border)] text-[var(--hana-primary)] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:scale-105 shadow-sm">
+        <button onclick="app.speakText('${step.ai_speak.replace(/'/g, "\\'")}')" class="absolute -right-3 bottom-3 w-7 h-7 rounded-full bg-white dark:bg-[var(--card-bg)] border border-gray-200 dark:border-[var(--card-border)] text-[var(--hana-primary)] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:scale-105 shadow-sm">
           <span class="material-symbols-outlined text-[14px]">volume_up</span>
         </button>
       </div>`;
@@ -2808,7 +2808,7 @@ app.conversationEngine = {
       if (isHintActive && isCorrect) {
         extraClasses = 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-400 dark:border-emerald-600 ring-2 ring-emerald-300 dark:ring-emerald-700';
       }
-      btn.className = `word-chip px-4 py-2.5 ${extraClasses} border text-sm font-bold text-gray-800 dark:text-[var(--text-primary)] rounded-xl shadow-sm hover:bg-white dark:hover:bg-[var(--card-bg)] hover:border-[var(--hana-primary)]/40 transition-all animate-float stagger-${staggerIdx}`;
+      btn.className = `word-chip px-3 py-2 ${extraClasses} border text-[12px] font-bold text-gray-800 dark:text-[var(--text-primary)] rounded-xl shadow-sm hover:bg-white dark:hover:bg-[var(--card-bg)] hover:border-[var(--hana-primary)]/40 transition-all animate-float stagger-${staggerIdx}`;
       btn.innerText = word;
       btn.id = `conv-word-btn-${index}`;
       btn.onclick = () => this.handleWordClick(word, btn.id);

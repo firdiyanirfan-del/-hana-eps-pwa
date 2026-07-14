@@ -2788,6 +2788,16 @@
         <svg class="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
         Periksa Jawaban
       </button>
+
+      <!-- Action Buttons: Show Answer + Skip -->
+      <div id="conv-action-buttons" class="hidden flex items-center justify-center gap-2 mt-2">
+        <button id="btn-show-answer" onclick="app.conversationEngine.revealAnswer()" class="px-4 py-2.5 text-[11px] font-extrabold rounded-xl bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-all active:scale-95 hidden">
+          <span class="material-symbols-outlined text-[14px] align-middle mr-1">lightbulb</span> Lihat Jawaban
+        </button>
+        <button id="btn-skip-step" onclick="app.conversationEngine.skipStep()" class="px-4 py-2.5 text-[11px] font-extrabold rounded-xl bg-gray-50 dark:bg-gray-800/40 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800/60 transition-all active:scale-95 hidden">
+          <span class="material-symbols-outlined text-[14px] align-middle mr-1">skip_next</span> Lewati
+        </button>
+      </div>
     </div>
   </footer>
 </div>

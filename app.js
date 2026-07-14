@@ -2646,14 +2646,20 @@ window.HANA_CONVERSATION_DATA = {
 app.conversationEngine = {
   currentScenarioId: 'mesin-rusak',
   currentStepIndex: 0,
-  userHearts: 3,
+  userHearts: 5,
   selectedWords: [],
+  difficulty: 'sedang',
+  wrongAttempts: 0,
+  hintActive: false,
 
   startConversation(scenarioId) {
     this.currentScenarioId = scenarioId || 'mesin-rusak';
     this.currentStepIndex = 0;
-    this.userHearts = 3;
+    this.userHearts = 5;
     this.selectedWords = [];
+    this.difficulty = 'sedang';
+    this.wrongAttempts = 0;
+    this.hintActive = false;
 
     const data = window.HANA_CONVERSATION_DATA[this.currentScenarioId];
     if (!data) { showInfoModal('Skenario Tidak Ditemukan', 'Maaf, skenario percakapan yang diminta tidak tersedia.'); return; }
@@ -2661,6 +2667,9 @@ app.conversationEngine = {
     document.getElementById('conv-subtitle').innerText = data.title;
     document.getElementById('conversation-chat-log').innerHTML = '';
     document.getElementById('conversation-answer-preview').innerHTML = '';
+    document.getElementById('conv-action-buttons')?.classList.add('hidden');
+    document.getElementById('btn-show-answer')?.classList.add('hidden');
+    document.getElementById('btn-skip-step')?.classList.add('hidden');
 
     this.updateHeartsUI();
     this.updateProgressBar();
@@ -2683,6 +2692,14 @@ app.conversationEngine = {
         <p class="text-[9px] font-black text-[var(--text-secondary)] uppercase tracking-widest mb-2">PROLOG SKENARIO</p>
         <h3 class="text-base font-extrabold text-[var(--text-primary)] mb-3 leading-snug">${data.title}</h3>
         <p class="text-xs text-[var(--text-muted)] leading-relaxed">${data.prologue}</p>
+      </div>
+      <div class="flex flex-col gap-2 w-full">
+        <p class="text-[9px] font-black text-[var(--text-secondary)] uppercase tracking-widest">Pilih Tingkat Kesulitan</p>
+        <div class="flex gap-2 justify-center">
+          <button onclick="app.conversationEngine.setDifficulty('mudah')" class="difficulty-btn px-5 py-2.5 rounded-xl text-xs font-extrabold border-2 transition-all active:scale-95" data-level="mudah" style="border-color:var(--hana-border);color:var(--text-secondary)">Mudah</button>
+          <button onclick="app.conversationEngine.setDifficulty('sedang')" class="difficulty-btn px-5 py-2.5 rounded-xl text-xs font-extrabold border-2 transition-all active:scale-95" data-level="sedang" style="border-color:var(--hana-primary);color:var(--hana-primary);background:rgba(92,84,232,0.08)">Sedang</button>
+          <button onclick="app.conversationEngine.setDifficulty('sulit')" class="difficulty-btn px-5 py-2.5 rounded-xl text-xs font-extrabold border-2 transition-all active:scale-95" data-level="sulit" style="border-color:var(--hana-border);color:var(--text-secondary)">Sulit</button>
+        </div>
       </div>
       <button onclick="app.conversationEngine.startLesson()" class="px-8 py-3 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl active:scale-[0.97] transition-all flex items-center gap-2 shadow-lg" style="background:linear-gradient(135deg,var(--hana-primary),#8B84FF);box-shadow:0 4px 16px rgba(108,99,255,0.35)">
         <span class="material-symbols-outlined text-[16px]" style="font-variation-settings:'FILL' 1">play_arrow</span> Mulai Latihan
@@ -2709,7 +2726,7 @@ app.conversationEngine = {
   updateHeartsUI() {
     const container = document.getElementById('conv-hearts-container');
     let html = '';
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 5; i++) {
       const filled = i < this.userHearts;
       html += filled
         ? '<svg class="w-[18px] h-[18px] text-[var(--hana-danger)]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>'
@@ -2722,6 +2739,12 @@ app.conversationEngine = {
     const data = window.HANA_CONVERSATION_DATA[this.currentScenarioId];
     const step = data.steps[this.currentStepIndex];
     const chatLog = document.getElementById('conversation-chat-log');
+
+    this.wrongAttempts = 0;
+    this.hintActive = false;
+    document.getElementById('conv-action-buttons')?.classList.add('hidden');
+    document.getElementById('btn-show-answer')?.classList.add('hidden');
+    document.getElementById('btn-skip-step')?.classList.add('hidden');
 
     const aiBubble = document.createElement('div');
     aiBubble.className = 'flex flex-col items-start space-y-1.5 max-w-[88%] self-start animate-fade-in stagger-1';
@@ -2742,10 +2765,10 @@ app.conversationEngine = {
 
     this.selectedWords = [];
     document.getElementById('conversation-answer-preview').innerHTML = '';
-    this.renderWordPool(step.word_pool);
+    this.renderWordPool(this.getFilteredPool(step), false);
   },
 
-  renderWordPool(poolArray) {
+  renderWordPool(poolArray, isHintActive) {
     const poolContainer = document.getElementById('conversation-word-pool');
     poolContainer.innerHTML = '';
 
@@ -2755,10 +2778,17 @@ app.conversationEngine = {
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
 
+    const targetWords = this.getCurrentStep()?.user_target.trim().split(' ') || [];
+
     shuffled.forEach((word, index) => {
       const btn = document.createElement('button');
       const staggerIdx = (index % 8) + 1;
-      btn.className = `word-chip px-4 py-2.5 bg-[var(--hana-primary)]/5 dark:bg-[var(--hana-primary)]/10 border border-[var(--hana-primary)]/20 text-sm font-bold text-gray-800 dark:text-[var(--text-primary)] rounded-xl shadow-sm hover:bg-white dark:hover:bg-[var(--card-bg)] hover:border-[var(--hana-primary)]/40 transition-all animate-float stagger-${staggerIdx}`;
+      const isCorrect = targetWords.includes(word);
+      let extraClasses = 'bg-[var(--hana-primary)]/5 dark:bg-[var(--hana-primary)]/10 border-[var(--hana-primary)]/20';
+      if (isHintActive && isCorrect) {
+        extraClasses = 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-400 dark:border-emerald-600 ring-2 ring-emerald-300 dark:ring-emerald-700';
+      }
+      btn.className = `word-chip px-4 py-2.5 ${extraClasses} border text-sm font-bold text-gray-800 dark:text-[var(--text-primary)] rounded-xl shadow-sm hover:bg-white dark:hover:bg-[var(--card-bg)] hover:border-[var(--hana-primary)]/40 transition-all animate-float stagger-${staggerIdx}`;
       btn.innerText = word;
       btn.id = `conv-word-btn-${index}`;
       btn.onclick = () => this.handleWordClick(word, btn.id);
@@ -2781,9 +2811,10 @@ app.conversationEngine = {
   resetSelection() {
     this.selectedWords = [];
     document.getElementById('conversation-answer-preview').innerHTML = '';
-    const data = window.HANA_CONVERSATION_DATA[this.currentScenarioId];
-    const step = data.steps[this.currentStepIndex];
-    this.renderWordPool(step.word_pool);
+    const step = this.getCurrentStep();
+    if (step) {
+      this.renderWordPool(this.getFilteredPool(step), this.hintActive);
+    }
   },
 
   checkAnswer() {
@@ -2792,44 +2823,35 @@ app.conversationEngine = {
     const userString = this.selectedWords.join(' ').trim();
     const targetString = step.user_target.trim();
 
+    // 1. EXACT MATCH — correct
     if (userString === targetString) {
-      const chatLog = document.getElementById('conversation-chat-log');
-      const userBubble = document.createElement('div');
-      userBubble.className = 'flex flex-col items-end space-y-1.5 max-w-[88%] self-end animate-fade-in stagger-2';
-      userBubble.innerHTML = `
-        <span class="text-[10px] font-bold text-white/80 uppercase tracking-[0.2em] bg-[var(--hana-primary)]/30 px-2.5 py-1 rounded">Pelajar (User)</span>
-        <div class="speech-bubble-user bg-[var(--hana-primary)] rounded-2xl p-5 shadow-xl shadow-[var(--hana-primary)]/20">
-          <p class="text-sm font-bold text-white tracking-wide leading-relaxed">${step.user_target}</p>
-          <div class="h-px bg-white/15 my-3"></div>
-          <p class="text-xs italic text-white/70 leading-relaxed">${step.user_translation}</p>
-        </div>`;
-      chatLog.appendChild(userBubble);
-      chatLog.scrollTop = chatLog.scrollHeight;
+      this.submitCorrectAnswer();
+      return;
+    }
 
-      this.currentStepIndex++;
-      this.updateProgressBar();
+    // 2. PARTIAL MATCH — same words, wrong order
+    const userWordsSorted = this.selectedWords.map(w => w.trim()).sort().join(' ');
+    const targetWordsSorted = targetString.split(' ').sort().join(' ');
+    if (userWordsSorted === targetWordsSorted) {
+      this.wrongAttempts++;
+      this.activateHints(step);
+      this.showActionButtons();
+      showInfoModal('Hampir Benar!', 'Kata-kata yang Anda pilih sudah benar, tapi urutannya kurang tepat. Coba reset dan periksa urutannya.');
+      return;
+    }
 
-      if (this.currentStepIndex >= data.steps.length) {
-        setTimeout(() => {
-          app.data.xp = (app.data.xp || 0) + 20;
-          Storage.set(app.data);
-          showInfoModal('Percakapan Selesai!', 'Selamat! Anda berhasil menyelesaikan simulasi percakapan panjang. +20 XP ditambahkan.');
-          app.loadAndRefreshUI();
-          app.switchScreen('dashboard-screen', { showNav: true });
-        }, 800);
-      } else {
-        setTimeout(() => this.renderCurrentStep(), 1000);
-      }
-    } else {
-      this.userHearts--;
-      this.updateHeartsUI();
-      showInfoModal('Kurang Tepat', 'Susunan kalimat salah atau kurang tepat! Nyawa berkurang 1. Silakan susun ulang.');
-      this.resetSelection();
+    // 3. WRONG
+    this.userHearts--;
+    this.updateHeartsUI();
+    this.wrongAttempts++;
+    this.activateHints(step);
+    this.showActionButtons();
+    showInfoModal('Kurang Tepat', 'Susunan kalimat salah! Nyawa berkurang 1. Silakan coba lagi.');
+    this.resetSelection();
 
-      if (this.userHearts <= 0) {
-        showInfoModal('Game Over', 'Nyawa Anda habis. Jangan menyerah, coba lagi dari awal!');
-        app.switchScreen('dashboard-screen', { showNav: true });
-      }
+    if (this.userHearts <= 0) {
+      showInfoModal('Game Over', 'Nyawa Anda habis. Jangan menyerah, coba lagi dari awal!');
+      app.switchScreen('dashboard-screen', { showNav: true });
     }
   },
   openScenarioPicker() {
@@ -2883,6 +2905,138 @@ app.conversationEngine = {
       panel.classList.add('translate-y-full');
       overlay.style.opacity = '0';
       setTimeout(() => overlay.classList.add('hidden'), 300);
+    },
+
+    // ==================== NEW HELPER METHODS ====================
+
+    getCurrentStep() {
+      const data = window.HANA_CONVERSATION_DATA[this.currentScenarioId];
+      if (!data || !data.steps[this.currentStepIndex]) return null;
+      return data.steps[this.currentStepIndex];
+    },
+
+    getFilteredPool(step) {
+      const targetWords = step.user_target.trim().split(' ');
+      const distractors = step.word_pool.filter(w => !targetWords.includes(w));
+
+      if (this.difficulty === 'mudah') {
+        return step.word_pool.filter(w => targetWords.includes(w));
+      }
+      if (this.difficulty === 'sedang') {
+        const correct = step.word_pool.filter(w => targetWords.includes(w));
+        if (distractors.length > 0) {
+          const pick = distractors[Math.floor(Math.random() * distractors.length)];
+          correct.push(pick);
+        }
+        return correct;
+      }
+      return [...step.word_pool];
+    },
+
+    setDifficulty(level) {
+      this.difficulty = level;
+      document.querySelectorAll('.difficulty-btn').forEach(btn => {
+        const lvl = btn.getAttribute('data-level');
+        if (lvl === level) {
+          btn.style.borderColor = 'var(--hana-primary)';
+          btn.style.color = 'var(--hana-primary)';
+          btn.style.background = 'rgba(92,84,232,0.08)';
+        } else {
+          btn.style.borderColor = 'var(--hana-border)';
+          btn.style.color = 'var(--text-secondary)';
+          btn.style.background = 'transparent';
+        }
+      });
+    },
+
+    activateHints(step) {
+      if (this.wrongAttempts >= 1) {
+        this.hintActive = true;
+      }
+    },
+
+    showActionButtons() {
+      const showAnswerBtn = document.getElementById('btn-show-answer');
+      const skipBtn = document.getElementById('btn-skip-step');
+      const container = document.getElementById('conv-action-buttons');
+      if (this.wrongAttempts >= 3 && showAnswerBtn) {
+        showAnswerBtn.classList.remove('hidden');
+      }
+      if (this.wrongAttempts >= 2 && skipBtn) {
+        skipBtn.classList.remove('hidden');
+      }
+      if (this.wrongAttempts >= 2 && container) {
+        container.classList.remove('hidden');
+      }
+    },
+
+    submitCorrectAnswer() {
+      const data = window.HANA_CONVERSATION_DATA[this.currentScenarioId];
+      const step = data.steps[this.currentStepIndex];
+      const chatLog = document.getElementById('conversation-chat-log');
+      const userBubble = document.createElement('div');
+      userBubble.className = 'flex flex-col items-end space-y-1.5 max-w-[88%] self-end animate-fade-in stagger-2';
+      userBubble.innerHTML = `
+        <span class="text-[10px] font-bold text-white/80 uppercase tracking-[0.2em] bg-[var(--hana-primary)]/30 px-2.5 py-1 rounded">Pelajar (User)</span>
+        <div class="speech-bubble-user bg-[var(--hana-primary)] rounded-2xl p-5 shadow-xl shadow-[var(--hana-primary)]/20">
+          <p class="text-sm font-bold text-white tracking-wide leading-relaxed">${step.user_target}</p>
+          <div class="h-px bg-white/15 my-3"></div>
+          <p class="text-xs italic text-white/70 leading-relaxed">${step.user_translation}</p>
+        </div>`;
+      chatLog.appendChild(userBubble);
+      chatLog.scrollTop = chatLog.scrollHeight;
+
+      this.currentStepIndex++;
+      this.updateProgressBar();
+
+      if (this.currentStepIndex >= data.steps.length) {
+        setTimeout(() => {
+          app.data.xp = (app.data.xp || 0) + 20;
+          Storage.set(app.data);
+          showInfoModal('Percakapan Selesai!', 'Selamat! Anda berhasil menyelesaikan simulasi percakapan panjang. +20 XP ditambahkan.');
+          app.loadAndRefreshUI();
+          app.switchScreen('dashboard-screen', { showNav: true });
+        }, 800);
+      } else {
+        setTimeout(() => this.renderCurrentStep(), 1000);
+      }
+    },
+
+    revealAnswer() {
+      const data = window.HANA_CONVERSATION_DATA[this.currentScenarioId];
+      const step = data.steps[this.currentStepIndex];
+      const chatLog = document.getElementById('conversation-chat-log');
+
+      const revealBubble = document.createElement('div');
+      revealBubble.className = 'flex flex-col items-end space-y-1.5 max-w-[88%] self-end animate-fade-in stagger-2';
+      revealBubble.innerHTML = `
+        <span class="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-[0.2em] bg-amber-100 dark:bg-amber-900/30 px-2.5 py-1 rounded">Jawaban (Ditampilkan)</span>
+        <div class="speech-bubble-user bg-amber-500 rounded-2xl p-5 shadow-xl shadow-amber-500/20">
+          <p class="text-sm font-bold text-white tracking-wide leading-relaxed">${step.user_target}</p>
+          <div class="h-px bg-white/15 my-3"></div>
+          <p class="text-xs italic text-white/70 leading-relaxed">${step.user_translation}</p>
+        </div>`;
+      chatLog.appendChild(revealBubble);
+      chatLog.scrollTop = chatLog.scrollHeight;
+
+      this.currentStepIndex++;
+      this.updateProgressBar();
+
+      if (this.currentStepIndex >= data.steps.length) {
+        setTimeout(() => {
+          showInfoModal('Percakapan Selesai!', 'Anda telah menyelesaikan simulasi. +10 XP ditambahkan.');
+          app.data.xp = (app.data.xp || 0) + 10;
+          Storage.set(app.data);
+          app.loadAndRefreshUI();
+          app.switchScreen('dashboard-screen', { showNav: true });
+        }, 800);
+      } else {
+        setTimeout(() => this.renderCurrentStep(), 1000);
+      }
+    },
+
+    skipStep() {
+      this.revealAnswer();
     }
   }
 ;

@@ -2654,7 +2654,6 @@ app.conversationEngine = {
   wrongAttempts: 0,
   hintActive: false,
   idleTimer: null,
-  idleLevel: 0,
 
   startConversation(scenarioId) {
     this.currentScenarioId = scenarioId || 'mesin-rusak';
@@ -2751,7 +2750,6 @@ app.conversationEngine = {
     this.hintActive = false;
     this.selectedWords = [];
     this.selectedWordBtnIds = [];
-    this.idleLevel = 0;
     document.getElementById('conv-action-buttons')?.classList.add('hidden');
     document.getElementById('btn-show-answer')?.classList.add('hidden');
     document.getElementById('btn-skip-step')?.classList.add('hidden');
@@ -3102,15 +3100,14 @@ app.conversationEngine = {
     },
 
     getIdleConfig() {
-      const timers = { mudah: 10000, sedang: 18000, sulit: null };
-      const maxLevels = { mudah: 2, sedang: 1, sulit: 0 };
-      return { delay: timers[this.difficulty] || null, maxLevel: maxLevels[this.difficulty] || 0 };
+      const timers = { mudah: 10000, sedang: 15000, sulit: null };
+      return { delay: timers[this.difficulty] || null };
     },
 
     startIdleTimer() {
       this.clearIdleTimer();
       const cfg = this.getIdleConfig();
-      if (!cfg.delay || cfg.maxLevel < 1) return;
+      if (!cfg.delay) return;
       this.idleTimer = setTimeout(() => {
         if (document.getElementById('screen-conversation')?.classList.contains('hidden')) return;
         this.showIdleHelp();
@@ -3119,7 +3116,6 @@ app.conversationEngine = {
 
     clearIdleTimer() {
       if (this.idleTimer) { clearTimeout(this.idleTimer); this.idleTimer = null; }
-      this.idleLevel = 0;
       const area = document.getElementById('conv-idle-help-area');
       if (area) area.classList.add('hidden');
       const card = document.getElementById('conv-idle-hint-card');
@@ -3128,50 +3124,40 @@ app.conversationEngine = {
     },
 
     showIdleHelp() {
-      const cfg = this.getIdleConfig();
-      if (cfg.maxLevel < 1) return;
+      if (this.difficulty === 'sulit') return;
       const area = document.getElementById('conv-idle-help-area');
       if (!area) return;
       area.classList.remove('hidden');
       const btn = document.getElementById('conv-idle-help-btn');
-      if (btn) {
-        btn.onclick = () => this.handleIdleHelpClick();
-        if (this.idleLevel >= cfg.maxLevel) btn.classList.add('hidden');
-      }
+      if (btn) btn.onclick = () => this.handleIdleHelpClick();
     },
 
     handleIdleHelpClick() {
-      const cfg = this.getIdleConfig();
-      if (cfg.maxLevel < 1) return;
+      if (this.difficulty === 'sulit') return;
       const step = this.getCurrentStep();
       if (!step) return;
-      this.idleLevel++;
-      if (this.idleLevel === 1) {
-        const btn = document.getElementById('conv-idle-help-btn');
-        if (btn) btn.classList.add('hidden');
-        const card = document.getElementById('conv-idle-hint-card');
-        if (!card) return;
-        card.classList.remove('hidden');
-        card.textContent = step.grammar_tip
-          ? 'Coba pilih kata yang menunjukkan subjek (pelaku) sebagai kata pertama.'
-          : 'Coba susun kata sesuai pola Subjek + Objek + Predikat dalam bahasa Korea.';
-        if (this.difficulty === 'mudah') {
-          this.idleTimer = setTimeout(() => this.handleIdleHelpClick(), 10000);
-        }
-      } else if (this.idleLevel === 2 && this.difficulty === 'mudah') {
+      const btn = document.getElementById('conv-idle-help-btn');
+      if (btn) btn.classList.add('hidden');
+      const card = document.getElementById('conv-idle-hint-card');
+      if (!card) return;
+      card.classList.remove('hidden');
+      card.textContent = step.grammar_tip
+        ? 'Coba pilih kata yang menunjukkan subjek (pelaku) sebagai kata pertama.'
+        : 'Coba susun kata sesuai pola Subjek + Objek + Predikat dalam bahasa Korea.';
+      if (this.difficulty === 'mudah') {
         const targetWords = step.user_target.trim().split(' ');
         const firstCorrect = targetWords.find(w => {
           for (let i = 0; i < 50; i++) {
-            const btn = document.getElementById('conv-word-btn-' + i);
-            if (btn && btn.innerText === w && !btn.classList.contains('opacity-30')) return true;
+            const b = document.getElementById('conv-word-btn-' + i);
+            if (b && b.innerText === w && !b.classList.contains('opacity-30')) return true;
           }
           return false;
         });
         if (firstCorrect) {
           for (let i = 0; i < 50; i++) {
-            const btn = document.getElementById('conv-word-btn-' + i);
-            if (btn && btn.innerText === firstCorrect && !btn.classList.contains('opacity-30')) {
-              btn.classList.add('conv-idle-glow');
+            const b = document.getElementById('conv-word-btn-' + i);
+            if (b && b.innerText === firstCorrect && !b.classList.contains('opacity-30')) {
+              b.classList.add('conv-idle-glow');
               break;
             }
           }

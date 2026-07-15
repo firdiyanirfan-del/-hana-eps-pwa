@@ -2756,10 +2756,11 @@ app.conversationEngine = {
     aiBubble.className = 'flex flex-col items-start space-y-1.5 max-w-[88%] self-start animate-fade-in stagger-1';
     aiBubble.innerHTML = `
       <span class="text-[10px] font-bold text-[var(--hana-primary)] uppercase tracking-[0.2em] bg-[var(--hana-primary)]/10 px-2.5 py-1 rounded">${data.character}</span>
-      <div class="speech-bubble bg-white dark:bg-[#252423] border-2 border-[var(--hana-primary)]/20 rounded-2xl p-5 shadow-xl shadow-[var(--hana-primary)]/10 relative group">
-        <p class="text-sm font-bold text-gray-800 dark:text-[var(--text-primary)] tracking-wide leading-relaxed">${step.ai_speak}</p>
-        <div class="h-px bg-gray-100 dark:bg-white/10 my-3"></div>
-        <p class="text-xs italic text-gray-500 dark:text-[var(--text-muted)] leading-relaxed">${step.ai_translation}</p>
+      <div class="speech-bubble conv-bubble-ai relative group">
+        <p class="text-sm font-bold text-[var(--hana-text-1)] tracking-wide leading-relaxed">${step.ai_speak}</p>
+        <div class="h-px bg-[var(--hana-border)] my-3"></div>
+        <p class="text-xs italic text-[var(--hana-text-2)] leading-relaxed">${step.ai_translation}</p>
+        <span class="conv-timestamp">${new Date().toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'})}</span>
         <button onclick="app.speakText('${step.ai_speak.replace(/'/g, "\\'")}')" class="absolute -right-3 bottom-3 w-7 h-7 rounded-full bg-white dark:bg-[var(--card-bg)] border border-gray-200 dark:border-[var(--card-border)] text-[var(--hana-primary)] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:scale-105 shadow-sm">
           <span class="material-symbols-outlined text-[14px]">volume_up</span>
         </button>
@@ -2808,7 +2809,7 @@ app.conversationEngine = {
       if (isHintActive && isCorrect) {
         extraClasses = 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-400 dark:border-emerald-600 ring-2 ring-emerald-300 dark:ring-emerald-700';
       }
-      btn.className = `word-chip px-3 py-2 ${extraClasses} border text-[12px] font-bold text-gray-800 dark:text-[var(--text-primary)] rounded-xl shadow-sm hover:bg-white dark:hover:bg-[var(--card-bg)] hover:border-[var(--hana-primary)]/40 transition-all animate-float stagger-${staggerIdx}`;
+      btn.className = `word-chip px-3 py-2 ${extraClasses} border text-[12px] font-bold text-gray-800 dark:text-[var(--text-primary)] rounded-xl shadow-sm hover:bg-white dark:hover:bg-[var(--card-bg)] hover:border-[var(--hana-primary)]/40 active:scale-90 transition-all animate-float stagger-${staggerIdx}`;
       btn.innerText = word;
       btn.id = `conv-word-btn-${index}`;
       btn.onclick = () => this.handleWordClick(word, btn.id);
@@ -2917,7 +2918,7 @@ app.conversationEngine = {
         const data = window.HANA_CONVERSATION_DATA[key];
         const colors = SCENARIO_COLORS[key] || { bg: '#DBEAFE', text: 'var(--hana-primary)', icon: 'forum' };
         const card = document.createElement('div');
-        card.className = 'item-card w-full flex items-center gap-4 p-4 bg-white/70 dark:bg-[var(--card-bg)]/70 hover:bg-white dark:hover:bg-[var(--card-bg)] rounded-2xl shadow-sm cursor-pointer';
+        card.className = 'item-card group w-full flex items-center gap-4 p-4 bg-white/70 dark:bg-[var(--card-bg)]/70 hover:bg-white dark:hover:bg-[var(--card-bg)] rounded-2xl shadow-sm cursor-pointer';
         card.onclick = () => { this.closeScenarioPicker(); this.startConversation(key); };
         card.innerHTML = `
           <div class="w-14 h-14 shrink-0 rounded-2xl flex items-center justify-center" style="background:${colors.bg};color:${colors.text}">
@@ -2930,7 +2931,7 @@ app.conversationEngine = {
             </div>
             <p class="text-[11px] text-[var(--text-muted)] mt-1">Karakter: ${data.character}</p>
           </div>
-          <span class="material-symbols-outlined text-[var(--text-muted)] text-lg shrink-0">chevron_right</span>`;
+          <span class="material-symbols-outlined text-[var(--text-muted)] text-lg shrink-0 group-hover:translate-x-0.5 transition-transform">chevron_right</span>`;
         list.appendChild(card);
       });
 
@@ -3024,10 +3025,11 @@ app.conversationEngine = {
       userBubble.className = 'flex flex-col items-end space-y-1.5 max-w-[88%] self-end animate-fade-in stagger-2';
       userBubble.innerHTML = `
         <span class="text-[10px] font-bold text-white/80 uppercase tracking-[0.2em] bg-[var(--hana-primary)]/30 px-2.5 py-1 rounded">Pelajar (User)</span>
-        <div class="speech-bubble-user bg-[var(--hana-primary)] rounded-2xl p-5 shadow-xl shadow-[var(--hana-primary)]/20">
+        <div class="speech-bubble-user conv-bubble-user">
           <p class="text-sm font-bold text-white tracking-wide leading-relaxed">${step.user_target}</p>
           <div class="h-px bg-white/15 my-3"></div>
           <p class="text-xs italic text-white/70 leading-relaxed">${step.user_translation}</p>
+          <span class="conv-timestamp !text-white/50">${new Date().toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'})}</span>
         </div>`;
       chatLog.appendChild(userBubble);
       chatLog.scrollTop = chatLog.scrollHeight;
@@ -3057,10 +3059,11 @@ app.conversationEngine = {
       revealBubble.className = 'flex flex-col items-end space-y-1.5 max-w-[88%] self-end animate-fade-in stagger-2';
       revealBubble.innerHTML = `
         <span class="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-[0.2em] bg-amber-100 dark:bg-amber-900/30 px-2.5 py-1 rounded">Jawaban (Ditampilkan)</span>
-        <div class="speech-bubble-user bg-amber-500 rounded-2xl p-5 shadow-xl shadow-amber-500/20">
+        <div class="speech-bubble-user conv-bubble-reveal">
           <p class="text-sm font-bold text-white tracking-wide leading-relaxed">${step.user_target}</p>
           <div class="h-px bg-white/15 my-3"></div>
           <p class="text-xs italic text-white/70 leading-relaxed">${step.user_translation}</p>
+          <span class="conv-timestamp !text-white/50">${new Date().toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'})}</span>
         </div>`;
       chatLog.appendChild(revealBubble);
       chatLog.scrollTop = chatLog.scrollHeight;

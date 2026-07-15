@@ -266,17 +266,36 @@
     .stagger-6 { animation-delay: 0.35s; }
     .stagger-7 { animation-delay: 0.4s; }
     .stagger-8 { animation-delay: 0.45s; }
-    .conv-footer-glass {
-      background: rgba(255,255,255,0.7);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-top: 1px solid rgba(255,255,255,0.6);
-      box-shadow: 0 -10px 40px rgba(108, 99, 255, 0.05);
+    .conv-bubble-ai {
+      background: var(--hana-surface);
+      border: 1px solid var(--hana-border);
+      border-radius: 16px;
+      padding: 1.25rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(92,84,232,0.08);
     }
-    .dark .conv-footer-glass {
-      background: rgba(28,27,26,0.7);
-      border-top-color: rgba(255,255,255,0.05);
-      box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
+    .conv-bubble-user {
+      background: var(--hana-primary);
+      border-radius: 16px;
+      padding: 1.25rem;
+      box-shadow: 0 4px 16px rgba(92,84,232,0.25);
+    }
+    .dark .conv-bubble-ai {
+      background: var(--hana-surface);
+      border-color: var(--hana-border);
+    }
+    .conv-bubble-reveal {
+      background: #f59e0b;
+      border-radius: 16px;
+      padding: 1.25rem;
+      box-shadow: 0 4px 16px rgba(245,158,11,0.25);
+    }
+    .conv-timestamp {
+      font-size: 10px;
+      color: var(--hana-text-3);
+      margin-top: 0.375rem;
+      display: block;
+      opacity: 0.6;
+      font-weight: 500;
     }
     .conv-feedback-correct { background: rgba(16, 185, 129, 0.12) !important; border-color: #10b981 !important; }
     .conv-feedback-wrong { animation: convShake 0.4s ease !important; background: rgba(239, 68, 68, 0.12) !important; border-color: #ef4444 !important; }
@@ -2751,7 +2770,7 @@
 <!-- RESULT SUMMARY OVERLAY (Conversation Completion) -->
 <!-- ============================================================== -->
 <div id="conv-result-overlay" class="hidden fixed inset-0 z-[99999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in" onclick="if(event.target===this)document.getElementById('conv-result-overlay').classList.add('hidden')">
-  <div class="bg-white dark:bg-[#1C1B1A] rounded-[28px] p-6 w-full max-w-sm shadow-2xl border border-[var(--hana-border)] flex flex-col items-center text-center max-h-[90vh] overflow-y-auto">
+  <div class="bg-[var(--hana-surface)]/95 backdrop-blur-xl rounded-[28px] p-6 w-full max-w-sm shadow-2xl border border-[var(--hana-border)] flex flex-col items-center text-center max-h-[90vh] overflow-y-auto">
     <div id="conv-result-icon" class="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-500 mb-4">
       <span class="material-symbols-outlined text-[32px]" style="font-variation-settings:'FILL' 1">celebration</span>
     </div>
@@ -2759,13 +2778,13 @@
     <p id="conv-result-xp" class="text-[11px] font-bold text-[var(--hana-primary)] mb-5">+20 XP</p>
 
     <div id="conv-result-stats" class="w-full space-y-2 mb-5">
-      <div class="flex items-center justify-between bg-emerald-50 dark:bg-emerald-900/10 rounded-xl px-4 py-2.5">
-        <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5"><span class="material-symbols-outlined text-[14px]">check_circle</span> Benar</span>
-        <span id="conv-stat-correct" class="text-sm font-black text-emerald-600 dark:text-emerald-400">0</span>
+      <div class="flex items-center justify-between bg-[var(--hana-primary)]/5 rounded-xl px-4 py-2.5 border border-[var(--hana-primary)]/10">
+        <span class="text-xs font-bold text-[var(--hana-primary)] flex items-center gap-1.5"><span class="material-symbols-outlined text-[14px]">check_circle</span> Benar</span>
+        <span id="conv-stat-correct" class="text-sm font-black text-[var(--hana-primary)]">0</span>
       </div>
-      <div class="flex items-center justify-between bg-amber-50 dark:bg-amber-900/10 rounded-xl px-4 py-2.5">
-        <span class="text-xs font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1.5"><span class="material-symbols-outlined text-[14px]">lightbulb</span> Ditampilkan</span>
-        <span id="conv-stat-revealed" class="text-sm font-black text-amber-600 dark:text-amber-400">0</span>
+      <div class="flex items-center justify-between bg-emerald-50 dark:bg-emerald-900/10 rounded-xl px-4 py-2.5 border border-emerald-200 dark:border-emerald-800/30">
+        <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5"><span class="material-symbols-outlined text-[14px]">lightbulb</span> Ditampilkan</span>
+        <span id="conv-stat-revealed" class="text-sm font-black text-emerald-600 dark:text-emerald-400">0</span>
       </div>
     </div>
 
@@ -2786,6 +2805,7 @@
 <div id="screen-conversation" class="hidden min-h-screen w-full overflow-x-hidden bg-[var(--hana-canvas)] conv-gradient-bg flex flex-col font-['Plus_Jakarta_Sans'] relative">
   <!-- Immersive Background Overlay -->
   <div class="absolute inset-0 conv-immersive-overlay"></div>
+  <div class="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.06]" style="background-image:radial-gradient(var(--hana-text-1) 1px, transparent 1px);background-size:24px 24px"></div>
 
   <!-- Sticky Header with Continuous Progress Bar -->
   <header class="sticky top-0 z-50 w-full flex flex-col">
@@ -2814,7 +2834,7 @@
 
   <!-- Input Area (Stitch-style rounded-top section) -->
   <footer class="sticky bottom-0 z-40 w-full relative z-10">
-    <div class="conv-footer-glass rounded-t-[32px] px-4 pt-3 pb-4 max-w-xl mx-auto w-full space-y-3 overflow-x-hidden">
+    <div class="bg-[var(--hana-surface)]/80 backdrop-blur-xl border-t border-[var(--hana-border)] rounded-t-[32px] px-4 pt-3 pb-4 max-w-xl mx-auto w-full space-y-3 overflow-x-hidden">
       <!-- Answer Preview Area -->
       <div class="relative min-h-[56px] w-full bg-white/50 dark:bg-white/5 rounded-2xl border-2 border-dashed border-[var(--hana-primary)]/20 p-3 flex flex-wrap items-center gap-1.5 pr-10">
         <div id="conversation-answer-preview" class="flex flex-wrap gap-1.5 text-sm font-medium text-[var(--text-primary)]"></div>

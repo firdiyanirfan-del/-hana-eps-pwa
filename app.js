@@ -2653,6 +2653,8 @@ app.conversationEngine = {
   difficulty: 'sedang',
   wrongAttempts: 0,
   hintActive: false,
+  idleTimer: null,
+  idleLevel: 0,
 
   startConversation(scenarioId) {
     this.currentScenarioId = scenarioId || 'mesin-rusak';
@@ -2677,6 +2679,7 @@ app.conversationEngine = {
 
     this.updateHeartsUI();
     this.updateProgressBar();
+    this.clearIdleTimer();
     app.switchScreen('screen-conversation', { immersive: true });
     this.renderPrologue();
   },
@@ -2787,6 +2790,7 @@ app.conversationEngine = {
 
     document.getElementById('conversation-answer-preview').innerHTML = '';
     this.renderWordPool(this.getFilteredPool(step), false);
+    this.startIdleTimer();
   },
 
   renderWordPool(poolArray, isHintActive) {
@@ -2823,6 +2827,8 @@ app.conversationEngine = {
     this.renderPreview();
     const originBtn = document.getElementById(buttonId);
     if (originBtn) { originBtn.classList.add('opacity-30', 'pointer-events-none'); }
+    this.clearIdleTimer();
+    this.startIdleTimer();
   },
 
   renderPreview() {
@@ -2848,6 +2854,8 @@ app.conversationEngine = {
     this.selectedWords.splice(idx, 1);
     this.selectedWordBtnIds.splice(idx, 1);
     this.renderPreview();
+    this.clearIdleTimer();
+    this.startIdleTimer();
   },
 
   resetSelection() {
@@ -2858,6 +2866,8 @@ app.conversationEngine = {
     if (step) {
       this.renderWordPool(this.getFilteredPool(step), this.hintActive);
     }
+    this.clearIdleTimer();
+    this.startIdleTimer();
   },
 
   checkAnswer() {
@@ -3018,6 +3028,7 @@ app.conversationEngine = {
     },
 
     submitCorrectAnswer() {
+      this.clearIdleTimer();
       const data = window.HANA_CONVERSATION_DATA[this.currentScenarioId];
       const step = data.steps[this.currentStepIndex];
       const chatLog = document.getElementById('conversation-chat-log');
@@ -3051,6 +3062,7 @@ app.conversationEngine = {
     },
 
     revealAnswer() {
+      this.clearIdleTimer();
       const data = window.HANA_CONVERSATION_DATA[this.currentScenarioId];
       const step = data.steps[this.currentStepIndex];
       const chatLog = document.getElementById('conversation-chat-log');
@@ -3086,6 +3098,79 @@ app.conversationEngine = {
 
     skipStep() {
       this.revealAnswer();
+    },
+
+    getIdleConfig() {
+      const timers = { mudah: 10000, sedang: 18000, sulit: null };
+      const maxLevels = { mudah: 2, sedang: 1, sulit: 0 };
+      return { delay: timers[this.difficulty] || null, maxLevel: maxLevels[this.difficulty] || 0 };
+    },
+
+    startIdleTimer() {
+      this.clearIdleTimer();
+      const cfg = this.getIdleConfig();
+      if (!cfg.delay || cfg.maxLevel < 1) return;
+      this.idleTimer = setTimeout(() => {
+        if (document.getElementById('screen-conversation')?.classList.contains('hidden')) return;
+        this.showIdleHelp();
+      }, cfg.delay);
+    },
+
+    clearIdleTimer() {
+      if (this.idleTimer) { clearTimeout(this.idleTimer); this.idleTimer = null; }
+      this.idleLevel = 0;
+      const area = document.getElementById('conv-idle-help-area');
+      if (area) area.classList.add('hidden');
+      const card = document.getElementById('conv-idle-hint-card');
+      if (card) { card.classList.add('hidden'); card.textContent = ''; }
+      document.querySelectorAll('.conv-idle-glow').forEach(el => el.classList.remove('conv-idle-glow'));
+    },
+
+    showIdleHelp() {
+      const cfg = this.getIdleConfig();
+      if (cfg.maxLevel < 1) return;
+      const area = document.getElementById('conv-idle-help-area');
+      if (!area) return;
+      area.classList.remove('hidden');
+      const btn = document.getElementById('conv-idle-help-btn');
+      if (btn) {
+        btn.onclick = () => this.handleIdleHelpClick();
+        if (this.idleLevel >= cfg.maxLevel) btn.classList.add('hidden');
+      }
+    },
+
+    handleIdleHelpClick() {
+      const cfg = this.getIdleConfig();
+      if (cfg.maxLevel < 1) return;
+      const step = this.getCurrentStep();
+      if (!step) return;
+      this.idleLevel++;
+      if (this.idleLevel === 1) {
+        const btn = document.getElementById('conv-idle-help-btn');
+        if (btn) btn.classList.add('hidden');
+        const card = document.getElementById('conv-idle-hint-card');
+        if (!card) return;
+        card.classList.remove('hidden');
+        card.textContent = step.grammar_tip || 'Coba susun kata sesuai pola Subjek + Objek + Predikat dalam bahasa Korea.';
+      } else if (this.idleLevel === 2 && this.difficulty === 'mudah') {
+        const targetWords = step.user_target.trim().split(' ');
+        const firstCorrect = targetWords.find(w => {
+          for (let i = 0; i < 50; i++) {
+            const btn = document.getElementById('conv-word-btn-' + i);
+            if (btn && btn.innerText === w && !btn.classList.contains('opacity-30')) return true;
+          }
+          return false;
+        });
+        if (firstCorrect) {
+          for (let i = 0; i < 50; i++) {
+            const btn = document.getElementById('conv-word-btn-' + i);
+            if (btn && btn.innerText === firstCorrect && !btn.classList.contains('opacity-30')) {
+              btn.classList.add('conv-idle-glow');
+              break;
+            }
+          }
+        }
+      }
     },
 
     flashFeedback(type) {

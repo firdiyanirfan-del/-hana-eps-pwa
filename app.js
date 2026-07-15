@@ -2654,6 +2654,8 @@ app.conversationEngine = {
   wrongAttempts: 0,
   hintActive: false,
   idleTimer: null,
+  translationVisible: true,
+  translationLocked: false,
 
   startConversation(scenarioId) {
     this.currentScenarioId = scenarioId || 'mesin-rusak';
@@ -2665,6 +2667,8 @@ app.conversationEngine = {
     this.difficulty = 'sedang';
     this.wrongAttempts = 0;
     this.hintActive = false;
+    this.translationVisible = true;
+    this.translationLocked = false;
 
     const data = window.HANA_CONVERSATION_DATA[this.currentScenarioId];
     if (!data) { showInfoModal('Skenario Tidak Ditemukan', 'Maaf, skenario percakapan yang diminta tidak tersedia.'); return; }
@@ -2679,6 +2683,7 @@ app.conversationEngine = {
     this.updateHeartsUI();
     this.updateProgressBar();
     this.clearIdleTimer();
+    this.updateTranslationToggleUI();
     app.switchScreen('screen-conversation', { immersive: true });
     this.renderPrologue();
   },
@@ -2750,6 +2755,10 @@ app.conversationEngine = {
     this.hintActive = false;
     this.selectedWords = [];
     this.selectedWordBtnIds = [];
+    if (this.difficulty === 'sulit') {
+      this.translationVisible = false;
+      this.translationLocked = true;
+    }
     document.getElementById('conv-action-buttons')?.classList.add('hidden');
     document.getElementById('btn-show-answer')?.classList.add('hidden');
     document.getElementById('btn-skip-step')?.classList.add('hidden');
@@ -2760,8 +2769,10 @@ app.conversationEngine = {
       <span class="text-[10px] font-bold text-[var(--hana-primary)] uppercase tracking-[0.2em] bg-[var(--hana-primary)]/10 px-2.5 py-1 rounded">${data.character}</span>
       <div class="speech-bubble conv-bubble-ai relative group">
         <p class="text-sm font-bold text-[var(--hana-text-1)] tracking-wide leading-relaxed">${step.ai_speak}</p>
-        <div class="h-px bg-[var(--hana-border)] my-3"></div>
-        <p class="text-xs italic text-[var(--hana-text-2)] leading-relaxed">${step.ai_translation}</p>
+        <div class="conv-translation-wrapper${this.translationVisible ? '' : ' collapsed'}" onclick="app.conversationEngine.toggleTranslationBubble(this)">
+          <div class="h-px bg-[var(--hana-border)] my-3"></div>
+          <p class="text-xs italic text-[var(--hana-text-2)] leading-relaxed">${step.ai_translation}</p>
+        </div>
         <span class="conv-timestamp">${new Date().toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'})}</span>
         <button onclick="app.speakText('${step.ai_speak.replace(/'/g, "\\'")}')" class="absolute -right-3 bottom-3 w-7 h-7 rounded-full bg-white dark:bg-[var(--card-bg)] border border-gray-200 dark:border-[var(--card-border)] text-[var(--hana-primary)] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:scale-105 shadow-sm">
           <span class="material-symbols-outlined text-[14px]">volume_up</span>
@@ -2789,6 +2800,7 @@ app.conversationEngine = {
 
     document.getElementById('conversation-answer-preview').innerHTML = '';
     this.renderWordPool(this.getFilteredPool(step), false);
+    this.updateTranslationToggleUI();
     this.startIdleTimer();
   },
 
@@ -3018,6 +3030,12 @@ app.conversationEngine = {
       if (this.wrongAttempts >= 3 && showAnswerBtn) {
         showAnswerBtn.classList.remove('hidden');
       }
+      if (this.wrongAttempts >= 3 && this.difficulty === 'sulit' && this.translationLocked) {
+        this.translationLocked = false;
+        this.translationVisible = true;
+        document.querySelectorAll('.conv-translation-wrapper').forEach(el => el.classList.remove('collapsed'));
+        this.updateTranslationToggleUI();
+      }
       if (this.wrongAttempts >= 2 && skipBtn) {
         skipBtn.classList.remove('hidden');
       }
@@ -3028,6 +3046,12 @@ app.conversationEngine = {
 
     submitCorrectAnswer() {
       this.clearIdleTimer();
+      if (this.difficulty === 'sulit' && this.translationLocked) {
+        this.translationLocked = false;
+        this.translationVisible = true;
+        document.querySelectorAll('.conv-translation-wrapper').forEach(el => el.classList.remove('collapsed'));
+        this.updateTranslationToggleUI();
+      }
       const data = window.HANA_CONVERSATION_DATA[this.currentScenarioId];
       const step = data.steps[this.currentStepIndex];
       const chatLog = document.getElementById('conversation-chat-log');
@@ -3037,8 +3061,9 @@ app.conversationEngine = {
         <span class="text-[10px] font-bold text-white/80 uppercase tracking-[0.2em] bg-[var(--hana-primary)]/30 px-2.5 py-1 rounded">Pelajar (User)</span>
         <div class="speech-bubble-user conv-bubble-user">
           <p class="text-sm font-bold text-white tracking-wide leading-relaxed">${step.user_target}</p>
-          <div class="h-px bg-white/15 my-3"></div>
-          <p class="text-xs italic text-white/70 leading-relaxed">${step.user_translation}</p>
+          <div class="conv-translation-wrapper${this.translationVisible ? '' : ' collapsed'}" onclick="app.conversationEngine.toggleTranslationBubble(this)">            <div class="h-px bg-white/15 my-3"></div>
+            <p class="text-xs italic text-white/70 leading-relaxed">${step.user_translation}</p>
+          </div>
           <span class="conv-timestamp !text-white/50">${new Date().toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'})}</span>
         </div>`;
       chatLog.appendChild(userBubble);
@@ -3072,8 +3097,9 @@ app.conversationEngine = {
         <span class="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-[0.2em] bg-amber-100 dark:bg-amber-900/30 px-2.5 py-1 rounded">Jawaban (Ditampilkan)</span>
         <div class="speech-bubble-user conv-bubble-reveal">
           <p class="text-sm font-bold text-white tracking-wide leading-relaxed">${step.user_target}</p>
-          <div class="h-px bg-white/15 my-3"></div>
-          <p class="text-xs italic text-white/70 leading-relaxed">${step.user_translation}</p>
+          <div class="conv-translation-wrapper${this.translationVisible ? '' : ' collapsed'}" onclick="app.conversationEngine.toggleTranslationBubble(this)">            <div class="h-px bg-white/15 my-3"></div>
+            <p class="text-xs italic text-white/70 leading-relaxed">${step.user_translation}</p>
+          </div>
           <span class="conv-timestamp !text-white/50">${new Date().toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'})}</span>
         </div>`;
       chatLog.appendChild(revealBubble);
@@ -3163,6 +3189,47 @@ app.conversationEngine = {
           }
         }
       }
+    },
+
+    updateTranslationToggleUI() {
+      const btn = document.getElementById('conv-translation-toggle');
+      const icon = document.getElementById('conv-translation-icon');
+      if (!btn || !icon) return;
+      if (this.translationLocked) {
+        icon.textContent = 'lock';
+        btn.className = 'w-8 h-8 rounded-full flex items-center justify-center text-[var(--hana-text-3)] transition-all cursor-not-allowed';
+        btn.title = 'Terjemahan terkunci sampai kamu menjawab dengan benar';
+      } else if (this.translationVisible) {
+        icon.textContent = 'translate';
+        btn.className = 'w-8 h-8 rounded-full flex items-center justify-center text-[var(--hana-primary)] transition-all active:scale-90';
+        btn.title = 'Sembunyikan terjemahan';
+      } else {
+        icon.textContent = 'translate';
+        btn.className = 'w-8 h-8 rounded-full flex items-center justify-center text-[var(--hana-text-3)] transition-all active:scale-90';
+        btn.title = 'Tampilkan terjemahan';
+      }
+    },
+
+    toggleTranslationGlobal() {
+      if (this.translationLocked) return;
+      if (this.difficulty === 'sulit' && !this.translationLocked) {
+        this.translationVisible = !this.translationVisible;
+        document.querySelectorAll('.conv-translation-wrapper').forEach(el => {
+          el.classList.toggle('collapsed', !this.translationVisible);
+        });
+        this.updateTranslationToggleUI();
+        return;
+      }
+      this.translationVisible = !this.translationVisible;
+      document.querySelectorAll('.conv-translation-wrapper').forEach(el => {
+        el.classList.toggle('collapsed', !this.translationVisible);
+      });
+      this.updateTranslationToggleUI();
+    },
+
+    toggleTranslationBubble(el) {
+      if (this.translationLocked) return;
+      el.classList.toggle('collapsed');
     },
 
     flashFeedback(type) {

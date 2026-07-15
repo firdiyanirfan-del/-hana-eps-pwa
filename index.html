@@ -297,6 +297,17 @@
       opacity: 0.6;
       font-weight: 500;
     }
+    .conv-translation-wrapper {
+      overflow: hidden;
+      transition: max-height 0.35s ease, opacity 0.35s ease, margin 0.35s ease;
+      max-height: 200px;
+      opacity: 1;
+    }
+    .conv-translation-wrapper.collapsed {
+      max-height: 0;
+      opacity: 0;
+      margin: 0;
+    }
     .conv-idle-help-btn {
       background: rgba(92,84,232,0.06);
       border: 1px solid rgba(92,84,232,0.15);
@@ -2860,7 +2871,12 @@
             <p id="conv-subtitle" class="text-[9px] font-medium text-[var(--text-secondary)] truncate leading-tight">Memuat Skenario...</p>
           </div>
         </div>
-        <div id="conv-hearts-container" class="flex items-center gap-0.5 bg-[var(--card-bg)] border border-[var(--card-border)] px-2.5 py-1 rounded-full shrink-0"></div>
+        <div class="flex items-center gap-1 shrink-0">
+          <button id="conv-translation-toggle" onclick="app.conversationEngine.toggleTranslationGlobal()" class="w-8 h-8 rounded-full flex items-center justify-center text-[var(--hana-primary)] transition-all active:scale-90" title="Tampilkan terjemahan">
+            <span id="conv-translation-icon" class="material-symbols-outlined text-[16px]">translate</span>
+          </button>
+          <div id="conv-hearts-container" class="flex items-center gap-0.5 bg-[var(--card-bg)] border border-[var(--card-border)] px-2.5 py-1 rounded-full"></div>
+        </div>
       </div>
     </div>
   </header>

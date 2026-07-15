@@ -2751,6 +2751,7 @@ app.conversationEngine = {
     this.hintActive = false;
     this.selectedWords = [];
     this.selectedWordBtnIds = [];
+    this.idleLevel = 0;
     document.getElementById('conv-action-buttons')?.classList.add('hidden');
     document.getElementById('btn-show-answer')?.classList.add('hidden');
     document.getElementById('btn-skip-step')?.classList.add('hidden');
@@ -3151,7 +3152,12 @@ app.conversationEngine = {
         const card = document.getElementById('conv-idle-hint-card');
         if (!card) return;
         card.classList.remove('hidden');
-        card.textContent = step.grammar_tip || 'Coba susun kata sesuai pola Subjek + Objek + Predikat dalam bahasa Korea.';
+        card.textContent = step.grammar_tip
+          ? 'Coba pilih kata yang menunjukkan subjek (pelaku) sebagai kata pertama.'
+          : 'Coba susun kata sesuai pola Subjek + Objek + Predikat dalam bahasa Korea.';
+        if (this.difficulty === 'mudah') {
+          this.idleTimer = setTimeout(() => this.handleIdleHelpClick(), 10000);
+        }
       } else if (this.idleLevel === 2 && this.difficulty === 'mudah') {
         const targetWords = step.user_target.trim().split(' ');
         const firstCorrect = targetWords.find(w => {

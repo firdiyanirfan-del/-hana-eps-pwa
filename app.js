@@ -2768,7 +2768,7 @@ app.conversationEngine = {
         </button>
       </div>`;
     chatLog.appendChild(aiBubble);
-    chatLog.scrollTop = chatLog.scrollHeight;
+    requestAnimationFrame(() => { chatLog.scrollTop = chatLog.scrollHeight; });
 
     if (typeof app.speakText === 'function') app.speakText(step.ai_speak);
 
@@ -3042,7 +3042,7 @@ app.conversationEngine = {
           <span class="conv-timestamp !text-white/50">${new Date().toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'})}</span>
         </div>`;
       chatLog.appendChild(userBubble);
-      chatLog.scrollTop = chatLog.scrollHeight;
+      requestAnimationFrame(() => { chatLog.scrollTop = chatLog.scrollHeight; });
 
       this.stepResults.push({ status: 'correct', step: this.currentStepIndex });
       this.currentStepIndex++;
@@ -3077,7 +3077,7 @@ app.conversationEngine = {
           <span class="conv-timestamp !text-white/50">${new Date().toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'})}</span>
         </div>`;
       chatLog.appendChild(revealBubble);
-      chatLog.scrollTop = chatLog.scrollHeight;
+      requestAnimationFrame(() => { chatLog.scrollTop = chatLog.scrollHeight; });
 
       this.stepResults.push({ status: 'revealed', step: this.currentStepIndex });
       this.currentStepIndex++;

@@ -3129,7 +3129,7 @@ app.conversationEngine = {
       if (!area) return;
       area.classList.remove('hidden');
       const btn = document.getElementById('conv-idle-help-btn');
-      if (btn) btn.onclick = () => this.handleIdleHelpClick();
+      if (btn) { btn.classList.remove('hidden'); btn.onclick = () => this.handleIdleHelpClick(); }
     },
 
     handleIdleHelpClick() {

@@ -3003,6 +3003,95 @@ window.HANA_CONVERSATION_DATA = {
         "word_pool": ["네,", "친절하게", "도와주셔서", "감사합니다.", "괭이", "폐수", "사료"]
       }
     ]
+  },
+  "safety": {
+    "title": "Kesehatan dan Keselamatan Kerja di Pabrik (Bab 48 & 49)",
+    "character": "Mandor Kim (반장님)",
+    "prologue": "Di sebuah pabrik manufaktur yang bising, seorang mandor memperhatikan seorang pekerja baru yang tidak menggunakan alat pelindung diri secara lengkap. Mandor segera menegur dan memberikan edukasi demi keselamatan bersama.",
+    "steps": [
+      {
+        "step": 1,
+        "ai_speak": "민수 씨, 왜 보안경을 안 쓰고 일하고 있어요?",
+        "ai_translation": "Minsu, kenapa kamu bekerja tanpa memakai kacamata pelindung?",
+        "user_target": "죄송해요. 답답해서 잠깐 벗었어요.",
+        "user_translation": "Maaf. Karena terasa pengap, saya melepasnya sebentar.",
+        "word_pool": ["죄송해요.", "답답해서", "잠깐", "벗었어요.", "농약", "엽서"],
+        "grammar_tip": "Pola '아/어서' (답답해서) digunakan untuk menyatakan alasan atau sebab, yang berarti 'karena (terasa pengap)'."
+      },
+      {
+        "step": 2,
+        "ai_speak": "여기는 불꽃이 많이 튀어서 아주 위험해요. 바로 쓰세요.",
+        "ai_translation": "Di sini banyak percikan api jadi sangat berbahaya. Segera pakai kembali.",
+        "user_target": "네, 지금 바로 쓰겠습니다.",
+        "user_translation": "Baik, saya akan segera memakainya sekarang.",
+        "word_pool": ["네,", "지금", "바로", "쓰겠습니다.", "괭이", "폐수"]
+      },
+      {
+        "step": 3,
+        "ai_speak": "그리고 작업화도 안전화로 갈아 신어야 합니다. 알고 있죠?",
+        "ai_translation": "Dan sepatu kerjamu juga harus diganti dengan sepatu safety. Kamu tahu kan?",
+        "user_target": "아, 안전화는 신발장에 있어요.",
+        "user_translation": "Ah, sepatu safety-nya ada di rak sepatu.",
+        "word_pool": ["아,", "안전화는", "신발장에", "있어요.", "사료", "송편"]
+      },
+      {
+        "step": 4,
+        "ai_speak": "무거운 부품이 발에 떨어지면 크게 다쳐요. 당장 갈아 신으세요.",
+        "ai_translation": "Kalau komponen berat jatuh ke kaki, kamu bisa terluka parah. Segera ganti sekarang.",
+        "user_target": "네, 얼른 가서 갈아 신을게요.",
+        "user_translation": "Baik, saya akan segera pergi dan menggantinya.",
+        "word_pool": ["네,", "얼른", "가서", "갈아", "신을게요.", "불량품", "체불"]
+      },
+      {
+        "step": 5,
+        "ai_speak": "좋아요. 기계를 작동하기 전에는 반드시 안전장치를 확인하세요.",
+        "ai_translation": "Bagus. Sebelum mengoperasikan mesin, pastikan untuk memeriksa alat pengaman.",
+        "user_target": "안전 스위치만 확인하면 되나요?",
+        "user_translation": "Apakah cukup memeriksa sakelar pengamannya saja?",
+        "word_pool": ["안전", "스위치만", "확인하면", "되나요?", "출산", "조퇴"],
+        "grammar_tip": "~면 되나요? = 'apakah cukup dengan ~? / apakah boleh ~?' Dipakai untuk menanyakan kecukupan atau izin. 확인하면 되나요? = 'apakah cukup diperiksa saja?'"
+      },
+      {
+        "step": 6,
+        "ai_speak": "아니요, 기계 주변에 방해물이 없는지도 봐야 합니다.",
+        "ai_translation": "Tidak, kamu juga harus melihat apakah ada benda yang menghalangi di sekitar mesin.",
+        "user_target": "네, 기계 주변도 깨끗하게 치울게요.",
+        "user_translation": "Baik, saya akan membersihkan sekitar mesin juga dengan bersih.",
+        "word_pool": ["네,", "기계", "주변도", "깨끗하게", "치울게요.", "입원", "보증서"]
+      },
+      {
+        "step": 7,
+        "ai_speak": "작업 도중 기계에 문제가 생기면 어떻게 해야 합니까?",
+        "ai_translation": "Jika terjadi masalah pada mesin saat bekerja, apa yang harus kamu lakukan?",
+        "user_target": "먼저 전원을 끄고 반장님을 부를게요.",
+        "user_translation": "Pertama, saya akan mematikan daya lalu memanggil Mandor.",
+        "word_pool": ["먼저", "전원을", "끄고", "반장님을", "부를게요.", "비료", "자재"]
+      },
+      {
+        "step": 8,
+        "ai_speak": "맞아요. 절대로 혼자서 기계를 고치려고 하지 마세요.",
+        "ai_translation": "Benar. Jangan pernah mencoba memperbaiki mesin sendirian.",
+        "user_target": "네, 무리하게 작동하지 않겠습니다.",
+        "user_translation": "Baik, saya tidak akan memaksakan untuk mengoperasikannya.",
+        "word_pool": ["네,", "무리하게", "작동하지", "않겠습니다.", "원자재", "삼계탕"]
+      },
+      {
+        "step": 9,
+        "ai_speak": "안전은 아무리 강조해도 지나치지 않아요. 조심히 일해요.",
+        "ai_translation": "Keselamatan itu tidak boleh diremehkan walau sering diingatkan. Bekerjalah dengan hati-hati.",
+        "user_target": "네, 안전 수칙을 잘 지키겠습니다.",
+        "user_translation": "Baik, saya akan mematuhi peraturan keselamatan dengan baik.",
+        "word_pool": ["네,", "안전", "수칙을", "잘", "지키겠습니다.", "농약", "엽서"]
+      },
+      {
+        "step": 10,
+        "ai_speak": "네, 수고해요. 무슨 일이 있으면 바로 무전하세요.",
+        "ai_translation": "Ya, selamat bekerja. Jika ada sesuatu, segera hubungi lewat radio.",
+        "user_target": "감사합니다. 조심히 일하겠습니다.",
+        "user_translation": "Terima kasih. Saya akan bekerja dengan hati-hati.",
+        "word_pool": ["감사합니다.", "조심히", "일하겠습니다.", "괭이", "폐수", "사료"]
+      }
+    ]
   }
 };
 
@@ -3298,7 +3387,8 @@ app.conversationEngine = {
         'restoran': { bg: '#FEF3C7', text: '#D97706', icon: 'restaurant' },
         'pasar': { bg: '#D1FAE5', text: '#059669', icon: 'storefront' },
         'klinik': { bg: '#E0F2FE', text: '#0284C7', icon: 'local_hospital' },
-        'bank': { bg: '#F3E8FF', text: '#9333EA', icon: 'account_balance' }
+        'bank': { bg: '#F3E8FF', text: '#9333EA', icon: 'account_balance' },
+        'safety': { bg: '#FEF9C3', text: '#CA8A04', icon: 'safety_check' }
       };
 
       list.innerHTML = '';

@@ -2913,6 +2913,96 @@ window.HANA_CONVERSATION_DATA = {
         "word_pool": ["감사합니다.", "의사", "선생님,", "안녕히", "계세요.", "괭이", "폐수", "사료"]
       }
     ]
+  },
+  "bank": {
+    "title": "Mengirim Uang ke Luar Negeri di Bank (Bab 25)",
+    "character": "Teller Bank (은행원)",
+    "prologue": "Seorang pekerja asing mendatangi bank pada hari gajian untuk mengirimkan sebagian gajinya kepada keluarga di negara asal. Teller bank memandu proses pengiriman uang luar negeri dengan ramah.",
+    "steps": [
+      {
+        "step": 1,
+        "ai_speak": "어서 오세요. 어떤 업무를 도와드릴까요?",
+        "ai_translation": "Selamat datang. Ada yang bisa saya bantu?",
+        "user_target": "고향으로 송금을 하고 싶어요.",
+        "user_translation": "Saya ingin mengirim uang ke kampung halaman.",
+        "word_pool": ["고향으로", "송금을", "하고", "싶어요.", "농약", "엽서"],
+        "grammar_tip": "Pola '~고 싶다' digunakan untuk menyatakan keinginan atau kemauan pembicara yang berarti 'ingin'."
+      },
+      {
+        "step": 2,
+        "ai_speak": "해외 송금이시군요. 통장이나 카드를 가지고 오셨습니까?",
+        "ai_translation": "Oh, pengiriman uang ke luar negeri. Apakah Anda membawa buku tabungan atau kartu?",
+        "user_target": "네, 여기 은행 카드 있어요.",
+        "user_translation": "Ya, ini ada kartu bank.",
+        "word_pool": ["네,", "여기", "은행", "카드", "있어요.", "괭이", "폐수"]
+      },
+      {
+        "step": 3,
+        "ai_speak": "네, 확인했습니다. 여권이나 외국인등록증도 보여주시겠습니까?",
+        "ai_translation": "Baik, saya periksa. Bisakah Anda tunjukkan paspor atau Kartu Registrasi Orang Asing (ARC) juga?",
+        "user_target": "여기 외국인등록증을 가져왔어요.",
+        "user_translation": "Ini, saya membawa Kartu Registrasi Orang Asing.",
+        "word_pool": ["여기", "외국인등록증을", "가져왔어요.", "사료", "송편"]
+      },
+      {
+        "step": 4,
+        "ai_speak": "네, 좋습니다. 이 신청서에 받는 분의 이름과 계좌 번호를 적어주세요.",
+        "ai_translation": "Ya, bagus. Tolong tulis nama penerima dan nomor rekening di formulir aplikasi ini.",
+        "user_target": "영어로 적어야 하나요?",
+        "user_translation": "Apakah harus menulis dalam bahasa Inggris?",
+        "word_pool": ["영어로", "적어야", "하나요?", "불량품", "체불"],
+        "grammar_tip": "~아/어야 하다 = 'harus ~'. 적어야 하나요? = 'apakah harus menulis?' Dipakai untuk menanyakan kewajiban."
+      },
+      {
+        "step": 5,
+        "ai_speak": "네, 영문 이름과 은행 주소를 정확하게 써 주셔야 합니다.",
+        "ai_translation": "Ya, Anda harus menulis nama bahasa Inggris dan alamat bank dengan akurat.",
+        "user_target": "여기에 모두 다 적었어요.",
+        "user_translation": "Saya sudah menulis semuanya di sini.",
+        "word_pool": ["여기에", "모두", "다", "적었어요.", "출산", "조퇴"]
+      },
+      {
+        "step": 6,
+        "ai_speak": "감사합니다. 오늘 얼마를 송금하시겠습니까?",
+        "ai_translation": "Terima kasih. Berapa banyak yang ingin Anda kirimkan hari ini?",
+        "user_target": "이백만 원을 보내고 싶어요.",
+        "user_translation": "Saya ingin mengirim dua juta won.",
+        "word_pool": ["이백만", "원을", "보내고", "싶어요.", "입원", "보증서"]
+      },
+      {
+        "step": 7,
+        "ai_speak": "오늘 환율이 조금 올랐는데 괜찮으시겠습니까?",
+        "ai_translation": "Nilai tukar hari ini sedikit naik, apakah tidak apa-apa?",
+        "user_target": "네, 어쩔 수 없지요. 보내주세요.",
+        "user_translation": "Ya, mau bagaimana lagi. Tolong kirimkan saja.",
+        "word_pool": ["네,", "어쩔", "수", "없지요.", "보내주세요.", "비료", "자재"]
+      },
+      {
+        "step": 8,
+        "ai_speak": "송금 수수료는 만 원입니다. 괜찮으십니까?",
+        "ai_translation": "Biaya pengiriman uangnya adalah sepuluh ribu won. Apakah tidak apa-apa?",
+        "user_target": "네, 수수료도 같이 계산해 주세요.",
+        "user_translation": "Ya, tolong hitung sekalian dengan biaya adminnya.",
+        "word_pool": ["네,", "수수료도", "같이", "계산해", "주세요.", "원자재", "삼계탕"]
+      },
+      {
+        "step": 9,
+        "ai_speak": "네, 처리가 완료되었습니다. 영수증 여기 있습니다.",
+        "ai_translation": "Baik, prosesnya sudah selesai. Ini tanda terimanya.",
+        "user_target": "돈은 언제쯤 도착하나요?",
+        "user_translation": "Kira-kira kapan uangnya akan sampai?",
+        "word_pool": ["돈은", "언제쯤", "도착하나요?", "농약", "엽서"],
+        "grammar_tip": "~쯤 = 'kira-kira / sekitar'. 언제쯤 = 'kira-kira kapan'. Digunakan untuk perkiraan waktu atau jumlah."
+      },
+      {
+        "step": 10,
+        "ai_speak": "보통 주말을 제외하고 이틀 정도 걸립니다.",
+        "ai_translation": "Biasanya memakan waktu sekitar dua hari, tidak termasuk akhir pekan.",
+        "user_target": "네, 친절하게 도와주셔서 감사합니다.",
+        "user_translation": "Ya, terima kasih telah membantu saya dengan ramah.",
+        "word_pool": ["네,", "친절하게", "도와주셔서", "감사합니다.", "괭이", "폐수", "사료"]
+      }
+    ]
   }
 };
 
@@ -3207,7 +3297,8 @@ app.conversationEngine = {
         'wawancara': { bg: '#FCE7F3', text: '#DB2777', icon: 'badge' },
         'restoran': { bg: '#FEF3C7', text: '#D97706', icon: 'restaurant' },
         'pasar': { bg: '#D1FAE5', text: '#059669', icon: 'storefront' },
-        'klinik': { bg: '#E0F2FE', text: '#0284C7', icon: 'local_hospital' }
+        'klinik': { bg: '#E0F2FE', text: '#0284C7', icon: 'local_hospital' },
+        'bank': { bg: '#F3E8FF', text: '#9333EA', icon: 'account_balance' }
       };
 
       list.innerHTML = '';

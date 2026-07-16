@@ -3467,6 +3467,19 @@ app.conversationEngine = {
   },
 
   handleWordClick(word, buttonId) {
+    if (this.difficulty === 'mudah') {
+      const step = this.getCurrentStep();
+      const targetWords = step.user_target.trim().split(' ');
+      const nextExpected = targetWords[this.selectedWords.length];
+      if (word !== nextExpected) {
+        const btn = document.getElementById(buttonId);
+        if (btn) {
+          btn.classList.add('conv-easy-wrong', 'opacity-20', 'pointer-events-none');
+          setTimeout(() => btn.classList.remove('conv-easy-wrong'), 400);
+        }
+        return;
+      }
+    }
     this.selectedWords.push(word);
     this.selectedWordBtnIds.push(buttonId);
     this.renderPreview();
@@ -3474,6 +3487,14 @@ app.conversationEngine = {
     if (originBtn) { originBtn.classList.add('opacity-30', 'pointer-events-none'); }
     this.clearIdleTimer();
     this.startIdleTimer();
+    if (this.difficulty === 'mudah') {
+      const step = this.getCurrentStep();
+      const targetWords = step.user_target.trim().split(' ');
+      if (this.selectedWords.length === targetWords.length) {
+        this.clearIdleTimer();
+        this.checkAnswer();
+      }
+    }
   },
 
   renderPreview() {

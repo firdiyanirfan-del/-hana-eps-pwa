@@ -3538,6 +3538,7 @@ app.conversationEngine = {
       this.activateHints(step);
       this.showActionButtons();
       this.flashFeedback('partial');
+      setTimeout(() => this.resetSelection(), 500);
       return;
     }
 

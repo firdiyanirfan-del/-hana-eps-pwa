@@ -348,6 +348,12 @@
     .conv-feedback-wrong { animation: convShake 0.4s ease !important; background: rgba(239, 68, 68, 0.12) !important; border-color: #ef4444 !important; }
     .conv-feedback-partial { background: rgba(245, 158, 11, 0.12) !important; border-color: #f59e0b !important; }
     .conv-easy-wrong { animation: convShake 0.4s ease !important; }
+    .conv-easy-correct { background: rgba(16, 185, 129, 0.15) !important; border-color: #10b981 !important; animation: convPop 0.3s ease !important; }
+    @keyframes convPop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
     @keyframes convShake {
       0%, 100% { transform: translateX(0); }
       20% { transform: translateX(-8px); }

@@ -3474,7 +3474,7 @@ app.conversationEngine = {
       if (word !== nextExpected) {
         const btn = document.getElementById(buttonId);
         if (btn) {
-          btn.classList.add('conv-easy-wrong', 'opacity-20', 'pointer-events-none');
+          btn.classList.add('conv-easy-wrong');
           setTimeout(() => btn.classList.remove('conv-easy-wrong'), 400);
         }
         return;
@@ -3485,6 +3485,10 @@ app.conversationEngine = {
     this.renderPreview();
     const originBtn = document.getElementById(buttonId);
     if (originBtn) { originBtn.classList.add('opacity-30', 'pointer-events-none'); }
+    if (this.difficulty === 'mudah' && originBtn) {
+      originBtn.classList.add('conv-easy-correct');
+      setTimeout(() => originBtn.classList.remove('conv-easy-correct'), 400);
+    }
     this.clearIdleTimer();
     this.startIdleTimer();
     if (this.difficulty === 'mudah') {

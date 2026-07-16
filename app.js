@@ -2640,6 +2640,94 @@ window.HANA_CONVERSATION_DATA = {
         "word_pool": ["감사합니다.", "한국에서", "꼭", "필요한", "근로자가", "되겠습니다.", "횡단보도", "사다리"]
       }
     ]
+  },
+  "restoran": {
+    "title": "Memesan Makanan di Restoran (Bab 14 & 32)",
+    "character": "Pelayan Restoran (종업원)",
+    "prologue": "Seorang pelanggan masuk ke restoran Korea yang ramai saat jam makan siang. Pelayan menyambut pelanggan dengan ramah dan membantu mereka memesan makanan serta minuman sesuai dengan menu yang tersedia.",
+    "steps": [
+      {
+        "step": 1,
+        "ai_speak": "어서 오세요. 몇 분이세요?",
+        "ai_translation": "Selamat datang. Berapa orang?",
+        "user_target": "두 명이에요. 자리가 있어요?",
+        "user_translation": "Dua orang. Apakah ada tempat duduk?",
+        "word_pool": ["두", "명이에요.", "자리가", "있어요?", "농약", "엽서"],
+        "grammar_tip": "Akhiran -(이)에요 digunakan sebagai bentuk informal sopan (해요체) untuk menyatakan 'adalah' (kata benda + 이에요/예요)."
+      },
+      {
+        "step": 2,
+        "ai_speak": "네, 이쪽으로 앉으세요. 메뉴판 여기 있습니다.",
+        "ai_translation": "Ya, silakan duduk di sebelah sini. Ini menunya.",
+        "user_target": "감사합니다. 메뉴판을 좀 볼게요.",
+        "user_translation": "Terima kasih. Saya akan melihat menunya sebentar.",
+        "word_pool": ["감사합니다.", "메뉴판을", "좀", "볼게요.", "괭이", "폐수"]
+      },
+      {
+        "step": 3,
+        "ai_speak": "주문하시겠어요? 어떤 음식을 좋아하세요?",
+        "ai_translation": "Apakah Anda siap memesan? Makanan apa yang Anda sukai?",
+        "user_target": "저는 매운 음식을 잘 못 먹어요.",
+        "user_translation": "Saya tidak bisa makan makanan pedas dengan baik.",
+        "word_pool": ["저는", "매운", "음식을", "잘", "못", "먹어요.", "사료", "송편"]
+      },
+      {
+        "step": 4,
+        "ai_speak": "그럼 맵지 않은 갈비탕이나 불고기는 어떠세요?",
+        "ai_translation": "Kalau begitu, bagaimana dengan galbitang atau bulgogi yang tidak pedas?",
+        "user_target": "불고기가 맛있겠네요. 불고기로 할게요.",
+        "user_translation": "Sepertinya bulgogi enak ya. Saya pilih bulgogi saja.",
+        "word_pool": ["불고기가", "맛있겠네요.", "불고기로", "할게요.", "불량품", "체불"]
+      },
+      {
+        "step": 5,
+        "ai_speak": "불고기는 2인분 이상 주문이 가능합니다. 괜찮으십니까?",
+        "ai_translation": "Bulgogi hanya bisa dipesan minimal untuk 2 porsi. Apakah tidak apa-apa?",
+        "user_target": "네, 불고기 2인분 주세요.",
+        "user_translation": "Ya, tolong beri kami 2 porsi bulgogi.",
+        "word_pool": ["네,", "불고기", "2인분", "주세요.", "출산", "조퇴"]
+      },
+      {
+        "step": 6,
+        "ai_speak": "네, 알겠습니다. 찌개 종류도 하나 주문하시겠습니까?",
+        "ai_translation": "Baik, saya mengerti. Apakah Anda ingin memesan satu jenis sup juga?",
+        "user_target": "안 매운 된장찌개 하나 주세요.",
+        "user_translation": "Tolong beri satu sup pasta kedelai (doenjang jjigae) yang tidak pedas.",
+        "word_pool": ["안", "매운", "된장찌개", "하나", "주세요.", "입원", "보증서"]
+      },
+      {
+        "step": 7,
+        "ai_speak": "알겠습니다. 음료수는 무엇으로 드릴까요?",
+        "ai_translation": "Baiklah. Untuk minumannya ingin apa?",
+        "user_target": "콜라 두 병도 같이 주세요.",
+        "user_translation": "Tolong beri dua botol cola juga bersama dengan makanannya.",
+        "word_pool": ["콜라", "두", "병도", "같이", "주세요.", "비료", "자재"]
+      },
+      {
+        "step": 8,
+        "ai_speak": "네, 불고기 2인분, 된장찌개 하나, 콜라 두 병 맞으십니까?",
+        "ai_translation": "Baik, bulgogi 2 porsi, sup pasta kedelai satu, dan dua botol cola, apakah benar?",
+        "user_target": "네, 맞아요. 맛있게 해주세요.",
+        "user_translation": "Ya, benar. Tolong buatkan yang enak ya.",
+        "word_pool": ["네,", "맞아요.", "맛있게", "해주세요.", "원자재", "삼계탕"]
+      },
+      {
+        "step": 9,
+        "ai_speak": "네, 잠시만 기다려 주세요. 금방 준비해 드리겠습니다.",
+        "ai_translation": "Baik, mohon tunggu sebentar. Kami akan segera menyiapkannya.",
+        "user_target": "여기 앞접시 좀 더 주시겠어요?",
+        "user_translation": "Bolehkah saya minta tambahan beberapa piring kecil di sini?",
+        "word_pool": ["여기", "앞접시", "좀", "더", "주시겠어요?", "농약", "엽서"]
+      },
+      {
+        "step": 10,
+        "ai_speak": "네, 여기 있습니다. 맛있게 드십시오.",
+        "ai_translation": "Ya, ini dia. Selamat menikmati makanan Anda.",
+        "user_target": "감사합니다. 잘 먹겠습니다.",
+        "user_translation": "Terima kasih. Saya akan makan dengan baik.",
+        "word_pool": ["감사합니다.", "잘", "먹겠습니다.", "괭이", "폐수", "사료"]
+      }
+    ]
   }
 };
 
@@ -2931,7 +3019,8 @@ app.conversationEngine = {
       const SCENARIO_COLORS = {
         'mesin-rusak': { bg: '#DBEAFE', text: '#2563EB', icon: 'construction' },
         'gudang': { bg: '#EDE9FE', text: 'var(--hana-primary)', icon: 'inventory_2' },
-        'wawancara': { bg: '#FCE7F3', text: '#DB2777', icon: 'badge' }
+        'wawancara': { bg: '#FCE7F3', text: '#DB2777', icon: 'badge' },
+        'restoran': { bg: '#FEF3C7', text: '#D97706', icon: 'restaurant' }
       };
 
       list.innerHTML = '';

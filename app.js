@@ -3435,7 +3435,11 @@ app.conversationEngine = {
     document.getElementById('conversation-answer-preview').innerHTML = '';
     const oldPool = document.getElementById('conversation-word-pool');
     if (oldPool) oldPool.classList.add('conv-pool-exit');
-    setTimeout(() => this.renderWordPool(this.getFilteredPool(step), false), 200);
+    setTimeout(() => {
+      this.renderWordPool(this.getFilteredPool(step), false);
+      const pool = document.getElementById('conversation-word-pool');
+      if (pool) pool.classList.remove('conv-pool-exit');
+    }, 200);
     this.updateTranslationToggleUI();
     this.startIdleTimer();
   },

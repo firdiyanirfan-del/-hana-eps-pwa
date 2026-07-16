@@ -2728,6 +2728,99 @@ window.HANA_CONVERSATION_DATA = {
         "word_pool": ["감사합니다.", "잘", "먹겠습니다.", "괭이", "폐수", "사료"]
       }
     ]
+  },
+  "pasar": {
+    "title": "Membeli Buah di Pasar Tradisional (Bab 11 & 22)",
+    "character": "Penjual Pasar (가게 주인)",
+    "prologue": "Seorang pembeli mengunjungi pasar tradisional Korea untuk membeli buah-buahan segar. Terjadi tawar-menawar yang hangat dan ramah antara pembeli dan penjual untuk mendapatkan harga terbaik.",
+    "steps": [
+      {
+        "step": 1,
+        "ai_speak": "어서 오세요! 오늘 과일이 아주 신선하고 좋습니다. 뭘 찾으세요?",
+        "ai_translation": "Selamat datang! Hari ini buah-buahannya sangat segar dan bagus. Sedang mencari apa?",
+        "user_target": "안녕하세요. 이 사과는 얼마예요?",
+        "user_translation": "Halo. Apel ini harganya berapa?",
+        "word_pool": ["안녕하세요.", "이", "사과는", "얼마예요?", "농약", "엽서"],
+        "grammar_tip": "Akhiran -은/는 digunakan sebagai partikel penanda topik, sedangkan 얼마예요? digunakan untuk menanyakan harga."
+      },
+      {
+        "step": 2,
+        "ai_speak": "그 사과는 한 개에 이천 원이에요. 아주 달고 맛있어요.",
+        "ai_translation": "Apel itu satu buahnya dua ribu won. Sangat manis dan enak.",
+        "user_target": "조금 비싸네요. 다섯 개만 주세요.",
+        "user_translation": "Agak mahal ya. Tolong beri saya lima buah saja.",
+        "word_pool": ["조금", "비싸네요.", "다섯", "개만", "주세요.", "괭이", "폐수"],
+        "grammar_tip": "~네요 = akhiran untuk menyatakan rasa kagum atau komentar spontan. Contoh: 비싸네요 = 'ternyata mahal ya.'"
+      },
+      {
+        "step": 3,
+        "ai_speak": "네, 여기 사과 다섯 개 있습니다. 혹시 수박은 안 필요하세요?",
+        "ai_translation": "Baik, ini lima buah apelnya. Apakah Anda tidak butuh semangka juga?",
+        "user_target": "수박은 한 통에 얼마예요?",
+        "user_translation": "Semangka satu buahnya berapa harganya?",
+        "word_pool": ["수박은", "한", "통에", "얼마예요?", "사료", "송편"],
+        "grammar_tip": "한 통에 = 'per satu buah' (untuk buah besar). 통 adalah satuan hitung (counter) untuk semangka/buah besar."
+      },
+      {
+        "step": 4,
+        "ai_speak": "수박은 큰 거 한 통에 이만 원이에요. 진짜 시원하고 맛있어요.",
+        "ai_translation": "Semangka yang besar satu buahnya dua puluh ribu won. Benar-benar segar dan enak.",
+        "user_target": "수박 한 통도 같이 주세요.",
+        "user_translation": "Tolong beri satu buah semangka juga bersama dengan ini.",
+        "word_pool": ["수박", "한", "통도", "같이", "주세요.", "불량품", "체불"]
+      },
+      {
+        "step": 5,
+        "ai_speak": "감사합니다! 그럼 사과 다섯 개하고 수박 한 통 해서 모두 삼만 원입니다.",
+        "ai_translation": "Terima kasih! Kalau begitu, lima buah apel dan satu buah semangka semuanya jadi tiga puluh ribu won.",
+        "user_target": "사장님, 조금만 깎아 주세요.",
+        "user_translation": "Pak/Bu Penjual, tolong kurangi harganya sedikit saja.",
+        "word_pool": ["사장님,", "조금만", "깎아", "주세요.", "출산", "조퇴"],
+        "grammar_tip": "~아/어 주세요 = permohonan dengan sopan. 깎아 주세요 = 'tolong kurangi (harganya)'. Biasanya dipakai saat menawar."
+      },
+      {
+        "step": 6,
+        "ai_speak": "에이, 원래 안 되는데... 오늘 첫 손님이시니까 이천 원 깎아 드릴게요.",
+        "ai_translation": "Aduh, sebenarnya tidak boleh... Tapi karena Anda pelanggan pertama hari ini, saya kurangi dua ribu won ya.",
+        "user_target": "정말 고맙습니다! 이만팔천 원이지요?",
+        "user_translation": "Terima kasih banyak! Harganya jadi dua puluh delapan ribu won, kan?",
+        "word_pool": ["정말", "고맙습니다!", "이만팔천", "원이지요?", "입원", "보증서"],
+        "grammar_tip": "~지요? (~죠?) = partikel konfirmasi seperti 'bukan? / kan?'. 원이지요? = '(dua puluh delapan ribu) won, kan?'"
+      },
+      {
+        "step": 7,
+        "ai_speak": "네, 맞습니다. 계산은 어떻게 하시겠어요?",
+        "ai_translation": "Ya, benar. Bagaimana Anda ingin melakukan pembayaran?",
+        "user_target": "여기 현금으로 계산할게요.",
+        "user_translation": "Ini, saya bayar pakai uang tunai.",
+        "word_pool": ["여기", "현금으로", "계산할게요.", "비료", "자재"]
+      },
+      {
+        "step": 8,
+        "ai_speak": "네, 삼만 원 받았습니다. 여기 잔돈 이천 원 있습니다.",
+        "ai_translation": "Baik, saya terima tiga puluh ribu won. Ini uang kembaliannya dua ribu won.",
+        "user_target": "감사합니다. 물건은 봉투에 넣어주세요.",
+        "user_translation": "Terima kasih. Tolong masukkan barangnya ke dalam kantong plastik.",
+        "word_pool": ["감사합니다.", "물건은", "봉투에", "넣어주세요.", "원자재", "삼계탕"]
+      },
+      {
+        "step": 9,
+        "ai_speak": "여기 사과하고 수박 담았습니다. 조심히 들고 가세요.",
+        "ai_translation": "Ini apel dan semangkanya sudah saya masukkan. Bawalah dengan hati-hati.",
+        "user_target": "네, 많이 파세요. 다음에 또 올게요.",
+        "user_translation": "Baik, semoga laris manis. Lain kali saya akan datang lagi.",
+        "word_pool": ["네,", "많이", "파세요.", "다음에", "또", "올게요.", "농약", "엽서"],
+        "grammar_tip": "~ㄹ게요 = menyatakan niat atau janji akan melakukan sesuatu. 올게요 = 'saya akan datang lagi'."
+      },
+      {
+        "step": 10,
+        "ai_speak": "감사합니다. 또 오세요!",
+        "ai_translation": "Terima kasih. Silakan datang kembali!",
+        "user_target": "네, 안녕히 계세요.",
+        "user_translation": "Ya, selamat tinggal.",
+        "word_pool": ["네,", "안녕히", "계세요.", "괭이", "폐수", "사료"]
+      }
+    ]
   }
 };
 
@@ -3020,7 +3113,8 @@ app.conversationEngine = {
         'mesin-rusak': { bg: '#DBEAFE', text: '#2563EB', icon: 'construction' },
         'gudang': { bg: '#EDE9FE', text: 'var(--hana-primary)', icon: 'inventory_2' },
         'wawancara': { bg: '#FCE7F3', text: '#DB2777', icon: 'badge' },
-        'restoran': { bg: '#FEF3C7', text: '#D97706', icon: 'restaurant' }
+        'restoran': { bg: '#FEF3C7', text: '#D97706', icon: 'restaurant' },
+        'pasar': { bg: '#D1FAE5', text: '#059669', icon: 'storefront' }
       };
 
       list.innerHTML = '';

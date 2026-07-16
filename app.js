@@ -3092,6 +3092,97 @@ window.HANA_CONVERSATION_DATA = {
         "word_pool": ["감사합니다.", "조심히", "일하겠습니다.", "괭이", "폐수", "사료"]
       }
     ]
+  },
+  "imigrasi": {
+    "title": "Mengurus Kartu Identitas / ARC di Kantor Imigrasi (Bab 51 & 52)",
+    "character": "Petugas Imigrasi (출입국 관리원)",
+    "prologue": "Seorang pekerja asing mendatangi Kantor Imigrasi untuk memperpanjang masa berlaku Kartu Registrasi Orang Asing (ARC) setelah memperbarui kontrak kerjanya di perusahaan.",
+    "steps": [
+      {
+        "step": 1,
+        "ai_speak": "안녕하세요. 무슨 업무 때문에 오셨습니까?",
+        "ai_translation": "Halo. Ada keperluan apa Anda datang ke sini?",
+        "user_target": "외국인등록증 기간을 연장하러 왔어요.",
+        "user_translation": "Saya datang untuk memperpanjang masa berlaku Kartu Registrasi Orang Asing.",
+        "word_pool": ["외국인등록증", "기간을", "연장하러", "왔어요.", "농약", "엽서"],
+        "grammar_tip": "Pola '-(으)러 가다/오다' (연장하러 왔어요) digunakan untuk menyatakan tujuan pergi atau datang ke suatu tempat."
+      },
+      {
+        "step": 2,
+        "ai_speak": "네, 체류 기간 연장이시군요. 신청서와 여권은 준비하셨나요?",
+        "ai_translation": "Baik, perpanjangan masa tinggal ya. Apakah Anda sudah menyiapkan formulir aplikasi dan paspor?",
+        "user_target": "네, 여기 여권하고 신청서가 있어요.",
+        "user_translation": "Ya, ini ada paspor dan formulir aplikasinya.",
+        "word_pool": ["네,", "여기", "여권하고", "신청서가", "있어요.", "괭이", "폐수"]
+      },
+      {
+        "step": 3,
+        "ai_speak": "기존 외국인등록증도 같이 주셔야 합니다.",
+        "ai_translation": "Anda juga harus menyerahkan Kartu Registrasi Orang Asing yang lama bersama berkas ini.",
+        "user_target": "여기 옛날 외국인등록증도 있습니다.",
+        "user_translation": "Ini, ada juga Kartu Registrasi Orang Asing yang lama.",
+        "word_pool": ["여기", "옛날", "외국인등록증도", "있습니다.", "사료", "송편"]
+      },
+      {
+        "step": 4,
+        "ai_speak": "새로운 표준근로계약서와 고용허가서도 가져오셨습니까?",
+        "ai_translation": "Apakah Anda juga membawa Kontrak Kerja Standar yang baru dan Surat Izin Kerja?",
+        "user_target": "네, 회사에서 받아서 가져왔어요.",
+        "user_translation": "Ya, saya menerimanya dari perusahaan lalu membawanya.",
+        "word_pool": ["네,", "회사에서", "받아서", "가져왔어요.", "불량품", "체불"]
+      },
+      {
+        "step": 5,
+        "ai_speak": "사업자등록증 사본과 재직증명서도 필요합니다.",
+        "ai_translation": "Salinan sertifikat registrasi bisnis dan surat keterangan kerja juga diperlukan.",
+        "user_target": "서류를 모두 준비해서 같이 넣었어요.",
+        "user_translation": "Saya sudah menyiapkan semua dokumen dan memasukkannya bersama.",
+        "word_pool": ["서류를", "모두", "준비해서", "같이", "넣었어요.", "출산", "조퇴"],
+        "grammar_tip": "~아/어서 = 'lalu / setelah ~' untuk menyatakan urutan tindakan. 준비해서 = '(setelah) menyiapkan lalu'. Berbeda dengan ~아/어서 yang berarti 'karena'."
+      },
+      {
+        "step": 6,
+        "ai_speak": "네, 서류는 다 있네요. 수수료 삼만 원은 내셨습니까?",
+        "ai_translation": "Baik, semua dokumennya lengkap ya. Apakah Anda sudah membayar biaya administrasi sebesar 30.000 won?",
+        "user_target": "아직 안 냈는데 어디서 내야 해요?",
+        "user_translation": "Saya belum membayarnya, di mana saya harus membayar?",
+        "word_pool": ["아직", "안", "냈는데", "어디서", "내야", "해요?", "입원", "보증서"],
+        "grammar_tip": "~는데 = 'tetapi / namun'. 냈는데 = '(belum bayar) tetapi'. Menyambung dua klausa dengan kontras atau latar belakang."
+      },
+      {
+        "step": 7,
+        "ai_speak": "저기 뒤에 있는 현금인출기에서 수입인지를 사 오시면 됩니다.",
+        "ai_translation": "Anda bisa membeli perangko pendapatan (revenue stamp) di mesin ATM yang ada di belakang sana.",
+        "user_target": "현금으로만 계산이 가능한가요?",
+        "user_translation": "Apakah pembayarannya hanya bisa menggunakan uang tunai?",
+        "word_pool": ["현금으로만", "계산이", "가능한가요?", "비료", "자재"]
+      },
+      {
+        "step": 8,
+        "ai_speak": "네, 수입인지는 현금으로만 구입할 수 있습니다.",
+        "ai_translation": "Ya, perangko pendapatan hanya bisa dibeli dengan uang tunai.",
+        "user_target": "그럼 현금을 찾아서 다녀올게요.",
+        "user_translation": "Kalau begitu, saya akan mengambil uang tunai dan pergi ke sana.",
+        "word_pool": ["그럼", "현금을", "찾아서", "다녀올게요.", "원자재", "삼계탕"]
+      },
+      {
+        "step": 9,
+        "ai_speak": "수입인지를 사 오신 후에 여기 신청서와 함께 제출해 주세요.",
+        "ai_translation": "Setelah membelinya, silakan serahkan ke sini bersama dengan formulir aplikasi.",
+        "user_target": "네, 여기 수입인지 사왔습니다.",
+        "user_translation": "Ya, ini saya sudah membeli perangko pendapatannya.",
+        "word_pool": ["네,", "여기", "수입인지", "사왔습니다.", "농약", "엽서"]
+      },
+      {
+        "step": 10,
+        "ai_speak": "네, 접수되었습니다. 새로운 등록증은 3주 후에 나옵니다.",
+        "ai_translation": "Baik, berkas sudah diterima. Kartu registrasi yang baru akan keluar dalam waktu 3 minggu.",
+        "user_target": "확인해 주셔서 정말 감사합니다.",
+        "user_translation": "Terima kasih banyak telah memeriksanya.",
+        "word_pool": ["확인해", "주셔서", "정말", "감사합니다.", "괭이", "폐수", "사료"],
+        "grammar_tip": "~아/어 주셔서 = bentuk hormat 'karena sudah ~ untuk saya'. 확인해 주셔서 = 'karena sudah memeriksa untuk saya'. Gabungan ~시 (honorifik) + ~아/어서 (sebab)."
+      }
+    ]
   }
 };
 
@@ -3388,7 +3479,8 @@ app.conversationEngine = {
         'pasar': { bg: '#D1FAE5', text: '#059669', icon: 'storefront' },
         'klinik': { bg: '#E0F2FE', text: '#0284C7', icon: 'local_hospital' },
         'bank': { bg: '#F3E8FF', text: '#9333EA', icon: 'account_balance' },
-        'safety': { bg: '#FEF9C3', text: '#CA8A04', icon: 'safety_check' }
+        'safety': { bg: '#FEF9C3', text: '#CA8A04', icon: 'safety_check' },
+        'imigrasi': { bg: '#FEF3C7', text: '#B45309', icon: 'badge' }
       };
 
       list.innerHTML = '';

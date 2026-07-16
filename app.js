@@ -3183,6 +3183,97 @@ window.HANA_CONVERSATION_DATA = {
         "grammar_tip": "~아/어 주셔서 = bentuk hormat 'karena sudah ~ untuk saya'. 확인해 주셔서 = 'karena sudah memeriksa untuk saya'. Gabungan ~시 (honorifik) + ~아/어서 (sebab)."
       }
     ]
+  },
+  "bus": {
+    "title": "Bertanya Arah dan Membeli Tiket Bus Antarkota (Bab 12 & 13)",
+    "character": "Petugas Tiket (매표소 직원)",
+    "prologue": "Seorang pekerja asing ingin pergi berlibur ke Busan di akhir pekan. Ia mendatangi Terminal Bus Antarkota, bertanya arah menuju loket pembelian tiket, lalu melakukan transaksi pembelian tiket dengan petugas.",
+    "steps": [
+      {
+        "step": 1,
+        "ai_speak": "어서 오세요. 어디로 가시는 티켓을 도와드릴까요?",
+        "ai_translation": "Selamat datang. Tiket tujuan ke mana yang bisa saya bantu?",
+        "user_target": "부산으로 가는 버스 표가 있어요?",
+        "user_translation": "Apakah ada tiket bus yang pergi ke Busan?",
+        "word_pool": ["부산으로", "가는", "버스", "표가", "있어요?", "농약", "엽서"],
+        "grammar_tip": "Partikel '-으로/로' (부산으로) digunakan untuk menunjukkan arah tujuan perjalanan, yang berarti 'ke' atau 'menuju'."
+      },
+      {
+        "step": 2,
+        "ai_speak": "네, 오늘 가십니까? 아니면 주말에 가십니까?",
+        "ai_translation": "Ya, apakah Anda pergi hari ini? Atau pergi di akhir pekan?",
+        "user_target": "이번 주 토요일 아침에 가요.",
+        "user_translation": "Saya pergi hari Sabtu pagi minggu ini.",
+        "word_pool": ["이번", "주", "토요일", "아침에", "가요.", "괭이", "폐수"]
+      },
+      {
+        "step": 3,
+        "ai_speak": "토요일 아침에는 일반 버스와 우등 버스가 있습니다. 어떤 걸로 하시겠습니까?",
+        "ai_translation": "Pada hari Sabtu pagi ada bus biasa dan bus premium. Anda ingin yang mana?",
+        "user_target": "일반 버스 표는 얼마예요?",
+        "user_translation": "Berapa harga tiket bus yang biasa?",
+        "word_pool": ["일반", "버스", "표는", "얼마예요?", "사료", "송편"]
+      },
+      {
+        "step": 4,
+        "ai_speak": "일반 버스는 이만 오천 원이고 우등 버스는 삼만 오천 원입니다.",
+        "ai_translation": "Bus biasa harganya 25.000 won dan bus premium 35.000 won.",
+        "user_target": "그럼 일반 버스로 두 장 주세요.",
+        "user_translation": "Kalau begitu, tolong beri saya dua lembar tiket bus biasa.",
+        "word_pool": ["그럼", "일반", "버스로", "두", "장", "주세요.", "불량품", "체불"],
+        "grammar_tip": "장 = satuan hitung untuk benda tipis (tiket, kertas, piring). 두 장 = 'dua lembar'. Satuan hitung Korea diletakkan setelah angka."
+      },
+      {
+        "step": 5,
+        "ai_speak": "토요일 아침 여덟 시 반 출발 버스가 괜찮으십니까?",
+        "ai_translation": "Apakah bus yang berangkat jam 8.30 hari Sabtu pagi tidak apa-apa?",
+        "user_target": "네, 그 시간 버스로 해주세요.",
+        "user_translation": "Ya, tolong buatkan untuk bus jam tersebut.",
+        "word_pool": ["네,", "그", "시간", "버스로", "해주세요.", "출산", "조퇴"]
+      },
+      {
+        "step": 6,
+        "ai_speak": "좌석은 앞쪽과 뒤쪽 중에서 어디가 좋으십니까?",
+        "ai_translation": "Untuk tempat duduknya, di antara bagian depan dan belakang mana yang Anda sukai?",
+        "user_target": "창문 옆 앞자리가 있어요?",
+        "user_translation": "Apakah ada kursi depan di sebelah jendela?",
+        "word_pool": ["창문", "옆", "앞자리가", "있어요?", "입원", "보증서"]
+      },
+      {
+        "step": 7,
+        "ai_speak": "네, 다행히 두 자리가 남아 있네요. 여기로 지정해 드리겠습니다.",
+        "ai_translation": "Ya, untunglah masih tersisa dua kursi. Saya akan pesankan di bagian ini.",
+        "user_target": "모두 합해서 오만 원이지요?",
+        "user_translation": "Semuanya jika digabung menjadi 50.000 won, kan?",
+        "word_pool": ["모두", "합해서", "오만", "원이지요?", "비료", "자재"],
+        "grammar_tip": "~지요? (~죠?) = 'kan? / bukan?' untuk meminta konfirmasi. 원이지요? = '50.000 won, kan?' Sama seperti pola ~지요? di skenario bank."
+      },
+      {
+        "step": 8,
+        "ai_speak": "네, 맞습니다. 결제는 카드로 하시겠습니까?",
+        "ai_translation": "Ya, benar. Apakah pembayarannya ingin menggunakan kartu?",
+        "user_target": "네, 여기 신용카드로 할게요.",
+        "user_translation": "Ya, di sini saya akan bayar memakai kartu kredit.",
+        "word_pool": ["네,", "여기", "신용카드로", "할게요.", "원자재", "삼계탕"]
+      },
+      {
+        "step": 9,
+        "ai_speak": "결제 완료되었습니다. 타는 곳은 삼 번 승차장입니다.",
+        "ai_translation": "Pembayaran selesai. Tempat naiknya berada di peron nomor 3.",
+        "user_target": "삼 번 승차장은 어디에 있나요?",
+        "user_translation": "Peron nomor 3 ada di sebelah mana?",
+        "word_pool": ["삼", "번", "승차장은", "어디에", "있나요?", "농약", "엽서"],
+        "grammar_tip": "~에 있다 = 'ada di / berada di'. 어디에 있나요? = 'ada di mana?' Dipakai untuk menanyakan lokasi suatu tempat."
+      },
+      {
+        "step": 10,
+        "ai_speak": "이 문으로 나가셔서 오른쪽으로 돌아가시면 바로 보입니다.",
+        "ai_translation": "Keluar lewat pintu ini lalu berputar ke arah kanan, akan langsung terlihat.",
+        "user_target": "자세히 알려주셔서 정말 감사합니다.",
+        "user_translation": "Terima kasih banyak telah menjelaskan secara detail.",
+        "word_pool": ["자세히", "알려주셔서", "정말", "감사합니다.", "괭이", "폐수", "사료"]
+      }
+    ]
   }
 };
 
@@ -3480,7 +3571,8 @@ app.conversationEngine = {
         'klinik': { bg: '#E0F2FE', text: '#0284C7', icon: 'local_hospital' },
         'bank': { bg: '#F3E8FF', text: '#9333EA', icon: 'account_balance' },
         'safety': { bg: '#FEF9C3', text: '#CA8A04', icon: 'safety_check' },
-        'imigrasi': { bg: '#FEF3C7', text: '#B45309', icon: 'badge' }
+        'imigrasi': { bg: '#FEF3C7', text: '#B45309', icon: 'badge' },
+        'bus': { bg: '#ECFDF5', text: '#059669', icon: 'directions_bus' }
       };
 
       list.innerHTML = '';

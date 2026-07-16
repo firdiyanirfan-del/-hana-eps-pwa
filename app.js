@@ -2821,6 +2821,98 @@ window.HANA_CONVERSATION_DATA = {
         "word_pool": ["네,", "안녕히", "계세요.", "괭이", "폐수", "사료"]
       }
     ]
+  },
+  "klinik": {
+    "title": "Memeriksakan Sakit Perut ke Rumah Sakit (Bab 26 & 27)",
+    "character": "Dokter (의사)",
+    "prologue": "Seorang pekerja migran datang ke klinik atau rumah sakit karena mengalami sakit perut dan demam sejak kemarin malam. Dokter memeriksa kondisi fisik pasien untuk memberikan diagnosis dan resep obat yang tepat.",
+    "steps": [
+      {
+        "step": 1,
+        "ai_speak": "어디가 아파서 오셨습니까?",
+        "ai_translation": "Ada keluhan apa hingga Anda datang?",
+        "user_target": "어제 저녁부터 배가 많이 아파요.",
+        "user_translation": "Sejak kemarin malam perut saya sangat sakit.",
+        "word_pool": ["어제", "저녁부터", "배가", "많이", "아파요.", "농약", "엽서"],
+        "grammar_tip": "Pola '~부터' digunakan untuk menyatakan titik awal waktu atau tempat yang berarti 'sejak' atau 'mulai dari'."
+      },
+      {
+        "step": 2,
+        "ai_speak": "언제부터 열도 나기 시작했나요?",
+        "ai_translation": "Sejak kapan demamnya juga mulai muncul?",
+        "user_target": "오늘 아침부터 열이 조금 났어요.",
+        "user_translation": "Sejak tadi pagi demamnya sedikit muncul.",
+        "word_pool": ["오늘", "아침부터", "열이", "조금", "났어요.", "괭이", "폐수"]
+      },
+      {
+        "step": 3,
+        "ai_speak": "혹시 어제 저녁에 무엇을 드셨습니까?",
+        "ai_translation": "Apakah Anda makan sesuatu kemarin malam?",
+        "user_target": "매운 길거리 음식을 먹었어요.",
+        "user_translation": "Saya makan makanan pinggir jalan yang pedas.",
+        "word_pool": ["매운", "길거리", "음식을", "먹었어요.", "사료", "송편"]
+      },
+      {
+        "step": 4,
+        "ai_speak": "배를 한 번 만져보겠습니다. 여기가 아프신가요?",
+        "ai_translation": "Saya akan coba meraba perut Anda. Apakah di sini sakit?",
+        "user_target": "아! 네, 거기를 누르면 아주 아파요.",
+        "user_translation": "Ah! Ya, kalau ditekan di bagian situ sangat sakit.",
+        "word_pool": ["아!", "네,", "거기를", "누르면", "아주", "아파요.", "불량품", "체불"],
+        "grammar_tip": "~(으)면 = 'kalau / jika'. 누르면 = 'kalau ditekan'. Dipakai untuk membuat kalimat pengandaian bersyarat."
+      },
+      {
+        "step": 5,
+        "ai_speak": "장염인 것 같습니다. 무리하지 마시고 푹 쉬셔야 합니다.",
+        "ai_translation": "Sepertinya Anda terkena radang usus. Jangan memaksakan diri dan harus istirahat yang cukup.",
+        "user_target": "네, 알겠습니다. 오늘은 무리하지 않을게요.",
+        "user_translation": "Ya, baiklah. Hari ini saya tidak akan memaksakan diri.",
+        "word_pool": ["네,", "알겠습니다.", "오늘은", "무리하지", "않을게요.", "출산", "조퇴"],
+        "grammar_tip": "~ㄹ게요 = menyatakan niat atau janji akan melakukan sesuatu. 않을게요 = 'tidak akan (memaksakan diri)'."
+      },
+      {
+        "step": 6,
+        "ai_speak": "약을 처방해 드릴 테니까 식후 삼십 분에 드세요.",
+        "ai_translation": "Saya akan meresepkan obat, jadi minumlah 30 menit setelah makan.",
+        "user_target": "하루에 몇 번 먹어야 하나요?",
+        "user_translation": "Sehari harus minum berapa kali?",
+        "word_pool": ["하루에", "몇", "번", "먹어야", "하나요?", "입원", "보증서"]
+      },
+      {
+        "step": 7,
+        "ai_speak": "아침, 점심, 저녁 하루에 세 번 드시면 됩니다.",
+        "ai_translation": "Cukup minum tiga kali sehari: pagi, siang, dan malam.",
+        "user_target": "식사를 안 해도 약을 먹나요?",
+        "user_translation": "Apakah tetap minum obat meskipun tidak makan?",
+        "word_pool": ["식사를", "안", "해도", "약을", "먹나요?", "비료", "자재"],
+        "grammar_tip": "~아/어도 = 'meskipun'. 안 해도 = 'meskipun tidak (makan)'. Digunakan untuk menyatakan pengandaian yang berlawanan."
+      },
+      {
+        "step": 8,
+        "ai_speak": "아니요, 죽이라도 조금 드신 후에 약을 드세요.",
+        "ai_translation": "Tidak, minumlah obat setelah makan bubur meskipun sedikit.",
+        "user_target": "네, 죽을 먹고 약을 먹을게요.",
+        "user_translation": "Ya, saya akan makan bubur lalu minum obat.",
+        "word_pool": ["네,", "죽을", "먹고", "약을", "먹을게요.", "원자재", "삼계탕"],
+        "grammar_tip": "~고 = 'lalu / dan kemudian'. 먹고 = '(setelah) makan lalu'. Digunakan untuk menghubungkan dua urutan tindakan."
+      },
+      {
+        "step": 9,
+        "ai_speak": "그리고 당분간 차가운 음료수나 기름진 음식은 피하세요.",
+        "ai_translation": "Dan untuk sementara waktu, hindari minuman dingin atau makanan berminyak.",
+        "user_target": "네, 당분간 따뜻한 물만 마실게요.",
+        "user_translation": "Ya, untuk sementara saya hanya akan minum air hangat.",
+        "word_pool": ["네,", "당분간", "따뜻한", "물만", "마실게요.", "농약", "엽서"]
+      },
+      {
+        "step": 10,
+        "ai_speak": "네, 처방전을 가지고 1층 약국으로 가시면 됩니다.",
+        "ai_translation": "Ya, Anda bisa membawa resep ini ke apotek di lantai 1.",
+        "user_target": "감사합니다. 의사 선생님, 안녕히 계세요.",
+        "user_translation": "Terima kasih. Dokter, selamat tinggal.",
+        "word_pool": ["감사합니다.", "의사", "선생님,", "안녕히", "계세요.", "괭이", "폐수", "사료"]
+      }
+    ]
   }
 };
 
@@ -3114,7 +3206,8 @@ app.conversationEngine = {
         'gudang': { bg: '#EDE9FE', text: 'var(--hana-primary)', icon: 'inventory_2' },
         'wawancara': { bg: '#FCE7F3', text: '#DB2777', icon: 'badge' },
         'restoran': { bg: '#FEF3C7', text: '#D97706', icon: 'restaurant' },
-        'pasar': { bg: '#D1FAE5', text: '#059669', icon: 'storefront' }
+        'pasar': { bg: '#D1FAE5', text: '#059669', icon: 'storefront' },
+        'klinik': { bg: '#E0F2FE', text: '#0284C7', icon: 'local_hospital' }
       };
 
       list.innerHTML = '';

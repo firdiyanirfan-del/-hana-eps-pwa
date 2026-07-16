@@ -3398,7 +3398,7 @@ app.conversationEngine = {
     document.getElementById('btn-skip-step')?.classList.add('hidden');
 
     const aiBubble = document.createElement('div');
-    aiBubble.className = 'flex flex-col items-start space-y-1.5 max-w-[88%] self-start animate-fade-in stagger-1';
+      aiBubble.className = 'flex flex-col items-start space-y-1.5 max-w-[88%] self-start conv-bubble-enter';
     aiBubble.innerHTML = `
       <span class="text-[10px] font-bold text-[var(--hana-primary)] uppercase tracking-[0.2em] bg-[var(--hana-primary)]/10 px-2.5 py-1 rounded">${data.character}</span>
       <div class="speech-bubble conv-bubble-ai relative group">
@@ -3420,7 +3420,7 @@ app.conversationEngine = {
     // Grammar tip card
     if (step.grammar_tip) {
       const tipCard = document.createElement('div');
-      tipCard.className = 'flex flex-col items-start max-w-[88%] self-start animate-fade-in stagger-1 mt-1';
+      tipCard.className = 'flex flex-col items-start max-w-[88%] self-start conv-bubble-enter mt-1';
       tipCard.innerHTML = `
         <div class="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800/40 rounded-xl p-3 flex items-start gap-2.5">
           <span class="material-symbols-outlined text-[16px] text-amber-500 shrink-0 mt-0.5">lightbulb</span>
@@ -3433,7 +3433,9 @@ app.conversationEngine = {
     }
 
     document.getElementById('conversation-answer-preview').innerHTML = '';
-    this.renderWordPool(this.getFilteredPool(step), false);
+    const oldPool = document.getElementById('conversation-word-pool');
+    if (oldPool) oldPool.classList.add('conv-pool-exit');
+    setTimeout(() => this.renderWordPool(this.getFilteredPool(step), false), 200);
     this.updateTranslationToggleUI();
     this.startIdleTimer();
   },
@@ -3458,7 +3460,8 @@ app.conversationEngine = {
       if (isHintActive && isCorrect) {
         extraClasses = 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-400 dark:border-emerald-600 ring-2 ring-emerald-300 dark:ring-emerald-700';
       }
-      btn.className = `word-chip px-3 py-2 ${extraClasses} border text-[12px] font-bold text-gray-800 dark:text-[var(--text-primary)] rounded-xl shadow-sm hover:bg-white dark:hover:bg-[var(--card-bg)] hover:border-[var(--hana-primary)]/40 active:scale-90 transition-all animate-float stagger-${staggerIdx}`;
+      btn.className = `word-chip px-3 py-2 ${extraClasses} border text-[12px] font-bold text-gray-800 dark:text-[var(--text-primary)] rounded-xl shadow-sm hover:bg-white dark:hover:bg-[var(--card-bg)] hover:border-[var(--hana-primary)]/40 active:scale-90 transition-all animate-float conv-chip-enter`;
+      btn.style.animationDelay = `${index * 60}ms`;
       btn.innerText = word;
       btn.id = `conv-word-btn-${index}`;
       btn.onclick = () => this.handleWordClick(word, btn.id);
@@ -3551,7 +3554,7 @@ app.conversationEngine = {
     // 1. EXACT MATCH — correct
     if (userString === targetString) {
       this.flashFeedback('correct');
-      setTimeout(() => this.submitCorrectAnswer(), 700);
+      setTimeout(() => this.submitCorrectAnswer(), 500);
       return;
     }
 
@@ -3723,7 +3726,7 @@ app.conversationEngine = {
       const step = data.steps[this.currentStepIndex];
       const chatLog = document.getElementById('conversation-chat-log');
       const userBubble = document.createElement('div');
-      userBubble.className = 'flex flex-col items-end space-y-1.5 max-w-[88%] self-end animate-fade-in stagger-2';
+      userBubble.className = 'flex flex-col items-end space-y-1.5 max-w-[88%] self-end conv-bubble-enter';
       userBubble.innerHTML = `
         <span class="text-[10px] font-bold text-white/80 uppercase tracking-[0.2em] bg-[var(--hana-primary)]/30 px-2.5 py-1 rounded">Pelajar (User)</span>
         <div class="speech-bubble-user conv-bubble-user">
@@ -3748,7 +3751,7 @@ app.conversationEngine = {
           this.showResultSummary(20);
         }, 800);
       } else {
-        setTimeout(() => this.renderCurrentStep(), 1000);
+        setTimeout(() => this.renderCurrentStep(), 600);
       }
     },
 

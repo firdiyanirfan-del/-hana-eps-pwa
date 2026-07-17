@@ -3491,7 +3491,7 @@ app.conversationEngine = {
     this.selectedWordBtnIds.push(buttonId);
     this.renderPreview();
     const originBtn = document.getElementById(buttonId);
-    if (originBtn) { originBtn.classList.add('opacity-30', 'pointer-events-none'); }
+    if (originBtn) { originBtn.classList.add('conv-chip-used'); }
     if (this.difficulty === 'mudah' && originBtn) {
       originBtn.classList.add('conv-easy-correct');
       setTimeout(() => originBtn.classList.remove('conv-easy-correct'), 400);
@@ -3526,7 +3526,7 @@ app.conversationEngine = {
     const btnId = this.selectedWordBtnIds[idx];
     const btn = document.getElementById(btnId);
     if (btn) {
-      btn.classList.remove('opacity-30', 'pointer-events-none');
+      btn.classList.remove('conv-chip-used');
     }
     this.selectedWords.splice(idx, 1);
     this.selectedWordBtnIds.splice(idx, 1);

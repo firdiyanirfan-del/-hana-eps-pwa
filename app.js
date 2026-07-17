@@ -3646,6 +3646,15 @@ app.conversationEngine = {
       const sheet = document.getElementById('scenario-picker-sheet');
       if (sheet) sheet.classList.add('hidden');
     },
+    confirmExitConversation() {
+      const inputArea = document.getElementById('conv-input-area');
+      const isActive = inputArea && !inputArea.classList.contains('hidden');
+      if (isActive) {
+        showConfirmExit(() => app.switchScreen('dashboard-screen', { showNav: true }), 'percakapan');
+      } else {
+        app.switchScreen('dashboard-screen', { showNav: true });
+      }
+    },
 
     // ==================== NEW HELPER METHODS ====================
 
@@ -4513,6 +4522,9 @@ window.showConfirmExit = function(exitCallback, type = 'game') {
     if (type === 'kuis') {
       if (titleEl) titleEl.innerText = 'Akhiri Sesi Belajar?';
       if (descEl) descEl.innerText = 'Jika kamu keluar sekarang, jawaban pada sesi ini tidak akan tersimpan.';
+    } else if (type === 'percakapan') {
+      if (titleEl) titleEl.innerText = 'Akhiri Latihan?';
+      if (descEl) descEl.innerText = 'Progress dan XP pada latihan ini tidak akan tersimpan jika kamu keluar sekarang.';
     } else {
       if (titleEl) titleEl.innerText = 'Tinggalkan Game?';
       if (descEl) descEl.innerText = 'Jika Anda keluar sekarang, progres game ini akan hilang dan XP batal ditambahkan.';

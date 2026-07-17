@@ -3310,6 +3310,8 @@ app.conversationEngine = {
     document.getElementById('conv-subtitle').innerText = data.title;
     document.getElementById('conversation-chat-log').innerHTML = '';
     document.getElementById('conversation-answer-preview').innerHTML = '';
+    document.getElementById('conversation-word-pool').innerHTML = '';
+    document.getElementById('conv-input-area').classList.add('hidden');
     document.getElementById('conv-action-buttons')?.classList.add('hidden');
     document.getElementById('btn-show-answer')?.classList.add('hidden');
     document.getElementById('btn-skip-step')?.classList.add('hidden');
@@ -3355,6 +3357,7 @@ app.conversationEngine = {
 
   startLesson() {
     document.getElementById('conversation-chat-log').innerHTML = '';
+    document.getElementById('conv-input-area').classList.remove('hidden');
     this.updateProgressBar();
     this.renderCurrentStep();
   },

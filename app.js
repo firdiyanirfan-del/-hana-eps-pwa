@@ -3358,6 +3358,12 @@ app.conversationEngine = {
   startLesson() {
     document.getElementById('conversation-chat-log').innerHTML = '';
     document.getElementById('conv-input-area').classList.remove('hidden');
+    const distractorCount = this.difficulty === 'sedang' ? 1
+      : this.difficulty === 'sulit' ? window.HANA_CONVERSATION_DATA[this.currentScenarioId].steps[0].word_pool.filter(w => !window.HANA_CONVERSATION_DATA[this.currentScenarioId].steps[0].user_target.trim().split(' ').includes(w)).length
+      : 0;
+    if (distractorCount > 0 && typeof showToast === 'function') {
+      showToast(`Level ${this.difficulty.charAt(0).toUpperCase() + this.difficulty.slice(1)}: ada ${distractorCount} kata pengecoh — jangan semua kata dipakai ya!`, 'warning');
+    }
     this.updateProgressBar();
     this.renderCurrentStep();
   },
@@ -3443,6 +3449,7 @@ app.conversationEngine = {
       const pool = document.getElementById('conversation-word-pool');
       if (pool) pool.classList.remove('conv-pool-exit');
     }, 200);
+    this.updateDistractorBadge();
     this.updateTranslationToggleUI();
     this.startIdleTimer();
   },
@@ -3676,6 +3683,24 @@ app.conversationEngine = {
         return correct;
       }
       return [...step.word_pool];
+    },
+
+    updateDistractorBadge() {
+      const step = this.getCurrentStep();
+      if (!step) return;
+      const targetWords = step.user_target.trim().split(' ');
+      const distractors = step.word_pool.filter(w => !targetWords.includes(w));
+      let count = 0;
+      if (this.difficulty === 'sedang') count = distractors.length > 0 ? 1 : 0;
+      else if (this.difficulty === 'sulit') count = distractors.length;
+      const badge = document.getElementById('conv-distractor-badge');
+      if (!badge) return;
+      if (count > 0) {
+        badge.classList.remove('hidden');
+        badge.innerHTML = `<span class="material-symbols-outlined text-[12px] align-middle mr-0.5">warning</span> ${count} kata pengecoh di pool ini`;
+      } else {
+        badge.classList.add('hidden');
+      }
     },
 
     setDifficulty(level) {

@@ -1371,6 +1371,10 @@ const app = {
       msg = 'Kuis sedang berjalan. Yakin ingin meninggalkan kuis? Progress tidak akan disimpan.';
       btnText = 'Ya, Tinggalkan';
       action = () => { this.clearSession(); this.switchScreen('dashboard-screen', { showNav: true, noTrack: true }); };
+    } else if (type === 'conversation') {
+      msg = 'Latihan percakapan sedang berjalan. Yakin ingin meninggalkan latihan? Progress tidak akan tersimpan.';
+      btnText = 'Ya, Keluar';
+      action = () => { this.switchScreen('dashboard-screen', { showNav: true, noTrack: true }); };
     } else {
       msg = 'Tekan back sekali lagi untuk keluar aplikasi.';
       btnText = 'Tutup';
@@ -1380,9 +1384,9 @@ const app = {
       <div class="bg-[var(--hana-surface)] rounded-2xl p-6 max-w-sm w-full shadow-2xl border border-[var(--hana-border)] animate-fade-in" onclick="event.stopPropagation()">
         <div class="text-center">
           <div class="w-12 h-12 rounded-full bg-[var(--hana-primary)]/10 flex items-center justify-center mx-auto mb-3">
-            <span class="material-symbols-outlined text-[var(--hana-primary)] text-2xl">${type === 'quiz' ? 'quiz' : 'exit_to_app'}</span>
+            <span class="material-symbols-outlined text-[var(--hana-primary)] text-2xl">${type === 'quiz' ? 'quiz' : type === 'conversation' ? 'forum' : 'exit_to_app'}</span>
           </div>
-          <h3 class="text-[var(--hana-text-1)] font-bold text-lg mb-2">${type === 'quiz' ? 'Tinggalkan Kuis?' : 'Keluar Aplikasi?'}</h3>
+          <h3 class="text-[var(--hana-text-1)] font-bold text-lg mb-2">${type === 'quiz' ? 'Tinggalkan Kuis?' : type === 'conversation' ? 'Tinggalkan Latihan?' : 'Keluar Aplikasi?'}</h3>
           <p class="text-[var(--hana-text-2)] text-sm mb-5">${msg}</p>
           <div class="flex gap-3">
             <button class="flex-1 py-2.5 rounded-xl bg-[var(--hana-border)] text-[var(--hana-text-1)] font-bold text-sm active:scale-95 transition-transform squishy" id="exit-confirm-cancel">Batal</button>
@@ -4054,6 +4058,16 @@ window.addEventListener("popstate", (e) => {
     if (top === 'quiz-screen' && app._isQuizActive()) {
       app.showExitConfirm('quiz');
       return;
+    }
+
+    // 7b. Conversation active — show confirm before leaving
+    const convScreen = document.getElementById('screen-conversation');
+    if (convScreen && !convScreen.classList.contains('hidden')) {
+      const inputArea = document.getElementById('conv-input-area');
+      if (inputArea && !inputArea.classList.contains('hidden')) {
+        app.showExitConfirm('conversation');
+        return;
+      }
     }
 
     // 8. Navigation stack

@@ -451,6 +451,13 @@
     .dark .xp-badge-gradient {
       box-shadow: 0 4px 12px rgba(34, 197, 94, 0.1);
     }
+    .primary-gradient {
+      background: linear-gradient(135deg, var(--hana-primary) 0%, #8B84FF 100%);
+      box-shadow: 0 4px 12px rgba(92, 84, 232, 0.25);
+    }
+    .dark .primary-gradient {
+      box-shadow: 0 4px 12px rgba(139, 132, 255, 0.15);
+    }
     .hana-mascot-container {
       filter: drop-shadow(0 10px 15px rgba(108, 99, 255, 0.2));
     }
@@ -623,7 +630,7 @@
         <div class="flex-1">
           <div class="flex justify-between items-center">
             <h4 class="font-bold text-sm text-slate-800 dark:text-white">Latihan Percakapan</h4>
-            <span class="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">+20 XP</span>
+            <span class="primary-gradient text-white text-[10px] font-bold px-2 py-0.5 rounded-full">+20 XP</span>
           </div>
           <p class="text-[11px] text-slate-500 dark:text-[#94A3B8] mt-0.5">Susun kalimat dialog Korea EPS-TOPIK dari kata acak!</p>
         </div>
@@ -1644,7 +1651,7 @@
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between mb-2">
                 <span class="text-xs font-bold text-[var(--text-primary)]">Belajar 10 kosakata</span>
-                <span class="text-[10px] font-extrabold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-lg">+20 XP</span>
+                <span class="primary-gradient text-white text-[10px] font-extrabold px-2 py-0.5 rounded-lg">+20 XP</span>
               </div>
               <div class="w-full h-1.5 bg-[var(--hana-border)] rounded-full overflow-hidden">
                 <div class="h-full bg-[var(--hana-primary)] rounded-full w-[0%]" id="mission-1-bar"></div>
@@ -2353,7 +2360,7 @@
         <div class="flex-1 min-w-0">
           <div class="flex items-center justify-between mb-1">
             <span class="text-xs font-bold text-slate-700 dark:text-slate-200">Misi Kosakata</span>
-            <span class="text-[10px] font-bold text-emerald-500">+20 XP</span>
+            <span class="primary-gradient text-white text-[10px] font-bold px-2 py-0.5 rounded-full">+20 XP</span>
           </div>
           <div class="flex items-center gap-2">
             <div class="flex-1 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden"><div id="v-mission-1-bar" class="bg-emerald-500 h-full transition-all" style="width: 0%"></div></div>
@@ -2797,33 +2804,26 @@
   </div>
 </div>
 
-<!-- SCENARIO PICKER BOTTOM SHEET (Stitch Redesign) -->
-<div id="scenario-picker-sheet" class="hidden fixed inset-0 z-[99998] flex flex-col justify-end" onclick="if(event.target===this)app.conversationEngine.closeScenarioPicker()">
-  <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
-  <div id="scenario-picker-content" class="relative glass-panel rounded-t-[24px] sm:rounded-[24px] overflow-hidden flex flex-col max-h-[70vh] translate-y-full transition-transform duration-300 ease-out">
-    <!-- Decorative Mascot -->
-    <div class="absolute -top-10 -right-4 w-28 h-28 hana-mascot-container opacity-20 pointer-events-none">
-      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
-        <circle cx="50" cy="40" r="25" fill="var(--hana-primary)" opacity="0.3"/>
-        <circle cx="50" cy="85" r="30" fill="var(--hana-primary)" opacity="0.15"/>
-        <path d="M35 35 Q50 20 65 35" stroke="var(--hana-primary)" stroke-width="2" fill="none" opacity="0.4"/>
-        <circle cx="42" cy="36" r="3" fill="var(--hana-primary)" opacity="0.5"/>
-        <circle cx="58" cy="36" r="3" fill="var(--hana-primary)" opacity="0.5"/>
-      </svg>
+<!-- SCENARIO PICKER FULL-SCREEN (Stitch Redesign) -->
+<div id="scenario-picker-sheet" class="hidden fixed inset-0 z-[9997] flex flex-col" style="background:var(--hana-canvas)">
+  <!-- Ambient Glows -->
+  <div class="absolute top-[-10%] right-[-10%] w-80 h-80 rounded-full pointer-events-none" style="background:var(--hana-primary);opacity:0.06;filter:blur(80px)"></div>
+  <div class="absolute bottom-[20%] left-[-10%] w-64 h-64 rounded-full pointer-events-none" style="background:var(--hana-primary);opacity:0.06;filter:blur(60px)"></div>
+  <div class="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.06]" style="background-image:radial-gradient(var(--hana-text-1) 1px, transparent 1px);background-size:24px 24px"></div>
+
+  <!-- Sticky Header -->
+  <header class="sticky top-0 z-10 bg-[var(--hana-surface)]/80 backdrop-blur-xl px-4 py-4 flex items-center border-b border-[var(--hana-border)]">
+    <button onclick="app.conversationEngine.closeScenarioPicker()" class="w-10 h-10 flex items-center justify-center rounded-xl bg-[var(--hana-surface)] border border-[var(--hana-border)] shadow-sm active:scale-90 transition-transform mr-4">
+      <span class="material-symbols-outlined text-[var(--hana-text-1)]">arrow_back</span>
+    </button>
+    <div class="flex flex-col">
+      <h1 class="font-['Plus_Jakarta_Sans'] font-extrabold text-[18px] leading-tight text-[var(--hana-text-1)]">Pilih Skenario Percakapan</h1>
+      <p class="font-['Plus_Jakarta_Sans'] font-medium text-[12px] text-[var(--hana-text-2)]">Latih percakapan dunia kerja nyata</p>
     </div>
-    <!-- Header -->
-    <div class="p-6 pb-3 flex justify-between items-center relative z-10">
-      <div class="space-y-1">
-        <h3 class="text-base font-extrabold text-[var(--text-primary)] tracking-tight">Pilih Skenario Percakapan</h3>
-        <p class="text-[11px] font-medium text-[var(--text-secondary)]">Asah kemampuan komunikasimu hari ini</p>
-      </div>
-      <button onclick="app.conversationEngine.closeScenarioPicker()" class="w-9 h-9 rounded-full bg-[var(--card-bg)] flex items-center justify-center text-[var(--text-muted)] hover:bg-rose-100 dark:hover:bg-rose-950/40 hover:text-rose-500 transition-colors active:scale-90 shrink-0">
-        <span class="material-symbols-outlined text-lg">close</span>
-      </button>
-    </div>
-    <!-- Scenario List -->
-    <div id="scenario-picker-list" class="p-6 pt-2 space-y-3 overflow-y-auto relative z-10"></div>
-  </div>
+  </header>
+
+  <!-- Scrollable Body -->
+  <div id="scenario-picker-list" class="flex-1 overflow-y-auto hide-scrollbar px-4 pt-4 pb-10 space-y-3"></div>
 </div>
 
 <!-- CHAPTER PICKER BOTTOM SHEET -->

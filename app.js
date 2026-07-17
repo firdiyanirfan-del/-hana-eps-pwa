@@ -3600,63 +3600,51 @@ app.conversationEngine = {
     }
   },
   openScenarioPicker() {
-      const overlay = document.getElementById('scenario-picker-sheet');
-      const panel = document.getElementById('scenario-picker-content');
+      const sheet = document.getElementById('scenario-picker-sheet');
       const list = document.getElementById('scenario-picker-list');
-      if (!overlay || !panel || !list) return;
+      if (!sheet || !list) return;
 
       const SCENARIO_COLORS = {
-        'mesin-rusak': { bg: '#DBEAFE', text: '#2563EB', icon: 'construction' },
-        'gudang': { bg: '#EDE9FE', text: 'var(--hana-primary)', icon: 'inventory_2' },
-        'wawancara': { bg: '#FCE7F3', text: '#DB2777', icon: 'badge' },
-        'restoran': { bg: '#FEF3C7', text: '#D97706', icon: 'restaurant' },
-        'pasar': { bg: '#D1FAE5', text: '#059669', icon: 'storefront' },
-        'klinik': { bg: '#E0F2FE', text: '#0284C7', icon: 'local_hospital' },
-        'bank': { bg: '#F3E8FF', text: '#9333EA', icon: 'account_balance' },
-        'safety': { bg: '#FEF9C3', text: '#CA8A04', icon: 'safety_check' },
-        'imigrasi': { bg: '#FEF3C7', text: '#B45309', icon: 'badge' },
-        'bus': { bg: '#ECFDF5', text: '#059669', icon: 'directions_bus' }
+        'mesin-rusak': { icon: 'construction' },
+        'gudang': { icon: 'inventory_2' },
+        'wawancara': { icon: 'badge' },
+        'restoran': { icon: 'restaurant' },
+        'pasar': { icon: 'storefront' },
+        'klinik': { icon: 'local_hospital' },
+        'bank': { icon: 'account_balance' },
+        'safety': { icon: 'safety_check' },
+        'imigrasi': { icon: 'badge' },
+        'bus': { icon: 'directions_bus' }
       };
 
       list.innerHTML = '';
       Object.keys(window.HANA_CONVERSATION_DATA).forEach(key => {
         const data = window.HANA_CONVERSATION_DATA[key];
-        const colors = SCENARIO_COLORS[key] || { bg: '#DBEAFE', text: 'var(--hana-primary)', icon: 'forum' };
-        const card = document.createElement('div');
-        card.className = 'item-card group w-full flex items-center gap-4 p-4 bg-white/70 dark:bg-[var(--card-bg)]/70 hover:bg-white dark:hover:bg-[var(--card-bg)] rounded-2xl shadow-sm cursor-pointer';
+        const icon = (SCENARIO_COLORS[key] || { icon: 'forum' }).icon;
+        const card = document.createElement('button');
+        card.className = 'w-full flex items-center glass-card p-3 rounded-2xl active:scale-[0.97] transition-all group text-left cursor-pointer';
         card.onclick = () => { this.closeScenarioPicker(); this.startConversation(key); };
+        const stepCount = data.steps.length;
         card.innerHTML = `
-          <div class="w-14 h-14 shrink-0 rounded-2xl flex items-center justify-center" style="background:${colors.bg};color:${colors.text}">
-            <span class="material-symbols-outlined text-[28px]">${colors.icon}</span>
+          <div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 bg-[var(--hana-primary)]/10">
+            <span class="material-symbols-outlined text-[var(--hana-primary)] text-[28px]">${icon}</span>
           </div>
-          <div class="flex-1 text-left min-w-0">
-            <div class="flex items-center justify-between gap-2">
-              <h3 class="font-bold text-[13px] text-[var(--text-primary)] leading-tight truncate">${data.title}</h3>
-              <span class="xp-badge-gradient px-2.5 py-0.5 rounded-full text-[9px] font-bold text-white whitespace-nowrap shrink-0">+20 XP</span>
-            </div>
-            <p class="text-[11px] text-[var(--text-muted)] mt-1">Karakter: ${data.character}</p>
+          <div class="ml-4 flex-1">
+            <h3 class="font-['Plus_Jakarta_Sans'] font-bold text-[14px] text-[var(--hana-text-1)]">${data.title}</h3>
+            <p class="font-['Plus_Jakarta_Sans'] font-medium text-[11px] text-[var(--hana-text-2)]">Bicara dengan ${data.character.replace(/\s*\(.*?\)\s*$/, '').trim()} · ${stepCount} Langkah</p>
           </div>
-          <span class="material-symbols-outlined text-[var(--text-muted)] text-lg shrink-0 group-hover:translate-x-0.5 transition-transform">chevron_right</span>`;
+          <div class="flex items-center space-x-2 shrink-0">
+            <span class="primary-gradient text-white text-[11px] font-bold px-2 py-1 rounded-lg">+20 XP</span>
+            <span class="material-symbols-outlined text-[var(--hana-text-3)] group-hover:translate-x-1 transition-transform">chevron_right</span>
+          </div>`;
         list.appendChild(card);
       });
 
-      overlay.classList.remove('hidden');
-      overlay.style.opacity = '0';
-      panel.classList.remove('translate-y-full');
-      requestAnimationFrame(() => {
-        overlay.style.opacity = '1';
-        panel.classList.add('translate-y-0');
-        panel.classList.remove('translate-y-full');
-      });
+      sheet.classList.remove('hidden');
     },
     closeScenarioPicker() {
-      const overlay = document.getElementById('scenario-picker-sheet');
-      const panel = document.getElementById('scenario-picker-content');
-      if (!overlay || !panel) return;
-      panel.classList.remove('translate-y-0');
-      panel.classList.add('translate-y-full');
-      overlay.style.opacity = '0';
-      setTimeout(() => overlay.classList.add('hidden'), 300);
+      const sheet = document.getElementById('scenario-picker-sheet');
+      if (sheet) sheet.classList.add('hidden');
     },
 
     // ==================== NEW HELPER METHODS ====================

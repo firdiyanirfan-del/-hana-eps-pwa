@@ -1716,10 +1716,11 @@ body:not(.mode-jalur) #dashboard-screen {
 /* 🛡️ SETTINGS LAYER STACKING */
 
 #settings-screen {
-  background: 
+  background-color: var(--hana-canvas) !important;
+  background-image: 
     radial-gradient(circle at 20% 10%, rgba(92,84,232,0.07) 0%, transparent 40%),
     radial-gradient(circle at 80% 90%, rgba(249,168,212,0.05) 0%, transparent 40%),
-    linear-gradient(135deg, var(--hana-canvas) 0%, rgba(92,84,232,0.04) 50%, rgba(249,168,212,0.04) 100%) !important;
+    linear-gradient(135deg, transparent 0%, rgba(92,84,232,0.04) 50%, rgba(249,168,212,0.04) 100%) !important;
   opacity: 1 !important;
   z-index: 9999 !important;
   pointer-events: auto !important;
@@ -1739,10 +1740,11 @@ body:not(.mode-jalur) #dashboard-screen {
   position: fixed;
   inset: 0;
   z-index: 10000;
-  background: 
+  background-color: var(--hana-canvas) !important;
+  background-image: 
     radial-gradient(circle at 20% 10%, rgba(92,84,232,0.06) 0%, transparent 40%),
     radial-gradient(circle at 80% 90%, rgba(249,168,212,0.05) 0%, transparent 40%),
-    linear-gradient(135deg, var(--hana-canvas) 0%, rgba(92,84,232,0.03) 50%, rgba(249,168,212,0.03) 100%) !important;
+    linear-gradient(135deg, transparent 0%, rgba(92,84,232,0.03) 50%, rgba(249,168,212,0.03) 100%) !important;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -1830,10 +1832,11 @@ body:not(.mode-jalur) #dashboard-screen {
 }
 .dark #profile-screen,
 [data-theme="dark"] #profile-screen {
-  background: 
+  background-color: var(--hana-canvas) !important;
+  background-image: 
     radial-gradient(circle at 20% 10%, rgba(92,84,232,0.10) 0%, transparent 40%),
     radial-gradient(circle at 80% 90%, rgba(249,168,212,0.05) 0%, transparent 40%),
-    linear-gradient(135deg, var(--hana-canvas) 0%, rgba(92,84,232,0.05) 50%, rgba(249,168,212,0.03) 100%) !important;
+    linear-gradient(135deg, transparent 0%, rgba(92,84,232,0.05) 50%, rgba(249,168,212,0.03) 100%) !important;
 }
 #profile-screen .rounded-squircle {
   border-radius: 2rem;
@@ -2048,10 +2051,11 @@ body:not(.mode-jalur) #dashboard-screen {
 /* === 5. DARK MODE SETTINGS SCREEN === */
 .dark #settings-screen,
 [data-theme="dark"] #settings-screen {
-  background: 
+  background-color: var(--hana-canvas) !important;
+  background-image: 
     radial-gradient(circle at 20% 10%, rgba(92,84,232,0.12) 0%, transparent 40%),
     radial-gradient(circle at 80% 90%, rgba(249,168,212,0.06) 0%, transparent 40%),
-    linear-gradient(135deg, var(--hana-canvas) 0%, rgba(92,84,232,0.06) 50%, rgba(249,168,212,0.04) 100%) !important;
+    linear-gradient(135deg, transparent 0%, rgba(92,84,232,0.06) 50%, rgba(249,168,212,0.04) 100%) !important;
 }
 .dark #settings-screen section.bg-\[var\(--hana-surface\)\],
 [data-theme="dark"] #settings-screen section.bg-\[var\(--hana-surface\)\],

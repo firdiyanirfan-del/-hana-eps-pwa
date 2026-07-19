@@ -5,6 +5,44 @@ const app = {
   data: null,
   // 🟢 KODE BARU DIMASUKKAN DI SINI (SANGAT AMAN)
 
+  // Stitch Settings: metode baru
+  openFeedbackForm() {
+    this.feedbackCategory = 'saran';
+    const title = document.getElementById('feedback-title');
+    const msg = document.getElementById('feedback-message');
+    if (title) title.textContent = 'Saran & Masukan';
+    if (msg) { msg.placeholder = 'Tulis saran atau masukan Anda untuk pengembangan aplikasi...'; msg.value = ''; }
+    const screen = document.getElementById('screen-feedback');
+    if (screen) screen.classList.remove('hidden');
+  },
+  reportBug() {
+    this.feedbackCategory = 'bug';
+    const title = document.getElementById('feedback-title');
+    const msg = document.getElementById('feedback-message');
+    if (title) title.textContent = 'Laporkan Bug / Error';
+    if (msg) { msg.placeholder = 'Jelaskan langkah-langkah munculnya bug...'; msg.value = ''; }
+    const screen = document.getElementById('screen-feedback');
+    if (screen) screen.classList.remove('hidden');
+  },
+  shareApp() {
+    if (navigator.share) navigator.share({ url: 'https://hana-eps-pwa.onrender.com' });
+    else if (typeof showToast === 'function') showToast('Salin tautan: https://hana-eps-pwa.onrender.com', 'info');
+  },
+  rateApp() {
+    if (navigator.share) navigator.share({ title: 'EPS-TOPIK Hana', text: 'Ayo belajar bahasa Korea untuk EPS-TOPIK!', url: 'https://hana-eps-pwa.onrender.com' });
+    else if (typeof showToast === 'function') showToast('Terima kasih atas dukungan Anda!', 'success');
+  },
+  openPrivacy() { window.open('privacy.html', '_blank'); },
+  openTerms() { window.open('terms.html', '_blank'); },
+  toggleDanger() {
+    const content = document.getElementById('danger-content');
+    const chevron = document.getElementById('danger-chevron');
+    if (!content) return;
+    const isOpen = content.classList.contains('open');
+    content.classList.toggle('open');
+    if (chevron) chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+  },
+
   // === Backend sync & auth ===
   _backendUrl: window.location.origin,
   _token: localStorage.getItem('eps_token'),
@@ -1140,68 +1178,13 @@ const app = {
       }
     }
   },
-  previewFont(fontName, btnElement) {
-    const previewBox = document.getElementById('settings-preview-box');
-    if (!previewBox) return;
-
-    previewBox.classList.remove('font-pretendard', 'font-notosans', 'font-gmarket');
-    previewBox.classList.add(`font-${fontName}`);
-
-    const picker = document.getElementById('font-family-picker');
-    if (picker) {
-      picker.querySelectorAll('button').forEach(btn => {
-        btn.classList.remove('font-btn-selected');
-        btn.classList.add('font-btn-default');
-      });
-      if (btnElement) {
-        btnElement.classList.remove('font-btn-default');
-        btnElement.classList.add('font-btn-selected');
-      }
-    }
-  },
   previewFontSize(size) {
-    const previewBox = document.getElementById('settings-preview-box');
     const label = document.getElementById('font-size-label');
-    if (!previewBox) return;
-
-    // Apply size to preview only
-    previewBox.style.fontSize = size + 'px';
+    const preview = document.getElementById('font-preview');
     if (label) label.textContent = size + 'px';
-  },
-  applyFontSettings() {
-    // Get current selections
-    const slider = document.getElementById('font-size-slider');
-    const previewBox = document.getElementById('settings-preview-box');
-
-    // Get font size
-    const fontSize = slider ? parseInt(slider.value) : (this.data.fontSize || 16);
-
-    // Get selected font from preview's class
-    let fontFamily = this.data.fontFamily || 'font-pretendard';
-    if (previewBox) {
-      if (previewBox.classList.contains('font-pretendard')) fontFamily = 'font-pretendard';
-      else if (previewBox.classList.contains('font-notosans')) fontFamily = 'font-notosans';
-      else if (previewBox.classList.contains('font-gmarket')) fontFamily = 'font-gmarket';
-    }
-
-    // Apply globally via CSS variables
-    document.documentElement.style.setProperty('--app-global-font', fontFamily);
-    document.documentElement.style.setProperty('--app-global-size', fontSize + 'px');
-    document.documentElement.style.setProperty('--q-font-size', fontSize + 'px');
-
-    // Set font family on root
-    document.documentElement.classList.remove('font-pretendard', 'font-notosans', 'font-gmarket');
-    document.documentElement.classList.add(fontFamily);
-
-    // Save to storage
-    this.data.fontFamily = fontFamily;
-    this.data.fontSize = fontSize;
+    if (preview) preview.style.fontSize = size + 'px';
+    this.data.fontSize = parseInt(size);
     Storage.set(this.data);
-
-    // Show success feedback
-    if (typeof showToast === 'function') {
-      showToast('Pengaturan font berhasil disimpan! ✨', 'success');
-    }
   },
   setupInternalFeedback() {
     this.feedbackCategory = 'saran';
@@ -1221,10 +1204,12 @@ const app = {
       document.getElementById('screen-feedback').classList.remove('hidden');
     };
 
-    document.getElementById('btn-saran').addEventListener('click', () => openFeedback('saran'));
+    const btnSaran = document.getElementById('btn-saran');
+    if (btnSaran) btnSaran.addEventListener('click', () => openFeedback('saran'));
     const btnDukungan = document.getElementById('btn-dukungan');
     if (btnDukungan) btnDukungan.addEventListener('click', () => openFeedback('dukungan'));
-    document.getElementById('btn-bug').addEventListener('click', () => openFeedback('bug'));
+    const btnBug = document.getElementById('btn-bug');
+    if (btnBug) btnBug.addEventListener('click', () => openFeedback('bug'));
 
     document.getElementById('btn-back-feedback').addEventListener('click', () => {
       document.getElementById('screen-feedback').classList.add('hidden');
@@ -1274,12 +1259,6 @@ const app = {
         btnText.textContent = 'Kirim Sekarang';
       }
     });
-  },
-  setFontFamily(font) {
-    document.documentElement.classList.remove('font-pretendard', 'font-notosans', 'font-gmarket');
-    document.documentElement.classList.add(`font-${font}`);
-    this.data.fontFamily = `font-${font}`;
-    Storage.set(this.data);
   },
   changeFontSize(delta) {
     let current = this.data.fontSize || 16;
@@ -1465,18 +1444,14 @@ const app = {
       }
     }
 
-    // Sync font button state
-    const savedFont = this.data.fontFamily || 'font-pretendard';
-    const fontMap = { 'font-pretendard': 'font-btn-pretendard', 'font-notosans': 'font-btn-notosans', 'font-gmarket': 'font-btn-gmarket' };
-    const activeBtn = document.getElementById(fontMap[savedFont]);
-    if (activeBtn) this.previewFont(savedFont.replace('font-', ''), activeBtn);
-
-    // Restore font size slider
+    // Restore font size slider & preview
     const sizeSlider = document.getElementById('font-size-slider');
     const sizeLabel = document.getElementById('font-size-label');
+    const fontPreview = document.getElementById('font-preview');
     const savedSize = this.data.fontSize || 16;
     if (sizeSlider) sizeSlider.value = savedSize;
     if (sizeLabel) sizeLabel.textContent = savedSize + 'px';
+    if (fontPreview) fontPreview.style.fontSize = savedSize + 'px';
 
     const examEl = document.getElementById('settings-exam-text');
     if (examEl) {

@@ -358,14 +358,16 @@ const app = {
   },
   startChapterQuiz(levelNum) {
     const ch = this.state.currentChapter || 6;
-    let finalQuestions = this.getFilteredChapterQuizPool(ch, levelNum);
-    if (finalQuestions.length === 0) {
+    let pool = this.getFilteredChapterQuizPool(ch, levelNum);
+    if (pool.length === 0) {
       alert(`Maaf, bank data soal untuk Bab ${ch} tingkat level ini sedang dipersiapkan.`);
       return;
     }
-    finalQuestions = this.shuffle(finalQuestions);
-    let qCount = Math.min(finalQuestions.length, 15);
-    finalQuestions = finalQuestions.slice(0, qCount);
+    pool = this.shuffle(pool);
+    let qCount = Math.min(pool.length, 15);
+    pool = pool.slice(0, qCount);
+    let readingQ = pool.filter(q => !(q.id && q.id.startsWith('l_')));
+    let listeningQ = pool.filter(q => q.id && q.id.startsWith('l_'));
     this.state.currentMisi = levelNum;
     closeModal('modal-mission');
     closeModal('modal-chapter-selector');
@@ -375,7 +377,7 @@ const app = {
     this.state.mode = 'chapter';
     const totalSeconds = this.state.isUnlimitedTimer ? 86400 : (this.state.selectedDuration || 900);
     this.toggleImmersiveMode(true);
-    this.setupQuizEngine(finalQuestions, [], `Kuis Bab ${ch}`, totalSeconds, finalQuestions.length);
+    this.setupQuizEngine(readingQ, listeningQ, `Kuis Bab ${ch}`, totalSeconds, qCount);
   },
   setQuizDuration(seconds) {
     this.state.selectedDuration = seconds;

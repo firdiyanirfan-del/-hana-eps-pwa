@@ -4592,6 +4592,21 @@ window.showSandboxBuilder = function() {
             <input type="number" id="sb-range-end" value="10" min="6" max="60" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-sm focus:border-[#6C63FF] focus:outline-none transition-colors">
           </div>
         </div>
+
+        <div>
+          <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1">Mode Soal</label>
+          <div class="flex gap-1.5">
+            <label class="flex-1 flex items-center justify-center gap-1 px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-[11px] cursor-pointer has-[:checked]:border-[#6C63FF] has-[:checked]:bg-indigo-50 dark:has-[:checked]:bg-indigo-950/30 transition-colors">
+              <input type="radio" name="sb-mode" value="mixed" checked class="accent-[#6C63FF]"> Campur
+            </label>
+            <label class="flex-1 flex items-center justify-center gap-1 px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-[11px] cursor-pointer has-[:checked]:border-[#6C63FF] has-[:checked]:bg-indigo-50 dark:has-[:checked]:bg-indigo-950/30 transition-colors">
+              <input type="radio" name="sb-mode" value="reading" class="accent-[#6C63FF]"> Reading
+            </label>
+            <label class="flex-1 flex items-center justify-center gap-1 px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-[11px] cursor-pointer has-[:checked]:border-[#6C63FF] has-[:checked]:bg-indigo-50 dark:has-[:checked]:bg-indigo-950/30 transition-colors">
+              <input type="radio" name="sb-mode" value="listening" class="accent-[#6C63FF]"> Listening
+            </label>
+          </div>
+        </div>
       </div>
       
       <button id="btn-start-sandbox" class="w-full py-3.5 bg-gradient-to-r from-[#6C63FF] to-[#5145E5] text-white font-black rounded-xl text-xs uppercase tracking-widest active:scale-95 transition-all shadow-lg shadow-indigo-500/20 flex justify-center items-center gap-2">
@@ -4691,28 +4706,39 @@ window.showSandboxBuilder = function() {
       return;
     }
 
-    // Split kategori soal untuk formula berimbang 50:50
-    let readingPool = app.shuffle(allPool.filter(q => q.type !== 'listening'));
-    let listeningPool = app.shuffle(allPool.filter(q => q.type === 'listening'));
+    // Filter berdasarkan mode soal
+    const mode = document.querySelector('input[name="sb-mode"]:checked')?.value || 'mixed';
+    if (mode === 'reading') {
+      allPool = allPool.filter(q => !q.id || !q.id.startsWith('l_'));
+    } else if (mode === 'listening') {
+      allPool = allPool.filter(q => q.id && q.id.startsWith('l_'));
+    }
 
-    if (readingPool.length === 0) readingPool = [...allPool];
-    if (listeningPool.length === 0) listeningPool = [...allPool];
+    // Split pool
+    let readingPool = app.shuffle(allPool.filter(q => !q.id || !q.id.startsWith('l_')));
+    let listeningPool = app.shuffle(allPool.filter(q => q.id && q.id.startsWith('l_')));
 
     // 2. FORMULA PERAKITAN AMAN (DIBATASI PANJANG ARRAY NATIF - ANTI STUCK)
     let finalQuestions = [];
-    const half = Math.ceil(qCount / 2);
 
-    // Isi slot reading seadanya stok
-    for (let i = 0; i < half; i++) {
-      if (readingPool[i]) finalQuestions.push(readingPool[i]);
-    }
-    
-    // Penuhi slot sisa dari listening pool
-    for (let i = 0; i < listeningPool.length; i++) {
-      if (finalQuestions.length >= qCount) break;
-      if (listeningPool[i] && !finalQuestions.some(fq => fq.id === listeningPool[i].id)) {
-        finalQuestions.push(listeningPool[i]);
+    if (mode === 'mixed') {
+      // 50:50 Mixed
+      if (readingPool.length === 0) readingPool = [...allPool];
+      if (listeningPool.length === 0) listeningPool = [...allPool];
+      const half = Math.ceil(qCount / 2);
+      for (let i = 0; i < half; i++) {
+        if (readingPool[i]) finalQuestions.push(readingPool[i]);
       }
+      for (let i = 0; i < listeningPool.length; i++) {
+        if (finalQuestions.length >= qCount) break;
+        if (listeningPool[i] && !finalQuestions.some(fq => fq.id === listeningPool[i].id)) {
+          finalQuestions.push(listeningPool[i]);
+        }
+      }
+    } else {
+      // Single mode: reading-only / listening-only
+      let pool = mode === 'reading' ? readingPool : listeningPool;
+      finalQuestions = pool.slice(0, qCount);
     }
 
     // Jika total kuota masih kurang karena stok bank sedikit, penuhi dari sisa allPool secara linier

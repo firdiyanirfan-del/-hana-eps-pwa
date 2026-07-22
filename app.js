@@ -4538,105 +4538,182 @@ window.showConfirmExit = function(exitCallback, type = 'game') {
 // 🔬 ULTRA-SAFE HANA CUSTOM SIMULATOR ENGINE (ANTI-INFINITE LOOP)
 // ============================================================
 window.showSandboxBuilder = function() {
-  // Cegah duplikasi modal di layar
   const oldModal = document.getElementById('hana-sandbox-modal');
   if (oldModal) oldModal.remove();
 
   const modal = document.createElement('div');
   modal.id = 'hana-sandbox-modal';
-  modal.className = "fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200";
-  modal.style.zIndex = "9999999";
+  modal.className = "fixed inset-0 z-[9999999] bg-[#F6F5F2] dark:bg-[#141313] overflow-y-auto";
 
   modal.innerHTML = `
-    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[32px] p-6 w-full max-w-sm shadow-2xl flex flex-col text-slate-800 dark:text-white max-h-[90dvh] overflow-y-auto custom-scrollbar">
-      <div class="flex justify-between items-center mb-3">
-        <h3 class="text-base font-black tracking-tight">🔬 HANA Custom Lab</h3>
-        <button id="btn-close-sandbox" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center font-bold hover:bg-rose-100 dark:hover:bg-rose-950 text-slate-400 hover:text-rose-500 transition-colors">✕</button>
+    <header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-[#302f39]/80 backdrop-blur-xl border-b border-white/20 dark:border-white/10 shadow-sm px-5 h-20 flex flex-col justify-center">
+      <div class="flex items-center justify-between w-full">
+        <div class="flex items-center gap-3">
+          <button id="btn-back-sandbox" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#f0ecf9] dark:hover:bg-[#e4e1ed]/10 transition-colors active:scale-90">
+            <span class="material-symbols-outlined text-[#4337cf] dark:text-[#e2dfff]">arrow_back</span>
+          </button>
+          <div>
+            <div class="flex items-center gap-1">
+              <h1 class="text-[20px] font-black text-[#1b1b23] dark:text-[#f3effc] leading-tight">HANA Kustom Lab</h1>
+              <span class="material-symbols-outlined text-[20px] text-[#4337cf] dark:text-[#e2dfff]">science</span>
+            </div>
+            <p class="text-[14px] text-[#464555] dark:text-[#c7c4d7] opacity-70">Rakit simulasi kustom UBT Anda</p>
+          </div>
+        </div>
       </div>
-      
-      <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium mb-4 leading-relaxed">Rakit simulasi kustom UBT Anda. Bebas tentukan batas kemampuan kompetensi Anda hari ini.</p>
-      
-      <div class="flex flex-col gap-3.5 mb-5">
-        <div>
-          <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1">Jumlah Soal</label>
-          <input type="number" id="sb-count" value="10" min="1" max="50" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-sm focus:border-[#6C63FF] focus:outline-none transition-colors">
+    </header>
+
+    <main class="pt-24 pb-40 px-5 space-y-4">
+
+      <section class="bg-white dark:bg-[#1C1B1A] border border-[#E5E3DE] dark:border-[#2E2C2A] rounded-2xl p-4 shadow-[0px_8px_20px_rgba(92,84,232,0.04)]">
+        <label class="block text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-2">JUMLAH SOAL</label>
+        <div class="flex items-center justify-between bg-[#f6f2fe] dark:bg-[#e4e1ed]/10 rounded-xl p-2">
+          <button data-target="q-count" data-dir="decrement" class="stepper-btn w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-[#302f39] shadow-sm border border-[#c7c4d7]/30 active:scale-90 transition-transform">
+            <span class="material-symbols-outlined text-[#4337cf] dark:text-[#e2dfff]">remove</span>
+          </button>
+          <input type="number" id="q-count" value="10" min="1" max="50" class="bg-transparent border-none text-center text-[24px] font-black text-[#4337cf] dark:text-[#e2dfff] focus:ring-0 w-24">
+          <button data-target="q-count" data-dir="increment" class="stepper-btn w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-[#302f39] shadow-sm border border-[#c7c4d7]/30 active:scale-90 transition-transform">
+            <span class="material-symbols-outlined text-[#4337cf] dark:text-[#e2dfff]">add</span>
+          </button>
         </div>
-        
-        <div>
-          <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1">Durasi Waktu (Menit)</label>
-          <input type="number" id="sb-time" value="15" min="1" max="120" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-sm focus:border-[#6C63FF] focus:outline-none transition-colors">
+        <p class="text-xs text-[#464555] dark:text-[#c7c4d7] mt-2 px-1 italic">Rentang: 1 - 50 soal</p>
+      </section>
+
+      <section class="bg-white dark:bg-[#1C1B1A] border border-[#E5E3DE] dark:border-[#2E2C2A] rounded-2xl p-4 shadow-[0px_8px_20px_rgba(92,84,232,0.04)]">
+        <label class="block text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-2">DURASI WAKTU (MENIT)</label>
+        <div class="flex items-center justify-between bg-[#f6f2fe] dark:bg-[#e4e1ed]/10 rounded-xl p-2">
+          <button data-target="time-count" data-dir="decrement" class="stepper-btn w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-[#302f39] shadow-sm border border-[#c7c4d7]/30 active:scale-90 transition-transform">
+            <span class="material-symbols-outlined text-[#4337cf] dark:text-[#e2dfff]">remove</span>
+          </button>
+          <input type="number" id="time-count" value="15" min="1" max="120" class="bg-transparent border-none text-center text-[24px] font-black text-[#4337cf] dark:text-[#e2dfff] focus:ring-0 w-24">
+          <button data-target="time-count" data-dir="increment" class="stepper-btn w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-[#302f39] shadow-sm border border-[#c7c4d7]/30 active:scale-90 transition-transform">
+            <span class="material-symbols-outlined text-[#4337cf] dark:text-[#e2dfff]">add</span>
+          </button>
         </div>
-        
-        <div>
-          <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1">Cakupan Klaster Bab</label>
-          <select id="sb-scope" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs focus:border-[#6C63FF] focus:outline-none transition-colors">
+      </section>
+
+      <section class="bg-white dark:bg-[#1C1B1A] border border-[#E5E3DE] dark:border-[#2E2C2A] rounded-2xl p-4 shadow-[0px_8px_20px_rgba(92,84,232,0.04)]">
+        <label class="block text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-2">CAKUPAN KLASTER BAB</label>
+        <div class="relative">
+          <select id="sb-scope" class="w-full bg-[#f6f2fe] dark:bg-[#e4e1ed]/10 border-none rounded-xl py-3 px-4 text-[16px] text-[#1b1b23] dark:text-[#fcf8ff] focus:ring-2 focus:ring-[#4337cf] appearance-none">
             <option value="all">Semua Bab (Acak Total Bank)</option>
-            <option value="dasar">Teori Dasar (Bab 6 - 12)</option>
-            <option value="industri">Lingkungan Kerja (Bab 13 - 20)</option>
-            <option value="budaya">Budaya & Keselamatan (Bab 21 - 28)</option>
-            <option value="layanan">Layanan & Etika (Bab 29 - 36)</option>
-            <option value="fasilitas">Fasilitas & Operasional (Bab 37 - 44)</option>
-            <option value="sektor">Sektor & Regulasi (Bab 45 - 52)</option>
-            <option value="dokumen">Dokumen & Kepatuhan (Bab 53 - 60)</option>
-            <option value="manual">Pilih Manual (Bab 6 - 60)</option>
+            <option value="dasar">Teori Dasar (Bab 6-12)</option>
+            <option value="industri">Lingkungan Kerja (Bab 13-20)</option>
+            <option value="budaya">Budaya & Keselamatan (Bab 21-28)</option>
+            <option value="layanan">Layanan & Etika (Bab 29-36)</option>
+            <option value="fasilitas">Fasilitas & Operasional (Bab 37-44)</option>
+            <option value="sektor">Sektor & Regulasi (Bab 45-52)</option>
+            <option value="dokumen">Dokumen & Kepatuhan (Bab 53-60)</option>
+            <option value="manual">Pilih Manual (Bab 6-60)</option>
           </select>
+          <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#464555] dark:text-[#c7c4d7]">expand_more</span>
         </div>
 
-        <div id="sb-manual-range" class="hidden flex gap-2">
-          <div class="flex-1">
-            <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1">Dari Bab</label>
-            <input type="number" id="sb-range-start" value="6" min="6" max="60" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-sm focus:border-[#6C63FF] focus:outline-none transition-colors">
+        <div id="manual-inputs" class="hidden mt-4 grid grid-cols-2 gap-2 pt-4 border-t border-[#c7c4d7]/30">
+          <div>
+            <label class="text-[10px] font-bold text-[#464555] dark:text-[#c7c4d7]">DARI BAB</label>
+            <input type="number" id="sb-range-start" value="6" min="6" max="60" class="w-full bg-[#f6f2fe] dark:bg-[#e4e1ed]/10 border-none rounded-lg p-2 focus:ring-[#4337cf]">
           </div>
-          <div class="flex-1">
-            <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1">Sampai Bab</label>
-            <input type="number" id="sb-range-end" value="10" min="6" max="60" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-sm focus:border-[#6C63FF] focus:outline-none transition-colors">
+          <div>
+            <label class="text-[10px] font-bold text-[#464555] dark:text-[#c7c4d7]">SAMPAI BAB</label>
+            <input type="number" id="sb-range-end" value="10" min="6" max="60" class="w-full bg-[#f6f2fe] dark:bg-[#e4e1ed]/10 border-none rounded-lg p-2 focus:ring-[#4337cf]">
           </div>
         </div>
+      </section>
 
-        <div>
-          <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1">Mode Soal</label>
-          <div class="flex gap-1.5">
-            <label class="flex-1 flex items-center justify-center gap-1 px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-[11px] cursor-pointer has-[:checked]:border-[#6C63FF] has-[:checked]:bg-indigo-50 dark:has-[:checked]:bg-indigo-950/30 transition-colors">
-              <input type="radio" name="sb-mode" value="mixed" checked class="accent-[#6C63FF]"> Campur
-            </label>
-            <label class="flex-1 flex items-center justify-center gap-1 px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-[11px] cursor-pointer has-[:checked]:border-[#6C63FF] has-[:checked]:bg-indigo-50 dark:has-[:checked]:bg-indigo-950/30 transition-colors">
-              <input type="radio" name="sb-mode" value="reading" class="accent-[#6C63FF]"> Reading
-            </label>
-            <label class="flex-1 flex items-center justify-center gap-1 px-3 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-[11px] cursor-pointer has-[:checked]:border-[#6C63FF] has-[:checked]:bg-indigo-50 dark:has-[:checked]:bg-indigo-950/30 transition-colors">
-              <input type="radio" name="sb-mode" value="listening" class="accent-[#6C63FF]"> Listening
-            </label>
-          </div>
+      <section class="bg-white dark:bg-[#1C1B1A] border border-[#E5E3DE] dark:border-[#2E2C2A] rounded-2xl p-4 shadow-[0px_8px_20px_rgba(92,84,232,0.04)]">
+        <label class="block text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-2">MODE SOAL</label>
+        <div class="flex bg-[#f6f2fe] dark:bg-[#e4e1ed]/10 p-1 rounded-full">
+          <button data-value="mixed" class="mode-btn flex-1 py-2 text-[14px] font-bold text-white bg-[#5c54e8] rounded-full transition-all duration-300">Campur</button>
+          <button data-value="reading" class="mode-btn flex-1 py-2 text-[14px] font-bold text-[#464555] dark:text-[#c7c4d7] transition-all duration-300">Reading</button>
+          <button data-value="listening" class="mode-btn flex-1 py-2 text-[14px] font-bold text-[#464555] dark:text-[#c7c4d7] transition-all duration-300">Listening</button>
         </div>
+      </section>
 
-        <div>
-          <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1">Level Kesulitan</label>
-          <select id="sb-level" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs focus:border-[#6C63FF] focus:outline-none transition-colors">
-            <option value="all">Semua Level</option>
-            <option value="beginner">Beginner (Dasar)</option>
-            <option value="normal">Normal (Menengah)</option>
-            <option value="pro">Pro (Lanjutan)</option>
-          </select>
+      <section class="bg-white dark:bg-[#1C1B1A] border border-[#E5E3DE] dark:border-[#2E2C2A] rounded-2xl p-4 shadow-[0px_8px_20px_rgba(92,84,232,0.04)]">
+        <label class="block text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-2">LEVEL KESULITAN</label>
+        <div class="grid grid-cols-2 gap-2">
+          <button data-value="all" class="level-btn flex items-center gap-2 p-3 rounded-xl border-2 border-[#4337cf] bg-[#4337cf]/5 transition-all text-left">
+            <span class="material-symbols-outlined text-[18px] text-[#464555] dark:text-[#c7c4d7]">layers</span>
+            <span class="text-[14px] font-bold">Semua Level</span>
+          </button>
+          <button data-value="beginner" class="level-btn flex items-center gap-2 p-3 rounded-xl border border-[#c7c4d7]/30 bg-[#f6f2fe]/50 dark:bg-[#e4e1ed]/5 transition-all text-left">
+            <span class="material-symbols-outlined text-[18px] text-green-500">verified</span>
+            <span class="text-[14px] font-medium">mudah</span>
+          </button>
+          <button data-value="normal" class="level-btn flex items-center gap-2 p-3 rounded-xl border border-[#c7c4d7]/30 bg-[#f6f2fe]/50 dark:bg-[#e4e1ed]/5 transition-all text-left">
+            <span class="material-symbols-outlined text-[18px] text-blue-500">bolt</span>
+            <span class="text-[14px] font-medium">Normal</span>
+          </button>
+          <button data-value="pro" class="level-btn flex items-center gap-2 p-3 rounded-xl border border-[#c7c4d7]/30 bg-[#f6f2fe]/50 dark:bg-[#e4e1ed]/5 transition-all text-left">
+            <span class="material-symbols-outlined text-[18px] text-amber-500">local_fire_department</span>
+            <span class="text-[14px] font-medium">sulit</span>
+          </button>
         </div>
-      </div>
-      
-      <button id="btn-start-sandbox" class="w-full py-3.5 bg-gradient-to-r from-[#6C63FF] to-[#5145E5] text-white font-black rounded-xl text-xs uppercase tracking-widest active:scale-95 transition-all shadow-lg shadow-indigo-500/20 flex justify-center items-center gap-2">
-        🚀 Mulai Simulasi Kustom
+      </section>
+
+    </main>
+
+    <div class="fixed bottom-0 w-full px-5 pb-8 pt-4 bg-gradient-to-t from-[#F6F5F2] via-[#F6F5F2]/95 to-transparent dark:from-[#141313] dark:via-[#141313]/95">
+      <button id="btn-start-sandbox" class="w-full bg-gradient-to-r from-[#6C63FF] to-[#5145E5] text-white text-[20px] font-black py-4 rounded-2xl shadow-[0px_8px_20px_rgba(92,84,232,0.25)] active:scale-95 transition-all">
+        MULAI SIMULASI KUSTOM
       </button>
+      <p class="text-center text-[11px] text-[#464555] dark:text-[#c7c4d7]/60 mt-3 font-medium">
+        Bebas tentukan batas kemampuan kompetensi Anda hari ini.
+      </p>
     </div>
   `;
 
   document.body.appendChild(modal);
-  document.getElementById('btn-close-sandbox').onclick = () => modal.remove();
 
-  // Toggle manual range inputs
+  document.getElementById('btn-back-sandbox').onclick = () => modal.remove();
+
+  document.querySelectorAll('.stepper-btn').forEach(btn => {
+    btn.onclick = () => {
+      const input = document.getElementById(btn.dataset.target);
+      if (!input) return;
+      const val = parseInt(input.value);
+      const min = parseInt(input.min);
+      const max = parseInt(input.max);
+      if (btn.dataset.dir === 'increment' && val < max) input.value = val + 1;
+      if (btn.dataset.dir === 'decrement' && val > min) input.value = val - 1;
+    };
+  });
+
   document.getElementById('sb-scope').onchange = function() {
-    const manual = document.getElementById('sb-manual-range');
+    const manual = document.getElementById('manual-inputs');
     manual.classList.toggle('hidden', this.value !== 'manual');
   };
 
+  document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll('.mode-btn').forEach(b => {
+        b.classList.remove('bg-[#5c54e8]', 'text-white');
+        b.classList.add('text-[#464555]', 'dark:text-[#c7c4d7]');
+      });
+      btn.classList.add('bg-[#5c54e8]', 'text-white');
+      btn.classList.remove('text-[#464555]', 'dark:text-[#c7c4d7]');
+    };
+  });
+
+  document.querySelectorAll('.level-btn').forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll('.level-btn').forEach(b => {
+        b.classList.remove('border-[#4337cf]', 'bg-[#4337cf]/5');
+        b.classList.add('border-[#c7c4d7]/30', 'bg-[#f6f2fe]/50', 'dark:bg-[#e4e1ed]/5');
+        const span = b.querySelector('span:last-child');
+        if (span) { span.classList.remove('font-bold'); span.classList.add('font-medium'); }
+      });
+      btn.classList.add('border-[#4337cf]', 'bg-[#4337cf]/5');
+      btn.classList.remove('border-[#c7c4d7]/30', 'bg-[#f6f2fe]/50', 'dark:bg-[#e4e1ed]/5');
+      const span = btn.querySelector('span:last-child');
+      if (span) { span.classList.add('font-bold'); span.classList.remove('font-medium'); }
+    };
+  });
+
   document.getElementById('btn-start-sandbox').onclick = function() {
-    let qCount = parseInt(document.getElementById('sb-count').value) || 10;
-    let durationMinutes = parseInt(document.getElementById('sb-time').value) || 15;
+    let qCount = parseInt(document.getElementById('q-count').value) || 10;
+    let durationMinutes = parseInt(document.getElementById('time-count').value) || 15;
     let scope = document.getElementById('sb-scope').value;
 
     if (qCount < 1) qCount = 1;
@@ -4644,7 +4721,8 @@ window.showSandboxBuilder = function() {
     // 1. Ekstraksi bank data soal secara aman
     let allPool = [];
     if (window.Bank) {
-      const selectedLevel = document.getElementById('sb-level').value;
+      const activeLevel = document.querySelector('.level-btn.border-\\[\\#4337cf\\]');
+      const selectedLevel = activeLevel ? activeLevel.dataset.value : 'all';
       const levels = selectedLevel === 'all' ? ['beginner', 'normal', 'pro'] : [selectedLevel];
       levels.forEach(lvl => {
         if (window.Bank[lvl]) {
@@ -4693,12 +4771,10 @@ window.showSandboxBuilder = function() {
         if (start > end) [start, end] = [end, start];
 
         const filtered = filterByChapterRange(allPool, start, end);
-        // Jika tidak ada soal dengan ch, fallback ke semua soal (cluster 6-28 tidak punya ch)
         allPool = filtered.length > 0 ? filtered : allPool;
       } else {
         const range = rangeMap[scope];
         if (range) {
-          // Cluster 6-28: data beginner tidak punya ch, jadi fallback ke allPool
           if (range[0] >= 29) {
             allPool = filterByChapterRange(allPool, range[0], range[1]);
           } else {
@@ -4719,7 +4795,8 @@ window.showSandboxBuilder = function() {
     }
 
     // Filter berdasarkan mode soal
-    const mode = document.querySelector('input[name="sb-mode"]:checked')?.value || 'mixed';
+    const activeMode = document.querySelector('.mode-btn.bg-\\[\\#5c54e8\\]');
+    const mode = activeMode ? activeMode.dataset.value : 'mixed';
     if (mode === 'reading') {
       allPool = allPool.filter(q => !q.id || !q.id.startsWith('l_'));
     } else if (mode === 'listening') {
@@ -4734,7 +4811,6 @@ window.showSandboxBuilder = function() {
     let finalQuestions = [];
 
     if (mode === 'mixed') {
-      // 50:50 Mixed
       if (readingPool.length === 0) readingPool = [...allPool];
       if (listeningPool.length === 0) listeningPool = [...allPool];
       const half = Math.ceil(qCount / 2);
@@ -4748,12 +4824,10 @@ window.showSandboxBuilder = function() {
         }
       }
     } else {
-      // Single mode: reading-only / listening-only
       let pool = mode === 'reading' ? readingPool : listeningPool;
       finalQuestions = pool.slice(0, qCount);
     }
 
-    // Jika total kuota masih kurang karena stok bank sedikit, penuhi dari sisa allPool secara linier
     if (finalQuestions.length < qCount) {
       let remain = app.shuffle([...allPool]);
       for (let i = 0; i < remain.length; i++) {
@@ -4764,17 +4838,13 @@ window.showSandboxBuilder = function() {
       }
     }
 
-    // Pengocokan urutan soal final agar variatif
     finalQuestions = app.shuffle(finalQuestions);
 
-    // Split untuk engine: reading di param 1, listening di param 2
     let sandboxReadingQs = finalQuestions.filter(q => !q.id || !q.id.startsWith('l_'));
     let sandboxListeningQs = finalQuestions.filter(q => q.id && q.id.startsWith('l_'));
 
-    // Hapus modal dari layar
     modal.remove();
 
-    // 3. Konfigurasi State Engine Utama HANA Kuis
     app.state.isSimulasi = true; 
     app.state.isStage = false;
     app.state.isDaily = false;
@@ -4786,7 +4856,6 @@ window.showSandboxBuilder = function() {
       app.toggleImmersiveMode(true);
     }
 
-    // Luncurkan kuis kustom
     app.setupQuizEngine(sandboxReadingQs, sandboxListeningQs, 'Custom Simulator Lab', totalSeconds, finalQuestions.length);
   };
 };

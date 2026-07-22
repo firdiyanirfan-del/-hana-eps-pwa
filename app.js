@@ -4729,6 +4729,10 @@ window.showSandboxBuilder = function() {
     // Pengocokan urutan soal final agar variatif
     finalQuestions = app.shuffle(finalQuestions);
 
+    // Split untuk engine: reading di param 1, listening di param 2
+    let sandboxReadingQs = finalQuestions.filter(q => !q.id || !q.id.startsWith('l_'));
+    let sandboxListeningQs = finalQuestions.filter(q => q.id && q.id.startsWith('l_'));
+
     // Hapus modal dari layar
     modal.remove();
 
@@ -4745,6 +4749,6 @@ window.showSandboxBuilder = function() {
     }
 
     // Luncurkan kuis kustom
-    app.setupQuizEngine(finalQuestions, [], 'Custom Simulator Lab', totalSeconds, finalQuestions.length);
+    app.setupQuizEngine(sandboxReadingQs, sandboxListeningQs, 'Custom Simulator Lab', totalSeconds, finalQuestions.length);
   };
 };

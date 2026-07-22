@@ -4607,6 +4607,16 @@ window.showSandboxBuilder = function() {
             </label>
           </div>
         </div>
+
+        <div>
+          <label class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-1">Level Kesulitan</label>
+          <select id="sb-level" class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-xs focus:border-[#6C63FF] focus:outline-none transition-colors">
+            <option value="all">Semua Level</option>
+            <option value="beginner">Beginner (Dasar)</option>
+            <option value="normal">Normal (Menengah)</option>
+            <option value="pro">Pro (Lanjutan)</option>
+          </select>
+        </div>
       </div>
       
       <button id="btn-start-sandbox" class="w-full py-3.5 bg-gradient-to-r from-[#6C63FF] to-[#5145E5] text-white font-black rounded-xl text-xs uppercase tracking-widest active:scale-95 transition-all shadow-lg shadow-indigo-500/20 flex justify-center items-center gap-2">
@@ -4634,7 +4644,9 @@ window.showSandboxBuilder = function() {
     // 1. Ekstraksi bank data soal secara aman
     let allPool = [];
     if (window.Bank) {
-      ['beginner', 'normal', 'pro'].forEach(lvl => {
+      const selectedLevel = document.getElementById('sb-level').value;
+      const levels = selectedLevel === 'all' ? ['beginner', 'normal', 'pro'] : [selectedLevel];
+      levels.forEach(lvl => {
         if (window.Bank[lvl]) {
           if (window.Bank[lvl].questions) allPool = allPool.concat(window.Bank[lvl].questions);
           if (window.Bank[lvl].reading) allPool = allPool.concat(window.Bank[lvl].reading);

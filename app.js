@@ -4566,7 +4566,7 @@ window.showSandboxBuilder = function() {
     <main class="pt-16 pb-36 px-5 space-y-3">
 
       <section class="bg-white dark:bg-[#1C1B1A] border border-[#E5E3DE] dark:border-[#2E2C2A] rounded-2xl p-3 shadow-[0px_8px_20px_rgba(92,84,232,0.04)]">
-        <label class="block text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-1.5">JUMLAH SOAL</label>
+        <label class="block text-center text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-1.5">JUMLAH SOAL</label>
         <div class="flex items-center justify-between bg-[#f6f2fe] dark:bg-[#e4e1ed]/10 rounded-xl p-1.5">
           <button data-target="q-count" data-dir="decrement" class="stepper-btn w-9 h-9 flex items-center justify-center rounded-lg bg-white dark:bg-[#302f39] shadow-sm border border-[#c7c4d7]/30 active:scale-90 transition-transform">
             <span class="material-symbols-outlined text-[20px] text-[#4337cf] dark:text-[#e2dfff]">remove</span>
@@ -4580,7 +4580,7 @@ window.showSandboxBuilder = function() {
       </section>
 
       <section class="bg-white dark:bg-[#1C1B1A] border border-[#E5E3DE] dark:border-[#2E2C2A] rounded-2xl p-3 shadow-[0px_8px_20px_rgba(92,84,232,0.04)]">
-        <label class="block text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-1.5">DURASI WAKTU (MENIT)</label>
+        <label class="block text-center text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-1.5">DURASI WAKTU (MENIT)</label>
         <div class="flex items-center justify-between bg-[#f6f2fe] dark:bg-[#e4e1ed]/10 rounded-xl p-1.5">
           <button data-target="time-count" data-dir="decrement" class="stepper-btn w-9 h-9 flex items-center justify-center rounded-lg bg-white dark:bg-[#302f39] shadow-sm border border-[#c7c4d7]/30 active:scale-90 transition-transform">
             <span class="material-symbols-outlined text-[20px] text-[#4337cf] dark:text-[#e2dfff]">remove</span>
@@ -4593,20 +4593,24 @@ window.showSandboxBuilder = function() {
       </section>
 
       <section class="bg-white dark:bg-[#1C1B1A] border border-[#E5E3DE] dark:border-[#2E2C2A] rounded-2xl p-3 shadow-[0px_8px_20px_rgba(92,84,232,0.04)]">
-        <label class="block text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-1.5">CAKUPAN KLASTER BAB</label>
+        <label class="block text-center text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-1.5">CAKUPAN KLASTER BAB</label>
         <div class="relative">
-          <select id="sb-scope" class="w-full bg-[#f6f2fe] dark:bg-[#e4e1ed]/10 border-none rounded-xl py-2.5 px-3.5 text-[14px] text-[#1b1b23] dark:text-[#fcf8ff] focus:ring-2 focus:ring-[#4337cf] appearance-none">
-            <option value="all">Semua Bab (Acak Total Bank)</option>
-            <option value="dasar">Teori Dasar (Bab 6-12)</option>
-            <option value="industri">Lingkungan Kerja (Bab 13-20)</option>
-            <option value="budaya">Budaya & Keselamatan (Bab 21-28)</option>
-            <option value="layanan">Layanan & Etika (Bab 29-36)</option>
-            <option value="fasilitas">Fasilitas & Operasional (Bab 37-44)</option>
-            <option value="sektor">Sektor & Regulasi (Bab 45-52)</option>
-            <option value="dokumen">Dokumen & Kepatuhan (Bab 53-60)</option>
-            <option value="manual">Pilih Manual (Bab 6-60)</option>
-          </select>
-          <span class="material-symbols-outlined absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[20px] text-[#464555] dark:text-[#c7c4d7]">expand_more</span>
+          <input type="hidden" id="sb-scope" value="all">
+          <button id="scope-trigger" class="w-full flex items-center justify-between bg-[#f6f2fe] dark:bg-[#e4e1ed]/10 rounded-xl py-2.5 px-3.5 text-[14px] font-medium text-[#1b1b23] dark:text-[#fcf8ff] active:scale-[0.98] transition-all">
+            <span id="scope-label">Semua Bab (Acak Total Bank)</span>
+            <span class="material-symbols-outlined text-[20px] text-[#464555] dark:text-[#c7c4d7]">expand_more</span>
+          </button>
+          <div id="scope-panel" class="hidden absolute top-full left-0 right-0 z-50 mt-1 bg-white dark:bg-[#1C1B1A] border border-[#E5E3DE] dark:border-[#2E2C2A] rounded-xl p-1.5 shadow-lg overflow-hidden">
+            <button data-value="all" class="scope-option w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[12px] font-medium text-left transition-all hover:bg-[#f6f2fe] dark:hover:bg-[#e4e1ed]/10 active:scale-[0.98]">Semua Bab (Acak Total Bank)</button>
+            <button data-value="dasar" class="scope-option w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[12px] font-medium text-left transition-all hover:bg-[#f6f2fe] dark:hover:bg-[#e4e1ed]/10 active:scale-[0.98]">Teori Dasar (Bab 6-12)</button>
+            <button data-value="industri" class="scope-option w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[12px] font-medium text-left transition-all hover:bg-[#f6f2fe] dark:hover:bg-[#e4e1ed]/10 active:scale-[0.98]">Lingkungan Kerja (Bab 13-20)</button>
+            <button data-value="budaya" class="scope-option w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[12px] font-medium text-left transition-all hover:bg-[#f6f2fe] dark:hover:bg-[#e4e1ed]/10 active:scale-[0.98]">Budaya & Keselamatan (Bab 21-28)</button>
+            <button data-value="layanan" class="scope-option w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[12px] font-medium text-left transition-all hover:bg-[#f6f2fe] dark:hover:bg-[#e4e1ed]/10 active:scale-[0.98]">Layanan & Etika (Bab 29-36)</button>
+            <button data-value="fasilitas" class="scope-option w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[12px] font-medium text-left transition-all hover:bg-[#f6f2fe] dark:hover:bg-[#e4e1ed]/10 active:scale-[0.98]">Fasilitas & Operasional (Bab 37-44)</button>
+            <button data-value="sektor" class="scope-option w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[12px] font-medium text-left transition-all hover:bg-[#f6f2fe] dark:hover:bg-[#e4e1ed]/10 active:scale-[0.98]">Sektor & Regulasi (Bab 45-52)</button>
+            <button data-value="dokumen" class="scope-option w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[12px] font-medium text-left transition-all hover:bg-[#f6f2fe] dark:hover:bg-[#e4e1ed]/10 active:scale-[0.98]">Dokumen & Kepatuhan (Bab 53-60)</button>
+            <button data-value="manual" class="scope-option w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[12px] font-medium text-left transition-all hover:bg-[#f6f2fe] dark:hover:bg-[#e4e1ed]/10 active:scale-[0.98]">Pilih Manual (Bab 6-60)</button>
+          </div>
         </div>
 
         <div id="manual-inputs" class="hidden mt-3 grid grid-cols-2 gap-2 pt-3 border-t border-[#c7c4d7]/30">
@@ -4622,7 +4626,7 @@ window.showSandboxBuilder = function() {
       </section>
 
       <section class="bg-white dark:bg-[#1C1B1A] border border-[#E5E3DE] dark:border-[#2E2C2A] rounded-2xl p-3 shadow-[0px_8px_20px_rgba(92,84,232,0.04)]">
-        <label class="block text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-1.5">MODE SOAL</label>
+        <label class="block text-center text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-1.5">MODE SOAL</label>
         <div class="flex gap-1.5">
           <button data-value="mixed" class="mode-btn flex-1 py-1.5 text-[12px] font-bold rounded-xl border-2 transition-all duration-200 active:scale-[0.97]" style="border-color:#5c54e8;color:#5c54e8;background:rgba(92,84,232,0.08)">Campur</button>
           <button data-value="reading" class="mode-btn flex-1 py-1.5 text-[12px] font-bold rounded-xl border-2 transition-all duration-200 active:scale-[0.97]" style="border-color:transparent;color:#65625E;background:transparent">Reading</button>
@@ -4631,7 +4635,7 @@ window.showSandboxBuilder = function() {
       </section>
 
       <section class="bg-white dark:bg-[#1C1B1A] border border-[#E5E3DE] dark:border-[#2E2C2A] rounded-2xl p-3 shadow-[0px_8px_20px_rgba(92,84,232,0.04)]">
-        <label class="block text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-1.5">LEVEL KESULITAN</label>
+        <label class="block text-center text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-1.5">LEVEL KESULITAN</label>
         <div class="grid grid-cols-2 gap-1.5">
           <button data-value="all" class="level-btn flex items-center gap-2 p-2.5 rounded-xl border-2 border-[#4337cf] bg-[#4337cf]/5 transition-all text-left">
             <span class="material-symbols-outlined text-[16px] text-[#464555] dark:text-[#c7c4d7]">layers</span>
@@ -4680,10 +4684,28 @@ window.showSandboxBuilder = function() {
     };
   });
 
-  document.getElementById('sb-scope').onchange = function() {
-    const manual = document.getElementById('manual-inputs');
-    manual.classList.toggle('hidden', this.value !== 'manual');
+  document.getElementById('scope-trigger').onclick = function(e) {
+    e.stopPropagation();
+    document.getElementById('scope-panel').classList.toggle('hidden');
   };
+
+  document.querySelectorAll('.scope-option').forEach(opt => {
+    opt.onclick = function() {
+      document.getElementById('sb-scope').value = this.dataset.value;
+      document.getElementById('scope-label').textContent = this.textContent.trim();
+      document.getElementById('scope-panel').classList.add('hidden');
+      document.getElementById('manual-inputs').classList.toggle('hidden', this.dataset.value !== 'manual');
+    };
+  });
+
+  document.addEventListener('click', function(e) {
+    const panel = document.getElementById('scope-panel');
+    const trigger = document.getElementById('scope-trigger');
+    if (!panel || panel.classList.contains('hidden')) return;
+    if (!panel.contains(e.target) && !trigger.contains(e.target)) {
+      panel.classList.add('hidden');
+    }
+  });
 
   document.querySelectorAll('.mode-btn').forEach(btn => {
     btn.onclick = () => {

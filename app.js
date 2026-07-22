@@ -4546,56 +4546,56 @@ window.showSandboxBuilder = function() {
   modal.className = "fixed inset-0 z-[9999999] bg-[#F6F5F2] dark:bg-[#141313] overflow-y-auto";
 
   modal.innerHTML = `
-    <header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-[#302f39]/80 backdrop-blur-xl border-b border-white/20 dark:border-white/10 shadow-sm px-5 h-20 flex flex-col justify-center">
+    <header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-[#302f39]/80 backdrop-blur-xl border-b border-white/20 dark:border-white/10 shadow-sm px-5 h-14 flex flex-col justify-center">
       <div class="flex items-center justify-between w-full">
-        <div class="flex items-center gap-3">
-          <button id="btn-back-sandbox" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#f0ecf9] dark:hover:bg-[#e4e1ed]/10 transition-colors active:scale-90">
-            <span class="material-symbols-outlined text-[#4337cf] dark:text-[#e2dfff]">arrow_back</span>
+        <div class="flex items-center gap-2.5">
+          <button id="btn-back-sandbox" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-[#f0ecf9] dark:hover:bg-[#e4e1ed]/10 transition-colors active:scale-90">
+            <span class="material-symbols-outlined text-[20px] text-[#4337cf] dark:text-[#e2dfff]">arrow_back</span>
           </button>
           <div>
             <div class="flex items-center gap-1">
-              <h1 class="text-[20px] font-black text-[#1b1b23] dark:text-[#f3effc] leading-tight">HANA Kustom Lab</h1>
-              <span class="material-symbols-outlined text-[20px] text-[#4337cf] dark:text-[#e2dfff]">science</span>
+              <h1 class="text-[16px] font-black text-[#1b1b23] dark:text-[#f3effc] leading-tight">HANA Kustom Lab</h1>
+              <span class="material-symbols-outlined text-[18px] text-[#4337cf] dark:text-[#e2dfff]">science</span>
             </div>
-            <p class="text-[14px] text-[#464555] dark:text-[#c7c4d7] opacity-70">Rakit simulasi kustom UBT Anda</p>
+            <p class="text-[12px] text-[#464555] dark:text-[#c7c4d7] opacity-70">Rakit simulasi kustom UBT Anda</p>
           </div>
         </div>
       </div>
     </header>
 
-    <main class="pt-24 pb-40 px-5 space-y-4">
+    <main class="pt-16 pb-36 px-5 space-y-3">
 
-      <section class="bg-white dark:bg-[#1C1B1A] border border-[#E5E3DE] dark:border-[#2E2C2A] rounded-2xl p-4 shadow-[0px_8px_20px_rgba(92,84,232,0.04)]">
-        <label class="block text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-2">JUMLAH SOAL</label>
-        <div class="flex items-center justify-between bg-[#f6f2fe] dark:bg-[#e4e1ed]/10 rounded-xl p-2">
-          <button data-target="q-count" data-dir="decrement" class="stepper-btn w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-[#302f39] shadow-sm border border-[#c7c4d7]/30 active:scale-90 transition-transform">
-            <span class="material-symbols-outlined text-[#4337cf] dark:text-[#e2dfff]">remove</span>
+      <section class="bg-white dark:bg-[#1C1B1A] border border-[#E5E3DE] dark:border-[#2E2C2A] rounded-2xl p-3 shadow-[0px_8px_20px_rgba(92,84,232,0.04)]">
+        <label class="block text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-1.5">JUMLAH SOAL</label>
+        <div class="flex items-center justify-between bg-[#f6f2fe] dark:bg-[#e4e1ed]/10 rounded-xl p-1.5">
+          <button data-target="q-count" data-dir="decrement" class="stepper-btn w-9 h-9 flex items-center justify-center rounded-lg bg-white dark:bg-[#302f39] shadow-sm border border-[#c7c4d7]/30 active:scale-90 transition-transform">
+            <span class="material-symbols-outlined text-[20px] text-[#4337cf] dark:text-[#e2dfff]">remove</span>
           </button>
-          <input type="number" id="q-count" value="10" min="1" max="50" class="bg-transparent border-none text-center text-[24px] font-black text-[#4337cf] dark:text-[#e2dfff] focus:ring-0 w-24">
-          <button data-target="q-count" data-dir="increment" class="stepper-btn w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-[#302f39] shadow-sm border border-[#c7c4d7]/30 active:scale-90 transition-transform">
-            <span class="material-symbols-outlined text-[#4337cf] dark:text-[#e2dfff]">add</span>
+          <input type="number" id="q-count" value="10" min="1" max="50" class="bg-transparent border-none text-center text-[18px] font-bold text-[#4337cf] dark:text-[#e2dfff] focus:ring-0 w-20">
+          <button data-target="q-count" data-dir="increment" class="stepper-btn w-9 h-9 flex items-center justify-center rounded-lg bg-white dark:bg-[#302f39] shadow-sm border border-[#c7c4d7]/30 active:scale-90 transition-transform">
+            <span class="material-symbols-outlined text-[20px] text-[#4337cf] dark:text-[#e2dfff]">add</span>
           </button>
         </div>
-        <p class="text-xs text-[#464555] dark:text-[#c7c4d7] mt-2 px-1 italic">Rentang: 1 - 50 soal</p>
+        <p class="text-[10px] text-[#464555] dark:text-[#c7c4d7] mt-1.5 px-1 italic">Rentang: 1 - 50 soal</p>
       </section>
 
-      <section class="bg-white dark:bg-[#1C1B1A] border border-[#E5E3DE] dark:border-[#2E2C2A] rounded-2xl p-4 shadow-[0px_8px_20px_rgba(92,84,232,0.04)]">
-        <label class="block text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-2">DURASI WAKTU (MENIT)</label>
-        <div class="flex items-center justify-between bg-[#f6f2fe] dark:bg-[#e4e1ed]/10 rounded-xl p-2">
-          <button data-target="time-count" data-dir="decrement" class="stepper-btn w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-[#302f39] shadow-sm border border-[#c7c4d7]/30 active:scale-90 transition-transform">
-            <span class="material-symbols-outlined text-[#4337cf] dark:text-[#e2dfff]">remove</span>
+      <section class="bg-white dark:bg-[#1C1B1A] border border-[#E5E3DE] dark:border-[#2E2C2A] rounded-2xl p-3 shadow-[0px_8px_20px_rgba(92,84,232,0.04)]">
+        <label class="block text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-1.5">DURASI WAKTU (MENIT)</label>
+        <div class="flex items-center justify-between bg-[#f6f2fe] dark:bg-[#e4e1ed]/10 rounded-xl p-1.5">
+          <button data-target="time-count" data-dir="decrement" class="stepper-btn w-9 h-9 flex items-center justify-center rounded-lg bg-white dark:bg-[#302f39] shadow-sm border border-[#c7c4d7]/30 active:scale-90 transition-transform">
+            <span class="material-symbols-outlined text-[20px] text-[#4337cf] dark:text-[#e2dfff]">remove</span>
           </button>
-          <input type="number" id="time-count" value="15" min="1" max="120" class="bg-transparent border-none text-center text-[24px] font-black text-[#4337cf] dark:text-[#e2dfff] focus:ring-0 w-24">
-          <button data-target="time-count" data-dir="increment" class="stepper-btn w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-[#302f39] shadow-sm border border-[#c7c4d7]/30 active:scale-90 transition-transform">
-            <span class="material-symbols-outlined text-[#4337cf] dark:text-[#e2dfff]">add</span>
+          <input type="number" id="time-count" value="15" min="1" max="120" class="bg-transparent border-none text-center text-[18px] font-bold text-[#4337cf] dark:text-[#e2dfff] focus:ring-0 w-20">
+          <button data-target="time-count" data-dir="increment" class="stepper-btn w-9 h-9 flex items-center justify-center rounded-lg bg-white dark:bg-[#302f39] shadow-sm border border-[#c7c4d7]/30 active:scale-90 transition-transform">
+            <span class="material-symbols-outlined text-[20px] text-[#4337cf] dark:text-[#e2dfff]">add</span>
           </button>
         </div>
       </section>
 
-      <section class="bg-white dark:bg-[#1C1B1A] border border-[#E5E3DE] dark:border-[#2E2C2A] rounded-2xl p-4 shadow-[0px_8px_20px_rgba(92,84,232,0.04)]">
-        <label class="block text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-2">CAKUPAN KLASTER BAB</label>
+      <section class="bg-white dark:bg-[#1C1B1A] border border-[#E5E3DE] dark:border-[#2E2C2A] rounded-2xl p-3 shadow-[0px_8px_20px_rgba(92,84,232,0.04)]">
+        <label class="block text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-1.5">CAKUPAN KLASTER BAB</label>
         <div class="relative">
-          <select id="sb-scope" class="w-full bg-[#f6f2fe] dark:bg-[#e4e1ed]/10 border-none rounded-xl py-3 px-4 text-[16px] text-[#1b1b23] dark:text-[#fcf8ff] focus:ring-2 focus:ring-[#4337cf] appearance-none">
+          <select id="sb-scope" class="w-full bg-[#f6f2fe] dark:bg-[#e4e1ed]/10 border-none rounded-xl py-2.5 px-3.5 text-[14px] text-[#1b1b23] dark:text-[#fcf8ff] focus:ring-2 focus:ring-[#4337cf] appearance-none">
             <option value="all">Semua Bab (Acak Total Bank)</option>
             <option value="dasar">Teori Dasar (Bab 6-12)</option>
             <option value="industri">Lingkungan Kerja (Bab 13-20)</option>
@@ -4606,10 +4606,10 @@ window.showSandboxBuilder = function() {
             <option value="dokumen">Dokumen & Kepatuhan (Bab 53-60)</option>
             <option value="manual">Pilih Manual (Bab 6-60)</option>
           </select>
-          <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#464555] dark:text-[#c7c4d7]">expand_more</span>
+          <span class="material-symbols-outlined absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[20px] text-[#464555] dark:text-[#c7c4d7]">expand_more</span>
         </div>
 
-        <div id="manual-inputs" class="hidden mt-4 grid grid-cols-2 gap-2 pt-4 border-t border-[#c7c4d7]/30">
+        <div id="manual-inputs" class="hidden mt-3 grid grid-cols-2 gap-2 pt-3 border-t border-[#c7c4d7]/30">
           <div>
             <label class="text-[10px] font-bold text-[#464555] dark:text-[#c7c4d7]">DARI BAB</label>
             <input type="number" id="sb-range-start" value="6" min="6" max="60" class="w-full bg-[#f6f2fe] dark:bg-[#e4e1ed]/10 border-none rounded-lg p-2 focus:ring-[#4337cf]">
@@ -4621,44 +4621,44 @@ window.showSandboxBuilder = function() {
         </div>
       </section>
 
-      <section class="bg-white dark:bg-[#1C1B1A] border border-[#E5E3DE] dark:border-[#2E2C2A] rounded-2xl p-4 shadow-[0px_8px_20px_rgba(92,84,232,0.04)]">
-        <label class="block text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-2">MODE SOAL</label>
-        <div class="flex bg-[#f6f2fe] dark:bg-[#e4e1ed]/10 p-1 rounded-full">
-          <button data-value="mixed" class="mode-btn flex-1 py-2 text-[14px] font-bold text-white bg-[#5c54e8] rounded-full transition-all duration-300">Campur</button>
-          <button data-value="reading" class="mode-btn flex-1 py-2 text-[14px] font-bold text-[#464555] dark:text-[#c7c4d7] transition-all duration-300">Reading</button>
-          <button data-value="listening" class="mode-btn flex-1 py-2 text-[14px] font-bold text-[#464555] dark:text-[#c7c4d7] transition-all duration-300">Listening</button>
+      <section class="bg-white dark:bg-[#1C1B1A] border border-[#E5E3DE] dark:border-[#2E2C2A] rounded-2xl p-3 shadow-[0px_8px_20px_rgba(92,84,232,0.04)]">
+        <label class="block text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-1.5">MODE SOAL</label>
+        <div class="flex gap-1.5">
+          <button data-value="mixed" class="mode-btn flex-1 py-1.5 text-[12px] font-bold rounded-xl border-2 transition-all duration-200 active:scale-[0.97]" style="border-color:#5c54e8;color:#5c54e8;background:rgba(92,84,232,0.08)">Campur</button>
+          <button data-value="reading" class="mode-btn flex-1 py-1.5 text-[12px] font-bold rounded-xl border-2 transition-all duration-200 active:scale-[0.97]" style="border-color:transparent;color:#65625E;background:transparent">Reading</button>
+          <button data-value="listening" class="mode-btn flex-1 py-1.5 text-[12px] font-bold rounded-xl border-2 transition-all duration-200 active:scale-[0.97]" style="border-color:transparent;color:#65625E;background:transparent">Listening</button>
         </div>
       </section>
 
-      <section class="bg-white dark:bg-[#1C1B1A] border border-[#E5E3DE] dark:border-[#2E2C2A] rounded-2xl p-4 shadow-[0px_8px_20px_rgba(92,84,232,0.04)]">
-        <label class="block text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-2">LEVEL KESULITAN</label>
-        <div class="grid grid-cols-2 gap-2">
-          <button data-value="all" class="level-btn flex items-center gap-2 p-3 rounded-xl border-2 border-[#4337cf] bg-[#4337cf]/5 transition-all text-left">
-            <span class="material-symbols-outlined text-[18px] text-[#464555] dark:text-[#c7c4d7]">layers</span>
-            <span class="text-[14px] font-bold">Semua Level</span>
+      <section class="bg-white dark:bg-[#1C1B1A] border border-[#E5E3DE] dark:border-[#2E2C2A] rounded-2xl p-3 shadow-[0px_8px_20px_rgba(92,84,232,0.04)]">
+        <label class="block text-[10px] font-black tracking-widest text-[#464555] dark:text-[#c7c4d7] uppercase mb-1.5">LEVEL KESULITAN</label>
+        <div class="grid grid-cols-2 gap-1.5">
+          <button data-value="all" class="level-btn flex items-center gap-2 p-2.5 rounded-xl border-2 border-[#4337cf] bg-[#4337cf]/5 transition-all text-left">
+            <span class="material-symbols-outlined text-[16px] text-[#464555] dark:text-[#c7c4d7]">layers</span>
+            <span class="text-[12px] font-bold">Semua Level</span>
           </button>
-          <button data-value="beginner" class="level-btn flex items-center gap-2 p-3 rounded-xl border border-[#c7c4d7]/30 bg-[#f6f2fe]/50 dark:bg-[#e4e1ed]/5 transition-all text-left">
-            <span class="material-symbols-outlined text-[18px] text-green-500">verified</span>
-            <span class="text-[14px] font-medium">mudah</span>
+          <button data-value="beginner" class="level-btn flex items-center gap-2 p-2.5 rounded-xl border border-[#c7c4d7]/30 bg-[#f6f2fe]/50 dark:bg-[#e4e1ed]/5 transition-all text-left">
+            <span class="material-symbols-outlined text-[16px] text-green-500">verified</span>
+            <span class="text-[12px] font-medium">mudah</span>
           </button>
-          <button data-value="normal" class="level-btn flex items-center gap-2 p-3 rounded-xl border border-[#c7c4d7]/30 bg-[#f6f2fe]/50 dark:bg-[#e4e1ed]/5 transition-all text-left">
-            <span class="material-symbols-outlined text-[18px] text-blue-500">bolt</span>
-            <span class="text-[14px] font-medium">Normal</span>
+          <button data-value="normal" class="level-btn flex items-center gap-2 p-2.5 rounded-xl border border-[#c7c4d7]/30 bg-[#f6f2fe]/50 dark:bg-[#e4e1ed]/5 transition-all text-left">
+            <span class="material-symbols-outlined text-[16px] text-blue-500">bolt</span>
+            <span class="text-[12px] font-medium">Normal</span>
           </button>
-          <button data-value="pro" class="level-btn flex items-center gap-2 p-3 rounded-xl border border-[#c7c4d7]/30 bg-[#f6f2fe]/50 dark:bg-[#e4e1ed]/5 transition-all text-left">
-            <span class="material-symbols-outlined text-[18px] text-amber-500">local_fire_department</span>
-            <span class="text-[14px] font-medium">sulit</span>
+          <button data-value="pro" class="level-btn flex items-center gap-2 p-2.5 rounded-xl border border-[#c7c4d7]/30 bg-[#f6f2fe]/50 dark:bg-[#e4e1ed]/5 transition-all text-left">
+            <span class="material-symbols-outlined text-[16px] text-amber-500">local_fire_department</span>
+            <span class="text-[12px] font-medium">sulit</span>
           </button>
         </div>
       </section>
 
     </main>
 
-    <div class="fixed bottom-0 w-full px-5 pb-8 pt-4 bg-gradient-to-t from-[#F6F5F2] via-[#F6F5F2]/95 to-transparent dark:from-[#141313] dark:via-[#141313]/95">
-      <button id="btn-start-sandbox" class="w-full bg-gradient-to-r from-[#6C63FF] to-[#5145E5] text-white text-[20px] font-black py-4 rounded-2xl shadow-[0px_8px_20px_rgba(92,84,232,0.25)] active:scale-95 transition-all">
+    <div class="fixed bottom-0 w-full px-5 pb-6 pt-3 bg-gradient-to-t from-[#F6F5F2] via-[#F6F5F2]/95 to-transparent dark:from-[#141313] dark:via-[#141313]/95">
+      <button id="btn-start-sandbox" class="w-full bg-gradient-to-r from-[#6C63FF] to-[#5145E5] text-white text-[13px] font-black uppercase tracking-widest py-3.5 rounded-2xl shadow-[0px_8px_20px_rgba(92,84,232,0.25)] active:scale-95 transition-all">
         MULAI SIMULASI KUSTOM
       </button>
-      <p class="text-center text-[11px] text-[#464555] dark:text-[#c7c4d7]/60 mt-3 font-medium">
+      <p class="text-center text-[10px] text-[#464555] dark:text-[#c7c4d7]/60 mt-2.5 font-medium">
         Bebas tentukan batas kemampuan kompetensi Anda hari ini.
       </p>
     </div>
@@ -4688,11 +4688,13 @@ window.showSandboxBuilder = function() {
   document.querySelectorAll('.mode-btn').forEach(btn => {
     btn.onclick = () => {
       document.querySelectorAll('.mode-btn').forEach(b => {
-        b.classList.remove('bg-[#5c54e8]', 'text-white');
-        b.classList.add('text-[#464555]', 'dark:text-[#c7c4d7]');
+        b.style.borderColor = 'transparent';
+        b.style.color = '#65625E';
+        b.style.background = 'transparent';
       });
-      btn.classList.add('bg-[#5c54e8]', 'text-white');
-      btn.classList.remove('text-[#464555]', 'dark:text-[#c7c4d7]');
+      btn.style.borderColor = '#5c54e8';
+      btn.style.color = '#5c54e8';
+      btn.style.background = 'rgba(92,84,232,0.08)';
     };
   });
 
@@ -4795,8 +4797,10 @@ window.showSandboxBuilder = function() {
     }
 
     // Filter berdasarkan mode soal
-    const activeMode = document.querySelector('.mode-btn.bg-\\[\\#5c54e8\\]');
-    const mode = activeMode ? activeMode.dataset.value : 'mixed';
+    let mode = 'mixed';
+    document.querySelectorAll('.mode-btn').forEach(b => {
+      if (b.style.borderColor && b.style.borderColor !== 'transparent') mode = b.dataset.value;
+    });
     if (mode === 'reading') {
       allPool = allPool.filter(q => !q.id || !q.id.startsWith('l_'));
     } else if (mode === 'listening') {

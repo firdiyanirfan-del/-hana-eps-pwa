@@ -3145,27 +3145,6 @@ body:not(.mode-jalur) #dashboard-screen {
   background: #131217;
 }
 
-/* Ambient glow blobs */
-#hana-chapter-modal .chapter-glow-blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(100px);
-  z-index: -1;
-  opacity: 0.35;
-  pointer-events: none;
-}
-#hana-chapter-modal .chapter-micro-grid {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background-image: radial-gradient(rgba(67,55,207,0.05) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-.dark #hana-chapter-modal .chapter-micro-grid {
-  background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
-}
-
 /* Glass panels inside modal — solid, no backdrop-filter accumulation */
 #hana-chapter-modal .glass-panel {
   background: rgba(255,255,255,0.95);

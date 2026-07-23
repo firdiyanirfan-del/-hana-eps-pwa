@@ -3140,3 +3140,360 @@ body:not(.mode-jalur) #dashboard-screen {
   animation: hana-fade-in 0.5s ease-out forwards;
 }
 
+/* ==========================================================================
+   📚 CHAPTER SELECTOR FULL-SCREEN (Stitch)
+   ========================================================================== */
+#hana-chapter-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 99998;
+  display: flex;
+  flex-direction: column;
+  background: radial-gradient(ellipse at 50% 0%, rgba(92,84,232,0.08) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 100%, rgba(249,168,212,0.06) 0%, transparent 50%),
+              var(--hana-canvas);
+  overflow: hidden;
+}
+.dark #hana-chapter-modal {
+  background: radial-gradient(ellipse at 50% 0%, rgba(139,132,255,0.08) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 100%, rgba(137,206,255,0.06) 0%, transparent 50%),
+              #141313;
+}
+
+#hana-chapter-modal .chapter-glow-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+#hana-chapter-modal .chapter-micro-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.dark #hana-chapter-modal .chapter-micro-grid {
+  background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+}
+
+/* Header glass panel */
+#hana-chapter-modal .chapter-header {
+  position: relative;
+  z-index: 10;
+  flex: none;
+  background: rgba(255,255,255,0.45);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 0.5px solid rgba(255,255,255,0.5);
+}
+.dark #hana-chapter-modal .chapter-header {
+  background: rgba(28,27,26,0.5);
+  border-bottom-color: rgba(46,44,42,0.6);
+}
+
+#hana-chapter-modal .chapter-header-badge {
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(92,84,232,0.1);
+  color: var(--hana-primary);
+  border: 0.5px solid rgba(92,84,232,0.2);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.dark #hana-chapter-modal .chapter-header-badge {
+  background: rgba(139,132,255,0.1);
+  border-color: rgba(139,132,255,0.2);
+}
+
+/* Search glass input */
+#hana-chapter-modal .chapter-search-pill {
+  position: relative;
+  z-index: 10;
+  flex: none;
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 0.5px solid rgba(255,255,255,0.4);
+  border-radius: 999px;
+}
+.dark #hana-chapter-modal .chapter-search-pill {
+  background: rgba(28,27,26,0.35);
+  border-color: rgba(46,44,42,0.4);
+}
+#hana-chapter-modal .chapter-search-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--hana-primary), #F9A8D4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 900;
+  flex: none;
+}
+.dark #hana-chapter-modal .chapter-search-icon {
+  background: linear-gradient(135deg, #8B84FF, #89ceff);
+}
+#hana-chapter-modal .chapter-search-input {
+  flex: 1;
+  background: transparent;
+  outline: none;
+  font-size: 13px;
+  color: var(--hana-text-1);
+}
+#hana-chapter-modal .chapter-search-input::placeholder {
+  color: var(--hana-text-3);
+}
+
+/* Progress card */
+#hana-chapter-modal .chapter-progress-card {
+  position: relative;
+  z-index: 10;
+  flex: none;
+  background: rgba(255,255,255,0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid rgba(255,255,255,0.5);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.dark #hana-chapter-modal .chapter-progress-card {
+  background: rgba(28,27,26,0.4);
+  border-color: rgba(46,44,42,0.5);
+}
+
+#hana-chapter-modal .chapter-progress-bar {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.3);
+  overflow: hidden;
+  position: relative;
+}
+.dark #hana-chapter-modal .chapter-progress-bar {
+  background: rgba(46,44,42,0.5);
+}
+#hana-chapter-modal .chapter-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--hana-primary), #8B84FF);
+  position: relative;
+  overflow: hidden;
+  transition: width 0.7s ease;
+}
+#hana-chapter-modal .chapter-progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+  transform: skewX(-15deg);
+  animation: ch-shimmer 2.5s infinite;
+}
+
+@keyframes ch-shimmer {
+  0% { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(400%) skewX(-15deg); }
+}
+
+/* Chapter grid */
+#hana-chapter-modal .chapter-scroll {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: calc(90px + env(safe-area-inset-bottom));
+  -webkit-overflow-scrolling: touch;
+}
+#hana-chapter-modal .chapter-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 0 16px;
+}
+
+/* Chapter card base */
+#hana-chapter-modal .chapter-card {
+  aspect-ratio: 1;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  overflow: hidden;
+}
+#hana-chapter-modal .chapter-card:active {
+  transform: scale(0.92);
+}
+
+/* Active state */
+#hana-chapter-modal .chapter-card-active {
+  background: rgba(92,84,232,0.08);
+  border: 1.5px solid rgba(92,84,232,0.3);
+  box-shadow: 0 0 20px rgba(92,84,232,0.15);
+  color: var(--hana-primary);
+}
+.dark #hana-chapter-modal .chapter-card-active {
+  background: rgba(139,132,255,0.1);
+  border-color: rgba(139,132,255,0.3);
+  box-shadow: 0 0 20px rgba(139,132,255,0.12);
+}
+
+/* Completed state */
+#hana-chapter-modal .chapter-card-completed {
+  background: rgba(16,185,129,0.08);
+  border: 1.5px solid rgba(16,185,129,0.3);
+  box-shadow: 0 0 20px rgba(16,185,129,0.12);
+  color: #10B981;
+}
+.dark #hana-chapter-modal .chapter-card-completed {
+  background: rgba(16,185,129,0.1);
+  border-color: rgba(16,185,129,0.3);
+  box-shadow: 0 0 20px rgba(16,185,129,0.1);
+}
+#hana-chapter-modal .chapter-card-completed .ch-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #10B981;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 900;
+  box-shadow: 0 0 8px rgba(16,185,129,0.4);
+}
+
+/* Locked state */
+#hana-chapter-modal .chapter-card-locked {
+  background: rgba(0,0,0,0.02);
+  border: 0.5px solid rgba(0,0,0,0.04);
+  color: var(--hana-text-3);
+  opacity: 0.55;
+}
+.dark #hana-chapter-modal .chapter-card-locked {
+  background: rgba(255,255,255,0.02);
+  border-color: rgba(255,255,255,0.04);
+}
+
+#hana-chapter-modal .ch-num {
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+#hana-chapter-modal .ch-label {
+  font-size: 6.5px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 1.5px 8px;
+  border-radius: 999px;
+  line-height: 1.4;
+}
+#hana-chapter-modal .ch-label-active {
+  background: rgba(92,84,232,0.1);
+  color: var(--hana-primary);
+  border: 0.5px solid rgba(92,84,232,0.2);
+}
+.dark #hana-chapter-modal .ch-label-active {
+  background: rgba(139,132,255,0.1);
+  border-color: rgba(139,132,255,0.2);
+}
+#hana-chapter-modal .ch-label-completed {
+  background: rgba(16,185,129,0.1);
+  color: #10B981;
+  border: 0.5px solid rgba(16,185,129,0.2);
+}
+
+#hana-chapter-modal .ch-stars {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  font-size: 7px;
+  line-height: 1;
+}
+#hana-chapter-modal .ch-star-filled { color: #10B981; }
+#hana-chapter-modal .ch-star-empty { color: var(--hana-text-3); opacity: 0.4; }
+
+/* Bottom nav glass */
+#hana-chapter-modal .chapter-bottom-nav {
+  position: absolute;
+  bottom: calc(12px + env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 4px;
+  height: 56px;
+  padding: 0 8px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 0.5px solid rgba(255,255,255,0.5);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06), 0 8px 40px rgba(0,0,0,0.04);
+  width: calc(100% - 32px);
+  max-width: 360px;
+}
+.dark #hana-chapter-modal .chapter-bottom-nav {
+  background: rgba(28,27,26,0.6);
+  border-color: rgba(46,44,42,0.5);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+}
+#hana-chapter-modal .chapter-bottom-nav button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 4px 12px;
+  border-radius: 12px;
+  transition: all 0.2s;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--hana-text-3);
+}
+#hana-chapter-modal .chapter-bottom-nav button:active {
+  transform: scale(0.9);
+}
+#hana-chapter-modal .chapter-bottom-nav button .nav-icon {
+  font-size: 22px;
+  transition: all 0.2s;
+}
+#hana-chapter-modal .chapter-bottom-nav button .nav-label {
+  font-size: 9px;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+#hana-chapter-modal .chapter-bottom-nav button.active {
+  color: var(--hana-primary);
+}
+.dark #hana-chapter-modal .chapter-bottom-nav button.active {
+  color: #8B84FF;
+}
+
+/* Safe scroll padding for bottom nav */
+.pb-ch-nav {
+  padding-bottom: calc(80px + env(safe-area-inset-bottom));
+}
+

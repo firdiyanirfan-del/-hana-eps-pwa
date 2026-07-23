@@ -3166,9 +3166,11 @@ body:not(.mode-jalur) #dashboard-screen {
   background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
 }
 
-/* Glass panels inside modal — solid, no translucent blur accumulation */
+/* Glass panels inside modal — solid, no backdrop-filter accumulation */
 #hana-chapter-modal .glass-panel {
   background: rgba(255,255,255,0.95);
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   border: 1px solid rgba(255,255,255,0.7);
 }
 .dark #hana-chapter-modal .glass-panel {

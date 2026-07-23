@@ -1805,7 +1805,7 @@ const app = {
       const isCompleted = data.level1Stars >= 2;
       const isActive = isUnlocked && !isCompleted;
 
-      let stateClasses = 'bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.05] dark:border-white/[0.05] opacity-60';
+      let stateClasses = 'bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.05] dark:border-white/[0.05] opacity-30';
       let onclick = '';
       let badgeHtml = '';
 
@@ -1821,27 +1821,41 @@ const app = {
       let numColor = isActive ? 'text-primary dark:text-primary-fixed-dim' : 'text-on-surface dark:text-white';
       let lockHtml = '';
       if (!isUnlocked && !isCompleted) {
-        lockHtml = `<span class="material-symbols-outlined text-[12px] text-on-surface-variant/50 dark:text-white/40 absolute bottom-2 font-light">lock</span>`;
+        lockHtml = `<span class="material-symbols-outlined text-[12px] text-on-surface-variant/30 dark:text-white/20 absolute bottom-2 font-light">lock</span>`;
       }
 
-      gridHtml += `<div class="flex flex-col items-center justify-center aspect-square rounded-[20px] transition-all duration-300 relative group active:scale-95 cursor-pointer ${stateClasses}" data-chapter="${i}" ${onclick}>
+      let cardNumberHtml = '';
+      let cardStarsHtml = '';
+      if (!isUnlocked && !isCompleted) {
+        cardNumberHtml = `<span class="font-bold text-lg text-on-surface-variant/60 dark:text-white/40">${i}</span>`;
+      } else {
+        cardNumberHtml = `<span class="font-black text-2xl ${numColor}">${i}</span>`;
+        cardStarsHtml = `<div class="flex gap-0.5 mt-1">${starsHtml(data)}</div>`;
+      }
+
+      gridHtml += `<div class="flex flex-col items-center justify-center aspect-square rounded-[20px] transition-all duration-300 relative group active:scale-95 ${stateClasses}" data-chapter="${i}" ${onclick}>
         ${badgeHtml}
         ${lockHtml}
-        <span class="font-black text-2xl ${numColor}">${i}</span>
-        <div class="flex gap-0.5 mt-1">${starsHtml(data)}</div>
+        ${cardNumberHtml}
+        ${cardStarsHtml}
       </div>`;
     }
 
     const modal = document.createElement('div');
     modal.id = 'hana-chapter-modal';
     modal.innerHTML = `
+      <div class="chapter-glow-blob" style="width:500px;height:500px;top:-160px;left:-160px;background:rgba(67,55,207,0.1)"></div>
+      <div class="chapter-glow-blob" style="width:500px;height:500px;top:50%;right:-240px;background:rgba(77,65,223,0.1)"></div>
+      <div class="chapter-glow-blob" style="width:500px;height:500px;bottom:0;left:25%;background:rgba(232,84,156,0.05)"></div>
+      <div class="chapter-micro-grid"></div>
+
       <header class="chapter-header sticky top-0 z-50 pt-safe">
         <div class="flex items-center justify-between px-6 h-16">
           <div class="flex items-center gap-4">
             <button onclick="document.getElementById('hana-chapter-modal').remove()" class="material-symbols-outlined text-primary dark:text-primary-fixed-dim hover:bg-primary/5 p-2 rounded-full transition-colors" style="font-size:24px">arrow_back</button>
             <div class="flex flex-col">
               <h1 class="text-[13px] font-black tracking-[0.08em] text-on-surface/90 dark:text-white uppercase">Latihan Per Bab</h1>
-              <p class="text-[11px] font-medium text-on-surface-variant/90 dark:text-white/70">Materi Bab 6 - 60</p>
+              <p class="text-[11px] font-medium text-on-surface-variant/70 dark:text-white/50">Materi Bab 6 - 60</p>
             </div>
           </div>
           <div class="bg-primary/5 dark:bg-primary/10 px-3 py-1 rounded-full border border-primary/10 backdrop-blur-md">
@@ -1855,7 +1869,7 @@ const app = {
           <div class="absolute left-1.5 w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20 z-10">
             <span class="material-symbols-outlined text-[20px] font-light">search</span>
           </div>
-          <input id="ch-search-input" class="w-full glass-panel border-black/[0.02] dark:border-white/[0.05] rounded-full py-4 pl-14 pr-6 text-[15px] font-medium focus:ring-4 focus:ring-primary/10 placeholder:text-on-surface-variant/60 transition-all outline-none" type="text" placeholder="Cari materi belajar..." oninput="app.filterChapterGrid()">
+          <input id="ch-search-input" class="w-full glass-panel border-black/[0.02] dark:border-white/[0.05] rounded-full py-4 pl-14 pr-6 text-[15px] font-medium focus:ring-4 focus:ring-primary/10 placeholder:text-on-surface-variant/40 transition-all outline-none" type="text" placeholder="Cari materi belajar..." oninput="app.filterChapterGrid()">
         </div>
       </div>
 
@@ -1863,11 +1877,11 @@ const app = {
         <div class="glass-panel rounded-3xl p-6 shadow-xl shadow-black/[0.02] border-black/[0.02] dark:border-white/[0.05] overflow-hidden relative">
           <div class="flex justify-between items-end mb-5">
             <div>
-              <span class="text-[10px] font-black text-on-surface-variant/90 dark:text-white/60 uppercase tracking-[0.2em]">Progres Belajar</span>
-              <div class="text-2xl font-black text-primary dark:text-primary-fixed-dim mt-1">${pct}% <span class="text-xs font-bold text-on-surface-variant/60 ml-1">Selesai</span></div>
+              <span class="text-[10px] font-black text-on-surface-variant/60 dark:text-white/40 uppercase tracking-[0.2em]">Capaian Belajar</span>
+              <div class="text-2xl font-black text-primary dark:text-primary-fixed-dim mt-1">${pct}% <span class="text-xs font-bold text-on-surface-variant/40 ml-1">Selesai</span></div>
             </div>
             <div class="flex flex-col items-end">
-              <span class="text-[11px] font-black text-primary dark:text-primary-fixed-dim" id="ch-progress-text">${completed}/${total} Bab</span>
+              <span class="text-[11px] font-black text-primary/60 dark:text-primary-fixed-dim/60" id="ch-progress-text">${completed}/${total} Bab</span>
             </div>
           </div>
           <div class="w-full bg-black/[0.03] dark:bg-white/[0.05] h-3 rounded-full overflow-hidden relative">
@@ -1883,7 +1897,7 @@ const app = {
             <h2 class="text-[11px] font-black tracking-[0.25em] text-on-surface-variant dark:text-white/50 uppercase">Kurikulum Materi</h2>
           </div>
           <div class="bg-black/[0.03] dark:bg-white/[0.05] px-3 py-1 rounded-full border border-black/[0.02] dark:border-white/[0.05]">
-            <span class="text-[10px] font-bold text-on-surface-variant/90 dark:text-white/70 tracking-tight" id="ch-count-badge">${completed} / ${total} Selesai</span>
+            <span class="text-[10px] font-bold text-on-surface-variant/70 dark:text-white/50 tracking-tight" id="ch-count-badge">${completed} / ${total} Selesai</span>
           </div>
         </div>
       </div>

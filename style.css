@@ -3147,7 +3147,7 @@ body:not(.mode-jalur) #dashboard-screen {
 
 /* Ambient glow blobs */
 #hana-chapter-modal .chapter-glow-blob {
-  position: fixed;
+  position: absolute;
   border-radius: 50%;
   filter: blur(100px);
   z-index: -1;
@@ -3155,7 +3155,7 @@ body:not(.mode-jalur) #dashboard-screen {
   pointer-events: none;
 }
 #hana-chapter-modal .chapter-micro-grid {
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: -1;
   pointer-events: none;
@@ -3166,19 +3166,7 @@ body:not(.mode-jalur) #dashboard-screen {
   background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
 }
 
-/* Glass panel override inside modal */
-#hana-chapter-modal .glass-panel {
-  background: rgba(255,255,255,0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.5);
-}
-.dark #hana-chapter-modal .glass-panel {
-  background: rgba(30,29,36,0.6);
-  border-color: rgba(255,255,255,0.08);
-}
-
-/* Header glass panel */
+/* Header glass panel — clean, no extra blur override */
 #hana-chapter-modal .chapter-header {
   background: rgba(255,255,255,0.6);
   backdrop-filter: blur(16px);
@@ -3190,7 +3178,7 @@ body:not(.mode-jalur) #dashboard-screen {
   border-bottom-color: rgba(255,255,255,0.05);
 }
 
-/* Progress fill bar with shimmer */
+/* Progress fill bar — clean solid primary without glow */
 #hana-chapter-modal .chapter-progress-fill {
   height: 100%;
   border-radius: 999px;
@@ -3198,7 +3186,6 @@ body:not(.mode-jalur) #dashboard-screen {
   position: relative;
   overflow: hidden;
   transition: width 0.7s ease;
-  box-shadow: 0 0 12px rgba(67,55,207,0.3);
 }
 #hana-chapter-modal .chapter-progress-fill::after {
   content: '';

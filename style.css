@@ -137,6 +137,30 @@ body {
   overscroll-behavior-y: none;
 }
 
+/* Global glass card component (mission modal, future screens) */
+.glass-card {
+  background: var(--hana-surface);
+  border: 0.5px solid var(--hana-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.04);
+}
+.dark .glass-card {
+  background: #1C1B1A;
+  border-color: #2E2C2A;
+}
+
+.tap-active {
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.tap-active:active {
+  transform: scale(0.96);
+}
+
+.hana-gradient {
+  background: linear-gradient(135deg, #5c54e8, #8B84FF);
+}
+
 /* Memaksa Seluruh Komponen Halaman Pengaturan Selaras Secara Real-Time */
 #settings-screen, #screen-feedback {
   background-color: var(--hana-canvas) !important;

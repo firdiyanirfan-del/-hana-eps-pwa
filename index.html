@@ -1259,60 +1259,6 @@
     </div>
   </div>
 
-  <div id="modal-mission" class="modal-overlay hidden z-[70]">
-    <div class="modal-box bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[28px] p-6 w-full max-w-sm shadow-2xl flex flex-col text-slate-800 dark:text-white">
-      <div class="text-center mb-5">
-        <h3 id="mission-chapter-title" class="font-black text-lg text-slate-900 dark:text-white">Pilih Misi Latihan</h3>
-        <p class="text-xs text-slate-400 font-bold mt-1 uppercase tracking-wider">Selesaikan misi untuk menaklukkan bab ini!</p>
-      </div>
-      
-      <div class="flex flex-col gap-2.5">
-        <button onclick="closeModal('modal-mission'); app.openTextbook();" class="flex items-center gap-4 p-3.5 bg-gradient-to-r from-rose-50 to-pink-50 dark:from-rose-950/20 dark:to-pink-950/10 border-2 border-dashed border-[#D86A7A]/40 rounded-xl text-left active:scale-[0.98] transition-all shadow-sm group">
-          <div class="bg-rose-100 dark:bg-rose-950/50 rounded-lg p-2.5 text-[#D86A7A]"><i data-lucide="book-open" class="w-4 h-4"></i></div>
-          <div class="flex-1">
-            <p class="font-black text-sm text-slate-850 dark:text-slate-100 group-hover:text-[#D86A7A] transition-colors">Baca Textbook</p>
-          </div>
-          <div id="status-textbook-icon" class="text-slate-300"><i data-lucide="chevron-right" class="w-4 h-4"></i></div>
-        </button>
-        <div class="w-full h-[1px] bg-slate-100 dark:bg-slate-800 my-1"></div>
-        <button onclick="app.startChapterQuiz(1)" class="flex items-center gap-4 p-3.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-150 dark:border-slate-700/60 border-l-4 border-l-green-500 rounded-xl text-left active:scale-[0.98] transition-all shadow-sm">
-          <div class="bg-green-100 dark:bg-green-950/40 rounded-lg p-2 text-green-600 dark:text-green-400"><i data-lucide="sprout" class="w-4 h-4"></i></div>
-          <div>
-            <p class="font-bold text-sm text-slate-850 dark:text-slate-200">Misi 1: Pemanasan</p>
-            <p class="text-[11px] text-slate-400 font-medium">Beginner Mode</p>
-          </div>
-        </button>
-        
-        <button onclick="app.startChapterQuiz(2)" class="flex items-center gap-4 p-3.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-150 dark:border-slate-700/60 border-l-4 border-l-blue-500 rounded-xl text-left active:scale-[0.98] transition-all shadow-sm">
-          <div class="bg-blue-100 dark:bg-blue-950/40 rounded-lg p-2 text-blue-600 dark:text-blue-400"><i data-lucide="waves" class="w-4 h-4"></i></div>
-          <div>
-            <p class="font-bold text-sm text-slate-850 dark:text-slate-200">Misi 2: Pemahaman</p>
-            <p class="text-[11px] text-slate-400 font-medium">Normal Mode</p>
-          </div>
-        </button>
-        
-        <button onclick="app.startChapterQuiz(3)" class="flex items-center gap-4 p-3.5 bg-slate-50 dark:bg-slate-800/50 border border-slate-150 dark:border-slate-700/60 border-l-4 border-l-amber-500 rounded-xl text-left active:scale-[0.98] transition-all shadow-sm">
-          <div class="bg-amber-100 dark:bg-amber-950/40 rounded-lg p-2 text-amber-600 dark:text-amber-400"><i data-lucide="flame" class="w-4 h-4"></i></div>
-          <div>
-            <p class="font-bold text-sm text-slate-850 dark:text-slate-200">Misi 3: Tantangan</p>
-            <p class="text-[11px] text-slate-400 font-medium">Pro Mode</p>
-          </div>
-        </button>
-
-        <div class="flex flex-wrap items-center gap-1.5 mt-1 p-2.5 bg-slate-50 dark:bg-slate-800/30 rounded-xl border border-slate-150 dark:border-slate-700/40">
-          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mr-1">Durasi</span>
-          <button onclick="app.setQuizDuration(0)" class="timer-option px-2.5 py-1 text-[11px] font-bold rounded-lg border border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-[var(--hana-primary)] transition-all" data-sec="0">∞</button>
-          <button onclick="app.setQuizDuration(600)" class="timer-option px-2.5 py-1 text-[11px] font-bold rounded-lg border border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-[var(--hana-primary)] transition-all" data-sec="600">10m</button>
-          <button onclick="app.setQuizDuration(900)" class="timer-option px-2.5 py-1 text-[11px] font-bold rounded-lg border border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-[var(--hana-primary)] transition-all ring-2 ring-[var(--hana-primary)]" data-sec="900">15m</button>
-          <button onclick="app.setQuizDuration(1200)" class="timer-option px-2.5 py-1 text-[11px] font-bold rounded-lg border border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-[var(--hana-primary)] transition-all" data-sec="1200">20m</button>
-          <button onclick="app.setQuizDuration(1800)" class="timer-option px-2.5 py-1 text-[11px] font-bold rounded-lg border border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-[var(--hana-primary)] transition-all" data-sec="1800">30m</button>
-        </div>
-        
-        <button onclick="closeModal('modal-mission')" class="w-full py-3 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-xl font-black text-xs uppercase tracking-widest mt-2 active:scale-[0.98] transition-all">Batal</button>
-      </div>
-    </div>
-  </div>
-
   <div id="welcome-toast" class="hidden"></div>
 
   <div id="modal-help" class="hidden fixed inset-0 z-[99999] mesh-bg overflow-hidden" onclick="closeModal('modal-help')">

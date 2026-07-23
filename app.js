@@ -369,7 +369,8 @@ const app = {
     let readingQ = pool.filter(q => !(q.id && q.id.startsWith('l_')));
     let listeningQ = pool.filter(q => q.id && q.id.startsWith('l_'));
     this.state.currentMisi = levelNum;
-    closeModal('modal-mission');
+    const missionModal = document.getElementById('hana-mission-modal');
+    if (missionModal) missionModal.remove();
     closeModal('modal-chapter-selector');
     this.state.isSimulasi = false;
     this.state.isStage = true;
@@ -1884,29 +1885,184 @@ const app = {
 
   openMissionModal(ch) {
     this.state.currentChapter = ch;
-    const titleEl = document.getElementById('mission-chapter-title');
-    if (titleEl) titleEl.innerText = `Misi Latihan Bab ${ch}`;
+    const old = document.getElementById('hana-mission-modal');
+    if (old) old.remove();
+
     const key = `bab${ch}`;
     const data = this.data.chapterProgress && this.data.chapterProgress[key];
     const isLocked = !data || data.unlocked !== true;
-    const levelBtns = document.querySelectorAll('#modal-mission button[onclick^="app.startChapterQuiz"]');
-    const textbookBtn = document.querySelector('#modal-mission button[onclick*="openTextbook"]');
-    levelBtns.forEach(btn => {
-      if (isLocked) {
-        btn.disabled = true;
-        btn.classList.add('opacity-40', 'cursor-not-allowed', 'grayscale');
-        btn.classList.remove('active:scale-[0.98]', 'hover:shadow-md');
-      } else {
-        btn.disabled = false;
-        btn.classList.remove('opacity-40', 'cursor-not-allowed', 'grayscale');
-        btn.classList.add('active:scale-[0.98]');
+    const l1c = data && data.level1Stars >= 2;
+    const l2c = data && data.level2Stars >= 2;
+    const l3c = data && data.level3Stars >= 2;
+    const completedCount = (l1c ? 1 : 0) + (l2c ? 1 : 0) + (l3c ? 1 : 0);
+
+    const missions = [
+      { num:1, name:'Pemanasan', label:'soal mudah', icon:'exercise', borderColor:'#22c55e', txtColor:'text-green-600/70 dark:text-green-400/70', bgIcon:'bg-green-500/10 text-green-500', completed:l1c, locked:isLocked && !l1c },
+      { num:2, name:'Pemahaman', label:'soal normal', icon:'rocket_launch', borderColor:'#4337cf', txtColor:'text-[#4337cf]/70 dark:text-[#c3c0ff]', bgIcon:'bg-[#4337cf]/10 text-[#4337cf]', completed:l2c, locked:isLocked || (!l1c && data) },
+      { num:3, name:'Tantangan', label:'soal sulit', icon:'military_tech', borderColor:'#f59e0b', txtColor:'text-amber-600/70 dark:text-amber-400/70', bgIcon:'bg-amber-500/10 text-amber-500', completed:l3c, locked:isLocked || (data && (!l1c || !l2c)) },
+    ];
+
+    let defaultSelected = 1;
+    for (const m of missions) { if (!m.completed && !m.locked) { defaultSelected = m.num; break; } }
+
+    const isDark = document.documentElement.classList.contains('dark');
+    const bgStyle = isDark
+      ? "radial-gradient(at 0% 0%, rgba(67,55,207,0.2) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(103,93,249,0.15) 0px, transparent 50%), #141313"
+      : "radial-gradient(at 0% 0%, rgba(67,55,207,0.12) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(216,106,122,0.08) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(103,93,249,0.1) 0px, transparent 50%), radial-gradient(at 0% 100%, rgba(216,106,122,0.12) 0px, transparent 50%), #fcf8ff";
+
+    function missionHtml(m, idx) {
+      if (m.completed) {
+        return `<div data-mission="${m.num}" class="glass-card tap-active border-l-[5px] border-l-green-500 rounded-2xl p-4 flex items-center gap-4 relative overflow-hidden cursor-pointer">
+          <div class="w-11 h-11 flex items-center justify-center rounded-xl bg-green-500/10 text-green-500"><span class="material-symbols-outlined text-[24px]">${m.icon}</span></div>
+          <div class="flex-1"><h3 class="text-[16px] font-semibold text-[#1b1b23] dark:text-[#f3effc]">Misi ${m.num}: ${m.name}</h3><span class="text-[11px] ${m.txtColor} uppercase tracking-wider font-bold">${m.label}</span></div>
+          <div class="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center"><span class="material-symbols-outlined text-[20px]">check</span></div>
+        </div>`;
       }
-    });
-    if (textbookBtn) {
-      textbookBtn.disabled = false;
-      textbookBtn.classList.remove('opacity-40', 'cursor-not-allowed');
+      if (m.locked) {
+        return `<div data-mission="${m.num}" class="glass-card tap-active border-l-[5px] border-l-[#c7c4d7]/40 rounded-2xl p-4 flex items-center gap-4 opacity-70 grayscale-[0.5] cursor-not-allowed">
+          <div class="w-11 h-11 flex items-center justify-center rounded-xl bg-[#e4e1ed] dark:bg-[#2E2C2A] text-[#777586]"><span class="material-symbols-outlined text-[24px]">${m.icon}</span></div>
+          <div class="flex-1"><h3 class="text-[16px] font-semibold text-[#1b1b23] dark:text-[#f3effc]">Misi ${m.num}: ${m.name}</h3><span class="text-[11px] text-[#464555] dark:text-[#c7c4d7] uppercase tracking-wider font-bold">${m.label}</span></div>
+          <div class="w-8 h-8 rounded-full bg-[#e4e1ed] dark:bg-[#2E2C2A] flex items-center justify-center text-[#777586]"><span class="material-symbols-outlined text-[20px]">lock</span></div>
+        </div>`;
+      }
+      const isDefault = m.num === defaultSelected;
+      return `<div data-mission="${m.num}" class="glass-card tap-active border-l-[5px] border-l-[${m.borderColor}] rounded-2xl p-4 flex items-center gap-4 relative overflow-hidden cursor-pointer${isDefault ? ' ring-2 ring-[#4337cf]/20' : ''}">
+        ${isDefault ? '<div class="absolute inset-0 bg-[#4337cf]/[0.03] pointer-events-none"></div>' : ''}
+        <div class="w-11 h-11 flex items-center justify-center rounded-xl bg-[#4337cf]/10 text-[#4337cf]"><span class="material-symbols-outlined text-[24px]">${m.icon}</span></div>
+        <div class="flex-1"><h3 class="text-[16px] font-semibold text-[#1b1b23] dark:text-[#f3effc]">Misi ${m.num}: ${m.name}</h3><span class="text-[11px] ${m.txtColor} uppercase tracking-wider font-bold">${m.label}</span></div>
+        <div class="w-8 h-8 rounded-full ${isDefault ? 'bg-[#4337cf]/10 text-[#4337cf]' : 'bg-[#e4e1ed]/50 dark:bg-[#2E2C2A]/50 text-[#777586]'} flex items-center justify-center"><span class="material-symbols-outlined text-[20px]">${isDefault ? 'radio_button_checked' : 'radio_button_unchecked'}</span></div>
+      </div>`;
     }
-    document.getElementById('modal-mission').classList.remove('hidden');
+
+    const modal = document.createElement('div');
+    modal.id = 'hana-mission-modal';
+    modal.className = "fixed inset-0 z-[9999999] overflow-y-auto";
+    modal.style.background = bgStyle;
+
+    modal.innerHTML = `
+      <div class="fixed inset-0 pointer-events-none opacity-40 dark:opacity-20 overflow-hidden">
+        <div class="absolute -top-20 -left-20 w-80 h-80 bg-[#4337cf]/20 blur-[100px] rounded-full"></div>
+        <div class="absolute top-1/2 -right-20 w-80 h-80 bg-[#863d00]/10 blur-[100px] rounded-full"></div>
+      </div>
+
+      <header class="sticky top-0 z-50 w-full px-5 pt-10 pb-4 flex flex-col justify-end">
+        <div class="flex items-start gap-4">
+          <button id="btn-back-mission" class="tap-active w-11 h-11 flex items-center justify-center rounded-xl glass-card text-[#1b1b23] dark:text-[#f3effc] shadow-sm">
+            <span class="material-symbols-outlined text-[24px]">arrow_back</span>
+          </button>
+          <div class="flex flex-col">
+            <h1 class="text-[28px] font-black text-[#1b1b23] dark:text-[#f3effc] leading-tight">Misi Latihan Bab ${ch}</h1>
+            <p class="text-[14px] text-[#464555] dark:text-[#c7c4d7] opacity-70">Selesaikan misi untuk menaklukkan bab ini!</p>
+          </div>
+          <div class="ml-auto mt-2">
+            <div class="w-10 h-10 rounded-full bg-[#4337cf]/10 flex items-center justify-center"></div>
+          </div>
+        </div>
+      </header>
+
+      <main class="relative px-5 pb-32 space-y-6 max-w-md mx-auto">
+
+        <section>
+          <div id="btn-textbook" class="tap-active group relative transition-all duration-300 cursor-pointer">
+            <div class="absolute -inset-1 bg-gradient-to-r from-[#D86A7A] to-[#4337cf] opacity-10 blur-xl group-hover:opacity-20 transition duration-500"></div>
+            <div class="relative glass-card p-4 flex items-center gap-4 rounded-2xl overflow-hidden">
+              <div class="w-14 h-14 flex items-center justify-center rounded-2xl bg-[#D86A7A] text-white shadow-lg shadow-[#D86A7A]/20">
+                <span class="material-symbols-outlined text-[28px]" style="font-variation-settings:'FILL' 1">book_5</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-[18px] font-semibold text-[#1b1b23] dark:text-[#f3effc]">Baca Textbook</span>
+                <div class="flex items-center gap-1.5 mt-0.5">
+                  <span class="w-2 h-2 rounded-full bg-[#D86A7A] animate-pulse"></span>
+                  <span class="text-[11px] font-black uppercase tracking-widest text-[#D86A7A]">Materi Baru</span>
+                </div>
+              </div>
+              <div class="ml-auto w-8 h-8 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center">
+                <span class="material-symbols-outlined text-[#464555] text-[20px]">chevron_right</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="space-y-4">
+          <div class="flex items-center justify-between px-1">
+            <h2 class="text-[13px] font-semibold text-[#464555] dark:text-[#c7c4d7] uppercase tracking-widest">Pilih Level Misi</h2>
+            <span class="text-[12px] text-[#4337cf] font-bold">Progress: ${completedCount}/3</span>
+          </div>
+          ${missions.map((m, i) => missionHtml(m, i)).join('')}
+        </section>
+
+        <section class="glass-card rounded-[24px] p-5 space-y-5">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px] text-[#464555] dark:text-[#c7c4d7]">schedule</span>
+            <h4 class="text-[11px] font-black uppercase tracking-[0.2em] text-[#464555] dark:text-[#c7c4d7]">Atur Durasi Sesi</h4>
+          </div>
+          <div class="bg-[#f6f2fe] dark:bg-[#121110] p-1.5 rounded-full flex gap-1 overflow-x-auto" style="scrollbar-width:none">
+            <button data-sec="0" class="timer-pill tap-active flex-1 min-w-[50px] h-10 rounded-full flex items-center justify-center text-[14px] font-semibold text-[#464555] dark:text-[#c7c4d7] hover:bg-white/50 dark:hover:bg-white/5 transition-all">∞</button>
+            <button data-sec="600" class="timer-pill tap-active flex-1 min-w-[50px] h-10 rounded-full flex items-center justify-center text-[14px] font-semibold text-[#464555] dark:text-[#c7c4d7] hover:bg-white/50 dark:hover:bg-white/5 transition-all">10m</button>
+            <button data-sec="900" class="timer-pill tap-active flex-1 min-w-[50px] h-10 rounded-full flex items-center justify-center text-[14px] font-semibold text-white hana-gradient shadow-lg shadow-[#4337cf]/20">15m</button>
+            <button data-sec="1200" class="timer-pill tap-active flex-1 min-w-[50px] h-10 rounded-full flex items-center justify-center text-[14px] font-semibold text-[#464555] dark:text-[#c7c4d7] hover:bg-white/50 dark:hover:bg-white/5 transition-all">20m</button>
+            <button data-sec="1800" class="timer-pill tap-active flex-1 min-w-[50px] h-10 rounded-full flex items-center justify-center text-[14px] font-semibold text-[#464555] dark:text-[#c7c4d7] hover:bg-white/50 dark:hover:bg-white/5 transition-all">30m</button>
+          </div>
+        </section>
+
+      </main>
+
+      <div class="fixed bottom-0 left-0 right-0 p-5 pb-10 bg-gradient-to-t from-[#fcf8ff] via-[#fcf8ff]/90 to-transparent dark:from-[#141313] dark:via-[#141313]/90 pt-10 flex flex-col gap-3">
+        <button id="btn-start-mission" class="tap-active w-full h-[60px] hana-gradient text-white rounded-2xl text-[18px] font-black shadow-2xl shadow-[#4337cf]/40 flex items-center justify-center gap-2 group">
+          <span>Mulai Misi</span>
+          <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+        </button>
+        <button id="btn-cancel-mission" class="tap-active w-full h-12 flex items-center justify-center text-[14px] font-semibold text-[#464555] dark:text-[#c7c4d7] opacity-60 hover:opacity-100 transition-opacity">
+          Batal
+        </button>
+      </div>
+    `;
+
+    const self = this;
+
+    document.body.appendChild(modal);
+
+    document.getElementById('btn-back-mission').onclick = () => modal.remove();
+    document.getElementById('btn-cancel-mission').onclick = () => modal.remove();
+    document.getElementById('btn-textbook').onclick = () => { modal.remove(); this.openTextbook(); };
+
+    document.querySelectorAll('#hana-mission-modal .glass-card[data-mission]').forEach(card => {
+      card.addEventListener('click', function() {
+        if (this.classList.contains('cursor-not-allowed') || this.classList.contains('opacity-70')) return;
+        const missionNum = parseInt(this.dataset.mission);
+        document.querySelectorAll('#hana-mission-modal .glass-card[data-mission]').forEach(c => {
+          if (c.classList.contains('cursor-not-allowed') || c.classList.contains('opacity-70')) return;
+          c.classList.remove('ring-2', 'ring-[#4337cf]/20');
+          const childDiv = c.querySelector('.absolute.inset-0');
+          if (childDiv && childDiv.style) childDiv.remove();
+          const icon = c.querySelector('.flex.items-center.justify-center:last-child .material-symbols-outlined');
+          if (icon) icon.textContent = 'radio_button_unchecked';
+        });
+        this.classList.add('ring-2', 'ring-[#4337cf]/20');
+        const overlay = document.createElement('div');
+        overlay.className = 'absolute inset-0 bg-[#4337cf]/[0.03] pointer-events-none';
+        this.insertBefore(overlay, this.firstChild);
+        const icon = this.querySelector('.flex:last-child .material-symbols-outlined');
+        if (icon) icon.textContent = 'radio_button_checked';
+      });
+    });
+
+    document.querySelectorAll('#hana-mission-modal .timer-pill').forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll('#hana-mission-modal .timer-pill').forEach(b => {
+          b.className = 'timer-pill tap-active flex-1 min-w-[50px] h-10 rounded-full flex items-center justify-center text-[14px] font-semibold text-[#464555] dark:text-[#c7c4d7] hover:bg-white/50 dark:hover:bg-white/5 transition-all';
+        });
+        btn.className = 'timer-pill tap-active flex-1 min-w-[50px] h-10 rounded-full flex items-center justify-center text-[14px] font-semibold text-white hana-gradient shadow-lg shadow-[#4337cf]/20';
+        self.setQuizDuration(parseInt(btn.dataset.sec));
+      };
+    });
+
+    document.getElementById('btn-start-mission').onclick = function() {
+      const selected = document.querySelector('#hana-mission-modal .glass-card.ring-2');
+      const level = selected ? parseInt(selected.dataset.mission) : defaultSelected;
+      modal.remove();
+      self.startChapterQuiz(level);
+    };
   },
 
   // ==========================================================

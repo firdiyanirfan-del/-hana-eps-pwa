@@ -328,7 +328,7 @@ window.closeQuizPathModal = function() {
 
 // === ⚙️ AUTOMATIC LUCIDE ICON HYDRATION OBSERVER FOR ALL MODAL HUBS ===
 document.addEventListener("DOMContentLoaded", () => {
-  ['modal-mission', 'modal-help', 'modal-bookmark-hub'].forEach(id => {
+  ['modal-help', 'modal-bookmark-hub'].forEach(id => {
     const el = document.getElementById(id);
     if (el && typeof lucide !== 'undefined') {
       const obs = new MutationObserver(() => { 

@@ -1776,7 +1776,6 @@ const app = {
     const existing = document.getElementById('hana-chapter-modal');
     if (existing) existing.remove();
 
-    const self = this;
     const cp = this.data.chapterProgress || {};
     const total = 55;
     let completed = 0;
@@ -1791,15 +1790,11 @@ const app = {
       const l2 = d.level2Stars || 0;
       const l3 = d.level3Stars || 0;
       const arr = [l1 >= 1, l2 >= 1, l3 >= 1];
-      return arr.map((filled) =>
-        `<span class="${filled ? 'ch-star-filled' : 'ch-star-empty'}">${filled ? '★' : '☆'}</span>`
-      ).join('');
-    }
-
-    function labelHtml(isCompleted, isActive) {
-      if (isCompleted) return `<span class="ch-label ch-label-completed">LULUS</span>`;
-      if (isActive) return `<span class="ch-label ch-label-active">MULAI</span>`;
-      return '';
+      return arr.map((filled) => {
+        const color = filled ? 'text-amber-400' : 'text-black/10 dark:text-white/10';
+        const fill = filled ? "font-variation-settings:'FILL' 1" : '';
+        return `<span class="material-symbols-outlined text-[10px] ${color}" style="${fill}">star</span>`;
+      }).join('');
     }
 
     let gridHtml = '';
@@ -1809,62 +1804,93 @@ const app = {
       const isUnlocked = data.unlocked === true;
       const isCompleted = data.level1Stars >= 2;
       const isActive = isUnlocked && !isCompleted;
-      const stateClass = isCompleted ? 'chapter-card-completed' : isActive ? 'chapter-card-active' : 'chapter-card-locked';
-      const onclick = isCompleted || isActive ? `onclick="app.openMissionModal(${i})"` : '';
 
-      gridHtml += `<div class="chapter-card ${stateClass}" data-chapter="${i}" ${onclick}>
-        ${isCompleted ? '<div class="ch-badge">✓</div>' : ''}
-        ${!isUnlocked && !isCompleted ? '<span class="material-symbols-outlined" style="font-size:14px;margin-bottom:2px">lock</span>' : ''}
-        <span class="ch-num">${i}</span>
-        <span class="ch-stars">${starsHtml(data)}</span>
-        ${labelHtml(isCompleted, isActive)}
+      let stateClasses = 'bg-black/[0.02] dark:bg-white/[0.02] border border-black/[0.05] dark:border-white/[0.05] opacity-30';
+      let onclick = '';
+      let badgeHtml = '';
+
+      if (isActive) {
+        stateClasses = 'glass-panel border-primary/20 active-glow z-10 scale-[1.02]';
+        onclick = `onclick="app.openMissionModal(${i})"`;
+      } else if (isCompleted) {
+        stateClasses = 'glass-panel border-green-500/10 completed-glow';
+        onclick = `onclick="app.openMissionModal(${i})"`;
+        badgeHtml = `<div class="absolute -top-1.5 -right-1.5 bg-green-500 text-white rounded-full w-5 h-5 flex items-center justify-center shadow-lg shadow-green-500/20 border-2 border-[#fcf8ff] dark:border-[#131217]"><span class="material-symbols-outlined text-[12px] font-black">check</span></div>`;
+      }
+
+      let numColor = isActive ? 'text-primary dark:text-primary-fixed-dim' : 'text-on-surface dark:text-white';
+      let lockHtml = '';
+      if (!isUnlocked && !isCompleted) {
+        lockHtml = `<span class="material-symbols-outlined text-[12px] text-on-surface-variant/30 dark:text-white/20 absolute bottom-2 font-light">lock</span>`;
+      }
+
+      gridHtml += `<div class="flex flex-col items-center justify-center aspect-square rounded-[20px] transition-all duration-300 relative group active:scale-95 cursor-pointer ${stateClasses}" data-chapter="${i}" ${onclick}>
+        ${badgeHtml}
+        ${lockHtml}
+        <span class="font-black text-2xl ${numColor}">${i}</span>
+        <div class="flex gap-0.5 mt-1">${starsHtml(data)}</div>
       </div>`;
     }
 
     const modal = document.createElement('div');
     modal.id = 'hana-chapter-modal';
     modal.innerHTML = `
-      <div class="chapter-glow-blob" style="width:300px;height:300px;top:-80px;right:-60px;background:rgba(92,84,232,0.08)"></div>
-      <div class="chapter-glow-blob" style="width:250px;height:250px;bottom:-40px;left:-60px;background:rgba(249,168,212,0.06)"></div>
+      <div class="chapter-glow-blob" style="width:500px;height:500px;top:-160px;left:-160px;background:rgba(67,55,207,0.1)"></div>
+      <div class="chapter-glow-blob" style="width:500px;height:500px;top:50%;right:-240px;background:rgba(77,65,223,0.1)"></div>
+      <div class="chapter-glow-blob" style="width:500px;height:500px;bottom:0;left:25%;background:rgba(232,84,156,0.05)"></div>
       <div class="chapter-micro-grid"></div>
 
-      <div class="chapter-header">
-        <div style="display:flex;align-items:center;gap:12px;padding:12px 16px">
-          <button onclick="document.getElementById('hana-chapter-modal').remove()" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.5);border:none;border-radius:50%;cursor:pointer;color:var(--hana-text-2);transition:all 0.15s" class="tap-active">
-            <span class="material-symbols-outlined" style="font-size:20px">arrow_back</span>
-          </button>
-          <div style="flex:1;min-width:0">
-            <div style="font-size:15px;font-weight:900;color:var(--hana-text-1);line-height:1.3">Latihan Per Bab</div>
-            <div style="font-size:10px;font-weight:600;color:var(--hana-text-2);margin-top:1px">Materi Bab 6 - 60</div>
+      <header class="chapter-header sticky top-0 z-50 pt-safe">
+        <div class="flex items-center justify-between px-6 h-16">
+          <div class="flex items-center gap-4">
+            <button onclick="document.getElementById('hana-chapter-modal').remove()" class="material-symbols-outlined text-primary dark:text-primary-fixed-dim hover:bg-primary/5 p-2 rounded-full transition-colors" style="font-size:24px">arrow_back</button>
+            <div class="flex flex-col">
+              <h1 class="text-[13px] font-black tracking-[0.08em] text-on-surface/90 dark:text-white uppercase">Latihan Per Bab</h1>
+              <p class="text-[11px] font-medium text-on-surface-variant/70 dark:text-white/50">Materi Bab 6 - 60</p>
+            </div>
           </div>
-          <span class="chapter-header-badge">TOPIK I</span>
+          <div class="bg-primary/5 dark:bg-primary/10 px-3 py-1 rounded-full border border-primary/10 backdrop-blur-md">
+            <span class="text-primary dark:text-primary-fixed-dim text-[10px] font-black tracking-widest">TOPIK I</span>
+          </div>
+        </div>
+      </header>
+
+      <div style="padding:0 24px;margin-top:32px;flex:none;position:relative;z-index:10">
+        <div class="relative flex items-center">
+          <div class="absolute left-1.5 w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20 z-10">
+            <span class="material-symbols-outlined text-[20px] font-light">search</span>
+          </div>
+          <input id="ch-search-input" class="w-full glass-panel border-black/[0.02] dark:border-white/[0.05] rounded-full py-4 pl-14 pr-6 text-[15px] font-medium focus:ring-4 focus:ring-primary/10 placeholder:text-on-surface-variant/40 transition-all outline-none" type="text" placeholder="Cari materi belajar..." oninput="app.filterChapterGrid()">
         </div>
       </div>
 
-      <div style="padding:12px 16px 0;flex:none;position:relative;z-index:10">
-        <div class="chapter-search-pill" style="display:flex;align-items:center;gap:10px;padding:6px 14px">
-          <div class="chapter-search-icon">
-            <span class="material-symbols-outlined" style="font-size:14px">search</span>
+      <div style="padding:0 24px;margin-top:32px;flex:none;position:relative;z-index:10">
+        <div class="glass-panel rounded-3xl p-6 shadow-xl shadow-black/[0.02] border-black/[0.02] dark:border-white/[0.05] overflow-hidden relative">
+          <div class="flex justify-between items-end mb-5">
+            <div>
+              <span class="text-[10px] font-black text-on-surface-variant/60 dark:text-white/40 uppercase tracking-[0.2em]">Progres Belajar</span>
+              <div class="text-2xl font-black text-primary dark:text-primary-fixed-dim mt-1">${pct}% <span class="text-xs font-bold text-on-surface-variant/40 ml-1">Selesai</span></div>
+            </div>
+            <div class="flex flex-col items-end">
+              <span class="text-[11px] font-black text-primary/60 dark:text-primary-fixed-dim/60" id="ch-progress-text">${completed}/${total} Bab</span>
+            </div>
           </div>
-          <input id="ch-search-input" class="chapter-search-input" type="text" placeholder="Cari bab..." oninput="app.filterChapterGrid()">
-        </div>
-      </div>
-
-      <div style="padding:12px 16px 0;flex:none;position:relative;z-index:10">
-        <div class="chapter-progress-card" style="padding:14px 16px">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-            <span style="font-size:10px;font-weight:700;color:var(--hana-text-2);letter-spacing:0.05em;text-transform:uppercase">Progres Belajar</span>
-            <span style="font-size:12px;font-weight:900;color:var(--hana-primary)" id="ch-progress-text">${completed}/${total} Bab</span>
-          </div>
-          <div class="chapter-progress-bar">
+          <div class="w-full bg-black/[0.03] dark:bg-white/[0.05] h-3 rounded-full overflow-hidden relative">
             <div class="chapter-progress-fill" id="ch-progress-fill" style="width:${pct}%"></div>
           </div>
         </div>
       </div>
 
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px 6px;flex:none;position:relative;z-index:10">
-        <span style="font-size:10px;font-weight:900;color:var(--hana-text-2);letter-spacing:0.08em;text-transform:uppercase">DAFTAR MATERI</span>
-        <span style="font-size:9px;font-weight:700;color:var(--hana-text-3);background:rgba(0,0,0,0.03);padding:2px 10px;border-radius:999px" id="ch-count-badge">${completed}/${total}</span>
+      <div style="padding:0 24px;margin-top:40px;flex:none;position:relative;z-index:10">
+        <div class="flex justify-between items-center mb-6 px-1">
+          <div class="flex items-center gap-3">
+            <div class="w-1 h-5 bg-primary rounded-full"></div>
+            <h2 class="text-[11px] font-black tracking-[0.25em] text-on-surface-variant dark:text-white/50 uppercase">Kurikulum Materi</h2>
+          </div>
+          <div class="bg-black/[0.03] dark:bg-white/[0.05] px-3 py-1 rounded-full border border-black/[0.02] dark:border-white/[0.05]">
+            <span class="text-[10px] font-bold text-on-surface-variant/70 dark:text-white/50 tracking-tight" id="ch-count-badge">${completed} / ${total} Selesai</span>
+          </div>
+        </div>
       </div>
 
       <div class="chapter-scroll">
@@ -1872,25 +1898,6 @@ const app = {
           ${gridHtml}
         </div>
       </div>
-
-      <nav class="chapter-bottom-nav">
-        <button onclick="document.getElementById('hana-chapter-modal').remove();app.showDashboard()">
-          <span class="material-symbols-outlined nav-icon">home</span>
-          <span class="nav-label">Home</span>
-        </button>
-        <button class="active">
-          <span class="material-symbols-outlined nav-icon" style="font-variation-settings:'FILL' 1">grid_view</span>
-          <span class="nav-label">Bab</span>
-        </button>
-        <button onclick="document.getElementById('hana-chapter-modal').remove();uiSwitcher.switch('game-hub')">
-          <span class="material-symbols-outlined nav-icon">stadia_controller</span>
-          <span class="nav-label">Game</span>
-        </button>
-        <button onclick="document.getElementById('hana-chapter-modal').remove();app.openSettings()">
-          <span class="material-symbols-outlined nav-icon">person</span>
-          <span class="nav-label">Profil</span>
-        </button>
-      </nav>
     `;
 
     document.body.appendChild(modal);

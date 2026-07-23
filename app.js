@@ -2000,17 +2000,14 @@ const app = {
         <div class="absolute top-1/2 -right-20 w-80 h-80 bg-[#863d00]/10 blur-[100px] rounded-full"></div>
       </div>
 
-      <header class="sticky top-0 z-50 w-full px-5 pt-10 pb-4 flex flex-col justify-end">
-        <div class="flex items-start gap-4">
-          <button id="btn-back-mission" class="tap-active w-11 h-11 flex items-center justify-center rounded-xl glass-card text-[#1b1b23] dark:text-[#f3effc] shadow-sm">
-            <span class="material-symbols-outlined text-[24px]">arrow_back</span>
+      <header class="w-full px-5 pt-6 pb-3 flex flex-col justify-end">
+        <div class="flex items-start gap-3">
+          <button id="btn-back-mission" class="tap-active w-10 h-10 flex items-center justify-center rounded-xl glass-card text-[#1b1b23] dark:text-[#f3effc] shadow-sm">
+            <span class="material-symbols-outlined text-[22px]">arrow_back</span>
           </button>
           <div class="flex flex-col">
-            <h1 class="text-[28px] font-black text-[#1b1b23] dark:text-[#f3effc] leading-tight">Misi Latihan Bab ${ch}</h1>
-            <p class="text-[14px] text-[#464555] dark:text-[#c7c4d7] opacity-70">Selesaikan misi untuk menaklukkan bab ini!</p>
-          </div>
-          <div class="ml-auto mt-2">
-            <div class="w-10 h-10 rounded-full bg-[#4337cf]/10 flex items-center justify-center"></div>
+            <h1 class="text-[20px] font-black text-[#1b1b23] dark:text-[#f3effc] leading-tight">Misi Latihan Bab ${ch}</h1>
+            <p class="text-[12px] text-[#464555] dark:text-[#c7c4d7] opacity-70">Selesaikan misi untuk menaklukkan bab ini!</p>
           </div>
         </div>
       </header>
@@ -2046,7 +2043,7 @@ const app = {
           ${missions.map((m, i) => missionHtml(m, i)).join('')}
         </section>
 
-        <section class="glass-card rounded-[24px] p-5 space-y-5">
+        <section class="glass-card rounded-[24px] p-4 space-y-3">
           <div class="flex items-center gap-2">
             <span class="material-symbols-outlined text-[18px] text-[#464555] dark:text-[#c7c4d7]">schedule</span>
             <h4 class="text-[11px] font-black uppercase tracking-[0.2em] text-[#464555] dark:text-[#c7c4d7]">Atur Durasi Sesi</h4>
@@ -2062,13 +2059,10 @@ const app = {
 
       </main>
 
-      <div class="fixed bottom-0 left-0 right-0 p-5 pb-10 bg-gradient-to-t from-[#fcf8ff] via-[#fcf8ff]/90 to-transparent dark:from-[#141313] dark:via-[#141313]/90 pt-10 flex flex-col gap-3">
-        <button id="btn-start-mission" class="tap-active w-full h-[60px] hana-gradient text-white rounded-2xl text-[18px] font-black shadow-2xl shadow-[#4337cf]/40 flex items-center justify-center gap-2 group">
+      <div class="fixed bottom-0 left-0 right-0 p-5 pb-10 bg-gradient-to-t from-[#fcf8ff] via-[#fcf8ff]/90 to-transparent dark:from-[#141313] dark:via-[#141313]/90 pt-6 flex flex-col gap-3">
+        <button id="btn-start-mission" class="tap-active w-full h-[56px] hana-gradient text-white rounded-2xl text-[16px] font-black shadow-2xl shadow-[#4337cf]/40 flex items-center justify-center gap-2 group">
           <span>Mulai Misi</span>
           <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
-        </button>
-        <button id="btn-cancel-mission" class="tap-active w-full h-12 flex items-center justify-center text-[14px] font-semibold text-[#464555] dark:text-[#c7c4d7] opacity-60 hover:opacity-100 transition-opacity">
-          Batal
         </button>
       </div>
     `;
@@ -2078,7 +2072,6 @@ const app = {
     document.body.appendChild(modal);
 
     document.getElementById('btn-back-mission').onclick = () => modal.remove();
-    document.getElementById('btn-cancel-mission').onclick = () => modal.remove();
     document.getElementById('btn-textbook').onclick = () => { modal.remove(); this.openTextbook(); };
 
     document.querySelectorAll('#hana-mission-modal .glass-card[data-mission]').forEach(card => {

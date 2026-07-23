@@ -1878,11 +1878,10 @@ body:not(.mode-jalur) #dashboard-screen {
 #profile-screen .text-white {
   color: var(--hana-text-1) !important;
 }
-#profile-screen .bg-white\/\[\.\d+\],
-#profile-screen .bg-white\/[0-9]+ {
+#profile-screen [class*="bg-white/"] {
   background-color: var(--card-bg) !important;
 }
-#profile-screen .border-white\/[0-9]+ {
+#profile-screen [class*="border-white/"] {
   border-color: var(--hana-border) !important;
 }
 
@@ -1891,8 +1890,6 @@ body:not(.mode-jalur) #dashboard-screen {
 #modal-stages-selector,
 .modal-backdrop-fixed {
   background-color: rgba(25, 24, 26, 0.4) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
 }
 
 /* ==========================================================================
